@@ -6,7 +6,7 @@ namespace Nalai.ViewModels.Windows
     public partial class MainWindowViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string _applicationTitle = "WPF UI - Nalai";
+        private string _applicationTitle = "Nalai";
 
         [ObservableProperty]
         private ObservableCollection<object> _menuItems = new()
@@ -17,12 +17,12 @@ namespace Nalai.ViewModels.Windows
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
                 TargetPageType = typeof(Views.Pages.DashboardPage)
             },
-            new NavigationViewItem()
-            {
-                Content = "Data",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
-                TargetPageType = typeof(Views.Pages.DataPage)
-            }
+            // new NavigationViewItem()
+            // {
+            //     Content = "Data",
+            //     Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
+            //     TargetPageType = typeof(Views.Pages.DataPage)
+            // }
         };
 
         [ObservableProperty]
