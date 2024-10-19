@@ -1,4 +1,6 @@
-﻿namespace Nalai.ViewModels.Pages
+﻿using Nalai.Views.Windows;
+
+namespace Nalai.ViewModels.Pages
 {
     public partial class DashboardViewModel : ObservableObject
     {
@@ -9,6 +11,8 @@
         private void OnCounterIncrement()
         {
             Counter++;
+            var window = new DownloadingWindow();
+            window.ShowDialog();
         }
     }
 }
