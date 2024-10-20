@@ -1,4 +1,5 @@
-﻿using Nalai.Views.Windows;
+﻿using Nalai.ViewModels.Windows;
+using Nalai.Views.Windows;
 
 namespace Nalai.ViewModels.Pages
 {
@@ -11,8 +12,10 @@ namespace Nalai.ViewModels.Pages
         private void OnCounterIncrement()
         {
             Counter++;
-            var window = new DownloadingWindow();
-            window.ShowDialog();
+
+            DownloadingWindowViewModel vm = new DownloadingWindowViewModel();
+            var window = new DownloadingWindow(vm);
+            window.Show();
         }
     }
 }
