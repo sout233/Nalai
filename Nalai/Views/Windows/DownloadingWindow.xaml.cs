@@ -1,4 +1,5 @@
 ﻿using Downloader;
+using Nalai.Helpers;
 using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Wpf.Ui.Controls;
@@ -21,13 +22,22 @@ public partial class DownloadingWindow : FluentWindow
     public DownloadingWindow(DownloadingWindowViewModel viewModel)
     {
         ViewModel = viewModel;
+        DataContext = this;
         InitializeComponent();
     }
 
-    private async void DownloadingWindow_Loaded(object sender, RoutedEventArgs e)
+    private void DownloadingWindow_Loaded(object sender, RoutedEventArgs e)
     {
         Console.WriteLine(ViewModel.FileName);
-        NalaiDownService.NewTask(DOWNLOAD_URL, "1.zip", Environment.CurrentDirectory);
+        var fileName = GetUrlInfo.GetFileName(DOWNLOAD_URL);
+        ViewModel.FileName = fileName;
+        ViewModel.ApplicationTitle = "Downloading: " + fileName;
+       var task =  NalaiDownService.NewTask(DOWNLOAD_URL, fileName, Environment.CurrentDirectory).Result;
+       task.Downloader.DownloadProgressChanged+=OnDownloadProgressChanged;
     }
-    
+
+    private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
+    {
+        ViewModel.Progress = e.ProgressPercentage;
+    }
 }

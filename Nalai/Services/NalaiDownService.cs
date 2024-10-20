@@ -13,7 +13,7 @@ public static class NalaiDownService
 {
     public static List<DownloadTask> GlobalDownloadTasks { get; set; } = new List<DownloadTask>();
 
-    public static async void NewTask(string url, string fileName, string path)
+    public static async Task<DownloadTask> NewTask(string url, string fileName, string path)
     {
         DownloadTask task = new DownloadTask(url, fileName, path);
         GlobalDownloadTasks.Add(task);
@@ -25,6 +25,8 @@ public static class NalaiDownService
 
         Debug.WriteLine("Starting download...");
         await task.StartDownload();
+        
+        return task;
     }
 
     private static void OnDownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)
@@ -34,12 +36,7 @@ public static class NalaiDownService
 
     private static void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
-        var chunks = e.ActiveChunks;
-        var progress = e.ProgressPercentage;
-        var speed = e.BytesPerSecondSpeed / 1024;
-        var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
-        
-        Console.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
+
     }
 
     private static void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)

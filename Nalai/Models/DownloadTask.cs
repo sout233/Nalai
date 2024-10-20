@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using Downloader;
 
 namespace Nalai.Models;
@@ -12,7 +13,6 @@ public class DownloadTask
     public DownloadStatus Status { get; set; }
     public DownloadConfiguration DownloadOpt { get; set; }
     public DownloadService Downloader { get; set; }
-    
     
     public DownloadTask(string url, string fileName, string path)
     {
@@ -31,6 +31,8 @@ public class DownloadTask
         
         DownloadOpt = downloadOpt;
         Downloader = downloader;
+        
+        downloader.DownloadProgressChanged += OnDownloadProgressChanged;
     }
     
     public void UpdateStatus(DownloadStatus status)
@@ -42,6 +44,16 @@ public class DownloadTask
     {
         DirectoryInfo path = new DirectoryInfo(DownloadPath);
         await Downloader.DownloadFileTaskAsync(this.Url, Path.Combine(path.FullName, FileName));
+    }
+
+    private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
+    {
+        var chunks = e.ActiveChunks;
+        var progress = e.ProgressPercentage;
+        var speed = e.BytesPerSecondSpeed / 1024;
+        var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
+        
+        Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
     }
 }
 

@@ -1,7 +1,4 @@
-﻿using System.Windows.Interop;
-using System.Windows.Threading;
-using Wpf.Ui.Controls;
-using MessageBox = Wpf.Ui.Controls.MessageBox;
+﻿using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 namespace Nalai.Helpers;
 
