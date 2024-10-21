@@ -11,8 +11,12 @@ namespace Nalai.Services;
 
 public static class NalaiDownService
 {
-    public static List<DownloadTask> GlobalDownloadTasks { get; set; } = new List<DownloadTask>();
+    public static List<DownloadTask> GlobalDownloadTasks { get; set; } = new();
 
+    public static DownloadTask GetTaskByUrl(string url)
+    {
+        return GlobalDownloadTasks.FirstOrDefault(x => x.Url == url);
+    }
     public static async Task<DownloadTask> NewTask(string url, string fileName, string path)
     {
         DownloadTask task = new DownloadTask(url, fileName, path);
@@ -25,6 +29,7 @@ public static class NalaiDownService
 
         Debug.WriteLine("Starting download...");
         await task.StartDownload();
+        Debug.WriteLine("Download finished.");
         
         return task;
     }
