@@ -43,14 +43,16 @@ public partial class DownloadingWindow : FluentWindow
     {
         var chunks = e.ActiveChunks;
         var progress = e.ProgressPercentage;
-        var speed = e.BytesPerSecondSpeed / 1024;
+        var speed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed);
         var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
+        var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
+        var receivedFileSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
+        var remainingTime = TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize,e.TotalBytesToReceive,(long)e.BytesPerSecondSpeed);
 
         ViewModel.SetProgress(progress);
-        ViewModel.SetDownloadSpeed((speed / 1024).ToString("0.00") + " MB/s");
-        ViewModel.SetFileSize((e.TotalBytesToReceive / 1024 / 1024).ToString("0.00") + " MB");
-        ViewModel.SetRemainingTime((remaining / 1024).ToString());
-        Console.WriteLine(e.ProgressPercentage);
-        
+        ViewModel.SetDownloadSpeed(speed + "/s");
+        ViewModel.SetFileSize($"{receivedFileSize} / {totalFileSize}");
+        ViewModel.SetRemainingTime($"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s");
+        // Console.WriteLine(e.ProgressPercentage);
     }
 }
