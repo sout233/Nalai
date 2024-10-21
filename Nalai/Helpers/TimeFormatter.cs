@@ -33,7 +33,7 @@ public static class TimeFormatter
     {
         if (bytesPerSecond <= 0)
         {
-            throw new ArgumentException("Speed must be greater than zero.", nameof(bytesPerSecond));
+            return TimeSpan.Zero;
         }
         
         long remaining =totalBytes - bytesReceived;

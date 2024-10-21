@@ -68,11 +68,18 @@ public class DownloadTask
 
         Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
     }
-    
+
     private void OnDownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)
     {
         Status = DownloadStatus.Completed;
-        NalaiMsgBox.Show("Download completed");
+        if (e.Error == null)
+        {
+            NalaiMsgBox.Show("Download completed");
+        }
+        else
+        {
+            NalaiMsgBox.Show(e.Error.Message, "Download failed!");
+        }
     }
 
     private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
