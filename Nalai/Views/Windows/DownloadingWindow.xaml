@@ -30,11 +30,34 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1">
-            <TextBlock FontSize="18" VerticalAlignment="Center" Margin="12" FontWeight="Bold">
-                    Downloading: <Run Text="{Binding ViewModel.FileName, Mode=OneWay}"/>
-            </TextBlock>
-            
-            <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="20" Margin="12" Minimum="0" Maximum="100"></ProgressBar>
+            <ui:TextBlock FontSize="18" VerticalAlignment="Center" FontTypography="BodyStrong"
+                          Margin="12">
+                Downloading: <Run FontWeight="Normal" Text="{Binding ViewModel.FileName, Mode=OneWay}" />
+            </ui:TextBlock>
+            <Border
+                Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                CornerRadius="8,8,8,8"
+                Margin="12">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock Grid.Row="0" FontWeight="Bold" Text="文件名: ">
+                        <Run FontWeight="Normal" Text="{Binding ViewModel.FileName, Mode=OneWay}" />
+                    </ui:TextBlock>
+                    <ui:TextBlock Grid.Row="1" FontWeight="Bold" Text="文件大小: ">
+                        <Run FontWeight="Normal" Text="{Binding ViewModel.FileSize, Mode=OneWay}" />
+                    </ui:TextBlock>
+                    <ui:TextBlock Grid.Row="2" FontWeight="Bold" Text="下载速度: ">
+                        <Run FontWeight="Normal" Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}" />
+                    </ui:TextBlock>
+                </Grid>
+            </Border>
+            <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="20" Margin="12" Minimum="0"
+                         Maximum="100">
+            </ProgressBar>
         </StackPanel>
 
         <ContentPresenter

@@ -6,6 +6,7 @@ using Nalai.Helpers;
 using Nalai.Models;
 using Wpf.Ui.Controls;
 using MessageBox = Wpf.Ui.Controls.MessageBox;
+#pragma warning disable CS4014 // 别再用await了
 
 namespace Nalai.Services;
 

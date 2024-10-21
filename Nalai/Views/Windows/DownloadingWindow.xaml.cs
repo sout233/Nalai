@@ -16,10 +16,10 @@ public partial class DownloadingWindow : FluentWindow
     public static DownloadingWindow CreateWindow(string url, DownloadTask task)
     {
         var viewModel = new DownloadingWindowViewModel();
-        return new DownloadingWindow(viewModel, url,task);
+        return new DownloadingWindow(viewModel, url, task);
     }
 
-    public DownloadingWindow(DownloadingWindowViewModel viewModel, string url,DownloadTask task)
+    public DownloadingWindow(DownloadingWindowViewModel viewModel, string url, DownloadTask task)
     {
         ViewModel = viewModel;
         DataContext = this;
@@ -35,13 +35,20 @@ public partial class DownloadingWindow : FluentWindow
 
         ViewModel.FileName = fileName;
         ViewModel.ApplicationTitle = "Downloading: " + fileName;
-        
+
         task.Downloader.DownloadProgressChanged += OnDownloadProgressChanged;
     }
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
-        ViewModel.SetProgress(e.ProgressPercentage);
+        var chunks = e.ActiveChunks;
+        var progress = e.ProgressPercentage;
+        var speed = e.BytesPerSecondSpeed / 1024;
+        var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
+
+        ViewModel.SetProgress(progress);
+        ViewModel.SetDownloadSpeed((speed / 1024).ToString("0.00") + " MB/s");
+        ViewModel.SetFileSize((e.TotalBytesToReceive / 1024 / 1024).ToString("0.00") + " MB");
         Console.WriteLine(e.ProgressPercentage);
     }
 }
