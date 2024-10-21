@@ -29,6 +29,7 @@
             Icon="{ui:SymbolIcon Add24}"/>
         
         <ui:ListView
+            Grid.Row="1"
             MaxHeight="200"
             d:ItemsSource="{d:SampleData ItemCount=2}"
             BorderThickness="0"
