@@ -8,7 +8,8 @@ public partial class DownloadingWindowViewModel : ObservableObject
     [ObservableProperty] private double _progressValue = 0;
     [ObservableProperty] private string _downloadSpeed = "0 B/s";
     [ObservableProperty] private string _fileSize = "Unknown";
-    
+    [ObservableProperty] private string _remainingTime = "Unknown";
+
     public void SetProgress(double value)
     {
         ProgressValue = value;
@@ -18,7 +19,10 @@ public partial class DownloadingWindowViewModel : ObservableObject
     {
         FileName = value;
     }
-    
+    public void SetRemainingTime(string value)
+    {
+        RemainingTime = value;
+    }
     public void SetFileSize(string value)
     {
         FileSize = value;

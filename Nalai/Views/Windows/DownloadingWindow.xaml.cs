@@ -49,6 +49,8 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.SetProgress(progress);
         ViewModel.SetDownloadSpeed((speed / 1024).ToString("0.00") + " MB/s");
         ViewModel.SetFileSize((e.TotalBytesToReceive / 1024 / 1024).ToString("0.00") + " MB");
+        ViewModel.SetRemainingTime((remaining / 1024).ToString());
         Console.WriteLine(e.ProgressPercentage);
+        
     }
 }
