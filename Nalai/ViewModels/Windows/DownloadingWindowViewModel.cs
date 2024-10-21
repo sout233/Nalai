@@ -1,6 +1,7 @@
 ﻿namespace Nalai.ViewModels.Windows;
 
-public partial class DownloadingWindowViewModel : ObservableObject
+public partial class 
+    DownloadingWindowViewModel : ObservableObject
 {
     [ObservableProperty] private string _applicationTitle = "Downloading...";
 

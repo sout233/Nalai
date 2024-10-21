@@ -17,22 +17,39 @@
     mc:Ignorable="d">
 
     <Grid VerticalAlignment="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
+<Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+</Grid.RowDefinitions>
         <ui:Button 
-            Grid.Column="0"
+            Grid.Row="0"
             Appearance="Primary"
-            Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}"
+            Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
             Content="New"
             Icon="{ui:SymbolIcon Add24}"/>
         
-        <TextBlock
-            Grid.Column="1"
-            Margin="12,0,0,0"
-            VerticalAlignment="Center"
-            Text="{Binding ViewModel.Counter, Mode=OneWay}" />
+        <ui:ListView
+            MaxHeight="200"
+            d:ItemsSource="{d:SampleData ItemCount=2}"
+            BorderThickness="0"
+            ItemsSource="{Binding ViewModel.BasicListViewItems, Mode=TwoWay}">
+            <ui:ListView.View>
+                <ui:GridView>
+                    <ui:GridViewColumn
+                        MinWidth="100"
+                        DisplayMemberBinding="{Binding FirstName}"
+                        Header="First Name" />
+                    <ui:GridViewColumn
+                        MinWidth="100"
+                        DisplayMemberBinding="{Binding LastName}"
+                        Header="Last Name" />
+                    <ui:GridViewColumn
+                        MinWidth="100"
+                        DisplayMemberBinding="{Binding Company}"
+                        Header="Company" />
+                </ui:GridView>
+            </ui:ListView.View>
+        </ui:ListView>
+        
     </Grid>
 </Page>

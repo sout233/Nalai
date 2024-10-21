@@ -1,4 +1,6 @@
-﻿using Nalai.ViewModels.Pages;
+﻿using System.Collections.ObjectModel;
+using Nalai.Models;
+using Nalai.ViewModels.Pages;
 using Wpf.Ui.Controls;
 
 namespace Nalai.Views.Pages
@@ -14,5 +16,7 @@ namespace Nalai.Views.Pages
 
             InitializeComponent();
         }
+        
+    
     }
 }
