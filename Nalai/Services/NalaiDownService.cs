@@ -11,44 +11,21 @@ namespace Nalai.Services;
 
 public static class NalaiDownService
 {
-    public static List<DownloadTask> GlobalDownloadTasks { get; set; } = new();
+    public static List<DownloadTask?> GlobalDownloadTasks { get; set; } = new();
 
-    public static DownloadTask GetTaskByUrl(string url)
+    public static DownloadTask? GetTaskByUrl(string url)
     {
-        return GlobalDownloadTasks.FirstOrDefault(x => x.Url == url);
+        return GlobalDownloadTasks.FirstOrDefault(x => x?.Url == url);
     }
-    public static async Task<DownloadTask> NewTask(string url, string fileName, string path)
+    
+    public static Task<DownloadTask> NewTask(string url, string fileName, string path)
     {
-        DownloadTask task = new DownloadTask(url, fileName, path);
+        var task = new DownloadTask(url, fileName, path);
         GlobalDownloadTasks.Add(task);
-
-        task.Downloader.DownloadStarted += OnDownloadStarted;
-        task.Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
-        task.Downloader.DownloadProgressChanged += OnDownloadProgressChanged;
-        task.Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
-
-        Debug.WriteLine("Starting download...");
-        await task.StartDownload();
-        Debug.WriteLine("Download finished.");
         
-        return task;
-    }
-
-    private static void OnDownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)
-    {
-        NalaiMsgBox.Show("Download completed");
-    }
-
-    private static void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
-    {
-
-    }
-
-    private static void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
-    {
-    }
-
-    private static void OnDownloadStarted(object? sender, DownloadStartedEventArgs e)
-    {
+        Console.WriteLine($"Starting download: {fileName},\n from: {url},\n to: {path}");
+        task.StartDownload();
+        
+        return Task.FromResult(task);
     }
 }

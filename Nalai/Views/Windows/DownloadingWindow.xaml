@@ -34,7 +34,7 @@
                     Downloading: <Run Text="{Binding ViewModel.FileName, Mode=OneWay}"/>
             </TextBlock>
             
-            <ProgressBar Value="{Binding ViewModel.Progress, Mode=OneWay}" Height="20" Margin="12" Minimum="0" Maximum="100"></ProgressBar>
+            <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="20" Margin="12" Minimum="0" Maximum="100"></ProgressBar>
         </StackPanel>
 
         <ContentPresenter

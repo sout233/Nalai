@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using Downloader;
+using Nalai.Helpers;
 
 namespace Nalai.Models;
 
@@ -13,28 +15,31 @@ public class DownloadTask
     public DownloadStatus Status { get; set; }
     public DownloadConfiguration DownloadOpt { get; set; }
     public DownloadService Downloader { get; set; }
-    
+
     public DownloadTask(string url, string fileName, string path)
     {
         Url = url;
         FileName = fileName;
         DownloadPath = path;
         Status = DownloadStatus.Idle;
-        
+
         var downloadOpt = new DownloadConfiguration()
         {
-            ChunkCount = 8, 
-            ParallelDownload = true 
+            ChunkCount = 8,
+            ParallelDownload = true
         };
 
         var downloader = new DownloadService(downloadOpt);
-        
+
         DownloadOpt = downloadOpt;
         Downloader = downloader;
-        
-        downloader.DownloadProgressChanged += OnDownloadProgressChanged;
+
+        Downloader.DownloadProgressChanged += OnDownloadProgressChanged;
+        Downloader.DownloadStarted += OnDownloadStarted;
+        Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
+        Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
     }
-    
+
     public void UpdateStatus(DownloadStatus status)
     {
         Status = status;
@@ -42,8 +47,16 @@ public class DownloadTask
 
     public async Task StartDownload()
     {
-        DirectoryInfo path = new DirectoryInfo(DownloadPath);
-        await Downloader.DownloadFileTaskAsync(this.Url, Path.Combine(path.FullName, FileName));
+        try
+        {
+            var path = new DirectoryInfo(DownloadPath);
+            await Downloader.DownloadFileTaskAsync(this.Url, Path.Combine(path.FullName, FileName));
+        }
+        catch (Exception ex)
+        {
+            NalaiMsgBox.Show(ex.Message, "Error");
+            Status = DownloadStatus.Failed;
+        }
     }
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
@@ -52,8 +65,23 @@ public class DownloadTask
         var progress = e.ProgressPercentage;
         var speed = e.BytesPerSecondSpeed / 1024;
         var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
-        
+
         Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
+    }
+    
+    private void OnDownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)
+    {
+        Status = DownloadStatus.Completed;
+        NalaiMsgBox.Show("Download completed");
+    }
+
+    private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
+    {
+    }
+
+    private void OnDownloadStarted(object? sender, DownloadStartedEventArgs e)
+    {
+        Status = DownloadStatus.Downloading;
     }
 }
 
