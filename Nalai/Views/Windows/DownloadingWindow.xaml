@@ -8,8 +8,8 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:pages="clr-namespace:Nalai.Views.Pages"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
-    Width="600"
-    Height="400"
+    Width="700"
+    Height="500"
     d:DataContext="{d:DesignInstance local:DownloadingWindow,
                                      IsDesignTimeCreatable=True}"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -64,79 +64,88 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ui:TextBlock Grid.Column="0" FontTypography="BodyStrong" VerticalAlignment="Center">0%</ui:TextBlock>
+                <ui:TextBlock Grid.Column="0" FontTypography="BodyStrong" VerticalAlignment="Center" Text="{Binding ViewModel.ProgressValue, Mode=OneWay}"></ui:TextBlock>
                 <StackPanel Grid.Column="1">
                     <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="16"
-                                 Minimum="0" Maximum="100" Margin="8,0"/>
+                                 Minimum="0" Maximum="100" Margin="8,0" />
                 </StackPanel>
             </Grid>
         </StackPanel>
-<Grid Grid.Row="2" Margin="10">
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"></RowDefinition>        <RowDefinition Height="Auto"></RowDefinition>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"></ColumnDefinition>
-        <ColumnDefinition Width="*"></ColumnDefinition>
-    </Grid.ColumnDefinitions>
-    <StackPanel Grid.Row="0" Grid.Column="0">
-        <Border
-            CornerRadius="8,8,8,8"
-            Margin="2"
-            Padding="12"
-            Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1,1,1,0">
-            <StackPanel>
-                <ui:TextBlock FontTypography="BodyStrong" Text="文件名: "/>
-                <ui:TextBlock FontTypography="Caption">111</ui:TextBlock>
+        <Grid Grid.Row="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Border
+                    CornerRadius="8,8,8,8"
+                    Margin="2"
+                    Padding="12"
+                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1,1,1,0">
+                    <StackPanel>
+                        <ui:TextBlock FontTypography="Caption" Text="下载速度" />
+                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                      Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}">
+                        </ui:TextBlock>
+                    </StackPanel>
+                </Border>
             </StackPanel>
-        </Border>
-    </StackPanel>
-    <StackPanel Grid.Row="0" Grid.Column="1">
-        <Border
-            CornerRadius="8,8,8,8"
-            Margin="2"
-            Padding="12"
-            Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1,1,1,0">
-            <StackPanel>
-                <ui:TextBlock FontTypography="BodyStrong" Text="文件名: "/>
-                <ui:TextBlock FontTypography="Caption">111</ui:TextBlock>
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <Border
+                    CornerRadius="8,8,8,8"
+                    Margin="2"
+                    Padding="12"
+                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1,1,1,0">
+                    <StackPanel>
+                        <ui:TextBlock FontTypography="Caption" Text="最大速度" />
+                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                      Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}">
+                        </ui:TextBlock>
+                    </StackPanel>
+                </Border>
             </StackPanel>
-        </Border>
-    </StackPanel>
-    <StackPanel Grid.Row="1" Grid.Column="0">
-        <Border
-            CornerRadius="8,8,8,8"
-            Margin="2"
-            Padding="12"
-            Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1,1,1,0">
-            <StackPanel>
-                <ui:TextBlock FontTypography="BodyStrong" Text="文件名: "/>
-                <ui:TextBlock FontTypography="Caption">111</ui:TextBlock>
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <Border
+                    CornerRadius="8,8,8,8"
+                    Margin="2"
+                    Padding="12"
+                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1,1,1,0">
+                    <StackPanel>
+                        <ui:TextBlock FontTypography="Caption" Text="文件大小" />
+                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                      Text="{Binding ViewModel.FileSize, Mode=OneWay}">
+                        </ui:TextBlock>
+                    </StackPanel>
+                </Border>
             </StackPanel>
-        </Border>
-    </StackPanel>
-    <StackPanel Grid.Row="1" Grid.Column="1">
-        <Border
-            CornerRadius="8,8,8,8"
-            Margin="2"
-            Padding="12"
-            Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1,1,1,0">
-            <StackPanel>
-                <ui:TextBlock FontTypography="BodyStrong" Text="文件名: "/>
-                <ui:TextBlock FontTypography="Caption">111</ui:TextBlock>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Border
+                    CornerRadius="8,8,8,8"
+                    Margin="2"
+                    Padding="12"
+                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1,1,1,0">
+                    <StackPanel>
+                        <ui:TextBlock FontTypography="Caption" Text="剩余时间" />
+                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                      Text="{Binding ViewModel.RemainingTime, Mode=OneWay}">
+                        </ui:TextBlock>
+                    </StackPanel>
+                </Border>
             </StackPanel>
-        </Border>
-    </StackPanel>
-</Grid>
-        
+        </Grid>
+
 
         <ContentPresenter
             x:Name="RootContentDialog"
