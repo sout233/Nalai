@@ -33,21 +33,24 @@
             d:ItemsSource="{d:SampleData ItemCount=2}"
             BorderThickness="0"
             Margin="0,10"
-            ItemsSource="{Binding ViewModel.BasicListViewItems, Mode=TwoWay}">
+            ItemsSource="{Binding ViewModel.DownloadViewItems, Mode=TwoWay}">
             <ui:ListView.View>
                 <ui:GridView>
                     <ui:GridViewColumn
                         MinWidth="100"
-                        DisplayMemberBinding="{Binding FirstName}"
-                        Header="First Name" />
+                        Width="200"
+                        DisplayMemberBinding="{Binding FileName}"
+                        Header="File Name" />
                     <ui:GridViewColumn
                         MinWidth="100"
-                        DisplayMemberBinding="{Binding LastName}"
-                        Header="Last Name" />
+                        Width="300"
+                        DisplayMemberBinding="{Binding Url}"
+                        Header="Url" />
                     <ui:GridViewColumn
                         MinWidth="100"
-                        DisplayMemberBinding="{Binding Company}"
-                        Header="Company" />
+                        Width="100"
+                        DisplayMemberBinding="{Binding Status}"
+                        Header="Status" />
                 </ui:GridView>
             </ui:ListView.View>
         </ui:ListView>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Downloader;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
@@ -20,75 +21,31 @@ namespace Nalai.ViewModels.Pages
 
             var task = await NalaiDownService.NewTask(DOWNLOAD_URL, fileName, Environment.CurrentDirectory);
 
+            UpdateDownloadCollection();
+            
             var vm = new DownloadingWindowViewModel();
             var window = new DownloadingWindow(vm, DOWNLOAD_URL, task);
             window.Show();
         }
         
         [ObservableProperty]
-        private ObservableCollection<Person> _basicListViewItems = GeneratePersons();
+        private ObservableCollection<DownloadTask> _downloadViewItems = GenerateDownloadCollection();
 
-        private static ObservableCollection<Person> GeneratePersons()
+        private static ObservableCollection<DownloadTask> GenerateDownloadCollection()
         {
-            var random = new Random();
-            var persons = new ObservableCollection<Person>();
-
-            var names = new[]
+            var tasks = NalaiDownService.GlobalDownloadTasks;
+            var taskCollection = new ObservableCollection<DownloadTask>();
+            foreach (var task in tasks)
             {
-                "John",
-                "Winston",
-                "Adrianna",
-                "Spencer",
-                "Phoebe",
-                "Lucas",
-                "Carl",
-                "Marissa",
-                "Brandon",
-                "Antoine",
-                "Arielle",
-                "Arielle",
-                "Jamie",
-                "Alexzander"
-            };
-            var surnames = new[]
-            {
-                "Doe",
-                "Tapia",
-                "Cisneros",
-                "Lynch",
-                "Munoz",
-                "Marsh",
-                "Hudson",
-                "Bartlett",
-                "Gregory",
-                "Banks",
-                "Hood",
-                "Fry",
-                "Carroll"
-            };
-            var companies = new[]
-            {
-                "Pineapple Inc.",
-                "Macrosoft Redmond",
-                "Amazing Basics Ltd",
-                "Megabyte Computers Inc",
-                "Roude Mics",
-                "XD Projekt Red S.A.",
-                "Lepo.co"
-            };
-
-            for (int i = 0; i < 50; i++)
-            {
-                persons.Add(
-                    new Person(
-                        names[random.Next(0, names.Length)],
-                        surnames[random.Next(0, surnames.Length)],
-                        companies[random.Next(0, companies.Length)]
-                    )
-                );
+                if (task != null) taskCollection.Add(task);
             }
+       
+            return taskCollection;
+        }
 
-            return persons;
+        public void UpdateDownloadCollection()
+        {
+            DownloadViewItems = GenerateDownloadCollection();
         }
     }
 }
