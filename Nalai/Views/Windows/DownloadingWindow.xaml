@@ -24,6 +24,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -32,9 +33,45 @@
                 <ui:TextBlock FontSize="12" VerticalAlignment="Center" FontTypography="BodyStrong">
                     Downloading
                 </ui:TextBlock>
-                <ui:TextBlock FontSize="18" VerticalAlignment="Center" FontTypography="BodyStrong" Text="{Binding ViewModel.FileName, Mode=OneWay}">
+                <ui:TextBlock FontSize="18" VerticalAlignment="Center" FontTypography="BodyStrong"
+                              Text="{Binding ViewModel.FileName, Mode=OneWay}">
                 </ui:TextBlock>
             </StackPanel>
+            <!-- <Border -->
+            <!--     CornerRadius="8,8,8,8" -->
+            <!--     Margin="12" -->
+            <!--     Padding="12" -->
+            <!--     Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}" -->
+            <!--     BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}" -->
+            <!--     BorderThickness="1,1,1,0"> -->
+            <!--     <StackPanel> -->
+            <!--         <ui:TextBlock FontWeight="Bold" Text="文件名: "> -->
+            <!--             <Run FontWeight="Normal" Text="{Binding ViewModel.FileName, Mode=OneWay}" /> -->
+            <!--         </ui:TextBlock> -->
+            <!--         <ui:TextBlock FontWeight="Bold" Text="文件大小: "> -->
+            <!--             <Run FontWeight="Normal" Text="{Binding ViewModel.FileSize, Mode=OneWay}" /> -->
+            <!--         </ui:TextBlock> -->
+            <!--         <ui:TextBlock FontWeight="Bold" Text="下载速度: "> -->
+            <!--             <Run FontWeight="Normal" Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}" /> -->
+            <!--         </ui:TextBlock> -->
+            <!--         <ui:TextBlock FontWeight="Bold" Text="剩余时间: "> -->
+            <!--             <Run FontWeight="Normal" Text="{Binding ViewModel.RemainingTime, Mode=OneWay}" /> -->
+            <!--         </ui:TextBlock> -->
+            <!--     </StackPanel> -->
+            <!-- </Border> -->
+            <Grid Margin="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ui:TextBlock Grid.Column="0" FontTypography="BodyStrong" VerticalAlignment="Center">0%</ui:TextBlock>
+                <StackPanel Grid.Column="1">
+                    <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="16"
+                                 Minimum="0" Maximum="100" Margin="8,0"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="2">
             <Border
                 CornerRadius="8,8,8,8"
                 Margin="12"
@@ -43,24 +80,11 @@
                 BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1,1,1,0">
                 <StackPanel>
-                    <ui:TextBlock FontWeight="Bold" Text="文件名: ">
-                        <Run FontWeight="Normal" Text="{Binding ViewModel.FileName, Mode=OneWay}" />
-                    </ui:TextBlock>
-                    <ui:TextBlock FontWeight="Bold" Text="文件大小: ">
-                        <Run FontWeight="Normal" Text="{Binding ViewModel.FileSize, Mode=OneWay}" />
-                    </ui:TextBlock>
-                    <ui:TextBlock FontWeight="Bold" Text="下载速度: ">
-                        <Run FontWeight="Normal" Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}" />
-                    </ui:TextBlock>
-                    <ui:TextBlock FontWeight="Bold" Text="剩余时间: ">
-                        <Run FontWeight="Normal" Text="{Binding ViewModel.RemainingTime, Mode=OneWay}" />
-                    </ui:TextBlock>
+                    <ui:TextBlock FontTypography="BodyStrong" Text="文件名: "/>
                 </StackPanel>
             </Border>
-            <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="20" Margin="12" Minimum="0"
-                         Maximum="100">
-            </ProgressBar>
         </StackPanel>
+        
 
         <ContentPresenter
             x:Name="RootContentDialog"
