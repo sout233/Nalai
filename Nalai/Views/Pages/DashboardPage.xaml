@@ -51,6 +51,11 @@
                         Width="100"
                         DisplayMemberBinding="{Binding StatusText}"
                         Header="Status" />
+                    <ui:GridViewColumn
+                        MinWidth="100"
+                        Width="180"
+                        DisplayMemberBinding="{Binding FileSizeText}"
+                        Header="Size" />
                 </ui:GridView>
             </ui:ListView.View>
             <ListView.ContextMenu>

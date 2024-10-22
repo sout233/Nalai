@@ -14,7 +14,9 @@ public class DownloadTask
     public string Id { get; set; }
     public string StatusText { get; set; } = "等待中...";
 
+    public long TotalBytesToReceive { get; set; }
     public float Progress { get; set; }
+    public string FileSizeText { get; set; }
     
     private DownloadStatus _status;
     public DownloadStatus Status
@@ -88,19 +90,28 @@ public class DownloadTask
         var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
 
         Status = DownloadStatus.Downloading;
+
+        var fileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
+        var downloadedSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
+        FileSizeText = $"{downloadedSize} / {fileSize}";
+        
+        TotalBytesToReceive = e.TotalBytesToReceive;
+
         Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
     }
 
     private void OnDownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)
     {
-        Status = DownloadStatus.Completed;
         if (e.Error == null)
         {
             NalaiMsgBox.Show("Download completed");
+            Status = DownloadStatus.Completed;
+            FileSizeText = ByteSizeFormatter.FormatSize(TotalBytesToReceive);
         }
         else
         {
             NalaiMsgBox.Show(e.Error.Message, "Download failed!");
+            Status = DownloadStatus.Failed;
         }
         
     }
