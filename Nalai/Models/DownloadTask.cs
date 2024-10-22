@@ -12,9 +12,33 @@ public class DownloadTask
     public string FileName { get; set; }
     public string DownloadPath { get; set; }
     public string Id { get; set; }
-    public DownloadStatus Status { get; set; }
+    public string StatusText { get; set; } = "等待中...";
+
+    public float Progress { get; set; }
+    
+    private DownloadStatus _status;
+    public DownloadStatus Status
+    {
+        get => _status;
+        set
+        {
+            _status = value;
+            StatusText = value switch
+            {
+                DownloadStatus.Idle => "连接中...",
+                DownloadStatus.Downloading => Progress.ToString("0.00") + "%",
+                DownloadStatus.Completed => "已完成",
+                DownloadStatus.Failed => "下载失败",
+                _ => StatusText
+            };
+            StatusChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
     public DownloadConfiguration DownloadOpt { get; set; }
     public DownloadService Downloader { get; set; }
+    
+    public event EventHandler<EventArgs> StatusChanged;
 
     public DownloadTask(string url, string fileName, string path)
     {
@@ -40,11 +64,6 @@ public class DownloadTask
         Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
     }
 
-    public void UpdateStatus(DownloadStatus status)
-    {
-        Status = status;
-    }
-
     public async Task StartDownload()
     {
         try
@@ -61,11 +80,14 @@ public class DownloadTask
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
+        Progress = (float)e.ProgressPercentage;
+    
         var chunks = e.ActiveChunks;
         var progress = e.ProgressPercentage;
         var speed = e.BytesPerSecondSpeed / 1024;
         var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
 
+        Status = DownloadStatus.Downloading;
         Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
     }
 
@@ -80,6 +102,7 @@ public class DownloadTask
         {
             NalaiMsgBox.Show(e.Error.Message, "Download failed!");
         }
+        
     }
 
     private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)

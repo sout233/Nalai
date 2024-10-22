@@ -49,7 +49,7 @@
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="100"
-                        DisplayMemberBinding="{Binding Status}"
+                        DisplayMemberBinding="{Binding StatusText}"
                         Header="Status" />
                 </ui:GridView>
             </ui:ListView.View>
