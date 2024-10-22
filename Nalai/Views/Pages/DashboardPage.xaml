@@ -1,4 +1,4 @@
-﻿ <Page
+﻿<Page
     x:Class="Nalai.Views.Pages.DashboardPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,17 +17,17 @@
     mc:Ignorable="d">
 
     <Grid VerticalAlignment="Top">
-<Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="*"/>
-</Grid.RowDefinitions>
-        <ui:Button 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ui:Button
             Grid.Row="0"
             Appearance="Primary"
             Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
             Content="New"
-            Icon="{ui:SymbolIcon Add24}"/>
-        
+            Icon="{ui:SymbolIcon Add24}" />
+
         <ui:ListView
             Grid.Row="1"
             d:ItemsSource="{d:SampleData ItemCount=2}"
@@ -53,7 +53,17 @@
                         Header="Status" />
                 </ui:GridView>
             </ui:ListView.View>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="详情" Command="{Binding DetailsAcountCmd}" CommandParameter="{Binding ElementName=listView,Path=SelectedItem}" Width="100">
+                    </MenuItem>
+                    <MenuItem Header="编辑" Command="{Binding EditAcountCmd}" CommandParameter="{Binding ElementName=listView,Path=SelectedItem}" Width="100">
+                    </MenuItem>
+                    <MenuItem Header="删除" Command="{Binding DeleteAcountCmd}" CommandParameter="{Binding ElementName=listView,Path=SelectedItem}" Width="100">
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
         </ui:ListView>
-        
+
     </Grid>
 </Page>
