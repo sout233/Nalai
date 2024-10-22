@@ -28,15 +28,21 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1">
-            <ui:TextBlock FontSize="18" VerticalAlignment="Center" FontTypography="BodyStrong"
-                          Margin="12">
-                Downloading: <Run FontWeight="Normal" Text="{Binding ViewModel.FileName, Mode=OneWay}" />
-            </ui:TextBlock>
+            <StackPanel Margin="12">
+                <ui:TextBlock FontSize="12" VerticalAlignment="Center" FontTypography="BodyStrong">
+                    Downloading
+                </ui:TextBlock>
+                <ui:TextBlock FontSize="18" VerticalAlignment="Center" FontTypography="BodyStrong" Text="{Binding ViewModel.FileName, Mode=OneWay}">
+                </ui:TextBlock>
+            </StackPanel>
             <Border
-                Background="{ui:ThemeResource CardBackgroundFillColorSecondaryBrush}"
                 CornerRadius="8,8,8,8"
-                Margin="12">
-                <StackPanel Margin="12">
+                Margin="12"
+                Padding="12"
+                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,1,1,0">
+                <StackPanel>
                     <ui:TextBlock FontWeight="Bold" Text="文件名: ">
                         <Run FontWeight="Normal" Text="{Binding ViewModel.FileName, Mode=OneWay}" />
                     </ui:TextBlock>

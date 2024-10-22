@@ -44,7 +44,6 @@ namespace Nalai.ViewModels.Pages
             foreach (var task in tasks)
             {
                 if (task != null) taskCollection.Add(task);
-                Console.WriteLine(task.Progress);
             }
        
             return taskCollection;
