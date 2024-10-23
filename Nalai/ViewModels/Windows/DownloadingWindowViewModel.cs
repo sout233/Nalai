@@ -7,6 +7,7 @@ public partial class
 
     [ObservableProperty] private string? _fileName = "Unknown";
     [ObservableProperty] private double _progressValue = 0;
+    [ObservableProperty] private string _progressText = "0%";
     [ObservableProperty] private string _downloadSpeed = "0 B/s";
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
@@ -32,5 +33,10 @@ public partial class
     public void SetDownloadSpeed(string value)
     {
         DownloadSpeed = value;
+    }
+
+    public void SetProgressText(string value)
+    {
+        ProgressText = value;
     }
 }

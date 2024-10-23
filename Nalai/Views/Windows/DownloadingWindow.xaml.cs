@@ -50,6 +50,7 @@ public partial class DownloadingWindow : FluentWindow
         var remainingTime = TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize,e.TotalBytesToReceive,(long)e.BytesPerSecondSpeed);
 
         ViewModel.SetProgress(progress);
+        ViewModel.SetProgressText(progress.ToString("0.00") + "%");
         ViewModel.SetDownloadSpeed(speed + "/s");
         ViewModel.SetFileSize($"{receivedFileSize} / {totalFileSize}");
         ViewModel.SetRemainingTime($"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s");

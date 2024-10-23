@@ -64,7 +64,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ui:TextBlock Grid.Column="0" FontTypography="BodyStrong" VerticalAlignment="Center" Text="{Binding ViewModel.ProgressValue, Mode=OneWay}"></ui:TextBlock>
+                <ui:TextBlock Grid.Column="0" FontTypography="BodyStrong" VerticalAlignment="Center" FontSize="20" Text="{Binding ViewModel.ProgressValue, Mode=OneWay}"></ui:TextBlock>
                 <StackPanel Grid.Column="1">
                     <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="16"
                                  Minimum="0" Maximum="100" Margin="8,0" />
