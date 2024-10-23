@@ -71,26 +71,30 @@
                     <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="16"
                                  Minimum="0" Maximum="100" Margin="8,0" />
                     <Grid Margin="8,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <ItemsControl ItemsSource="{Binding ViewModel.ChunkValues, Mode=OneWay}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ProgressBar Grid.Column="{Binding Index}"
-                                                 Height="6"
-                                                 Value="{Binding Progress}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <!-- Use UniformGrid for a grid layout with equal-sized columns -->
+                        <ItemsControl ItemsSource="{Binding ViewModel.ProgressBars}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="4" /> <!-- Adjust the number of columns as needed -->
+                                    <StackPanel Orientation="Vertical"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ProgressBar Grid.Column="0"
+                                                     Minimum="0"
+                                                     Maximum="{Binding Maximum}"
+                                                     Value="{Binding Value}"/>
+                                        <Button Grid.Column="1"
+                                                Content="+"
+                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=DataContext.IncreaseProgressCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Grid>
                 </StackPanel>
