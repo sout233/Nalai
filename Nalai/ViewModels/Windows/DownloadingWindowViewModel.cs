@@ -1,4 +1,6 @@
-﻿namespace Nalai.ViewModels.Windows;
+﻿using Nalai.Models;
+
+namespace Nalai.ViewModels.Windows;
 
 public partial class 
     DownloadingWindowViewModel : ObservableObject
@@ -11,6 +13,7 @@ public partial class
     [ObservableProperty] private string _downloadSpeed = "0 B/s";
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
+    [ObservableProperty] private IEnumerable<ChunkValue> _chunkValues = new List<ChunkValue>();
 
     public void SetProgress(double value)
     {
@@ -38,5 +41,10 @@ public partial class
     public void SetProgressText(string value)
     {
         ProgressText = value;
+    }
+    
+    public void SetChunkValues(IEnumerable<ChunkValue> values)
+    {
+        ChunkValues = values;
     }
 }

@@ -29,7 +29,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1">
-            <StackPanel Margin="12">
+            <StackPanel Margin="12,4">
                 <ui:TextBlock FontSize="12" VerticalAlignment="Center" FontTypography="BodyStrong">
                     Downloading
                 </ui:TextBlock>
@@ -59,7 +59,7 @@
             <!--         </ui:TextBlock> -->
             <!--     </StackPanel> -->
             <!-- </Border> -->
-            <Grid Margin="12">
+            <Grid Margin="12,4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -77,10 +77,21 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <ProgressBar Grid.Column="0" Height="6"></ProgressBar>                 
-                        <ProgressBar Grid.Column="1" Height="6"></ProgressBar>
-                        <ProgressBar Grid.Column="2" Height="6"></ProgressBar>
-                        <ProgressBar Grid.Column="3" Height="6"></ProgressBar>
+                        <ItemsControl ItemsSource="{Binding ViewModel.ChunkValues, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ProgressBar Grid.Column="{Binding Index}"
+                                                 Height="6"
+                                                 Value="{Binding Progress}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <!-- Use UniformGrid for a grid layout with equal-sized columns -->
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="4" /> <!-- Adjust the number of columns as needed -->
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </Grid>
                 </StackPanel>
             </Grid>

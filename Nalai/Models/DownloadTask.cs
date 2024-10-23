@@ -27,8 +27,8 @@ public class DownloadTask
             _status = value;
             StatusText = value switch
             {
-                DownloadStatus.Idle => "连接中...",
-                DownloadStatus.Downloading => Progress.ToString("0.00") + "%",
+                DownloadStatus.Created => "连接中...",
+                DownloadStatus.Running => Progress.ToString("0.00") + "%",
                 DownloadStatus.Completed => "已完成",
                 DownloadStatus.Failed => "下载失败",
                 _ => StatusText
@@ -47,7 +47,7 @@ public class DownloadTask
         Url = url;
         FileName = fileName;
         DownloadPath = path;
-        Status = DownloadStatus.Idle;
+        Status = DownloadStatus.Created;
 
         var downloadOpt = new DownloadConfiguration()
         {
@@ -80,6 +80,11 @@ public class DownloadTask
         }
     }
 
+    private void UpdateStatus()
+    {
+        Status = Downloader.Status;
+    }
+
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
         Progress = (float)e.ProgressPercentage;
@@ -89,29 +94,28 @@ public class DownloadTask
         var speed = e.BytesPerSecondSpeed / 1024;
         var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
 
-        Status = DownloadStatus.Downloading;
-
         var fileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
         var downloadedSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
         FileSizeText = $"{downloadedSize} / {fileSize}";
         
         TotalBytesToReceive = e.TotalBytesToReceive;
+        
+        UpdateStatus();
 
         Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
     }
 
     private void OnDownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)
     {
+        UpdateStatus();
         if (e.Error == null)
         {
             NalaiMsgBox.Show("Download completed");
-            Status = DownloadStatus.Completed;
             FileSizeText = ByteSizeFormatter.FormatSize(TotalBytesToReceive);
         }
         else
         {
             NalaiMsgBox.Show(e.Error.Message, "Download failed!");
-            Status = DownloadStatus.Failed;
         }
         
     }
@@ -122,14 +126,6 @@ public class DownloadTask
 
     private void OnDownloadStarted(object? sender, DownloadStartedEventArgs e)
     {
-        Status = DownloadStatus.Downloading;
+        UpdateStatus();
     }
-}
-
-public enum DownloadStatus
-{
-    Idle,
-    Downloading,
-    Completed,
-    Failed
 }

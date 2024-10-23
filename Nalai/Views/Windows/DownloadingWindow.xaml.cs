@@ -37,6 +37,43 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.ApplicationTitle = "Downloading: " + fileName;
 
         task.Downloader.DownloadProgressChanged += OnDownloadProgressChanged;
+        task.Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
+    }
+
+    private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
+    {
+        // int id = 0;
+        //
+        // try
+        // {
+        //     id = int.Parse(e.ProgressId);
+        // }
+        // catch (Exception ex)
+        // {
+        //     Console.WriteLine($"Failed to parse progress ID: {ex.Message}");
+        //     return;
+        // }
+        //
+        // var chunkValues = ViewModel.ChunkValues;
+        // bool updated = false;
+        //
+        // foreach (var chunkValue in chunkValues)
+        // {
+        //     if (chunkValue.Index == id)
+        //     {
+        //         if (chunkValue.Progress != e.ProgressPercentage)
+        //         {
+        //             chunkValue.Progress = (float)e.ProgressPercentage;
+        //             updated = true;
+        //         }
+        //         break;
+        //     }
+        // }
+        //
+        // if (updated)
+        // {
+        //     ViewModel.ChunkValues = chunkValues;
+        // }
     }
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
@@ -47,7 +84,9 @@ public partial class DownloadingWindow : FluentWindow
         var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
         var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
         var receivedFileSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
-        var remainingTime = TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize,e.TotalBytesToReceive,(long)e.BytesPerSecondSpeed);
+        var remainingTime =
+            TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize, e.TotalBytesToReceive,
+                (long)e.BytesPerSecondSpeed);
 
         ViewModel.SetProgress(progress);
         ViewModel.SetProgressText(progress.ToString("0.00") + "%");
