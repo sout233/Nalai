@@ -24,6 +24,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />      
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -163,8 +164,17 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
+            
         </Grid>
 
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>                
+            </Grid.ColumnDefinitions>
+            <ui:Button Content="More" Icon="Fluent24"/>
+            <ui:Button Grid.Column="1" HorizontalAlignment="Right" Content="WPF UI button" Icon="Fluent24"/>
+        </Grid>
 
         <ContentPresenter
             x:Name="RootContentDialog"
