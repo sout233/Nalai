@@ -9,7 +9,7 @@
     xmlns:pages="clr-namespace:Nalai.Views.Pages"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="700"
-    Height="500"
+    Height="370"
     d:DataContext="{d:DesignInstance local:DownloadingWindow,
                                      IsDesignTimeCreatable=True}"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -164,7 +164,6 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-
         </Grid>
 
         <Grid Grid.Row="3" Margin="12">
@@ -178,8 +177,8 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <ui:Button HorizontalAlignment="Right" Content="Pause" Icon="{ui:SymbolIcon Pause24}" />
-                <ui:Button HorizontalAlignment="Right" Content="Cancel" Icon="{ui:SymbolIcon Dismiss24}" />
+                <ui:Button HorizontalAlignment="Right" Content="Pause" Icon="{ui:SymbolIcon Pause24}" Margin="2,0" />
+                <ui:Button HorizontalAlignment="Right" Content="Cancel" Icon="{ui:SymbolIcon Dismiss24}" Margin="2,0"/>
             </StackPanel>
         </Grid>
 
