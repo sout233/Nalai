@@ -52,7 +52,7 @@ public partial class DownloadingWindow : FluentWindow
         var progress = e.ProgressPercentage;
         System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
         {
-        ViewModel.AddOrUpdateChunkProgressBars(id, (float)progress);
+        ViewModel.AddOrUpdateChunkProgressBars(id, (float)progress *100);
         }));
         
         // int id = 0;
