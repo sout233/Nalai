@@ -24,7 +24,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />      
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -164,16 +164,23 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-            
+
         </Grid>
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Margin="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>                
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ui:Button Content="More" Icon="Fluent24"/>
-            <ui:Button Grid.Column="1" HorizontalAlignment="Right" Content="WPF UI button" Icon="Fluent24"/>
+            
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                <ui:Button Content="More" Icon="{ui:SymbolIcon ChevronDown24}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <ui:Button HorizontalAlignment="Right" Content="Pause" Icon="{ui:SymbolIcon Pause24}" />
+                <ui:Button HorizontalAlignment="Right" Content="Cancel" Icon="{ui:SymbolIcon Dismiss24}" />
+            </StackPanel>
         </Grid>
 
         <ContentPresenter
