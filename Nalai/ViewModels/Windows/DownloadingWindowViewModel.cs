@@ -15,26 +15,29 @@ public partial class
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
     [ObservableProperty] private IEnumerable<ChunkValue> _chunkValues = new List<ChunkValue>();
-    [ObservableProperty] private ObservableCollection<ProgressData> _progressBars=new();
+    [ObservableProperty] private ObservableCollection<ProgressData> _progressBars = new();
 
     public DownloadingWindowViewModel()
     {
         AddProgressBars();
     }
+
     public class ProgressData
     {
         public int Value { get; set; }
         public int Maximum { get; set; }
+        public int Index { get; set; }
     }
+
     public void AddProgressBars()
     {
         for (int i = 0; i < 5; i++)
         {
-            ProgressBars.Add(new ProgressData { Value = 0, Maximum = 100 });
+            ProgressBars.Add(new ProgressData { Value = 0, Maximum = 100,Index = i});
         }
     }
 
-    
+
     public void SetProgress(double value)
     {
         ProgressValue = value;

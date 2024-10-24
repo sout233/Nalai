@@ -30,8 +30,15 @@ public partial class DownloadingWindow : FluentWindow
 
         ViewModel.ProgressBars.CollectionChanged += (sender, args) =>
         {
-            definitions.Add(new ColumnDefinition());
-            ChunkProgressGrid.ColumnDefinitions=
+            while (ChunkProgressGrid.ColumnDefinitions.Count < ViewModel.ChunkValues.Count())
+            {
+                ChunkProgressGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            while (ChunkProgressGrid.RowDefinitions.Count > ViewModel.ChunkValues.Count())
+            {
+                ChunkProgressGrid.ColumnDefinitions.RemoveAt(0);
+            }
         };
     }
 
