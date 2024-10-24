@@ -96,6 +96,7 @@ public class DownloadTask
 
         var fileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
         var downloadedSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
+
         FileSizeText = $"{downloadedSize} / {fileSize}";
         
         TotalBytesToReceive = e.TotalBytesToReceive;
