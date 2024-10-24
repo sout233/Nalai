@@ -14,26 +14,25 @@ public partial class
     [ObservableProperty] private string _downloadSpeed = "0 B/s";
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
-    [ObservableProperty] private IEnumerable<ChunkValue> _chunkValues = new List<ChunkValue>();
-    [ObservableProperty] private ObservableCollection<ProgressData> _progressBars = new();
+    [ObservableProperty] private ObservableCollection<ChunkProgressData> _chunkProgressBars = new();
 
     public DownloadingWindowViewModel()
     {
-        AddProgressBars();
     }
 
-    public class ProgressData
-    {
-        public int Value { get; set; }
-        public int Maximum { get; set; }
-        public int Index { get; set; }
-    }
 
-    public void AddProgressBars()
+    public void AddOrUpdateChunkProgressBars(string id, float value)
     {
-        for (int i = 0; i < 5; i++)
+        var chunk = ChunkProgressBars.FirstOrDefault(x => x.Id == id);
+        if (chunk == null)
         {
-            ProgressBars.Add(new ProgressData { Value = 0, Maximum = 100,Index = i});
+            chunk = new ChunkProgressData { Id = id, Value = value };
+            ChunkProgressBars.Add(chunk);
+        }
+        else
+        {
+            ChunkProgressBars[ChunkProgressBars.IndexOf(chunk)].Value = value;
+            Console.WriteLine("Updated chunk progress bar: " + id + " - " + value);
         }
     }
 
@@ -66,10 +65,5 @@ public partial class
     public void SetProgressText(string value)
     {
         ProgressText = value;
-    }
-
-    public void SetChunkValues(IEnumerable<ChunkValue> values)
-    {
-        ChunkValues = values;
     }
 }

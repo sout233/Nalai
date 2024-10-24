@@ -71,18 +71,18 @@
                     <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="16"
                                  Minimum="0" Maximum="100" Margin="8,0" />
                     <Grid x:Name="ChunkProgressGrid" Margin="8,0">
-                        <ItemsControl ItemsSource="{Binding ViewModel.ProgressBars}">
+                        <ItemsControl ItemsSource="{Binding ViewModel.ChunkProgressBars}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                 <UniformGrid Columns="{Binding ViewModel.ProgressBars.Count}"></UniformGrid>
+                                    <UniformGrid Columns="{Binding ViewModel.ChunkProgressBars.Count}"></UniformGrid>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <ProgressBar Grid.Column="{Binding Index}"
-                                                 Minimum="0"
-                                                 Maximum="{Binding Maximum}"
-                                                 Value="{Binding Value}" />
+                                    <ProgressBar
+                                        Minimum="0"
+                                        Maximum="{Binding Maximum}"
+                                        Value="{Binding Value}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

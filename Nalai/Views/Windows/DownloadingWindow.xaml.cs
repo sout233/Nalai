@@ -28,17 +28,9 @@ public partial class DownloadingWindow : FluentWindow
         ThisWindowTask = task;
         InitializeComponent();
 
-        ViewModel.ProgressBars.CollectionChanged += (sender, args) =>
+        ViewModel.ChunkProgressBars.CollectionChanged += (sender, args) =>
         {
-            while (ChunkProgressGrid.ColumnDefinitions.Count < ViewModel.ChunkValues.Count())
-            {
-                ChunkProgressGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-
-            while (ChunkProgressGrid.RowDefinitions.Count > ViewModel.ChunkValues.Count())
-            {
-                ChunkProgressGrid.ColumnDefinitions.RemoveAt(0);
-            }
+//TODO: Change UniformGris Column here
         };
     }
 
@@ -56,6 +48,13 @@ public partial class DownloadingWindow : FluentWindow
 
     private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
+        var id = e.ProgressId;
+        var progress = e.ProgressPercentage;
+        System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+        {
+        ViewModel.AddOrUpdateChunkProgressBars(id, (float)progress);
+        }));
+        
         // int id = 0;
         //
         // try
