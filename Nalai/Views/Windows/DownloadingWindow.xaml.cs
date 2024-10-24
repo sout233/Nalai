@@ -1,4 +1,5 @@
-﻿using Downloader;
+﻿using System.Windows.Controls;
+using Downloader;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
@@ -26,6 +27,12 @@ public partial class DownloadingWindow : FluentWindow
         Url = url;
         ThisWindowTask = task;
         InitializeComponent();
+
+        ViewModel.ProgressBars.CollectionChanged += (sender, args) =>
+        {
+            definitions.Add(new ColumnDefinition());
+            ChunkProgressGrid.ColumnDefinitions=
+        };
     }
 
     private void DownloadingWindow_Loaded(object sender, RoutedEventArgs e)
