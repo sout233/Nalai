@@ -9,7 +9,7 @@
     xmlns:pages="clr-namespace:Nalai.Views.Pages"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="700"
-    Height="370"
+    Height="{Binding ViewModel.WindowHeight, Mode=OneWay}"
     d:DataContext="{d:DesignInstance local:DownloadingWindow,
                                      IsDesignTimeCreatable=True}"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -173,7 +173,7 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                <ui:Button Content="More" Icon="{ui:SymbolIcon ChevronDown24}" />
+                <ui:Button Content="More" Icon="{ui:SymbolIcon ChevronDown24}" Command="{Binding ViewModel.ShowMoreCommand,Mode=OneWay}" />
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">

@@ -15,7 +15,16 @@ public partial class
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
     [ObservableProperty] private ObservableCollection<ChunkProgressData> _chunkProgressBars = [];
+    [ObservableProperty] private int _windowHeight = 370;
+    [ObservableProperty] private bool _isShowMore = false;
 
+
+    [RelayCommand]
+    private void ShowMore()
+    {
+        IsShowMore = !IsShowMore;
+        WindowHeight = IsShowMore ? 500 : 370;
+    }
 
     public void AddOrUpdateChunkProgressBars(string id, float value)
     {
