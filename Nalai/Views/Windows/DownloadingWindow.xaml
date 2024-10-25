@@ -9,7 +9,8 @@
     xmlns:pages="clr-namespace:Nalai.Views.Pages"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="700"
-    Height="{Binding ViewModel.WindowHeight, Mode=OneWay}"
+    Height="370"
+    d:DesignHeight="500"
     d:DataContext="{d:DesignInstance local:DownloadingWindow,
                                      IsDesignTimeCreatable=True}"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -71,7 +72,7 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <ProgressBar Value="{Binding ViewModel.ProgressValue, Mode=OneWay}" Height="16"
                                  Minimum="0" Maximum="100" Margin="8,0" />
-                    <Grid x:Name="ChunkProgressGrid" Margin="8,0">
+                    <Grid Margin="8,0">
                         <ItemsControl ItemsSource="{Binding ViewModel.ChunkProgressBars}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -173,7 +174,7 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                <ui:Button Content="More" Icon="{ui:SymbolIcon ChevronDown24}"  Click="ButtonBase_OnClick"/>
+                <ui:Button Content="More" Icon="{ui:SymbolIcon ChevronDown24}"  Click="ShowMoreBtn_OnClick"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">

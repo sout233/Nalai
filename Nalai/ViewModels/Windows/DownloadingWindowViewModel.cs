@@ -15,7 +15,6 @@ public partial class
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
     [ObservableProperty] private ObservableCollection<ChunkProgressData> _chunkProgressBars = [];
-    [ObservableProperty] private int _windowHeight = 370;
     [ObservableProperty] private bool _isShowMore = false;
     
     public void AddOrUpdateChunkProgressBars(string id, float value)
@@ -28,8 +27,6 @@ public partial class
         }
         else
         {
-            // ChunkProgressBars[ChunkProgressBars.IndexOf(chunk)].Value = value;
-            // Console.WriteLine("Updated chunk progress bar: " + id + " - " + value);
             ChunkProgressBars[ChunkProgressBars.IndexOf(chunk)] = new ChunkProgressData { Id = id, Value = value };
         }
     }

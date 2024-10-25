@@ -26,12 +26,8 @@ public partial class DownloadingWindow : FluentWindow
         DataContext = this;
         Url = url;
         ThisWindowTask = task;
-        InitializeComponent();
 
-        ViewModel.ChunkProgressBars.CollectionChanged += (sender, args) =>
-        {
-//TODO: Change UniformGris Column here
-        };
+        InitializeComponent();
     }
 
     private void DownloadingWindow_Loaded(object sender, RoutedEventArgs e)
@@ -50,43 +46,10 @@ public partial class DownloadingWindow : FluentWindow
     {
         var id = e.ProgressId;
         var progress = e.ProgressPercentage;
-        System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+        Application.Current.Dispatcher.Invoke((Action)(() =>
         {
             ViewModel.AddOrUpdateChunkProgressBars(id, (float)progress);
         }));
-
-        // int id = 0;
-        //
-        // try
-        // {
-        //     id = int.Parse(e.ProgressId);
-        // }
-        // catch (Exception ex)
-        // {
-        //     Console.WriteLine($"Failed to parse progress ID: {ex.Message}");
-        //     return;
-        // }
-        //
-        // var chunkValues = ViewModel.ChunkValues;
-        // bool updated = false;
-        //
-        // foreach (var chunkValue in chunkValues)
-        // {
-        //     if (chunkValue.Index == id)
-        //     {
-        //         if (chunkValue.Progress != e.ProgressPercentage)
-        //         {
-        //             chunkValue.Progress = (float)e.ProgressPercentage;
-        //             updated = true;
-        //         }
-        //         break;
-        //     }
-        // }
-        //
-        // if (updated)
-        // {
-        //     ViewModel.ChunkValues = chunkValues;
-        // }
     }
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
@@ -106,16 +69,14 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.SetDownloadSpeed(speed + "/s");
         ViewModel.SetFileSize($"{receivedFileSize} / {totalFileSize}");
         ViewModel.SetRemainingTime($"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s");
-        // Console.WriteLine(e.ProgressPercentage);
     }
 
-    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    private void ShowMoreBtn_OnClick(object sender, RoutedEventArgs e)
     {
         ViewModel.IsShowMore = !ViewModel.IsShowMore;
         Height = ViewModel.IsShowMore ? 500 : 370;
         if (ViewModel.IsShowMore)
         {
-            
         }
     }
 }
