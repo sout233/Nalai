@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Nalai.Models;
+using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Windows;
 
@@ -14,9 +15,18 @@ public partial class
     [ObservableProperty] private string _downloadSpeed = "0 B/s";
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
+    [ObservableProperty] private string _url = "Unknown";
+    [ObservableProperty] private string _showMoreBtnContent = "More";
     [ObservableProperty] private ObservableCollection<ChunkProgressData> _chunkProgressBars = [];
-    [ObservableProperty] private bool _isShowMore = false;
-    
+    [ObservableProperty] private Visibility _showMoreVisibility = Visibility.Collapsed;
+    [ObservableProperty] private SymbolIcon _showMoreBtnIcon = new() { Symbol = SymbolRegular.ChevronDown24 };
+
+    [RelayCommand]
+    private void CopyUrl()
+    {
+        Clipboard.SetText(Url);
+    }
+
     public void AddOrUpdateChunkProgressBars(string id, float value)
     {
         var chunk = ChunkProgressBars.FirstOrDefault(x => x.Id == id);

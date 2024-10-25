@@ -11,7 +11,6 @@ namespace Nalai.Views.Windows;
 public partial class DownloadingWindow : FluentWindow
 {
     public DownloadingWindowViewModel ViewModel { get; }
-    public string Url { get; set; }
     private DownloadTask ThisWindowTask { get; set; }
 
     public static DownloadingWindow CreateWindow(string url, DownloadTask task)
@@ -24,7 +23,6 @@ public partial class DownloadingWindow : FluentWindow
     {
         ViewModel = viewModel;
         DataContext = this;
-        Url = url;
         ThisWindowTask = task;
 
         InitializeComponent();
@@ -46,10 +44,10 @@ public partial class DownloadingWindow : FluentWindow
     {
         var id = e.ProgressId;
         var progress = e.ProgressPercentage;
-        Application.Current.Dispatcher.Invoke((Action)(() =>
-        {
-            ViewModel.AddOrUpdateChunkProgressBars(id, (float)progress);
-        }));
+        // Application.Current.Dispatcher.Invoke((Action)(() =>
+        // {
+        //     ViewModel.AddOrUpdateChunkProgressBars(id, (float)progress);
+        // }));
     }
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
@@ -69,14 +67,36 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.SetDownloadSpeed(speed + "/s");
         ViewModel.SetFileSize($"{receivedFileSize} / {totalFileSize}");
         ViewModel.SetRemainingTime($"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s");
+        ViewModel.Url = ThisWindowTask.Url;
     }
 
     private void ShowMoreBtn_OnClick(object sender, RoutedEventArgs e)
     {
-        ViewModel.IsShowMore = !ViewModel.IsShowMore;
-        Height = ViewModel.IsShowMore ? 500 : 370;
-        if (ViewModel.IsShowMore)
+        if (ViewModel.ShowMoreVisibility == Visibility.Collapsed)
         {
+            ViewModel.ShowMoreVisibility = Visibility.Visible;
+            ViewModel.ShowMoreBtnContent = "Less";
+            SymbolIcon symbolIcon = new()
+            {
+                Symbol = SymbolRegular.ChevronUp24
+            };
+            ViewModel.ShowMoreBtnIcon = symbolIcon;
+            Height = 370 + 50;
+        }
+        else
+        {
+            ViewModel.ShowMoreVisibility = Visibility.Collapsed;
+            ViewModel.ShowMoreBtnContent = "More";
+            
+            SymbolIcon symbolIcon = new()
+            {
+                Symbol = SymbolRegular.ChevronDown24
+            };
+            
+            ViewModel.ShowMoreBtnIcon = symbolIcon;
+
+            var height = TopStackPanel.Height + DashCardPanelGrid.Height + BottomPanelGrid.Height;
+            Height = 370;
         }
     }
 }
