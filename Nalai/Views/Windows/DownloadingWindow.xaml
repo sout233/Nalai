@@ -91,7 +91,7 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <Grid Grid.Row="2" Margin="10">
+        <Grid x:Name="Dash" Grid.Row="2" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -173,7 +173,7 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                <ui:Button Content="More" Icon="{ui:SymbolIcon ChevronDown24}" Command="{Binding ViewModel.ShowMoreCommand,Mode=OneWay}" />
+                <ui:Button Content="More" Icon="{ui:SymbolIcon ChevronDown24}"  Click="ButtonBase_OnClick"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">

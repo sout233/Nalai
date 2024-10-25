@@ -108,4 +108,14 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.SetRemainingTime($"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s");
         // Console.WriteLine(e.ProgressPercentage);
     }
+
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModel.IsShowMore = !ViewModel.IsShowMore;
+        Height = ViewModel.IsShowMore ? 500 : 370;
+        if (ViewModel.IsShowMore)
+        {
+            
+        }
+    }
 }
