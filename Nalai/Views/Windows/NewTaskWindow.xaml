@@ -6,10 +6,10 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:pages="clr-namespace:Nalai.Views.Pages"
-                 Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
-                 Width="700"
-                 Height="370"
-                 d:DataContext="{d:DesignInstance local:DownloadingWindow,
+                 Title="New Task"
+                 Width="500"
+                 Height="220"
+                 d:DataContext="{d:DesignInstance local:NewTaskWindow,
                                      IsDesignTimeCreatable=True}"
                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
                  ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -20,6 +20,39 @@
                  WindowStartupLocation="CenterScreen"
                  mc:Ignorable="d">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="1" Margin="12">
+            <!-- <Label Target="{Binding ElementName=UrlTextBox}">Url</Label> -->
+            <ui:TextBox x:Name="UrlTextBox" PlaceholderText="Url" Margin="0,0,0,12" Text="{Binding ViewModel.Url}"/>
+            <ui:TextBox PlaceholderText="Save Path" Text="{Binding ViewModel.SavePath}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
+            <ui:Button Content="Cancel" HorizontalAlignment="Right" Click="CancelButton_Click"/>
+        </StackPanel>
+
+        <ContentPresenter
+            x:Name="RootContentDialog"
+            Grid.Row="0"
+            Grid.RowSpan="2" />
+
+        <ui:TitleBar
+            x:Name="TitleBar"
+            Title="New Task"
+            Grid.Row="0"
+            CloseWindowByDoubleClickOnIcon="True">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="pack://application:,,,/Assets/wpfui-icon-256.png" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
     </Grid>
 </ui:FluentWindow>

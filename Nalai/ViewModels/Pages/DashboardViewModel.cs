@@ -11,27 +11,24 @@ namespace Nalai.ViewModels.Pages
 {
     public partial class DashboardViewModel : ObservableObject
     {
-        private const string DownloadUrl =
-            "https://mirrors.tuna.tsinghua.edu.cn/github-release/VSCodium/vscodium/1.94.2.24286/VSCodium-win32-x64-1.94.2.24286.zip";
-
         public DashboardViewModel()
         {
             UpdateDownloadCollection();
         }
         
         [RelayCommand]
-        private async Task OnNewTask()
+        private Task OnNewTask()
         {
-            var fileName = GetUrlInfo.GetFileName(DownloadUrl);
-
-            var task = await NalaiDownService.NewTask(DownloadUrl, fileName, Environment.CurrentDirectory);
-
-            UpdateDownloadCollection();
-            task.StatusChanged += OnDownloadStatusChanged;
+            var newTaskWindowViewModel = new NewTaskWindowViewModel
+            {
+                Dashboard = this
+            };
+            var window = new NewTaskWindow(newTaskWindowViewModel);
+            window.ShowDialog();
             
-            var vm = new DownloadingWindowViewModel();
-            var window = new DownloadingWindow(vm, DownloadUrl, task);
-            window.Show();
+            UpdateDownloadCollection();
+            
+            return Task.CompletedTask;
         }
         
         [ObservableProperty]
@@ -54,7 +51,7 @@ namespace Nalai.ViewModels.Pages
             DownloadViewItems = GenerateDownloadCollection();
         }
 
-        private void OnDownloadStatusChanged(object? sender, EventArgs eventArgs)
+        public void OnDownloadStatusChanged(object? sender, EventArgs eventArgs)
         {
             UpdateDownloadCollection();
         }
