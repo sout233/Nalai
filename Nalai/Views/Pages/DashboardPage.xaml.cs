@@ -3,20 +3,17 @@ using Nalai.Models;
 using Nalai.ViewModels.Pages;
 using Wpf.Ui.Controls;
 
-namespace Nalai.Views.Pages
+namespace Nalai.Views.Pages;
+
+public partial class DashboardPage : INavigableView<DashboardViewModel>
 {
-    public partial class DashboardPage : INavigableView<DashboardViewModel>
+    public DashboardViewModel ViewModel { get; }
+
+    public DashboardPage(DashboardViewModel viewModel)
     {
-        public DashboardViewModel ViewModel { get; }
+        ViewModel = viewModel;
+        DataContext = this;
 
-        public DashboardPage(DashboardViewModel viewModel)
-        {
-            ViewModel = viewModel;
-            DataContext = this;
-
-            InitializeComponent();
-        }
-        
-    
+        InitializeComponent();
     }
 }
