@@ -37,7 +37,7 @@ public partial class DownloadingWindow : FluentWindow
     }
 
    
-
+    // TODO: 不符合 MVVM 设计模式，需要重构
     private void ShowMoreBtn_OnClick(object sender, RoutedEventArgs e)
     {
         if (ViewModel.ShowMoreVisibility == Visibility.Collapsed)

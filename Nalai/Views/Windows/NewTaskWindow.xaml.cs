@@ -28,9 +28,4 @@ public partial class NewTaskWindow : FluentWindow
 
         InitializeComponent();
     }
-
-    private void CancelButton_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
 }
