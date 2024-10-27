@@ -46,12 +46,14 @@ public partial class
             ThisViewTask.Downloader.Resume();
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
             PauseOrResumeBtnContent = "Pause";
+            ApplicationTitle = "Downloading: " + FileName;
         }
         else
         {
             ThisViewTask.Downloader.Pause();
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
             PauseOrResumeBtnContent = "Resume";
+            ApplicationTitle = "Paused: " + FileName;
         }
     }
 
