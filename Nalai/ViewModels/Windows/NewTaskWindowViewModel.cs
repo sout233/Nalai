@@ -9,6 +9,8 @@ public partial class NewTaskWindowViewModel : ObservableObject
 {
     [ObservableProperty] private string _url;
     [ObservableProperty] private string _savePath;
+    [ObservableProperty] private bool _dialogResult;
+    
     public DashboardViewModel Dashboard { get; set; }
 
     public NewTaskWindowViewModel(string url = "", string savePath = "")
@@ -30,5 +32,11 @@ public partial class NewTaskWindowViewModel : ObservableObject
         var vm = new DownloadingWindowViewModel();
         var window = new DownloadingWindow(vm, Url, task);
         window.Show();
+    }
+    
+    [RelayCommand]
+    private void Cancel()
+    {
+        DialogResult = false;
     }
 }

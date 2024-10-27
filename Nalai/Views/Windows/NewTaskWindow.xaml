@@ -5,6 +5,7 @@
                  xmlns:local="clr-namespace:Nalai.Views.Windows"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 local:DialogCloser.DialogResult="{Binding ViewModel.DialogResult}"
                  xmlns:pages="clr-namespace:Nalai.Views.Pages"
                  Title="New Task"
                  Width="500"
@@ -37,7 +38,7 @@
 
         <StackPanel Grid.Row="2" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
-            <ui:Button Content="Cancel" HorizontalAlignment="Right" Click="CancelButton_Click"/>
+            <ui:Button Content="Cancel" HorizontalAlignment="Right" Command="{Binding ViewModel.CancelCommand}"/>
         </StackPanel>
 
         <ContentPresenter

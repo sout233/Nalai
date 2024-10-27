@@ -20,9 +20,9 @@ public partial class NewTaskWindow : FluentWindow
             ? savePath
             : System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
                 "Downloads");
-        
-        ViewModel.Url = url!= ""
-           ? url
+
+        ViewModel.Url = url != ""
+            ? url
             : DownloadUrl;
 
         InitializeComponent();
@@ -31,5 +31,29 @@ public partial class NewTaskWindow : FluentWindow
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         Close();
+    }
+}
+
+public static class DialogCloser
+{
+    public static readonly DependencyProperty DialogResultProperty =
+        DependencyProperty.RegisterAttached(
+            "DialogResult",
+            typeof(bool?),
+            typeof(DialogCloser),
+            new PropertyMetadata(DialogResultChanged));
+
+    private static void DialogResultChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var window = d as Window;
+        if (window != null)
+        {
+            window.DialogResult = e.NewValue as bool?;
+        }
+    }
+
+    public static void SetDialogResult(Window target, bool? value)
+    {
+        target.SetValue(DialogResultProperty, value);
     }
 }
