@@ -13,12 +13,6 @@ public partial class DownloadingWindow : FluentWindow
     public DownloadingWindowViewModel ViewModel { get; }
     private DownloadTask ThisWindowTask { get; set; }
 
-    public static DownloadingWindow CreateWindow(string url, DownloadTask task)
-    {
-        var viewModel = new DownloadingWindowViewModel();
-        return new DownloadingWindow(viewModel, url, task);
-    }
-
     public DownloadingWindow(DownloadingWindowViewModel viewModel, string url, DownloadTask task)
     {
         ViewModel = viewModel;

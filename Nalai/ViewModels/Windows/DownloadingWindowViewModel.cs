@@ -24,6 +24,11 @@ public partial class
     [ObservableProperty] private SymbolIcon _showMoreBtnIcon = new() { Symbol = SymbolRegular.ChevronDown24 };
     [ObservableProperty] private SymbolIcon _pauseOrResumeBtnIcon = new() { Symbol = SymbolRegular.Pause24 };
 
+    public DownloadingWindowViewModel(DownloadTask thisViewTask)
+    {
+        ThisViewTask = thisViewTask;
+    }
+
     public DownloadTask ThisViewTask { get; set; }
     public Window BasedWindow { get; set; }
 
@@ -76,7 +81,7 @@ public partial class
         var id = e.ProgressId;
         var progress = e.ProgressPercentage;
 
-        // TODO: Fix this
+        // TODO: Fix this (chuck进度条显示会卡卡的)
         // Application.Current.Dispatcher.Invoke((Action)(() =>
         // {
         //     AddOrUpdateChunkProgressBars(id, (float)progress);

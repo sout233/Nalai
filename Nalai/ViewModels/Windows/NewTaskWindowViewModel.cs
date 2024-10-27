@@ -31,7 +31,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
 
         task.StatusChanged += Dashboard.OnDownloadStatusChanged;
 
-        var vm = new DownloadingWindowViewModel();
+        var vm = new DownloadingWindowViewModel(task);
         var window = new DownloadingWindow(vm, Url, task);
         window.Show();
         
