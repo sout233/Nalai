@@ -35,40 +35,14 @@ public partial class DownloadingWindow : FluentWindow
 
         ViewModel.FileName = fileName;
         ViewModel.ApplicationTitle = "Downloading: " + fileName;
+        ViewModel.ThisViewTask = task;
+        ViewModel.BasedWindow = this;
 
-        task.Downloader.DownloadProgressChanged += OnDownloadProgressChanged;
-        task.Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
+        task.Downloader.DownloadProgressChanged += ViewModel.OnDownloadProgressChanged;
+        task.Downloader.ChunkDownloadProgressChanged += ViewModel.OnChunkDownloadProgressChanged;
     }
 
-    private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
-    {
-        var id = e.ProgressId;
-        var progress = e.ProgressPercentage;
-        // Application.Current.Dispatcher.Invoke((Action)(() =>
-        // {
-        //     ViewModel.AddOrUpdateChunkProgressBars(id, (float)progress);
-        // }));
-    }
-
-    private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
-    {
-        var chunks = e.ActiveChunks;
-        var progress = e.ProgressPercentage;
-        var speed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed);
-        var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
-        var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
-        var receivedFileSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
-        var remainingTime =
-            TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize, e.TotalBytesToReceive,
-                (long)e.BytesPerSecondSpeed);
-
-        ViewModel.SetProgress(progress);
-        ViewModel.SetProgressText(progress.ToString("0.00") + "%");
-        ViewModel.SetDownloadSpeed(speed + "/s");
-        ViewModel.SetFileSize($"{receivedFileSize} / {totalFileSize}");
-        ViewModel.SetRemainingTime($"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s");
-        ViewModel.Url = ThisWindowTask.Url;
-    }
+   
 
     private void ShowMoreBtn_OnClick(object sender, RoutedEventArgs e)
     {

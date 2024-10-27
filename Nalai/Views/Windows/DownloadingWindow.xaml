@@ -168,20 +168,24 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="MorePanelGrid" Grid.Row="3" Margin="12" Visibility="{Binding ViewModel.ShowMoreVisibility, Mode=OneWay}">
+        <Grid x:Name="MorePanelGrid" Grid.Row="3" Margin="12"
+              Visibility="{Binding ViewModel.ShowMoreVisibility, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-           <Grid Grid.Row="0">
-               <Grid.ColumnDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                   <ColumnDefinition Width="Auto"></ColumnDefinition>
-               </Grid.ColumnDefinitions>
-               <Label Target="{Binding ElementName=MyTextBox}" Content="Url" VerticalAlignment="Center" Margin="0,0,8,0"/>
-               <ui:TextBox x:Name="MyTextBox" Grid.Column="1" VerticalAlignment="Center" PlaceholderText="Url" Text="{Binding ViewModel.Url, Mode=OneWay}" IsReadOnly="True"/>
-               <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="{ui:SymbolIcon Copy24}" Margin="8,0,0,0" Command="{Binding ViewModel.CopyUrlCommand}"/>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Target="{Binding ElementName=MyTextBox}" Content="Url" VerticalAlignment="Center"
+                       Margin="0,0,8,0" />
+                <ui:TextBox x:Name="MyTextBox" Grid.Column="1" VerticalAlignment="Center" PlaceholderText="Url"
+                            Text="{Binding ViewModel.Url, Mode=OneWay}" IsReadOnly="True" />
+                <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="{ui:SymbolIcon Copy24}" Margin="8,0,0,0"
+                           Command="{Binding ViewModel.CopyUrlCommand}" />
             </Grid>
             <StackPanel Grid.Row="1">
             </StackPanel>
@@ -194,12 +198,16 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                <ui:Button Content="{Binding ViewModel.ShowMoreBtnContent, Mode=OneWay}" Icon="{Binding ViewModel.ShowMoreBtnIcon, Mode=OneWay}" Click="ShowMoreBtn_OnClick" />
+                <ui:Button Content="{Binding ViewModel.ShowMoreBtnContent, Mode=OneWay}"
+                           Icon="{Binding ViewModel.ShowMoreBtnIcon, Mode=OneWay}" Click="ShowMoreBtn_OnClick" />
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <ui:Button HorizontalAlignment="Right" Content="Pause" Icon="{ui:SymbolIcon Pause24}" Margin="2,0" />
-                <ui:Button HorizontalAlignment="Right" Content="Cancel" Icon="{ui:SymbolIcon Dismiss24}" Margin="2,0" />
+                <ui:Button HorizontalAlignment="Right" Content="{Binding ViewModel.PauseOrResumeBtnContent}"
+                           Icon="{Binding ViewModel.PauseOrResumeBtnIcon}" Margin="2,0"
+                           Command="{Binding ViewModel.PauseOrResumeDownloadCommand}" />
+                <ui:Button HorizontalAlignment="Right" Content="Cancel" Icon="{ui:SymbolIcon Dismiss24}" Margin="2,0"
+                           Command="{Binding ViewModel.CancelDownloadCommand}" />
             </StackPanel>
         </Grid>
 

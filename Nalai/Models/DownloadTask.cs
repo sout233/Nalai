@@ -31,6 +31,8 @@ public class DownloadTask
                 DownloadStatus.Running => Progress.ToString("0.00") + "%",
                 DownloadStatus.Completed => "已完成",
                 DownloadStatus.Failed => "下载失败",
+                DownloadStatus.Paused => "已暂停",
+                DownloadStatus.None => "等待中...",
                 _ => StatusText
             };
             StatusChanged?.Invoke(this, EventArgs.Empty);
