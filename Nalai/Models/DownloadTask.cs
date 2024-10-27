@@ -17,8 +17,9 @@ public class DownloadTask
     public long TotalBytesToReceive { get; set; }
     public float Progress { get; set; }
     public string FileSizeText { get; set; }
-    
+
     private DownloadStatus _status;
+
     public DownloadStatus Status
     {
         get => _status;
@@ -41,11 +42,11 @@ public class DownloadTask
     }
 
     public DownloadConfiguration DownloadOpt { get; set; }
-    
+
     public DownloadService Downloader { get; set; }
-    
+
     public DownloadPackage Package { get; set; }
-    
+
     public event EventHandler<EventArgs> StatusChanged;
 
     public DownloadTask(string url, string fileName, string path)
@@ -86,6 +87,30 @@ public class DownloadTask
         }
     }
 
+    public DownloadStatus PauseOrResume()
+    {
+        if (Downloader.Status == DownloadStatus.Completed)
+        {
+            return Downloader.Status;
+        }
+
+        if (Downloader.IsPaused)
+        {
+            Downloader.Resume();
+            Status = DownloadStatus.Running;
+            Console.WriteLine($"{FileName} Resumed");
+        }
+        else
+        {
+            Downloader.Pause();
+            Status = DownloadStatus.Paused;
+            Console.WriteLine($"{FileName} Paused");
+        }
+
+        return Downloader.Status;
+    }
+
+
     private void UpdateStatus()
     {
         Status = Downloader.Status;
@@ -94,7 +119,7 @@ public class DownloadTask
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
         Progress = (float)e.ProgressPercentage;
-    
+
         var chunks = e.ActiveChunks;
         var progress = e.ProgressPercentage;
         var speed = e.BytesPerSecondSpeed / 1024;
@@ -104,9 +129,9 @@ public class DownloadTask
         var downloadedSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
 
         FileSizeText = $"{downloadedSize} / {fileSize}";
-        
+
         TotalBytesToReceive = e.TotalBytesToReceive;
-        
+
         UpdateStatus();
 
         Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
@@ -128,7 +153,6 @@ public class DownloadTask
         {
             NalaiMsgBox.Show(e.Error.Message, "Download failed!");
         }
-        
     }
 
     private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)

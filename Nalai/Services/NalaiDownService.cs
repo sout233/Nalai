@@ -30,4 +30,10 @@ public static class NalaiDownService
         
         return Task.FromResult(task);
     }
+
+    public static void RemoveTask(DownloadTask task)
+    {
+        task.Downloader.CancelAsync();
+        GlobalDownloadTasks.Remove(task);
+    }
 }

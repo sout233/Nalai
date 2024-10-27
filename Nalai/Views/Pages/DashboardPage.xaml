@@ -61,11 +61,11 @@
             </ui:ListView.View>
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="详情" Command="{Binding DetailsAcountCmd}" CommandParameter="{Binding ElementName=listView,Path=SelectedItem}">
-                    </MenuItem>
-                    <MenuItem Header="编辑" Command="{Binding EditAcountCmd}" CommandParameter="{Binding ElementName=listView,Path=SelectedItem}">
+                    <MenuItem Header="{Binding ViewModel.PauseOrResumeText}" Command="{Binding ViewModel.PauseCommand}" CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
                     <MenuItem Header="删除" Command="{Binding DeleteAcountCmd}" CommandParameter="{Binding ElementName=listView,Path=SelectedItem}">
+                    </MenuItem>
+                    <MenuItem Header="详情" Command="{Binding DetailsAcountCmd}" CommandParameter="{Binding ElementName=listView,Path=SelectedItem}">
                     </MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
