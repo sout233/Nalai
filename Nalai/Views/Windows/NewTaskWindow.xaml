@@ -5,7 +5,6 @@
                  xmlns:local="clr-namespace:Nalai.Views.Windows"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-                 local:DialogCloser.DialogResult="{Binding ViewModel.DialogResult}"
                  xmlns:pages="clr-namespace:Nalai.Views.Pages"
                  Title="New Task"
                  Width="500"

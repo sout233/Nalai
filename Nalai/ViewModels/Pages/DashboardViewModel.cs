@@ -15,22 +15,21 @@ namespace Nalai.ViewModels.Pages
         {
             UpdateDownloadCollection();
         }
-        
+
         [RelayCommand]
         private Task OnNewTask()
         {
-            var newTaskWindowViewModel = new NewTaskWindowViewModel
-            {
-                Dashboard = this
-            };
+            var newTaskWindowViewModel = new NewTaskWindowViewModel();
             var window = new NewTaskWindow(newTaskWindowViewModel);
-            window.ShowDialog();
-            
+            newTaskWindowViewModel.Window = window;
+            newTaskWindowViewModel.Dashboard = this;
+            window.Show();
+
             UpdateDownloadCollection();
-            
+
             return Task.CompletedTask;
         }
-        
+
         [ObservableProperty]
         private ObservableCollection<DownloadTask> _downloadViewItems = GenerateDownloadCollection();
 
@@ -42,7 +41,7 @@ namespace Nalai.ViewModels.Pages
             {
                 if (task != null) taskCollection.Add(task);
             }
-       
+
             return taskCollection;
         }
 
