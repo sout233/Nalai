@@ -33,6 +33,7 @@ public class DownloadTask
                 DownloadStatus.Failed => "下载失败",
                 DownloadStatus.Paused => "已暂停",
                 DownloadStatus.None => "等待中...",
+                DownloadStatus.Stopped => "已停止",
                 _ => StatusText
             };
             StatusChanged?.Invoke(this, EventArgs.Empty);
@@ -40,7 +41,10 @@ public class DownloadTask
     }
 
     public DownloadConfiguration DownloadOpt { get; set; }
+    
     public DownloadService Downloader { get; set; }
+    
+    public DownloadPackage Package { get; set; }
     
     public event EventHandler<EventArgs> StatusChanged;
 
@@ -116,6 +120,10 @@ public class DownloadTask
             NalaiMsgBox.Show("Download completed");
             FileSizeText = ByteSizeFormatter.FormatSize(TotalBytesToReceive);
         }
+        else if (e.Cancelled)
+        {
+            Status = DownloadStatus.Stopped;
+        }
         else
         {
             NalaiMsgBox.Show(e.Error.Message, "Download failed!");
@@ -130,5 +138,12 @@ public class DownloadTask
     private void OnDownloadStarted(object? sender, DownloadStartedEventArgs e)
     {
         UpdateStatus();
+    }
+
+    public void Cancel()
+    {
+        Package = Downloader.Package;
+        Downloader.CancelAsync();
+        Status = DownloadStatus.Stopped;
     }
 }

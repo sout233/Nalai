@@ -58,7 +58,7 @@ public partial class
     [RelayCommand]
     private void CancelDownload()
     {
-        ThisViewTask.Downloader.CancelAsync();
+        ThisViewTask.Cancel();
         BasedWindow.Close();
     }
 
