@@ -48,6 +48,8 @@ public class DownloadTask
     public DownloadPackage Package { get; set; }
 
     public event EventHandler<EventArgs> StatusChanged;
+    
+    public List<Window> BindWindows { get; set; } = [];
 
     public DownloadTask(string url, string fileName, string path)
     {

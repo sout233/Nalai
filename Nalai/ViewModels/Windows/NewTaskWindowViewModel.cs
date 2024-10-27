@@ -20,13 +20,12 @@ public partial class NewTaskWindowViewModel : ObservableObject
         this.Url = url;
         this.SavePath = savePath;
     }
-    
+
 
     [RelayCommand]
     private async Task AddTask()
     {
         var fileName = GetUrlInfo.GetFileName(Url);
-
         var task = await NalaiDownService.NewTask(Url, fileName, Environment.CurrentDirectory);
 
         task.StatusChanged += Dashboard.OnDownloadStatusChanged;
@@ -35,6 +34,8 @@ public partial class NewTaskWindowViewModel : ObservableObject
         var window = new DownloadingWindow(vm, Url, task);
         window.Show();
         
+        task.BindWindows.Add(window);
+
         Window.Close();
     }
 
