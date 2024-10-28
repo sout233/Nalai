@@ -59,13 +59,13 @@ namespace Nalai.ViewModels.Pages
         }
 
         [RelayCommand]
-        private void OnPause(object? parameter)
+        private void OnPauseOrResume(object? parameter)
         {
             if (parameter is not Wpf.Ui.Controls.ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;
             
-            var result = task.PauseOrResume();
-            PauseOrResumeText = result switch
+            _ = task.PauseOrResume();
+            PauseOrResumeText = task.Status switch
             {
                 DownloadStatus.Running => "暂停",
                 DownloadStatus.Paused => "继续",
@@ -77,7 +77,7 @@ namespace Nalai.ViewModels.Pages
         }
 
         [RelayCommand]
-        private void OnDelete(object? parameter)
+        private void OnRemove(object? parameter)
         {
             if (parameter is not Wpf.Ui.Controls.ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;

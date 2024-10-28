@@ -48,7 +48,7 @@ public class DownloadTask
     public DownloadPackage Package { get; set; }
 
     public event EventHandler<EventArgs> StatusChanged;
-    
+
     public List<Window> BindWindows { get; set; } = [];
 
     public DownloadTask(string url, string fileName, string path)
@@ -91,9 +91,14 @@ public class DownloadTask
 
     public DownloadStatus PauseOrResume()
     {
-        if (Downloader.Status == DownloadStatus.Completed|| Downloader.Status == DownloadStatus.Stopped|| Downloader.Status == DownloadStatus.Failed)
+        if (Downloader.Status is DownloadStatus.Completed or DownloadStatus.Failed)
         {
             return Downloader.Status;
+        }
+
+        if (Downloader.Status is DownloadStatus.Stopped)
+        {
+            Downloader.DownloadFileTaskAsync(Package);
         }
 
         if (Downloader.IsPaused)
