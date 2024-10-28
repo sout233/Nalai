@@ -101,6 +101,8 @@ public class DownloadTask
         if (Downloader.Status is DownloadStatus.Stopped)
         {
             Downloader.DownloadFileTaskAsync(Package);
+            Downloader.Resume();
+            return DownloadStatus.Running;
         }
 
         if (Downloader.IsPaused)
