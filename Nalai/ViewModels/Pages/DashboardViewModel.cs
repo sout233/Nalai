@@ -39,8 +39,8 @@ namespace Nalai.ViewModels.Pages
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<DownloadTask>();
-            // TODO: 可能会导致右键菜单无法正常显示
-            foreach (var task in tasks)
+            foreach (var task in tasks)            // TODO: 可能会导致右键菜单无法正常显示
+
             {
                 if (task != null) taskCollection.Add(task);
             }
@@ -70,6 +70,8 @@ namespace Nalai.ViewModels.Pages
                 DownloadStatus.Running => "暂停",
                 DownloadStatus.Paused => "继续",
                 DownloadStatus.Completed => "重新下载",     // TODO: 实现重新下载
+                DownloadStatus.Failed => "重新下载",
+                DownloadStatus.Stopped => "重新下载",
                 _ => PauseOrResumeText
             };
         }

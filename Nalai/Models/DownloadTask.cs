@@ -91,7 +91,7 @@ public class DownloadTask
 
     public DownloadStatus PauseOrResume()
     {
-        if (Downloader.Status == DownloadStatus.Completed)
+        if (Downloader.Status == DownloadStatus.Completed|| Downloader.Status == DownloadStatus.Stopped|| Downloader.Status == DownloadStatus.Failed)
         {
             return Downloader.Status;
         }
