@@ -61,7 +61,7 @@
             </ui:ListView.View>
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Icon="{ui:SymbolIcon Pause24}" Header="{Binding ViewModel.PauseOrResumeText}" Command="{Binding ViewModel.PauseOrResumeCommand}"
+                    <MenuItem Icon="{Binding ViewModel.PauseOrResumeIcon}" Header="{Binding ViewModel.PauseOrResumeText}" Command="{Binding ViewModel.PauseOrResumeCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>                   
                     <MenuItem Icon="{ui:SymbolIcon Dismiss24}" Header="取消" Command="{Binding ViewModel.CancelCommand}"

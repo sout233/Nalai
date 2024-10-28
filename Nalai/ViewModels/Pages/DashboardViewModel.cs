@@ -1,17 +1,17 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Downloader;
-using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
+using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Pages
 {
     public partial class DashboardViewModel : ObservableObject
     {
         [ObservableProperty] private string _pauseOrResumeText = "暂停";
+        [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
 
         public DashboardViewModel()
         {
@@ -69,12 +69,22 @@ namespace Nalai.ViewModels.Pages
                 DownloadStatus.Stopped => "重新下载",
                 _ => PauseOrResumeText
             };
+            
+            PauseOrResumeIcon = status switch
+            {
+                DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatus.Paused => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatus.Completed => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatus.Failed => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatus.Stopped => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                _ => PauseOrResumeIcon
+            };
         }
 
         [RelayCommand]
         private void OnPauseOrResume(object? parameter)
         {
-            if (parameter is not Wpf.Ui.Controls.ListView item) return;
+            if (parameter is not ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;
 
             task.PauseOrResume();
@@ -84,7 +94,7 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private void OnRemove(object? parameter)
         {
-            if (parameter is not Wpf.Ui.Controls.ListView item) return;
+            if (parameter is not ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;
 
             NalaiDownService.RemoveTask(task);
@@ -94,7 +104,7 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private void OnCancel(object? parameter)
         {
-            if (parameter is not Wpf.Ui.Controls.ListView item) return;
+            if (parameter is not ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;
 
             task.Cancel();
