@@ -64,7 +64,7 @@ namespace Nalai.ViewModels.Pages
             {
                 DownloadStatus.Running => "暂停",
                 DownloadStatus.Paused => "继续",
-                DownloadStatus.Completed => "重新下载", // TODO: 实现重新下载
+                DownloadStatus.Completed => "重新下载",
                 DownloadStatus.Failed => "重新下载",
                 DownloadStatus.Stopped => "重新下载",
                 _ => PauseOrResumeText

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using Downloader;
 using Nalai.Helpers;
+using Nalai.Views.Windows;
 
 namespace Nalai.Models;
 
@@ -107,12 +108,26 @@ public class DownloadTask
             Downloader.Resume();
             Status = DownloadStatus.Running;
             Console.WriteLine($"{FileName} Resumed");
+            foreach (var window in BindWindows)
+            {
+                if (window is DownloadingWindow dw)
+                {
+                    dw.ViewModel.UpdatePausedOrResumeBtn();
+                }
+            }
         }
         else
         {
             Downloader.Pause();
             Status = DownloadStatus.Paused;
             Console.WriteLine($"{FileName} Paused");
+            foreach (var window in BindWindows)
+            {
+                if (window is DownloadingWindow dw)
+                {
+                    dw.ViewModel.UpdatePausedOrResumeBtn();
+                }
+            }
         }
 
         return Downloader.Status;
