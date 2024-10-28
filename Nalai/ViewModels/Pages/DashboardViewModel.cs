@@ -69,7 +69,7 @@ namespace Nalai.ViewModels.Pages
                 DownloadStatus.Stopped => "重新下载",
                 _ => PauseOrResumeText
             };
-            
+
             PauseOrResumeIcon = status switch
             {
                 DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
@@ -87,8 +87,8 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;
 
-            task.PauseOrResume();
-            UpdateRightClickMenu(task.Status);
+            var status = task.PauseOrResume();
+            UpdateRightClickMenu(status);
         }
 
         [RelayCommand]

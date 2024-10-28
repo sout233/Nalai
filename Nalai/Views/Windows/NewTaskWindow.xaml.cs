@@ -19,7 +19,7 @@ public partial class NewTaskWindow : FluentWindow
 
         ViewModel.SavePath = savePath != ""
             ? savePath
-            : System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
+            : System.IO.Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
                 "Downloads");
 
         ViewModel.Url = url != ""
