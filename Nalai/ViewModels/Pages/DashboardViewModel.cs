@@ -12,7 +12,7 @@ namespace Nalai.ViewModels.Pages
     public partial class DashboardViewModel : ObservableObject
     {
         [ObservableProperty] private string _pauseOrResumeText = "暂停";
-        
+
         public DashboardViewModel()
         {
             UpdateDownloadCollection();
@@ -39,7 +39,7 @@ namespace Nalai.ViewModels.Pages
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<DownloadTask>();
-            foreach (var task in tasks)            // TODO: 可能会导致右键菜单无法正常显示
+            foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示
 
             {
                 if (task != null) taskCollection.Add(task);
@@ -58,22 +58,27 @@ namespace Nalai.ViewModels.Pages
             UpdateDownloadCollection();
         }
 
+        private void UpdateRightClickMenu(DownloadStatus status)
+        {
+            PauseOrResumeText = status switch
+            {
+                DownloadStatus.Running => "暂停",
+                DownloadStatus.Paused => "继续",
+                DownloadStatus.Completed => "重新下载", // TODO: 实现重新下载
+                DownloadStatus.Failed => "重新下载",
+                DownloadStatus.Stopped => "重新下载",
+                _ => PauseOrResumeText
+            };
+        }
+
         [RelayCommand]
         private void OnPauseOrResume(object? parameter)
         {
             if (parameter is not Wpf.Ui.Controls.ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;
-            
-            _ = task.PauseOrResume();
-            PauseOrResumeText = task.Status switch
-            {
-                DownloadStatus.Running => "暂停",
-                DownloadStatus.Paused => "继续",
-                DownloadStatus.Completed => "重新下载",     // TODO: 实现重新下载
-                DownloadStatus.Failed => "重新下载",
-                DownloadStatus.Stopped => "重新下载",
-                _ => PauseOrResumeText
-            };
+
+            task.PauseOrResume();
+            UpdateRightClickMenu(task.Status);
         }
 
         [RelayCommand]
@@ -84,6 +89,16 @@ namespace Nalai.ViewModels.Pages
 
             NalaiDownService.RemoveTask(task);
             UpdateDownloadCollection();
+        }
+
+        [RelayCommand]
+        private void OnCancel(object? parameter)
+        {
+            if (parameter is not Wpf.Ui.Controls.ListView item) return;
+            if (item.SelectedItem is not DownloadTask task) return;
+
+            task.Cancel();
+            UpdateRightClickMenu(task.Status);
         }
     }
 }

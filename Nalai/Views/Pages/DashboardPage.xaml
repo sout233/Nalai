@@ -63,11 +63,14 @@
                 <ContextMenu>
                     <MenuItem Icon="{ui:SymbolIcon Pause24}" Header="{Binding ViewModel.PauseOrResumeText}" Command="{Binding ViewModel.PauseOrResumeCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                    </MenuItem>                   
+                    <MenuItem Icon="{ui:SymbolIcon Dismiss24}" Header="取消" Command="{Binding ViewModel.CancelCommand}"
+                              CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
                     <MenuItem Icon="{ui:SymbolIcon Delete24}" Header="移出列表" Command="{Binding ViewModel.RemoveCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
-                    <MenuItem Header="详情" Command="{Binding DetailsAcountCmd}"
+                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情" Command="{Binding DetailsAcountCmd}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
                 </ContextMenu>

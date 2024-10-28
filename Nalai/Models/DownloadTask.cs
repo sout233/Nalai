@@ -89,6 +89,7 @@ public class DownloadTask
         }
     }
 
+    // TODO: 下载状态获取不正确
     public DownloadStatus PauseOrResume()
     {
         if (Downloader.Status is DownloadStatus.Completed or DownloadStatus.Failed)
