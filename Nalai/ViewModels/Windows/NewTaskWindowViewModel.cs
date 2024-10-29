@@ -28,8 +28,10 @@ public partial class NewTaskWindowViewModel : ObservableObject
         dialog.Multiselect = false;
         dialog.Title = "Nalai:选择下载文件夹";
 // Show open folder dialog box
-        bool? result = dialog.ShowDialog();
-
+        bool? result = await Application.Current.Dispatcher.InvokeAsync(() => 
+        {
+            return (bool?)dialog.ShowDialog();
+        }).Task;
 // Process open folder dialog box results
         if (result == true)
         {
