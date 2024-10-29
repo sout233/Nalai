@@ -25,7 +25,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [RelayCommand]
     private async Task AddTask()
     {
-        var fileName = GetUrlInfo.GetFileName(Url);
+        var fileName = UrlHelper.GetFileName(Url);
         var task = await NalaiDownService.NewTask(Url, fileName, Environment.CurrentDirectory);
 
         task.StatusChanged += Dashboard.OnDownloadStatusChanged;
