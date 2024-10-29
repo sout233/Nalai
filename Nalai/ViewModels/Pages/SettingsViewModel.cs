@@ -24,7 +24,7 @@ namespace Nalai.ViewModels.Pages
         private void InitializeViewModel()
         {
             CurrentTheme = ApplicationThemeManager.GetAppTheme();
-            AppVersion = $"UiDesktopApp1 - {GetAssemblyVersion()}";
+            AppVersion = $"Nalai - {GetAssemblyVersion()}";
 
             _isInitialized = true;
         }

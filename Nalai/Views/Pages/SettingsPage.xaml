@@ -47,6 +47,7 @@
             FontWeight="Medium"
             Text="About Nalai" />
         <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
+        <TextBlock Margin="0,12,0,0" Text="Made with INTERNET by sout" />
         <TextBlock Margin="0,12,0,0" Text="Contributor" />
         <ui:Button></ui:Button>
 
