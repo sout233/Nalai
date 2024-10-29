@@ -35,6 +35,6 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     [RelayCommand]
     private void OnOpenFile()
     {
-        Process.Start("explorer.exe", $"/select,{Path.Combine(DownloadPath, FileName)}");
+        Process.Start("explorer.exe", $"{Path.Combine(DownloadPath, FileName)}");
     }
 }
