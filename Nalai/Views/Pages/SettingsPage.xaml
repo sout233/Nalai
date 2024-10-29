@@ -66,7 +66,7 @@
                     </Border>
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="12,0,0,0">
                         <TextBlock Text="sout" FontSize="16" FontWeight="SemiBold" />
-                        <TextBlock>Placeholder</TextBlock>
+                        <TextBlock>Contributor</TextBlock>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -88,8 +88,8 @@
                         </Border.Background>
                     </Border>
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="12,0,0,0">
-                        <TextBlock Text="Virtualzone Music" FontSize="16" FontWeight="SemiBold" />
-                        <TextBlock>Placeholder</TextBlock>
+                        <TextBlock Text="Zongjie 7" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock>Supporter</TextBlock>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -101,5 +101,7 @@
             Text="About Nalai" />
         <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
         <TextBlock Margin="0,12,0,0" Text="Made with INTERNET by sout" />
+        <TextBlock Margin="0,12,0,0" Text="宗介喜欢古琪" />
+
     </StackPanel>
 </Page>

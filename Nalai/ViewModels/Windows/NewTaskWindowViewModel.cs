@@ -21,6 +21,22 @@ public partial class NewTaskWindowViewModel : ObservableObject
         this.SavePath = savePath;
     }
 
+    [RelayCommand]
+    private async Task OpenFolder()
+    {
+        Microsoft.Win32.OpenFolderDialog dialog = new();
+        dialog.Multiselect = false;
+        dialog.Title = "Nalai:选择下载文件夹";
+// Show open folder dialog box
+        bool? result = dialog.ShowDialog();
+
+// Process open folder dialog box results
+        if (result == true)
+        {
+            // Get the selected folder
+            this.SavePath = dialog.FolderName;
+        }
+    }
 
     [RelayCommand]
     private async Task AddTask()
@@ -38,6 +54,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
 
         Window.Close();
     }
+    
 
     [RelayCommand]
     private void Cancel()

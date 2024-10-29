@@ -29,13 +29,22 @@
         <StackPanel Grid.Row="1" Margin="12">
             <!-- <Label Target="{Binding ElementName=UrlTextBox}">Url</Label> -->
             <ui:TextBox x:Name="UrlTextBox" PlaceholderText="Url" Margin="0,0,0,12" Text="{Binding ViewModel.Url}"/>
-            <ui:TextBox PlaceholderText="Save Path" Text="{Binding ViewModel.SavePath}" />
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:TextBox PlaceholderText="Save Path" Text="{Binding ViewModel.SavePath}" />
+                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Folder24}" Content="" Margin="4,0,0,0" Height="34" Command="{Binding ViewModel.OpenFolderCommand}"/>
+            </Grid>
+            
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
         </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            
             <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
             <ui:Button Content="Cancel" HorizontalAlignment="Right" Command="{Binding ViewModel.CancelCommand}"/>
         </StackPanel>
