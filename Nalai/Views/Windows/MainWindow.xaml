@@ -51,11 +51,11 @@
                         <ui:SymbolIcon Symbol="ArrowDownload24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="Data" TargetPageType="{x:Type pages:DataPage}">
-                    <ui:NavigationViewItem.Icon>
-                        <ui:SymbolIcon Symbol="DataHistogram24" />
-                    </ui:NavigationViewItem.Icon>
-                </ui:NavigationViewItem>
+                <!-- <ui:NavigationViewItem Content="Data" TargetPageType="{x:Type pages:DataPage}"> -->
+                <!--     <ui:NavigationViewItem.Icon> -->
+                <!--         <ui:SymbolIcon Symbol="DataHistogram24" /> -->
+                <!--     </ui:NavigationViewItem.Icon> -->
+                <!-- </ui:NavigationViewItem> -->
             </ui:NavigationView.MenuItems>
             
             <ui:NavigationView.FooterMenuItems>
