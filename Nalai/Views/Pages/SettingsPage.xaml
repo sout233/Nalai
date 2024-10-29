@@ -45,11 +45,52 @@
             Margin="0,24,0,0"
             FontSize="20"
             FontWeight="Medium"
+            Text="Contributor" />
+        <StackPanel Orientation="Horizontal">
+            <Border
+                CornerRadius="8,8,8,8"
+                Margin="2"
+                Padding="12"
+                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,1,1,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Width="20" Source="pack://application:,,,/Assets/sout_avatar.jpg"></Image>
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="12,0,0,0">
+                        <TextBlock Text="sout" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock>Placeholder</TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Border> <Border
+                CornerRadius="8,8,8,8"
+                Margin="2"
+                Padding="12"
+                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,1,1,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Width="20" Source="pack://application:,,,/Assets/sout_avatar.jpg"></Image>
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="12,0,0,0">
+                        <TextBlock Text="Virtualzone Music" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock>Placeholder</TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
+        <TextBlock
+            Margin="0,24,0,0"
+            FontSize="20"
+            FontWeight="Medium"
             Text="About Nalai" />
         <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
         <TextBlock Margin="0,12,0,0" Text="Made with INTERNET by sout" />
-        <TextBlock Margin="0,12,0,0" Text="Contributor" />
-        <ui:Button></ui:Button>
-
     </StackPanel>
 </Page>

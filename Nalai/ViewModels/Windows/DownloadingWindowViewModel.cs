@@ -129,34 +129,4 @@ public partial class
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
         Url = ThisViewTask.Url;
     }
-
-    public void SetProgress(double value)
-    {
-        ProgressValue = value;
-    }
-
-    public void SetFileName(string? value)
-    {
-        FileName = value;
-    }
-
-    public void SetRemainingTime(string value)
-    {
-        RemainingTime = value;
-    }
-
-    public void SetFileSize(string value)
-    {
-        FileSize = value;
-    }
-
-    public void SetDownloadSpeed(string value)
-    {
-        DownloadSpeed = value;
-    }
-
-    public void SetProgressText(string value)
-    {
-        ProgressText = value;
-    }
 }
