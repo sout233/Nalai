@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using Nalai.Models;
 using Nalai.Views.Windows;
 
@@ -34,6 +35,6 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     [RelayCommand]
     private void OnOpenFile()
     {
-        Process.Start(DownloadPath);
+        Process.Start("explorer.exe", $"/select,{Path.Combine(DownloadPath, FileName)}");
     }
 }
