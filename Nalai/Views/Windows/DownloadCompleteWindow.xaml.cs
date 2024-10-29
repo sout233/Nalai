@@ -12,6 +12,7 @@ public partial class DownloadCompleteWindow : FluentWindow
     public DownloadCompleteWindow(DownloadCompleteWindowViewModel viewModel,DownloadTask task)
     {
         ViewModel = viewModel;
+        DataContext = this;
         Task = task;
         
         InitializeComponent();
