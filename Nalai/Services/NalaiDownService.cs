@@ -33,7 +33,7 @@ public static class NalaiDownService
         return Task.FromResult(task);
     }
 
-    public static void RemoveTask(DownloadTask task)
+    private static void CloseTaskBindWindows(DownloadTask task)
     {
         foreach (var window in task.BindWindows)
         {
@@ -43,8 +43,20 @@ public static class NalaiDownService
                 downloadingWindow.Close();
             }
         }
+    }
 
+    public static void RemoveTask(DownloadTask task)
+    {
+        CloseTaskBindWindows(task);
         task.Downloader.CancelAsync();
         GlobalDownloadTasks.Remove(task);
+    }
+
+    public static void CancelTask(DownloadTask task)
+    {
+        task.Package = task.Downloader.Package;
+        task.Status = DownloadStatus.Stopped;
+        CloseTaskBindWindows(task);
+        task.Downloader.CancelAsync();
     }
 }

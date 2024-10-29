@@ -1,18 +1,39 @@
-﻿using Nalai.Views.Windows;
+﻿using System.Diagnostics;
+using Nalai.Models;
+using Nalai.Views.Windows;
 
 namespace Nalai.ViewModels.Windows;
 
-public partial class DownloadCompleteWindowViewModel:ObservableObject
+public partial class DownloadCompleteWindowViewModel : ObservableObject
 {
-    public required DownloadCompleteWindow BindWindow { get; set; }
-    
-    [ObservableProperty] private string _applicationTitle="Download Complete";
+    public DownloadCompleteWindow? BindWindow { get; set; }
+
+    [ObservableProperty] private string _applicationTitle = "Download Complete";
     [ObservableProperty] private string _fileName = "Unknown";
     [ObservableProperty] private string _downloadPath = "Unknown";
-    
-    [RelayCommand]
-    private void CloseWindow()
+
+    public DownloadCompleteWindowViewModel(DownloadTask task)
     {
-        BindWindow.Close();
+        FileName = task.FileName;
+        DownloadPath = task.DownloadPath;
+        ApplicationTitle = $"Download Complete: {task.FileName}";
+    }
+
+    [RelayCommand]
+    private void OnCloseWindow()
+    {
+        BindWindow?.Close();
+    }
+
+    [RelayCommand]
+    private void OnOpenFolder()
+    {
+        Process.Start("explorer.exe", $"/select,{DownloadPath}");
+    }
+
+    [RelayCommand]
+    private void OnOpenFile()
+    {
+        Process.Start(DownloadPath);
     }
 }

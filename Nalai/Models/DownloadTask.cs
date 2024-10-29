@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using Downloader;
 using Nalai.Helpers;
+using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 
 namespace Nalai.Models;
@@ -167,8 +168,15 @@ public class DownloadTask
         UpdateStatus();
         if (e.Error == null)
         {
-            NalaiMsgBox.Show("Download completed");
             FileSizeText = ByteSizeFormatter.FormatSize(TotalBytesToReceive);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var vm = new DownloadCompleteWindowViewModel(this);
+                var window = new DownloadCompleteWindow(vm, this);
+                vm.BindWindow = window;
+                window.Show();
+                
+            });
         }
         else if (e.Cancelled)
         {
@@ -189,10 +197,10 @@ public class DownloadTask
         UpdateStatus();
     }
 
-    public void Cancel()
-    {
-        Package = Downloader.Package;
-        Downloader.CancelAsync();
-        Status = DownloadStatus.Stopped;
-    }
+    // public void Cancel()
+    // {
+    //     Package = Downloader.Package;
+    //     Downloader.CancelAsync();
+    //     Status = DownloadStatus.Stopped;
+    // }
 }

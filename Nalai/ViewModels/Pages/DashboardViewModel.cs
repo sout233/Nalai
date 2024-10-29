@@ -107,7 +107,7 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not DownloadTask task) return;
 
-            task.Cancel();
+            NalaiDownService.CancelTask(task);
             UpdateRightClickMenu(task.Status);
         }
     }

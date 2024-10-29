@@ -2,6 +2,7 @@
 using Downloader;
 using Nalai.Helpers;
 using Nalai.Models;
+using Nalai.Services;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Windows;
@@ -72,7 +73,7 @@ public partial class
     [RelayCommand]
     private void CancelDownload()
     {
-        ThisViewTask.Cancel();
+        NalaiDownService.CancelTask(ThisViewTask);
         BasedWindow.Close();
     }
 
