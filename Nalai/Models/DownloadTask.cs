@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using Downloader;
 using Nalai.Helpers;
+using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 
@@ -175,7 +176,7 @@ public class DownloadTask
                 var window = new DownloadCompleteWindow(vm, this);
                 vm.BindWindow = window;
                 window.Show();
-                
+                NalaiDownService.CloseTaskBindWindows(this);
             });
         }
         else if (e.Cancelled)

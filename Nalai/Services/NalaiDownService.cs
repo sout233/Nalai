@@ -33,7 +33,7 @@ public static class NalaiDownService
         return Task.FromResult(task);
     }
 
-    private static void CloseTaskBindWindows(DownloadTask task)
+    public static void CloseTaskBindWindows(DownloadTask task)
     {
         foreach (var window in task.BindWindows)
         {
