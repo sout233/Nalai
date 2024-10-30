@@ -7,11 +7,13 @@ using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 using Newtonsoft.Json;
+using SqlSugar;
 
 namespace Nalai.Models;
 
 public class DownloadTask
 {
+    [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
     public string Url { get; set; }
     public string FileName { get; set; }
     public string DownloadPath { get; set; }
