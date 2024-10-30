@@ -6,6 +6,7 @@ using Nalai.Helpers;
 using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
+using Newtonsoft.Json;
 
 namespace Nalai.Models;
 
@@ -22,6 +23,7 @@ public class DownloadTask
     public string FileSizeText { get; set; }
 
     private DownloadStatus _status;
+    private DownloadPackage? _package;
 
     public DownloadStatus Status
     {
@@ -48,7 +50,24 @@ public class DownloadTask
 
     public DownloadService Downloader { get; set; }
 
-    public DownloadPackage Package { get; set; }
+    public DownloadPackage? Package
+    {
+        get 
+        {
+            if (_package is null)
+            {
+                var packageJson = File.ReadAllText(Path.Combine(DownloadPath, FileName + ".nalai!"));
+                _package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
+            }
+            return _package;
+        }
+        set
+        {
+            _package = value;
+            var packageJson = JsonConvert.SerializeObject(value);
+            File.WriteAllText(Path.Combine(DownloadPath, FileName + ".nalai!"), packageJson);
+        }
+    }
 
     public event EventHandler<EventArgs> StatusChanged;
 
