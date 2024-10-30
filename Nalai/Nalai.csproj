@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <PackageReference Include="Downloader" Version="3.2.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.170" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
