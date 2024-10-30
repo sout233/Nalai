@@ -43,7 +43,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
     private async Task AddTask()
     {
         var fileName = await UrlHelper.GetFileName(Url);
-        var task = await NalaiDownService.NewTask(Url, fileName, Environment.CurrentDirectory);
+        var task = await NalaiDownService.NewTask(Url, fileName, SavePath);
 
         task.StatusChanged += Dashboard.OnDownloadStatusChanged;
 
