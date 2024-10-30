@@ -71,6 +71,8 @@ namespace Nalai
         private void OnStartup(object sender, StartupEventArgs e)
         {
             _host.Start();
+            
+            SqlService.InitDatabase();
         }
 
         /// <summary>

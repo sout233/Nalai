@@ -52,7 +52,7 @@ public static class NalaiDownService
         GlobalDownloadTasks.Remove(task);
     }
 
-    public static void CancelTask(DownloadTask task)
+    public static void StopTask(DownloadTask task)
     {
         task.Package = task.Downloader.Package;
         task.Status = DownloadStatus.Stopped;

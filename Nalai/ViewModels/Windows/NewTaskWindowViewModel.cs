@@ -22,7 +22,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task OpenFolder()
+    private Task OpenFolder()
     {
         Microsoft.Win32.OpenFolderDialog dialog = new();
         dialog.Multiselect = false;
@@ -33,18 +33,26 @@ public partial class NewTaskWindowViewModel : ObservableObject
             return (bool?)dialog.ShowDialog();
         }).Task;
 // Process open folder dialog box results
+        Microsoft.Win32.OpenFolderDialog dialog = new()
+        {
+            Multiselect = false,
+            Title = "Nalai - 选择下载文件夹"
+        };
+        var result = dialog.ShowDialog();
+        
         if (result == true)
         {
-            // Get the selected folder
             this.SavePath = dialog.FolderName;
         }
+
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
     private async Task AddTask()
     {
-        var fileName = UrlHelper.GetFileName(Url);
-        var task = await NalaiDownService.NewTask(Url, fileName, Environment.CurrentDirectory);
+        var fileName = await UrlHelper.GetFileName(Url);
+        var task = await NalaiDownService.NewTask(Url, fileName, SavePath);
 
         task.StatusChanged += Dashboard.OnDownloadStatusChanged;
 

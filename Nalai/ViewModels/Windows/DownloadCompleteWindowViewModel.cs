@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Views.Windows;
 
@@ -29,12 +30,38 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     [RelayCommand]
     private void OnOpenFolder()
     {
-        Process.Start("explorer.exe", $"/select,{DownloadPath}");
+        var filePath = Path.Combine(DownloadPath, FileName);
+
+        if (File.Exists(filePath))
+        {
+            Process.Start("explorer.exe", $"/select,{filePath}");
+        }
+        else
+        {
+            NalaiMsgBox.Show($"文件不存在:\n{filePath}\n是否已经移动或删除？", "错误");
+        }
+        
+        BindWindow?.Close();
     }
 
     [RelayCommand]
     private void OnOpenFile()
     {
-        Process.Start("explorer.exe", $"{Path.Combine(DownloadPath, FileName)}");
+        var filePath = Path.Combine(DownloadPath, FileName);
+
+        if (File.Exists(filePath))
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = filePath,
+                UseShellExecute = true
+            });
+        }
+        else
+        {
+            NalaiMsgBox.Show($"文件不存在:\n{filePath}\n是否已经移动或删除？", "错误");
+        }
+        
+        BindWindow?.Close();
     }
 }

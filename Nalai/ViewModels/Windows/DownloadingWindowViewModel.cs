@@ -73,7 +73,7 @@ public partial class
     [RelayCommand]
     private void CancelDownload()
     {
-        NalaiDownService.CancelTask(ThisViewTask);
+        NalaiDownService.StopTask(ThisViewTask);
         BasedWindow.Close();
     }
 
