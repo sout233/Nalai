@@ -24,15 +24,6 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [RelayCommand]
     private Task OpenFolder()
     {
-        Microsoft.Win32.OpenFolderDialog dialog = new();
-        dialog.Multiselect = false;
-        dialog.Title = "Nalai:选择下载文件夹";
-// Show open folder dialog box
-        bool? result = await Application.Current.Dispatcher.InvokeAsync(() => 
-        {
-            return (bool?)dialog.ShowDialog();
-        }).Task;
-// Process open folder dialog box results
         Microsoft.Win32.OpenFolderDialog dialog = new()
         {
             Multiselect = false,
