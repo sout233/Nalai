@@ -13,11 +13,13 @@ namespace Nalai.Models;
 
 public class DownloadTask
 {
-    [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
     public string Url { get; set; }
     public string FileName { get; set; }
     public string DownloadPath { get; set; }
-    public string Id { get; set; }
+    
+    [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+    public int Key { get; set; }
+    
     public string StatusText { get; set; } = "等待中...";
 
     public long TotalBytesToReceive { get; set; }
