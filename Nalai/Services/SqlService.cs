@@ -7,9 +7,9 @@ public static class SqlService
 {
     public static void InitDatabase()
     {
-        SqlSugarClient client = new SqlSugarClient(new ConnectionConfig()
+        var client = new SqlSugarClient(new ConnectionConfig()
             {
-                ConnectionString = "datasource=demo.db",
+                ConnectionString = "datasource=nalai_main.db",
                 DbType = DbType.Sqlite,
                 IsAutoCloseConnection = true
             },
