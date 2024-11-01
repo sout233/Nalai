@@ -30,6 +30,8 @@ public static class NalaiDownService
         Console.WriteLine($"Starting download: {fileName},\n from: {url},\n to: {path}");
         task.StartDownload();
 
+        SqlService.InsertOrUpdate(task);
+
         return Task.FromResult(task);
     }
 

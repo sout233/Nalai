@@ -60,7 +60,12 @@ public class DownloadTask
         {
             if (_package is null)
             {
-                var packageJson = File.ReadAllText(Path.Combine(DownloadPath, FileName + ".nalai!"));
+                var path = Path.Combine(DownloadPath, FileName + ".nalai!");
+                if (!File.Exists(path))
+                {
+                    return null;
+                }
+                var packageJson = File.ReadAllText(path);
                 _package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
             }
             return _package;
@@ -100,6 +105,12 @@ public class DownloadTask
         Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
         Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
     }
+
+    public DownloadTask()
+    {
+        
+    }
+
 
     public async Task StartDownload()
     {
