@@ -12,6 +12,7 @@ namespace Nalai.ViewModels.Pages
 
         [ObservableProperty]
         private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
+        public string ThemeColor => CurrentTheme == ApplicationTheme.Light ? "White" : "Black";
 
         public void OnNavigatedTo()
         {
@@ -58,6 +59,13 @@ namespace Nalai.ViewModels.Pages
 
                     break;
             }
+            //Console.WriteLine(ThemeColor);
+        }
+
+        [RelayCommand]
+        private void OnOuterLink()
+        {
+            
         }
     }
 }
