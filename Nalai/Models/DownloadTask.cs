@@ -50,10 +50,14 @@ public class DownloadTask
         }
     }
 
+    [SugarColumn(IsIgnore = true)]
     public DownloadConfiguration DownloadOpt { get; set; }
 
+    [SugarColumn(IsIgnore = true)]
     public DownloadService Downloader { get; set; }
 
+
+    [SugarColumn(IsIgnore = true)]
     public DownloadPackage? Package
     {
         get 
