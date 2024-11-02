@@ -28,6 +28,8 @@ namespace Nalai
             .ConfigureAppConfiguration(c => { c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)); })
             .ConfigureServices((context, services) =>
             {
+                SqlService.InitDatabase();
+
                 services.AddHostedService<ApplicationHostService>();
 
                 // Page resolver service
@@ -71,8 +73,6 @@ namespace Nalai
         private void OnStartup(object sender, StartupEventArgs e)
         {
             _host.Start();
-            
-            SqlService.InitDatabase();
         }
 
         /// <summary>

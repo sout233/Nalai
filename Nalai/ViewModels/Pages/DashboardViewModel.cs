@@ -18,6 +18,7 @@ namespace Nalai.ViewModels.Pages
 
         public DashboardViewModel()
         {
+            NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
             UpdateDownloadCollection();
         }
 
@@ -38,7 +39,6 @@ namespace Nalai.ViewModels.Pages
 
         private static ObservableCollection<DownloadTask> GenerateDownloadCollection()
         {
-            NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<DownloadTask>();
             foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示
