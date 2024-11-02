@@ -25,7 +25,6 @@ public class DownloadTask
     [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
     public int Key { get; set; }
     
-    [SugarColumn(IsNullable = true)]
     public string StatusText { get; set; } = "等待中...";
     
     [SugarColumn(IsNullable = true)]
