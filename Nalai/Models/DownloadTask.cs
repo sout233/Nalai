@@ -22,8 +22,8 @@ public class DownloadTask
     [SugarColumn(IsNullable = true)]
     public string DownloadPath { get; set; }
     
-    [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-    public int Key { get; set; }
+    [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
+    public long Key { get; set; }
     
     public string StatusText { get; set; } = "等待中...";
     
@@ -182,6 +182,8 @@ public class DownloadTask
                 }
             }
         }
+        
+        SqlService.InsertOrUpdate(this);
 
         return Downloader.Status;
     }
@@ -190,6 +192,7 @@ public class DownloadTask
     private void UpdateStatus()
     {
         Status = Downloader.Status;
+        SqlService.InsertOrUpdate(this);
     }
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
@@ -236,6 +239,8 @@ public class DownloadTask
         {
             NalaiMsgBox.Show(e.Error.Message, "Download failed!");
         }
+        
+        SqlService.InsertOrUpdate(this);
     }
 
     private void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)

@@ -52,6 +52,8 @@ public static class NalaiDownService
         CloseTaskBindWindows(task);
         task.Downloader.CancelAsync();
         GlobalDownloadTasks.Remove(task);
+                
+        SqlService.Delete(task);
     }
 
     public static void StopTask(DownloadTask task)
@@ -60,5 +62,7 @@ public static class NalaiDownService
         task.Status = DownloadStatus.Stopped;
         CloseTaskBindWindows(task);
         task.Downloader.CancelAsync();
+        
+        SqlService.InsertOrUpdate(task);
     }
 }
