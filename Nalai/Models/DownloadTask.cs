@@ -23,6 +23,8 @@ public class DownloadTask
     public string DownloadPath { get; set; } = null!;
 
     public string StatusText { get; set; } = "等待中...";
+    
+    public string DownloaderJson { get; set; } = null!;
 
     [SugarColumn(IsNullable = true)] public long TotalBytesToReceive { get; set; }
 
@@ -114,6 +116,8 @@ public class DownloadTask
         Downloader.DownloadStarted += OnDownloadStarted;
         Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
         Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
+        
+        DownloaderJson = JsonConvert.SerializeObject(downloader);
     }
 
     public DownloadTask()
@@ -139,6 +143,11 @@ public class DownloadTask
     // TODO: 下载状态获取不正确
     public DownloadStatus PauseOrResume()
     {
+        if (Downloader is null)
+        {
+            Downloader = JsonConvert.DeserializeObject<DownloadService>(DownloaderJson);
+        }
+        
         if (Downloader is { Status: DownloadStatus.Completed or DownloadStatus.Failed })
         {
             SqlService.InsertOrUpdate(this);
