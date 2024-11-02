@@ -13,28 +13,22 @@ namespace Nalai.Models;
 
 public class DownloadTask
 {
-    [SugarColumn(IsNullable = true)]
-    public string Url { get; set; }
-    
-    [SugarColumn(IsNullable = true)]
-    public string FileName { get; set; }
+    [SugarColumn(IsNullable = true)] public string Url { get; set; }
 
-    [SugarColumn(IsNullable = true)]
-    public string DownloadPath { get; set; }
-    
+    [SugarColumn(IsNullable = true)] public string FileName { get; set; }
+
+    [SugarColumn(IsNullable = true)] public string DownloadPath { get; set; }
+
     [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
     public long Key { get; set; }
-    
+
     public string StatusText { get; set; } = "等待中...";
-    
-    [SugarColumn(IsNullable = true)]
-    public long TotalBytesToReceive { get; set; }
-    
-    [SugarColumn(IsNullable = true)]
-    public float Progress { get; set; }
-    
-    [SugarColumn(IsNullable = true)]
-    public string FileSizeText { get; set; }
+
+    [SugarColumn(IsNullable = true)] public long TotalBytesToReceive { get; set; }
+
+    [SugarColumn(IsNullable = true)] public float Progress { get; set; }
+
+    [SugarColumn(IsNullable = true)] public string FileSizeText { get; set; } = "Unknown";
 
     private DownloadStatus _status;
 
@@ -61,17 +55,15 @@ public class DownloadTask
         }
     }
 
-    [SugarColumn(IsIgnore = true)]
-    public DownloadConfiguration DownloadOpt { get; set; }
+    [SugarColumn(IsIgnore = true)] public DownloadConfiguration DownloadOpt { get; set; }
 
-    [SugarColumn(IsIgnore = true)]
-    public DownloadService Downloader { get; set; }
+    [SugarColumn(IsIgnore = true)] public DownloadService Downloader { get; set; }
 
 
     [SugarColumn(IsIgnore = true)]
     public DownloadPackage? Package
     {
-        get 
+        get
         {
             if (_package is null)
             {
@@ -80,9 +72,11 @@ public class DownloadTask
                 {
                     return null;
                 }
+
                 var packageJson = File.ReadAllText(path);
                 _package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
             }
+
             return _package;
         }
         set
@@ -93,7 +87,7 @@ public class DownloadTask
         }
     }
 
-    public event EventHandler<EventArgs> StatusChanged;
+    public event EventHandler<EventArgs>? StatusChanged;
 
     public List<Window> BindWindows { get; set; } = [];
 
@@ -103,6 +97,7 @@ public class DownloadTask
         FileName = fileName;
         DownloadPath = path;
         Status = DownloadStatus.Created;
+        Key = SnowFlakeSingle.Instance.NextId();
 
         var downloadOpt = new DownloadConfiguration()
         {
@@ -123,7 +118,6 @@ public class DownloadTask
 
     public DownloadTask()
     {
-        
     }
 
 
@@ -182,7 +176,7 @@ public class DownloadTask
                 }
             }
         }
-        
+
         SqlService.InsertOrUpdate(this);
 
         return Downloader.Status;
@@ -239,7 +233,7 @@ public class DownloadTask
         {
             NalaiMsgBox.Show(e.Error.Message, "Download failed!");
         }
-        
+
         SqlService.InsertOrUpdate(this);
     }
 
