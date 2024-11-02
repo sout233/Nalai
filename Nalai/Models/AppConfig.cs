@@ -1,6 +1,4 @@
-﻿using Microsoft.Identity.Client;
-
-namespace Nalai.Models
+﻿namespace Nalai.Models
 {
     public class AppConfig
     {

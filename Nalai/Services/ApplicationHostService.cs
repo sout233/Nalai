@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Nalai.Views.Pages;
+﻿using Microsoft.Extensions.Hosting;
 using Nalai.Views.Windows;
 using Wpf.Ui;
 

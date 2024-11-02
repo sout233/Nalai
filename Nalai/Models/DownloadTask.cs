@@ -13,14 +13,14 @@ namespace Nalai.Models;
 
 public class DownloadTask
 {
-    [SugarColumn(IsNullable = true)] public string Url { get; set; }
+    [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
+    public long Key { get; set; }
+
+    public string Url { get; set; } = null!;
 
     [SugarColumn(IsNullable = true)] public string FileName { get; set; }
 
-    [SugarColumn(IsNullable = true)] public string DownloadPath { get; set; }
-
-    [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-    public long Key { get; set; }
+    public string DownloadPath { get; set; } = null!;
 
     public string StatusText { get; set; } = "等待中...";
 
@@ -118,6 +118,7 @@ public class DownloadTask
 
     public DownloadTask()
     {
+        
     }
 
 
@@ -126,7 +127,7 @@ public class DownloadTask
         try
         {
             var path = new DirectoryInfo(DownloadPath);
-            await Downloader.DownloadFileTaskAsync(this.Url, Path.Combine(path.FullName, FileName));
+            await Downloader?.DownloadFileTaskAsync(this.Url, Path.Combine(path.FullName, FileName))!;
         }
         catch (Exception ex)
         {
@@ -138,13 +139,13 @@ public class DownloadTask
     // TODO: 下载状态获取不正确
     public DownloadStatus PauseOrResume()
     {
-        if (Downloader.Status is DownloadStatus.Completed or DownloadStatus.Failed)
+        if (Downloader is { Status: DownloadStatus.Completed or DownloadStatus.Failed })
         {
             SqlService.InsertOrUpdate(this);
             return Downloader.Status;
         }
 
-        if (Downloader.Status is DownloadStatus.Stopped)
+        if (Downloader is { Status: DownloadStatus.Stopped })
         {
             Downloader.DownloadFileTaskAsync(Package);
             Downloader.Resume();
@@ -152,7 +153,7 @@ public class DownloadTask
             return DownloadStatus.Running;
         }
 
-        if (Downloader.IsPaused)
+        if (Downloader is { IsPaused: true })
         {
             Downloader.Resume();
             Status = DownloadStatus.Running;
@@ -167,7 +168,7 @@ public class DownloadTask
         }
         else
         {
-            Downloader.Pause();
+            Downloader?.Pause();
             Status = DownloadStatus.Paused;
             Console.WriteLine($"{FileName} Paused");
             foreach (var window in BindWindows)
@@ -181,13 +182,13 @@ public class DownloadTask
 
         SqlService.InsertOrUpdate(this);
 
-        return Downloader.Status;
+        return Downloader?.Status ?? DownloadStatus.None;
     }
 
 
     private void UpdateStatus()
     {
-        Status = Downloader.Status;
+        if (Downloader != null) Status = Downloader.Status;
         // SqlService.InsertOrUpdate(this);
     }
 

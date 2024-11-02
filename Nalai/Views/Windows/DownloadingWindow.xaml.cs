@@ -1,8 +1,4 @@
-﻿using System.Windows.Controls;
-using Downloader;
-using Nalai.Helpers;
-using Nalai.Models;
-using Nalai.Services;
+﻿using Nalai.Models;
 using Nalai.ViewModels.Windows;
 using Wpf.Ui.Controls;
 
