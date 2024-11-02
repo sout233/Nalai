@@ -89,7 +89,7 @@ public class DownloadTask
 
     public event EventHandler<EventArgs>? StatusChanged;
 
-    public List<Window> BindWindows { get; set; } = [];
+    [SugarColumn(IsIgnore = true)] public List<Window> BindWindows { get; set; } = [];
 
     public DownloadTask(string url, string fileName, string path)
     {
@@ -186,7 +186,7 @@ public class DownloadTask
     private void UpdateStatus()
     {
         Status = Downloader.Status;
-        SqlService.InsertOrUpdate(this);
+        // SqlService.InsertOrUpdate(this);
     }
 
     private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)

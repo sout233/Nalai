@@ -13,6 +13,9 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private string _pauseOrResumeText = "暂停";
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
 
+        [ObservableProperty]
+        private ObservableCollection<DownloadTask> _downloadViewItems = GenerateDownloadCollection();
+
         public DashboardViewModel()
         {
             UpdateDownloadCollection();
@@ -32,11 +35,10 @@ namespace Nalai.ViewModels.Pages
             return Task.CompletedTask;
         }
 
-        [ObservableProperty]
-        private ObservableCollection<DownloadTask> _downloadViewItems = GenerateDownloadCollection();
 
         private static ObservableCollection<DownloadTask> GenerateDownloadCollection()
         {
+            NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<DownloadTask>();
             foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示

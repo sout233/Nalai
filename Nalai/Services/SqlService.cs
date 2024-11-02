@@ -34,4 +34,9 @@ public static class SqlService
     {
         Client.Deleteable(downloadTask).ExecuteCommand();
     }
+
+    public static List<DownloadTask?> ReadAll()
+    {
+       return Client.Queryable<DownloadTask>().ToList();
+    }
 }
