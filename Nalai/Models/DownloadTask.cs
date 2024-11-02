@@ -13,20 +13,32 @@ namespace Nalai.Models;
 
 public class DownloadTask
 {
+    [SugarColumn(IsNullable = true)]
     public string Url { get; set; }
+    
+    [SugarColumn(IsNullable = true)]
     public string FileName { get; set; }
+
+    [SugarColumn(IsNullable = true)]
     public string DownloadPath { get; set; }
     
     [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
     public int Key { get; set; }
     
+    [SugarColumn(IsNullable = true)]
     public string StatusText { get; set; } = "等待中...";
-
+    
+    [SugarColumn(IsNullable = true)]
     public long TotalBytesToReceive { get; set; }
+    
+    [SugarColumn(IsNullable = true)]
     public float Progress { get; set; }
+    
+    [SugarColumn(IsNullable = true)]
     public string FileSizeText { get; set; }
 
     private DownloadStatus _status;
+
     private DownloadPackage? _package;
 
     public DownloadStatus Status
