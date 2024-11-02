@@ -42,16 +42,8 @@ public partial class
     [RelayCommand]
     private void PauseOrResumeDownload()
     {
-        if (ThisViewTask.Downloader.IsPaused)
-        {
-            ThisViewTask.Downloader.Resume();
-            UpdatePausedOrResumeBtn();
-        }
-        else
-        {
-            ThisViewTask.Downloader.Pause();
-            UpdatePausedOrResumeBtn();
-        }
+        ThisViewTask.PauseOrResume();
+        UpdatePausedOrResumeBtn();
     }
 
     public void UpdatePausedOrResumeBtn()

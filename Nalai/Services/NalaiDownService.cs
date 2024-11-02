@@ -50,7 +50,7 @@ public static class NalaiDownService
     public static void RemoveTask(DownloadTask task)
     {
         CloseTaskBindWindows(task);
-        task.Downloader.CancelAsync();
+        task.Downloader?.CancelAsync();
         GlobalDownloadTasks.Remove(task);
                 
         SqlService.Delete(task);

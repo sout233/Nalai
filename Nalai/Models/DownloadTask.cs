@@ -57,7 +57,7 @@ public class DownloadTask
 
     [SugarColumn(IsIgnore = true)] public DownloadConfiguration DownloadOpt { get; set; }
 
-    [SugarColumn(IsIgnore = true)] public DownloadService Downloader { get; set; }
+    [SugarColumn(IsIgnore = true)] public DownloadService? Downloader { get; set; }
 
 
     [SugarColumn(IsIgnore = true)]
@@ -140,6 +140,7 @@ public class DownloadTask
     {
         if (Downloader.Status is DownloadStatus.Completed or DownloadStatus.Failed)
         {
+            SqlService.InsertOrUpdate(this);
             return Downloader.Status;
         }
 
@@ -147,6 +148,7 @@ public class DownloadTask
         {
             Downloader.DownloadFileTaskAsync(Package);
             Downloader.Resume();
+            SqlService.InsertOrUpdate(this);
             return DownloadStatus.Running;
         }
 
