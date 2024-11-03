@@ -44,7 +44,11 @@ namespace Nalai.ViewModels.Pages
             foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示
 
             {
-                if (task != null) taskCollection.Add(task);
+                if (task != null)
+                {
+                    task.StatusChanged += OnDownloadStatusChanged;
+                    taskCollection.Add(task);
+                }
             }
 
             return taskCollection;
