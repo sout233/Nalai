@@ -64,4 +64,17 @@
             </ui:TitleBar.Icon>
         </ui:TitleBar>
     </Grid>
+    <!--<ui:Flyout
+        Grid.Row="0"
+        IsOpen="{Binding ViewModel.IsFlyoutOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:NewTaskWindow}, Mode=TwoWay}"
+        Placement="Top">
+        <StackPanel>
+            <TextBlock
+                Width="280"
+                HorizontalAlignment="Left"
+                Text="Replicants like any other machine are either a benefit or a hazard. If they're a benefit it's not my problem."
+                TextWrapping="WrapWithOverflow" />
+            <Button Margin="0,8,0,0" Content="The cake is a lie!" />
+        </StackPanel>
+    </ui:Flyout>-->
 </ui:FluentWindow>

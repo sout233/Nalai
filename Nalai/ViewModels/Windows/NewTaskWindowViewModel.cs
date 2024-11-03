@@ -1,8 +1,9 @@
-﻿using Nalai.Helpers;
+﻿using System.Windows.Controls.Primitives;
+using Nalai.Helpers;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
 using Nalai.Views.Windows;
-
+using Wpf.Ui.Controls;
 namespace Nalai.ViewModels.Windows;
 
 public partial class NewTaskWindowViewModel : ObservableObject
@@ -10,15 +11,24 @@ public partial class NewTaskWindowViewModel : ObservableObject
     public Window Window { get; set; }
 
     [ObservableProperty] private string _url;
+    [ObservableProperty] private string _defaultPath;
+    [ObservableProperty] private bool _isFlyoutOpen;
     [ObservableProperty] private string _savePath;
     [ObservableProperty] private bool _dialogResult;
 
     public DashboardViewModel Dashboard { get; set; }
 
-    public NewTaskWindowViewModel(string url = "", string savePath = "")
+    public NewTaskWindowViewModel(string url=null, string savePath=null)
     {
+        this.DefaultPath = Helpers.GetFolderDefault.GetDownloadPath();
+        //Console.WriteLine(defaultPath);
         this.Url = url;
         this.SavePath = savePath;
+        //NalaiMsgBox.Show($"默认路径为： {DefaultPath}");
+        var flyout = new Flyout();
+        flyout.Placement = PlacementMode.MousePoint;
+        flyout.Show();
+        Console.WriteLine(flyout.IsOpen);
     }
 
     [RelayCommand]
