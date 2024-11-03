@@ -56,7 +56,7 @@
                         <ui:SymbolIcon Symbol="DataHistogram24" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
-                <ui:NavigationViewItem Content="WebView" TargetPageType="{x:Type pages:DashboardPage}">
+                <ui:NavigationViewItem Content="WebView" TargetPageType="{x:Type pages:WebViewPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="SlideMultiple24"></ui:SymbolIcon>
                     </ui:NavigationViewItem.Icon>
