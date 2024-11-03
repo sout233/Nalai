@@ -53,7 +53,7 @@ public static class NalaiDownService
 
     public static void StopTask(DownloadTask task)
     {
-        // task.Package = task.Downloader?.Package;
+        task.Package = task.Downloader?.Package;
         task.Status = DownloadStatus.Stopped;
         CloseTaskBindWindows(task);
         task.Downloader?.CancelAsync();

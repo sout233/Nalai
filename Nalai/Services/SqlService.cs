@@ -12,6 +12,8 @@ public static class SqlService
             IsAutoCloseConnection = true
         },
         db => { db.Aop.OnLogExecuting = (sql, pars) => { Console.WriteLine(UtilMethods.GetNativeSql(sql, pars)); }; });
+    
+    public static event EventHandler<DownloadTask>? OnInsertOrUpdate;
 
     public static void InitDatabase()
     {
@@ -23,6 +25,7 @@ public static class SqlService
     public static void InsertOrUpdate(DownloadTask downloadTask)
     {
         Client.Storageable(downloadTask).ExecuteCommand();
+        // OnInsertOrUpdate?.Invoke(null, downloadTask);
     }
 
     public static void InsertOrUpdate(List<DownloadTask> tasks)

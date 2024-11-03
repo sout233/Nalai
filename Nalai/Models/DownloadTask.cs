@@ -23,7 +23,7 @@ public class DownloadTask
     public string DownloadPath { get; set; } = null!;
 
     public string StatusText { get; set; } = "等待中...";
-    
+
     public string DownloaderJson { get; set; } = null!;
 
     [SugarColumn(IsNullable = true)] public long TotalBytesToReceive { get; set; }
@@ -34,7 +34,7 @@ public class DownloadTask
 
     private DownloadStatus _status;
 
-    // private DownloadPackage? _package;
+    private DownloadPackage? _package;
 
     public DownloadStatus Status
     {
@@ -62,32 +62,32 @@ public class DownloadTask
     [SugarColumn(IsIgnore = true)] public DownloadService? Downloader { get; set; }
 
 
-    // [SugarColumn(IsIgnore = true)]
-    // public DownloadPackage? Package
-    // {
-    //     get
-    //     {
-    //         if (_package is null)
-    //         {
-    //             var path = Path.Combine(DownloadPath, FileName + ".nalai!");
-    //             if (!File.Exists(path))
-    //             {
-    //                 return null;
-    //             }
-    //
-    //             var packageJson = File.ReadAllText(path);
-    //             _package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
-    //         }
-    //
-    //         return _package;
-    //     }
-    //     set
-    //     {
-    //         _package = value;
-    //         var packageJson = JsonConvert.SerializeObject(value);
-    //         File.WriteAllText(Path.Combine(DownloadPath, FileName + ".nalai!"), packageJson);
-    //     }
-    // }
+    [SugarColumn(IsIgnore = true)]
+    public DownloadPackage? Package
+    {
+        get
+        {
+            if (_package is null)
+            {
+                var path = Path.Combine(DownloadPath, FileName + ".nalai!");
+                if (!File.Exists(path))
+                {
+                    return null;
+                }
+
+                var packageJson = File.ReadAllText(path);
+                _package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
+            }
+
+            return _package;
+        }
+        set
+        {
+            _package = value;
+            var packageJson = JsonConvert.SerializeObject(value);
+            File.WriteAllText(Path.Combine(DownloadPath, FileName + ".nalai!"), packageJson);
+        }
+    }
 
     public event EventHandler<EventArgs>? StatusChanged;
 
@@ -116,28 +116,31 @@ public class DownloadTask
         Downloader.DownloadStarted += OnDownloadStarted;
         Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
         Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
-        
+
         DownloaderJson = JsonConvert.SerializeObject(downloader);
     }
 
     public DownloadTask()
     {
-        
+        // For SqlSugar
+        Url = Url;
     }
 
 
     public async Task StartDownload()
     {
-        try
-        {
-            var path = new DirectoryInfo(DownloadPath);
-            await Downloader?.DownloadFileTaskAsync(this.Url, Path.Combine(path.FullName, FileName))!;
-        }
-        catch (Exception ex)
-        {
-            NalaiMsgBox.Show(ex.Message, "Error");
-            Status = DownloadStatus.Failed;
-        }
+        var path = new DirectoryInfo(DownloadPath);
+        await Downloader?.DownloadFileTaskAsync(Url, Path.Combine(path.FullName, FileName))!;
+        // try
+        // {
+        //     var path = new DirectoryInfo(DownloadPath);
+        //     await Downloader?.DownloadFileTaskAsync(this.Url, Path.Combine(path.FullName, FileName))!;
+        // }
+        // catch (Exception ex)
+        // {
+        //     NalaiMsgBox.Show(ex.Message, "Error");
+        //     Status = DownloadStatus.Failed;
+        // }
     }
 
     // TODO: 下载状态获取不正确
@@ -145,25 +148,34 @@ public class DownloadTask
     {
         if (Downloader is null)
         {
-            Downloader = JsonConvert.DeserializeObject<DownloadService>(DownloaderJson);
+            using var downloader = new DownloadService(new DownloadConfiguration
+            {
+                ChunkCount = 8,
+                ParallelDownload = true
+            });
+
             var path = Path.Combine(DownloadPath, FileName + ".nalai!");
             if (!File.Exists(path))
             {
                 return DownloadStatus.Failed;
             }
-            
+
             var packageJson = File.ReadAllText(path);
 
-            if (Downloader != null)
-            {
-                Downloader.Package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
-                Downloader.DownloadProgressChanged += OnDownloadProgressChanged;
-                Downloader.DownloadStarted += OnDownloadStarted;
-                Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
-                Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
-            }
+            downloader.Package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
+            downloader.DownloadProgressChanged += OnDownloadProgressChanged;
+            downloader.DownloadStarted += OnDownloadStarted;
+            downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
+            downloader.DownloadFileCompleted += OnDownloadFileCompleted;
+
+            // 不知道为什么加这个才能恢复下载，但是会出现进程占用的情况
+            downloader.CancelAsync();
+
+            Downloader = downloader;
+
+            // Downloader?.CancelAsync();
         }
-        
+
         if (Downloader is { Status: DownloadStatus.Completed or DownloadStatus.Failed })
         {
             SqlService.InsertOrUpdate(this);
@@ -175,6 +187,7 @@ public class DownloadTask
             Downloader.DownloadFileTaskAsync(Downloader.Package);
             Downloader.Resume();
             SqlService.InsertOrUpdate(this);
+            Status = DownloadStatus.Running;
             return DownloadStatus.Running;
         }
 
@@ -230,7 +243,7 @@ public class DownloadTask
         var downloadedSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
 
         FileSizeText = $"{downloadedSize} / {fileSize}";
-        
+
         // Console.WriteLine($"{FileName} Progress: {progress}% Speed: {speed}KB/s, Remaining: {remaining} bytes");
 
         TotalBytesToReceive = e.TotalBytesToReceive;
@@ -258,6 +271,12 @@ public class DownloadTask
         else if (e.Cancelled)
         {
             Status = DownloadStatus.Stopped;
+        }
+        else if (e.Error is IOException)
+        {
+            // TODO: 应添加重试次数限制
+            NalaiDownService.StopTask(this);
+            PauseOrResume();
         }
         else
         {

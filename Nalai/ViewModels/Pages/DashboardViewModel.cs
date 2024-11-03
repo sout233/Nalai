@@ -4,6 +4,7 @@ using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
+using SqlSugar;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Pages
@@ -18,6 +19,18 @@ namespace Nalai.ViewModels.Pages
         public DashboardViewModel()
         {
             NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
+            UpdateDownloadCollection();
+
+            foreach (var task in NalaiDownService.GlobalDownloadTasks)
+            {
+                if (task != null) task.StatusChanged += OnDownloadStatusChanged;
+            }
+
+            SqlService.OnInsertOrUpdate += OnSqlInsertOrUpdate;
+        }
+
+        private void OnSqlInsertOrUpdate(object? sender, DownloadTask e)
+        {
             UpdateDownloadCollection();
         }
 
@@ -35,17 +48,14 @@ namespace Nalai.ViewModels.Pages
             return Task.CompletedTask;
         }
 
-
         private ObservableCollection<DownloadTask> GenerateDownloadCollection()
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<DownloadTask>();
             foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示
-
             {
                 if (task != null)
                 {
-                    task.StatusChanged += OnDownloadStatusChanged;
                     taskCollection.Add(task);
                 }
             }
@@ -93,6 +103,7 @@ namespace Nalai.ViewModels.Pages
             if (item.SelectedItem is not DownloadTask task) return;
 
             var status = task.PauseOrResume();
+            
             UpdateRightClickMenu(status);
         }
 
