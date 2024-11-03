@@ -34,7 +34,7 @@ public class DownloadTask
 
     private DownloadStatus _status;
 
-    private DownloadPackage? _package;
+    // private DownloadPackage? _package;
 
     public DownloadStatus Status
     {
@@ -62,32 +62,32 @@ public class DownloadTask
     [SugarColumn(IsIgnore = true)] public DownloadService? Downloader { get; set; }
 
 
-    [SugarColumn(IsIgnore = true)]
-    public DownloadPackage? Package
-    {
-        get
-        {
-            if (_package is null)
-            {
-                var path = Path.Combine(DownloadPath, FileName + ".nalai!");
-                if (!File.Exists(path))
-                {
-                    return null;
-                }
-
-                var packageJson = File.ReadAllText(path);
-                _package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
-            }
-
-            return _package;
-        }
-        set
-        {
-            _package = value;
-            var packageJson = JsonConvert.SerializeObject(value);
-            File.WriteAllText(Path.Combine(DownloadPath, FileName + ".nalai!"), packageJson);
-        }
-    }
+    // [SugarColumn(IsIgnore = true)]
+    // public DownloadPackage? Package
+    // {
+    //     get
+    //     {
+    //         if (_package is null)
+    //         {
+    //             var path = Path.Combine(DownloadPath, FileName + ".nalai!");
+    //             if (!File.Exists(path))
+    //             {
+    //                 return null;
+    //             }
+    //
+    //             var packageJson = File.ReadAllText(path);
+    //             _package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
+    //         }
+    //
+    //         return _package;
+    //     }
+    //     set
+    //     {
+    //         _package = value;
+    //         var packageJson = JsonConvert.SerializeObject(value);
+    //         File.WriteAllText(Path.Combine(DownloadPath, FileName + ".nalai!"), packageJson);
+    //     }
+    // }
 
     public event EventHandler<EventArgs>? StatusChanged;
 
@@ -146,6 +146,22 @@ public class DownloadTask
         if (Downloader is null)
         {
             Downloader = JsonConvert.DeserializeObject<DownloadService>(DownloaderJson);
+            var path = Path.Combine(DownloadPath, FileName + ".nalai!");
+            if (!File.Exists(path))
+            {
+                return DownloadStatus.Failed;
+            }
+            
+            var packageJson = File.ReadAllText(path);
+
+            if (Downloader != null)
+            {
+                Downloader.Package = JsonConvert.DeserializeObject<DownloadPackage>(packageJson);
+                Downloader.DownloadProgressChanged += OnDownloadProgressChanged;
+                Downloader.DownloadStarted += OnDownloadStarted;
+                Downloader.ChunkDownloadProgressChanged += OnChunkDownloadProgressChanged;
+                Downloader.DownloadFileCompleted += OnDownloadFileCompleted;
+            }
         }
         
         if (Downloader is { Status: DownloadStatus.Completed or DownloadStatus.Failed })
@@ -156,7 +172,7 @@ public class DownloadTask
 
         if (Downloader is { Status: DownloadStatus.Stopped })
         {
-            Downloader.DownloadFileTaskAsync(Package);
+            Downloader.DownloadFileTaskAsync(Downloader.Package);
             Downloader.Resume();
             SqlService.InsertOrUpdate(this);
             return DownloadStatus.Running;
@@ -214,12 +230,14 @@ public class DownloadTask
         var downloadedSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
 
         FileSizeText = $"{downloadedSize} / {fileSize}";
+        
+        // Console.WriteLine($"{FileName} Progress: {progress}% Speed: {speed}KB/s, Remaining: {remaining} bytes");
 
         TotalBytesToReceive = e.TotalBytesToReceive;
 
         UpdateStatus();
 
-        Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
+        // Debug.WriteLine($"Chunks: {chunks}, Progress: {progress}, Speed: {speed}KB/s, Remaining: {remaining} bytes");
     }
 
     private void OnDownloadFileCompleted(object? sender, AsyncCompletedEventArgs e)

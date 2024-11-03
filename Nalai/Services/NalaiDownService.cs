@@ -1,8 +1,7 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using Downloader;
+﻿using Downloader;
 using Nalai.Models;
 using Nalai.Views.Windows;
+using Newtonsoft.Json;
 
 // TODO: 宏不是好文明，建议重构改Service的异步方法
 #pragma warning disable CS4014 // 别再用await了
@@ -48,18 +47,18 @@ public static class NalaiDownService
         CloseTaskBindWindows(task);
         task.Downloader?.CancelAsync();
         GlobalDownloadTasks.Remove(task);
-                
+
         SqlService.Delete(task);
     }
 
     public static void StopTask(DownloadTask task)
     {
-        task.Package = task.Downloader?.Package;
+        // task.Package = task.Downloader?.Package;
         task.Status = DownloadStatus.Stopped;
         CloseTaskBindWindows(task);
         task.Downloader?.CancelAsync();
-        
-        
+        task.DownloaderJson = JsonConvert.SerializeObject(task.Downloader);
+
         SqlService.InsertOrUpdate(task);
     }
 }
