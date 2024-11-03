@@ -142,6 +142,7 @@ public class DownloadTask
         //     Status = DownloadStatus.Failed;
         // }
     }
+    
 
     // TODO: 下载状态获取不正确
     public DownloadStatus PauseOrResume()
@@ -170,9 +171,11 @@ public class DownloadTask
 
             // 不知道为什么加这个才能恢复下载，但是会出现进程占用的情况
             downloader.CancelAsync();
+            downloader.Pause();
+            
 
             Downloader = downloader;
-
+            
             // Downloader?.CancelAsync();
         }
 
@@ -217,6 +220,9 @@ public class DownloadTask
                 }
             }
         }
+        
+        Package = Downloader?.Package;
+        DownloaderJson = JsonConvert.SerializeObject(Downloader);
 
         SqlService.InsertOrUpdate(this);
 

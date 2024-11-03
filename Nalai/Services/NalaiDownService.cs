@@ -55,10 +55,11 @@ public static class NalaiDownService
     {
         task.Package = task.Downloader?.Package;
         task.Status = DownloadStatus.Stopped;
-        CloseTaskBindWindows(task);
         task.Downloader?.CancelAsync();
         task.DownloaderJson = JsonConvert.SerializeObject(task.Downloader);
-
+        
+        CloseTaskBindWindows(task);
+        
         SqlService.InsertOrUpdate(task);
     }
 }
