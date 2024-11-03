@@ -13,8 +13,7 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private string _pauseOrResumeText = "暂停";
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
 
-        [ObservableProperty]
-        private ObservableCollection<DownloadTask> _downloadViewItems = GenerateDownloadCollection();
+        [ObservableProperty] private ObservableCollection<DownloadTask> _downloadViewItems;
 
         public DashboardViewModel()
         {
@@ -37,7 +36,7 @@ namespace Nalai.ViewModels.Pages
         }
 
 
-        private static ObservableCollection<DownloadTask> GenerateDownloadCollection()
+        private ObservableCollection<DownloadTask> GenerateDownloadCollection()
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<DownloadTask>();
