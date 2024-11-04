@@ -1,6 +1,6 @@
-﻿using System.Net.Http;
+﻿using Nalai.Engine.Interfaces;
 
-namespace Nalai.Engine
+namespace Nalai.Engine.Services
 {
     public class HttpClientProvider : IHttpClientProvider
     {

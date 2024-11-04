@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
+﻿using System.ComponentModel;
 using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
+using Nalai.Engine.Helpers;
+using Nalai.Engine.Interfaces;
+using Nalai.Engine.Models;
 using Timer = System.Timers.Timer;
 
-namespace Nalai.Engine
+namespace Nalai.Engine.Services
 {
     public sealed class Downloader : IDownloader
     {
@@ -57,18 +53,20 @@ namespace Nalai.Engine
                 var chunkSize = (long)Math.Ceiling((double)_contentLength / _config.ChunkCount);
 
                 StartSpeedTimer();
+                
+                var semaphore = new SemaphoreSlim(_config.MaxConcurrentDownloads); 
 
                 List<Task> tasks = new List<Task>();
                 for (var i = 0; i < _config.ChunkCount; i++)
                 {
                     var start = i * chunkSize;
                     var end = Math.Min(start + chunkSize - 1, _contentLength - 1);
-                    tasks.Add(DownloadChunkAsync(url, outputPath, start, end, i));
+                    tasks.Add(DownloadChunkAsync(url, outputPath, start, end, i,semaphore));
                 }
 
                 await Task.WhenAll(tasks);
 
-                await DownloaderHelpers.MergeChunksAsync(outputPath, _contentLength, _config.ChunkCount);
+                await DownloadHelpers.MergeChunksAsync(outputPath, _contentLength, _config.ChunkCount);
 
                 Console.WriteLine("Download completed");
 
@@ -81,22 +79,30 @@ namespace Nalai.Engine
             }
         }
 
-        private async Task DownloadChunkAsync(string url, string outputPath, long start, long end, int chunkIndex)
+        private async Task DownloadChunkAsync(string url, string outputPath, long start, long end, int chunkIndex,SemaphoreSlim semaphore)
         {
-            var client = _httpClientProvider.GetClient();
-            using var request = new HttpRequestMessage(HttpMethod.Get, url);
-            request.Headers.Range = new RangeHeaderValue(start, end);
+            await semaphore.WaitAsync(_cancellationTokenSource.Token); // 等待信号量
+            try
+            {
+                var client = _httpClientProvider.GetClient();
+                using var request = new HttpRequestMessage(HttpMethod.Get, url);
+                request.Headers.Range = new RangeHeaderValue(start, end);
 
-            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
-            response.EnsureSuccessStatusCode();
+                using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
+                response.EnsureSuccessStatusCode();
 
-            await using var contentStream = await response.Content.ReadAsStreamAsync(_cancellationTokenSource.Token);
-            await DownloadFileFromStreamAsync(contentStream, outputPath, start, end, chunkIndex);
+                await using var contentStream = await response.Content.ReadAsStreamAsync(_cancellationTokenSource.Token);
+                await DownloadFileFromStreamAsync(contentStream, outputPath, start, end, chunkIndex);
+            }
+            finally
+            {
+                semaphore.Release(); // 释放信号量
+            }
         }
 
         private async Task DownloadFileFromStreamAsync(Stream source, string outputPath, long start, long end, int chunkIndex)
         {
-            await using var fileStream = new FileStream(DownloaderHelpers.GetTempFilePath(outputPath, chunkIndex), FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            await using var fileStream = new FileStream(DownloadHelpers.GetTempFilePath(outputPath, chunkIndex), FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
             fileStream.Seek(start, SeekOrigin.Begin);
 
             var buffer = new byte[8192];
@@ -118,7 +124,11 @@ namespace Nalai.Engine
                 {
                     _totalBytesRead += bytesRead;
                     var progress = (int)(_totalBytesRead * 100 / _contentLength);
-                    OnProgressChanged(new ProgressChangedEventArgs(progress, this));
+                    if (progress != _prevProgress) // 平滑进度更新
+                    {
+                        OnProgressChanged(new ProgressChangedEventArgs(progress, this));
+                        _prevProgress = progress;
+                    }
                 }
             }
         }

@@ -3,6 +3,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Nalai.Engine;
+using Nalai.Engine.Interfaces;
+using Nalai.Engine.Models;
+using Nalai.Engine.Services;
 
 namespace Nalai.EngineSampleTest
 {

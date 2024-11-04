@@ -1,8 +1,6 @@
-﻿using System.IO;
+﻿namespace Nalai.Engine.Helpers;
 
-namespace Nalai.Engine;
-
-public static class DownloaderHelpers
+public static class DownloadHelpers
 {
     public static string GetTempFilePath(string outputPath, int chunkIndex)
     {

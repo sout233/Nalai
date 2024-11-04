@@ -1,6 +1,6 @@
-﻿namespace Nalai.Engine;
+﻿namespace Nalai.Engine.Models;
 
-public class DownloadEvents
+public abstract class DownloadEvents
 {
     public class DownloadSpeedChangedEventArgs(double speed) : EventArgs
     {

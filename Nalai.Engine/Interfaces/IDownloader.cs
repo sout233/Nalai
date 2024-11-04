@@ -1,7 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Nalai.Engine.Models;
 
-namespace Nalai.Engine;
+namespace Nalai.Engine.Interfaces;
 
 public interface IDownloader : IDisposable
 {
