@@ -4,7 +4,6 @@ using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
-using SqlSugar;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Pages

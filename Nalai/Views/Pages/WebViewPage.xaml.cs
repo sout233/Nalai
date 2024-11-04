@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using Nalai.ViewModels.Pages;
+﻿using Nalai.ViewModels.Pages;
 using Wpf.Ui.Controls;
 
 namespace Nalai.Views.Pages;
