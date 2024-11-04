@@ -10,6 +10,8 @@ namespace Nalai.Engine
 
         public event EventHandler<ProgressChangedEventArgs> ProgressChanged = null!;
         public event EventHandler DownloadCompleted = null!;
+        
+        private int prevProgress = 0;
 
         public async Task DownloadFileAsync(string url, string outputPath)
         {
@@ -68,7 +70,9 @@ namespace Nalai.Engine
 
         private void OnProgressChanged(ProgressChangedEventArgs e)
         {
+            if (e.ProgressPercentage == prevProgress) return;
             ProgressChanged?.Invoke(this, e);
+            prevProgress = e.ProgressPercentage;
         }
 
         private void OnDownloadCompleted(EventArgs e)

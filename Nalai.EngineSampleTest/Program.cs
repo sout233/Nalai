@@ -15,13 +15,12 @@ namespace Nalai.EngineSampleTest
         {
             Console.WriteLine("Press Enter to start downloading, 'p' to pause, 's' to stop, and 'r' to resume.");
 
-            // 先等待用户按下Enter键
             var keyInfo = Console.ReadKey();
             if (keyInfo.Key == ConsoleKey.Enter)
             {
                 Console.WriteLine("Starting download...");
 
-                const string url = "https://go.dev/dl/go1.23.2.windows-amd64.msi"; // 修改了URL
+                const string url = "https://studygolang.com/dl/golang/go1.23.2.windows-amd64.msi"; 
                 var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "go1.23.2.windows-amd64.msi");
 
                 try
@@ -29,7 +28,6 @@ namespace Nalai.EngineSampleTest
                     Downloader.ProgressChanged += (sender, e) => Console.WriteLine($"Progress: {e.ProgressPercentage}%");
                     Downloader.DownloadCompleted += (sender, e) => Console.WriteLine("Download completed.");
 
-                    // 开始监听按键输入
                     Task.Run(() => ListenForKeyPresses(UserInputCancellationTokenSource.Token));
 
                     await Downloader.DownloadFileAsync(url, outputPath);
@@ -44,7 +42,7 @@ namespace Nalai.EngineSampleTest
                 }
             }
 
-            UserInputCancellationTokenSource.Cancel(); // 正确使用 Cancel 方法
+            UserInputCancellationTokenSource.Cancel();
             UserInputCancellationTokenSource.Dispose();
         }
 
@@ -54,7 +52,7 @@ namespace Nalai.EngineSampleTest
             {
                 if (Console.KeyAvailable)
                 {
-                    var keyInfo = Console.ReadKey(true); // 不显示按键
+                    var keyInfo = Console.ReadKey(true);
                     switch (keyInfo.Key)
                     {
                         case ConsoleKey.P:
