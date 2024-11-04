@@ -8,11 +8,17 @@ namespace Nalai.EngineSampleTest
 {
     internal class Program
     {
-        private static readonly Downloader Downloader = new();
         private static readonly CancellationTokenSource UserInputCancellationTokenSource = new();
-
+        private static Downloader _downloader;
+        
         private static async Task Main(string[] _)
         {
+            IHttpClientProvider httpClientProvider = new HttpClientProvider();
+            DownloaderConfiguration downloaderConfiguration = new();
+
+            Downloader downloader = new(httpClientProvider, downloaderConfiguration);
+            _downloader = downloader;
+
             Console.WriteLine("Press Enter to start downloading, 'p' to pause, 's' to stop, and 'r' to resume.");
 
             var keyInfo = Console.ReadKey();
@@ -20,18 +26,20 @@ namespace Nalai.EngineSampleTest
             {
                 Console.WriteLine("Starting download...");
 
-                const string url = "https://studygolang.com/dl/golang/go1.23.2.windows-amd64.msi"; 
+                const string url = "https://studygolang.com/dl/golang/go1.23.2.windows-amd64.msi";
                 var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "go1.23.2.windows-amd64.msi");
 
                 try
                 {
-                    Downloader.ProgressChanged += (sender, e) => Console.WriteLine($"Progress: {e.ProgressPercentage}%");
-                    Downloader.DownloadCompleted += (sender, e) => Console.WriteLine("Download completed.");
-                    Downloader.DownloadSpeedChanged += (sender, e) => Console.WriteLine($"Download speed: {e.Speed} bytes/s");
+                    downloader.ProgressChanged +=
+                        (sender, e) => Console.WriteLine($"Progress: {e.ProgressPercentage}%");
+                    downloader.DownloadCompleted += (sender, e) => Console.WriteLine("Download completed.");
+                    downloader.DownloadSpeedChanged +=
+                        (sender, e) => Console.WriteLine($"Download speed: {e.Speed} bytes/s");
 
                     Task.Run(() => ListenForKeyPresses(UserInputCancellationTokenSource.Token));
 
-                    await Downloader.DownloadFileAsync(url, outputPath);
+                    await downloader.DownloadFileAsync(url, outputPath);
                 }
                 catch (OperationCanceledException)
                 {
@@ -58,15 +66,15 @@ namespace Nalai.EngineSampleTest
                     {
                         case ConsoleKey.P:
                             Console.WriteLine("Pausing download...");
-                            Downloader.Pause();
+                            _downloader.Pause();
                             break;
                         case ConsoleKey.S:
                             Console.WriteLine("Stopping download...");
-                            Downloader.Stop();
+                            _downloader.Stop();
                             break;
                         case ConsoleKey.R:
                             Console.WriteLine("Resuming download...");
-                            Downloader.Resume();
+                            _downloader.Resume();
                             break;
                     }
                 }
