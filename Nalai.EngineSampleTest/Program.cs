@@ -27,6 +27,7 @@ namespace Nalai.EngineSampleTest
                 {
                     Downloader.ProgressChanged += (sender, e) => Console.WriteLine($"Progress: {e.ProgressPercentage}%");
                     Downloader.DownloadCompleted += (sender, e) => Console.WriteLine("Download completed.");
+                    Downloader.DownloadSpeedChanged += (sender, e) => Console.WriteLine($"Download speed: {e.Speed} bytes/s");
 
                     Task.Run(() => ListenForKeyPresses(UserInputCancellationTokenSource.Token));
 
