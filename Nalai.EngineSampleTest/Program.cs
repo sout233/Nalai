@@ -29,8 +29,8 @@ namespace Nalai.EngineSampleTest
             {
                 Console.WriteLine("Starting download...");
 
-                const string url = "https://studygolang.com/dl/golang/go1.23.2.windows-amd64.msi";
-                var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "go1.23.2.windows-amd64.msi");
+                const string url = "https://dl.hdslb.com/mobile/fixed/bili_win/bili_win-install.exe";
+                var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "bili_win-install.exe");
 
                 try
                 {
@@ -70,6 +70,7 @@ namespace Nalai.EngineSampleTest
                         case ConsoleKey.P:
                             Console.WriteLine("Pausing download...");
                             _downloader.Pause();
+                            
                             break;
                         case ConsoleKey.S:
                             Console.WriteLine("Stopping download...");
