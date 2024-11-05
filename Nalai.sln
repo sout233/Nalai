@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nalai.Engine", "Nalai.Engin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nalai.EngineSampleTest", "Nalai.EngineSampleTest\Nalai.EngineSampleTest.csproj", "{B9872038-1F52-419A-8FB7-4D249DFE0393}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nalai.CoreConnector", "Nalai.CoreConnector\Nalai.CoreConnector.csproj", "{946A0E43-4A86-4204-9A93-4203329DF1C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B9872038-1F52-419A-8FB7-4D249DFE0393}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9872038-1F52-419A-8FB7-4D249DFE0393}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9872038-1F52-419A-8FB7-4D249DFE0393}.Release|Any CPU.Build.0 = Release|Any CPU
+		{946A0E43-4A86-4204-9A93-4203329DF1C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{946A0E43-4A86-4204-9A93-4203329DF1C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{946A0E43-4A86-4204-9A93-4203329DF1C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{946A0E43-4A86-4204-9A93-4203329DF1C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
