@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Data;
 using System.IO;
 using Downloader;
 using Nalai.Helpers;
@@ -12,8 +13,7 @@ namespace Nalai.Models;
 
 public class DownloadTask
 {
-    [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-    public long Key { get; set; }
+    [SugarColumn(IsPrimaryKey = true, IsIdentity = false)] public long Key { get; set; }
 
     public string Url { get; set; } = null!;
 
@@ -124,12 +124,25 @@ public class DownloadTask
         // For SqlSugar
         Url = Url;
     }
+    CoreConnector _core = new CoreConnector();
+    public async void UpdateStatusNew(string id)
+    {
+        await _core.GetStatusAsync(id);
+    }
 
 
-    public async Task StartDownload()
+    public  async Task StartDownload()
     {
         var path = new DirectoryInfo(DownloadPath);
-        await Downloader?.DownloadFileTaskAsync(Url, Path.Combine(path.FullName, FileName))!;
+        
+        //await Downloader?.DownloadFileTaskAsync(Url, Path.Combine(path.FullName, FileName))!;
+        var downPath = Path.Combine(path.FullName, FileName);
+        
+        var id = JsonConvert.DeserializeObject<string>(await _core.StartAsync(Url,downPath)).id;
+        Console.WriteLine(id);
+        var timer = new Timer((string id)=>UpdateStatusNew(id),null, TimeSpan.Zero, TimeSpan.FromSeconds(0.2));
+        
+        
         // try
         // {
         //     var path = new DirectoryInfo(DownloadPath);
