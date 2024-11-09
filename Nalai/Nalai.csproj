@@ -37,4 +37,8 @@
     <Resource Include="Assets\zj_avatar.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Nalai.CoreConnector\Nalai.CoreConnector.csproj" />
+  </ItemGroup>
+
 </Project>
