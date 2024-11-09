@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Nalai.CoreConnector\Nalai.CoreConnector.csproj" />
-      <ProjectReference Include="..\Nalai\Nalai.csproj" />
     </ItemGroup>
 
 </Project>
