@@ -31,7 +31,7 @@ public static class PreCore
         }
     }
 
-    public static async Task<GetStatusResult?> GetStatusAsync(string id)
+    public static async Task<GetStatusResult?> GetStatusAsync(string? id)
     {
         try
         {
@@ -52,7 +52,7 @@ public static class PreCore
         }
     }
 
-    public static async Task<PostStopResult?> StopAsync(string id)
+    public static async Task<PostStopResult?> StopAsync(string? id)
     {
         try
         {

@@ -14,7 +14,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     [ObservableProperty] private string _fileName = "Unknown";
     [ObservableProperty] private string _downloadPath = "Unknown";
 
-    public DownloadCompleteWindowViewModel(DownloadTask task)
+    public DownloadCompleteWindowViewModel(CoreTask task)
     {
         FileName = task.FileName;
         DownloadPath = task.DownloadPath;

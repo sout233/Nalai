@@ -7,9 +7,9 @@ namespace Nalai.Views.Windows;
 public partial class DownloadingWindow : FluentWindow
 {
     public DownloadingWindowViewModel ViewModel { get; }
-    private DownloadTask ThisWindowTask { get; set; }
+    private CoreTask ThisWindowTask { get; set; }
 
-    public DownloadingWindow(DownloadingWindowViewModel viewModel, string url, DownloadTask task)
+    public DownloadingWindow(DownloadingWindowViewModel viewModel, string url, CoreTask task)
     {
         ViewModel = viewModel;
         DataContext = this;
@@ -28,8 +28,8 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.ThisViewTask = task;
         ViewModel.BasedWindow = this;
 
-        task.Downloader.DownloadProgressChanged += ViewModel.OnDownloadProgressChanged;
-        task.Downloader.ChunkDownloadProgressChanged += ViewModel.OnChunkDownloadProgressChanged;
+        task.ProgressChanged += ViewModel.OnDownloadProgressChanged;
+        // task.Downloader.ChunkDownloadProgressChanged += ViewModel.OnChunkDownloadProgressChanged;
     }
 
    

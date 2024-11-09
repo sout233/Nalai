@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Downloader;
 using Nalai.Helpers;
 using Nalai.Models;
@@ -25,12 +26,12 @@ public partial class
     [ObservableProperty] private SymbolIcon _showMoreBtnIcon = new() { Symbol = SymbolRegular.ChevronDown24 };
     [ObservableProperty] private SymbolIcon _pauseOrResumeBtnIcon = new() { Symbol = SymbolRegular.Pause24 };
 
-    public DownloadingWindowViewModel(DownloadTask thisViewTask)
+    public DownloadingWindowViewModel(CoreTask thisViewTask)
     {
         ThisViewTask = thisViewTask;
     }
 
-    public DownloadTask ThisViewTask { get; set; }
+    public CoreTask ThisViewTask { get; set; }
     public Window BasedWindow { get; set; }
 
     [RelayCommand]
@@ -95,7 +96,7 @@ public partial class
         // }));
     }
 
-    public void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
+    public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs progressChangedEventArgs)
     {
         var chunks = e.ActiveChunks;
         var progress = e.ProgressPercentage;

@@ -6,22 +6,25 @@ namespace Nalai.Models;
 
 public class CoreTask
 {
-    public GetStatusResult StatusResult { get; set; }
-    public string FileName { get; set; }
+    public GetStatusResult? StatusResult { get; set; }
+    public string FileName { get; set; } = "Unknown";
     public string SavePath { get; set; }
     public string Url { get; set; }
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     public event EventHandler<GetStatusResult> StatusChanged;
     public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
 
-    public CoreTask(string id, string url, string savePath, string fileName)
+    public CoreTask(string url, string savePath)
     {
-        Id = id;
         Url = url;
         SavePath = savePath;
-        FileName = fileName;
-        
+    }
+
+    public async Task StartDownload()
+    {
+        var result = await PreCore.StartAsync(Url, SavePath);
+        Id = result?.Id;
         StartListen();
     }
 
@@ -29,21 +32,22 @@ public class CoreTask
     {
         Task.Run(async () =>
         {
-            while (StatusResult.Status != "Finished")
+            while (StatusResult?.Status != "Finished")
             {
                 var result = await PreCore.GetStatusAsync(Id);
 
                 StatusResult = result;
 
-                if (result?.Status != StatusResult.Status)
+                if (result?.Status != StatusResult?.Status)
                 {
-                    if (StatusResult != null) StatusChanged?.Invoke(this, StatusResult);
+                    StatusChanged?.Invoke(this, StatusResult);
                 }
 
-                if (result.DownloadedBytes != StatusResult.DownloadedBytes)
+                if (result?.DownloadedBytes != StatusResult?.DownloadedBytes)
                 {
-                    ProgressChanged?.Invoke(this,
-                        new ProgressChangedEventArgs((int)(result.DownloadedBytes / result.TotalSize * 100), this));
+                    if (result != null)
+                        ProgressChanged?.Invoke(this,
+                            new ProgressChangedEventArgs((int)(result.DownloadedBytes / result.TotalSize * 100), this));
                 }
 
                 await Task.Delay(1000);

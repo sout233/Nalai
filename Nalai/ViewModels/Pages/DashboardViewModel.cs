@@ -13,11 +13,11 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private string _pauseOrResumeText = "暂停";
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
 
-        [ObservableProperty] private ObservableCollection<DownloadTask> _downloadViewItems;
+        [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
 
         public DashboardViewModel()
         {
-            NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
+            // NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
             UpdateDownloadCollection();
 
             foreach (var task in NalaiDownService.GlobalDownloadTasks)
@@ -25,10 +25,10 @@ namespace Nalai.ViewModels.Pages
                 if (task != null) task.StatusChanged += OnDownloadStatusChanged;
             }
 
-            SqlService.OnInsertOrUpdate += OnSqlInsertOrUpdate;
+            // SqlService.OnInsertOrUpdate += OnSqlInsertOrUpdate;
         }
 
-        private void OnSqlInsertOrUpdate(object? sender, DownloadTask e)
+        private void OnSqlInsertOrUpdate(object? sender, CoreTask e)
         {
             UpdateDownloadCollection();
         }
@@ -47,10 +47,10 @@ namespace Nalai.ViewModels.Pages
             return Task.CompletedTask;
         }
 
-        private ObservableCollection<DownloadTask> GenerateDownloadCollection()
+        private ObservableCollection<CoreTask> GenerateDownloadCollection()
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
-            var taskCollection = new ObservableCollection<DownloadTask>();
+            var taskCollection = new ObservableCollection<CoreTask>();
             foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示
             {
                 if (task != null)
@@ -99,7 +99,7 @@ namespace Nalai.ViewModels.Pages
         private void OnPauseOrResume(object? parameter)
         {
             if (parameter is not ListView item) return;
-            if (item.SelectedItem is not DownloadTask task) return;
+            if (item.SelectedItem is not CoreTask task) return;
 
             var status = task.PauseOrResume();
             
@@ -110,7 +110,7 @@ namespace Nalai.ViewModels.Pages
         private void OnRemove(object? parameter)
         {
             if (parameter is not ListView item) return;
-            if (item.SelectedItem is not DownloadTask task) return;
+            if (item.SelectedItem is not CoreTask task) return;
 
             NalaiDownService.RemoveTask(task);
             UpdateDownloadCollection();
@@ -120,7 +120,7 @@ namespace Nalai.ViewModels.Pages
         private void OnCancel(object? parameter)
         {
             if (parameter is not ListView item) return;
-            if (item.SelectedItem is not DownloadTask task) return;
+            if (item.SelectedItem is not CoreTask task) return;
 
             NalaiDownService.StopTask(task);
             UpdateRightClickMenu(task.Status);

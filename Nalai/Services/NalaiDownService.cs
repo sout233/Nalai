@@ -1,65 +1,20 @@
-﻿using Downloader;
-using Nalai.Models;
-using Nalai.Views.Windows;
-using Newtonsoft.Json;
-
-// TODO: 宏不是好文明，建议重构改Service的异步方法
-#pragma warning disable CS4014 // 别再用await了
+﻿using Nalai.Models;
 
 namespace Nalai.Services;
 
 public static class NalaiDownService
 {
-    public static List<DownloadTask?> GlobalDownloadTasks { get; set; } = new();
+    public static List<CoreTask?> GlobalDownloadTasks { get; set; } = new();
 
-    public static DownloadTask? GetTaskByUrl(string url)
+    public static Task<CoreTask> NewTask(string url, string fileName, string path)
     {
-        return GlobalDownloadTasks.FirstOrDefault(x => x?.Url == url);
-    }
-
-    public static Task<DownloadTask> NewTask(string url, string fileName, string path)
-    {
-        var task = new DownloadTask(url, fileName, path);
+        var task = new CoreTask(url,path);
         GlobalDownloadTasks.Add(task);
 
         Console.WriteLine($"Starting download: {fileName},\n from: {url},\n to: {path}");
-        task.StartDownload();
 
-        SqlService.InsertOrUpdate(task);
+        // SqlService.InsertOrUpdate(task);
 
         return Task.FromResult(task);
-    }
-
-    public static void CloseTaskBindWindows(DownloadTask task)
-    {
-        foreach (var window in task.BindWindows)
-        {
-            if (window is DownloadingWindow downloadingWindow)
-            {
-                Console.WriteLine($"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
-                downloadingWindow.Close();
-            }
-        }
-    }
-
-    public static void RemoveTask(DownloadTask task)
-    {
-        CloseTaskBindWindows(task);
-        task.Downloader?.CancelAsync();
-        GlobalDownloadTasks.Remove(task);
-
-        SqlService.Delete(task);
-    }
-
-    public static void StopTask(DownloadTask task)
-    {
-        task.Package = task.Downloader?.Package;
-        task.Status = DownloadStatus.Stopped;
-        task.Downloader?.CancelAsync();
-        task.DownloaderJson = JsonConvert.SerializeObject(task.Downloader);
-        
-        CloseTaskBindWindows(task);
-        
-        SqlService.InsertOrUpdate(task);
     }
 }
