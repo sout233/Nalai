@@ -39,29 +39,32 @@ namespace Nalai.Engine.Services
             try
             {
                 var client = _httpClientProvider.GetClient();
-                client.DefaultRequestHeaders.Add("Referer", url.Split('?', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(url));
+                client.DefaultRequestHeaders.Add("Referer",
+                    url.Split('?', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(url));
 
-                using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
+                using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead,
+                    _cancellationTokenSource.Token);
                 response.EnsureSuccessStatusCode();
 
                 if (response.Content.Headers.ContentLength == null)
                 {
-                    throw new InvalidOperationException("The server did not provide a content length for the requested resource.");
+                    throw new InvalidOperationException(
+                        "The server did not provide a content length for the requested resource.");
                 }
 
                 _contentLength = response.Content.Headers.ContentLength.GetValueOrDefault();
                 var chunkSize = (long)Math.Ceiling((double)_contentLength / _config.ChunkCount);
 
                 StartSpeedTimer();
-                
-                var semaphore = new SemaphoreSlim(_config.MaxConcurrentDownloads); 
 
-                List<Task> tasks = new List<Task>();
+                var semaphore = new SemaphoreSlim(_config.MaxConcurrentDownloads);
+
+                var tasks = new List<Task>();
                 for (var i = 0; i < _config.ChunkCount; i++)
                 {
                     var start = i * chunkSize;
                     var end = Math.Min(start + chunkSize - 1, _contentLength - 1);
-                    tasks.Add(DownloadChunkAsync(url, outputPath, start, end, i,semaphore));
+                    tasks.Add(DownloadChunkAsync(url, outputPath, start, end, i, semaphore));
                 }
 
                 await Task.WhenAll(tasks);
@@ -79,7 +82,8 @@ namespace Nalai.Engine.Services
             }
         }
 
-        private async Task DownloadChunkAsync(string url, string outputPath, long start, long end, int chunkIndex,SemaphoreSlim semaphore)
+        private async Task DownloadChunkAsync(string url, string outputPath, long start, long end, int chunkIndex,
+            SemaphoreSlim semaphore)
         {
             await semaphore.WaitAsync(_cancellationTokenSource.Token); // 等待信号量
             try
@@ -88,10 +92,12 @@ namespace Nalai.Engine.Services
                 using var request = new HttpRequestMessage(HttpMethod.Get, url);
                 request.Headers.Range = new RangeHeaderValue(start, end);
 
-                using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, _cancellationTokenSource.Token);
+                using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead,
+                    _cancellationTokenSource.Token);
                 response.EnsureSuccessStatusCode();
 
-                await using var contentStream = await response.Content.ReadAsStreamAsync(_cancellationTokenSource.Token);
+                await using var contentStream =
+                    await response.Content.ReadAsStreamAsync(_cancellationTokenSource.Token);
                 await DownloadFileFromStreamAsync(contentStream, outputPath, start, end, chunkIndex);
             }
             finally
@@ -100,9 +106,11 @@ namespace Nalai.Engine.Services
             }
         }
 
-        private async Task DownloadFileFromStreamAsync(Stream source, string outputPath, long start, long end, int chunkIndex)
+        private async Task DownloadFileFromStreamAsync(Stream source, string outputPath, long start, long end,
+            int chunkIndex)
         {
-            await using var fileStream = new FileStream(DownloadHelpers.GetTempFilePath(outputPath, chunkIndex), FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            await using var fileStream = new FileStream(DownloadHelpers.GetTempFilePath(outputPath, chunkIndex),
+                FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
             fileStream.Seek(start, SeekOrigin.Begin);
 
             var buffer = new byte[8192];
