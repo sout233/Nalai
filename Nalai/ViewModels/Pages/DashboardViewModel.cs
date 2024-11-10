@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Services;
@@ -77,20 +78,18 @@ namespace Nalai.ViewModels.Pages
             PauseOrResumeText = status switch
             {
                 DownloadStatus.Running => "暂停",
-                DownloadStatus.Paused => "继续",
-                DownloadStatus.Completed => "重新下载",
-                DownloadStatus.Failed => "重新下载",
-                DownloadStatus.Stopped => "重新下载",
+                DownloadStatus.Pending => "暂停",
+                DownloadStatus.NoStart => "继续",
+                DownloadStatus.Error => "重新下载",
                 _ => PauseOrResumeText
             };
 
             PauseOrResumeIcon = status switch
             {
                 DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.Paused => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Completed => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
-                DownloadStatus.Failed => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
-                DownloadStatus.Stopped => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatus.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatus.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 _ => PauseOrResumeIcon
             };
         }
@@ -102,8 +101,8 @@ namespace Nalai.ViewModels.Pages
             if (item.SelectedItem is not CoreTask task) return;
 
             await task.StopAsync();
-            
-            UpdateRightClickMenu(status);
+
+            if (task.StatusResult != null) UpdateRightClickMenu(task.StatusResult.Status);
         }
 
         [RelayCommand]
@@ -112,7 +111,10 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not CoreTask task) return;
 
-            NalaiDownService.RemoveTask(task);
+            // TODO: 实现删除任务功能
+            // NalaiDownService.RemoveTask(task);
+
+            PreCore.StopAsync(task.Id);
             UpdateDownloadCollection();
         }
 
@@ -122,8 +124,8 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not CoreTask task) return;
 
-            NalaiDownService.StopTask(task);
-            UpdateRightClickMenu(task.Status);
+            PreCore.StopAsync(task.Id);
+            if (task.StatusResult != null) UpdateRightClickMenu(task.StatusResult.Status);
         }
     }
 }

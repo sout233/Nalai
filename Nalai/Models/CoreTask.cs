@@ -11,6 +11,8 @@ public class CoreTask
     public string SavePath { get; set; }
     public string Url { get; set; }
     public string? Id { get; set; }
+    
+    public List<Window> BindWindows { get; set; } = [];
 
     public event EventHandler<GetStatusResult> StatusChanged;
     public event EventHandler<ProgressChangedEventArgs> ProgressChanged;

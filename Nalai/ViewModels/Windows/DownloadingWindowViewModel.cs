@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Downloader;
+using System.Net;
+using Nalai.CoreConnector;
+using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
@@ -49,7 +51,7 @@ public partial class
 
     public void UpdatePausedOrResumeBtn()
     {
-        if (ThisViewTask.Downloader.IsPaused)
+        if (ThisViewTask.StatusResult.Status is DownloadStatus.NoStart)
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
             PauseOrResumeBtnContent = "Resume";
@@ -66,7 +68,7 @@ public partial class
     [RelayCommand]
     private void CancelDownload()
     {
-        NalaiDownService.StopTask(ThisViewTask);
+        PreCore.StopAsync(ThisViewTask.Id);
         BasedWindow.Close();
     }
 
@@ -86,7 +88,7 @@ public partial class
 
     public void OnChunkDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
-        var id = e.ProgressId;
+        // var id = e.ProgressId;
         var progress = e.ProgressPercentage;
 
         // TODO: Fix this (chuck进度条显示会卡卡的)
@@ -95,24 +97,26 @@ public partial class
         //     AddOrUpdateChunkProgressBars(id, (float)progress);
         // }));
     }
+    
+    // TODO: 实现下载进度条显示
 
-    public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
-    {
-        // var chunks = e.ActiveChunks;
-        var progress = e.ProgressPercentage;
-        var speed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed);
-        // var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
-        var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
-        var receivedFileSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
-        var remainingTime =
-            TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize, e.TotalBytesToReceive,
-                (long)e.BytesPerSecondSpeed);
-
-        ProgressValue = progress;
-        ProgressText = progress.ToString("0.00") + "%";
-        DownloadSpeed = speed + "/s";
-        FileSize = $"{receivedFileSize} / {totalFileSize}";
-        RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
-        Url = ThisViewTask.Url;
-    }
+    // public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
+    // {
+    //     // var chunks = e.ActiveChunks;
+    //     var progress = e.ProgressPercentage;
+    //     var speed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed);
+    //     // var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
+    //     var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
+    //     var receivedFileSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
+    //     var remainingTime =
+    //         TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize, e.TotalBytesToReceive,
+    //             (long)e.BytesPerSecondSpeed);
+    //
+    //     ProgressValue = progress;
+    //     ProgressText = progress.ToString("0.00") + "%";
+    //     DownloadSpeed = speed + "/s";
+    //     FileSize = $"{receivedFileSize} / {totalFileSize}";
+    //     RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
+    //     Url = ThisViewTask.Url;
+    // }
 }

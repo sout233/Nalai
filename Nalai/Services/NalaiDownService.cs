@@ -15,6 +15,8 @@ public static class NalaiDownService
 
         // SqlService.InsertOrUpdate(task);
 
+        task.StartDownload();
+
         return Task.FromResult(task);
     }
 }

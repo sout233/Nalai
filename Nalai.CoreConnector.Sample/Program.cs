@@ -23,7 +23,7 @@ Task.Run(async () =>
 
 await Task.Delay(5000);
 
-var result = await preCore.StopAsync(id.Id);
+var result = await PreCore.StopAsync(id.Id);
 
 Console.WriteLine(result.IsSuccess);
 

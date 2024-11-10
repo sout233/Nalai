@@ -4,6 +4,8 @@ namespace Nalai.CoreConnector.Models;
 
 public class GetStatusResult
 {
+    private string _statusText;
+
     /// <summary>
     /// 已下载字节数
     /// </summary>
@@ -32,13 +34,33 @@ public class GetStatusResult
     /// 下载状态，详情见core源代码
     /// </summary>
     [JsonProperty("status")]
-    public string StatusText { get; set; }
-    
+    public string StatusText
+    {
+        get => _statusText;
+        set
+        {
+            _statusText = value;
+            Status = value switch
+            {
+                "NoStart" => DownloadStatus.NoStart,
+                "Running" => DownloadStatus.Running,
+                "Pending" => DownloadStatus.Pending,
+                "Error" => DownloadStatus.Error,
+                "Finished" => DownloadStatus.Finished,
+                _ => DownloadStatus.NoStart
+            };
+        }
+    }
+
     [JsonIgnore]
     public DownloadStatus Status { get; set; }
 }
 
 public enum DownloadStatus
 {
-    
+    NoStart,
+    Running,
+    Pending,
+    Error,
+    Finished,
 }

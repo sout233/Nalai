@@ -28,7 +28,9 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.ThisViewTask = task;
         ViewModel.BasedWindow = this;
 
-        task.ProgressChanged += ViewModel.OnDownloadProgressChanged;
+        // TODO: 实现下载进度的监听（绑回去）
+        // task.ProgressChanged += ViewModel.OnDownloadProgressChanged;
+        // 下面这个暂且不用
         // task.Downloader.ChunkDownloadProgressChanged += ViewModel.OnChunkDownloadProgressChanged;
     }
 
