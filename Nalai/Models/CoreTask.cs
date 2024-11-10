@@ -27,6 +27,14 @@ public class CoreTask
         Id = result?.Id;
         StartListen();
     }
+    
+    public async Task StopAsync()
+    {
+        if (Id != null)
+        {
+            await PreCore.StopAsync(Id);
+        }
+    }
 
     private void StartListen()
     {

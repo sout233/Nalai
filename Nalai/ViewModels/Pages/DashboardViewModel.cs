@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Downloader;
+using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Windows;
@@ -67,7 +68,7 @@ namespace Nalai.ViewModels.Pages
             DownloadViewItems = GenerateDownloadCollection();
         }
 
-        public void OnDownloadStatusChanged(object? sender, EventArgs eventArgs)
+        public void OnDownloadStatusChanged(object? sender, GetStatusResult getStatusResult)
         {
             UpdateDownloadCollection();
         }
@@ -96,12 +97,12 @@ namespace Nalai.ViewModels.Pages
         }
 
         [RelayCommand]
-        private void OnPauseOrResume(object? parameter)
+        private async Task OnPauseOrResume(object? parameter)
         {
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not CoreTask task) return;
 
-            var status = task.PauseOrResume();
+            await task.StopAsync();
             
             UpdateRightClickMenu(status);
         }
