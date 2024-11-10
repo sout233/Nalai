@@ -40,13 +40,13 @@ public class CoreTask
     {
         Task.Run(async () =>
         {
-            while (StatusResult?.Status != "Finished")
+            while (StatusResult?.StatusText != "Finished")
             {
                 var result = await PreCore.GetStatusAsync(Id);
 
                 StatusResult = result;
 
-                if (result?.Status != StatusResult?.Status)
+                if (result?.StatusText != StatusResult?.StatusText)
                 {
                     StatusChanged?.Invoke(this, StatusResult);
                 }

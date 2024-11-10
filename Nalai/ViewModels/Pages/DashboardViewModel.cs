@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Downloader;
 using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Services;

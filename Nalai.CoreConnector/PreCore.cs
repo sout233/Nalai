@@ -13,8 +13,10 @@ public static class PreCore
     {
         try
         {
-            var uriBuilder = new UriBuilder("http://localhost:13088/download");
-            uriBuilder.Query = $"url={url}&save_dir={path}";
+            var uriBuilder = new UriBuilder("http://localhost:13088/download")
+            {
+                Query = $"url={url}&save_dir={path}"
+            };
             //HttpContent content = new();
             Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
             var response = await _httpClient.PostAsync(uriBuilder.Uri, null);
@@ -35,8 +37,10 @@ public static class PreCore
     {
         try
         {
-            var uriBuilder = new UriBuilder("http://localhost:13088/status");
-            uriBuilder.Query = $"id={id}";
+            var uriBuilder = new UriBuilder("http://localhost:13088/status")
+            {
+                Query = $"id={id}"
+            };
             //HttpContent content = new();
             var response = await _httpClient.GetAsync(uriBuilder.Uri);
             response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
@@ -56,8 +60,10 @@ public static class PreCore
     {
         try
         {
-            var uriBuilder = new UriBuilder("http://localhost:13088/stop");
-            uriBuilder.Query = $"id={id}";
+            var uriBuilder = new UriBuilder("http://localhost:13088/stop")
+            {
+                Query = $"id={id}"
+            };
             //HttpContent content = new();
             Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
             var response = await _httpClient.PostAsync(uriBuilder.Uri, null);

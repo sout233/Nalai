@@ -15,7 +15,7 @@ Task.Run(async () =>
         if (status.TotalSize > 0)
         {
             var progress = (((float)status.DownloadedBytes / status.TotalSize) * 100).ToString("0.00")+"%";
-            Console.WriteLine($"Downloaded:{status.DownloadedBytes} Total:{status.TotalSize} FileName:{status.FileName} Status:{status.Status} Progress:{progress}");
+            Console.WriteLine($"Downloaded:{status.DownloadedBytes} Total:{status.TotalSize} FileName:{status.FileName} Status:{status.StatusText} Progress:{progress}");
         }
         await Task.Delay(500);
     }

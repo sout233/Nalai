@@ -41,9 +41,9 @@ public partial class
     }
 
     [RelayCommand]
-    private void PauseOrResumeDownload()
+    private async Task PauseOrResumeDownload()
     {
-        ThisViewTask.PauseOrResume();
+        await ThisViewTask.StopAsync();
         UpdatePausedOrResumeBtn();
     }
 
@@ -96,12 +96,12 @@ public partial class
         // }));
     }
 
-    public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs progressChangedEventArgs)
+    public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
     {
-        var chunks = e.ActiveChunks;
+        // var chunks = e.ActiveChunks;
         var progress = e.ProgressPercentage;
         var speed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed);
-        var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
+        // var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
         var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
         var receivedFileSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
         var remainingTime =

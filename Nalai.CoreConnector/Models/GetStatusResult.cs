@@ -32,5 +32,13 @@ public class GetStatusResult
     /// 下载状态，详情见core源代码
     /// </summary>
     [JsonProperty("status")]
-    public string Status { get; set; }
+    public string StatusText { get; set; }
+    
+    [JsonIgnore]
+    public DownloadStatus Status { get; set; }
+}
+
+public enum DownloadStatus
+{
+    
 }
