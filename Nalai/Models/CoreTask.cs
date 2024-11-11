@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
 
 namespace Nalai.Models;
@@ -25,7 +24,7 @@ public class CoreTask
 
     public async Task StartDownload()
     {
-        var result = await PreCore.StartAsync(Url, SavePath);
+        var result = await CoreConnector.CoreService.StartAsync(Url, SavePath);
         Id = result?.Id;
         StartListen();
     }
@@ -34,7 +33,7 @@ public class CoreTask
     {
         if (Id != null)
         {
-            await PreCore.StopAsync(Id);
+            await CoreConnector.CoreService.StopAsync(Id);
         }
     }
 
@@ -44,7 +43,7 @@ public class CoreTask
         {
             while (StatusResult?.StatusText != "Finished")
             {
-                var result = await PreCore.GetStatusAsync(Id);
+                var result = await CoreConnector.CoreService.GetStatusAsync(Id);
 
                 StatusResult = result;
 
@@ -56,9 +55,14 @@ public class CoreTask
                 if (result?.DownloadedBytes != StatusResult?.DownloadedBytes)
                 {
                     if (result != null)
+                    {
+                        Console.WriteLine("Invoke");
                         ProgressChanged?.Invoke(this,
                             new ProgressChangedEventArgs((int)(result.DownloadedBytes / result.TotalSize * 100), this));
+                    }
                 }
+                
+                Console.WriteLine($"Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}");
 
                 await Task.Delay(1000);
             }

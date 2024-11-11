@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 
 namespace Nalai.CoreConnector;
 
-public static class PreCore
+public static class CoreService
 {
-    private static readonly HttpClient _httpClient = new();
+    private static readonly HttpClient HttpClient = new();
 
     public static async Task<PostDownloadResult?> StartAsync(string url, string path)
     {
@@ -19,7 +19,7 @@ public static class PreCore
             };
             //HttpContent content = new();
             Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
-            var response = await _httpClient.PostAsync(uriBuilder.Uri, null);
+            var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
             response.EnsureSuccessStatusCode();
             var contentResult = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<PostDownloadResult>(contentResult);
@@ -42,7 +42,7 @@ public static class PreCore
                 Query = $"id={id}"
             };
             //HttpContent content = new();
-            var response = await _httpClient.GetAsync(uriBuilder.Uri);
+            var response = await HttpClient.GetAsync(uriBuilder.Uri);
             response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetStatusResult>(content);
@@ -66,7 +66,7 @@ public static class PreCore
             };
             //HttpContent content = new();
             Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
-            var response = await _httpClient.PostAsync(uriBuilder.Uri, null);
+            var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
             response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<PostStopResult>(content);

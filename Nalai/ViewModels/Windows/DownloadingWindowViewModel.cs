@@ -68,7 +68,7 @@ public partial class
     [RelayCommand]
     private void CancelDownload()
     {
-        PreCore.StopAsync(ThisViewTask.Id);
+        CoreConnector.CoreService.StopAsync(ThisViewTask.Id);
         BasedWindow.Close();
     }
 
@@ -119,4 +119,10 @@ public partial class
     //     RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
     //     Url = ThisViewTask.Url;
     // }
+    public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
+    {
+        ProgressValue = e.ProgressPercentage;
+        ProgressText = e.ProgressPercentage.ToString("0.00") + "%";
+        Console.WriteLine(e.ProgressPercentage);
+    }
 }
