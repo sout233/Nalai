@@ -46,10 +46,12 @@ public class GetStatusResult
             {
                 "NoStart" => DownloadStatus.NoStart,
                 "Running" => DownloadStatus.Running,
-                "Pending" => DownloadStatus.Pending,
                 "Error" => DownloadStatus.Error,
                 "Finished" => DownloadStatus.Finished,
-                "\"DownloadFinished\"" => DownloadStatus.Finished,
+                "DownloadFinished" => DownloadStatus.Finished,
+                "Pending(Initializing)"=> DownloadStatus.Pending,
+                "Pending(Starting)"=> DownloadStatus.Pending,
+                "Pending(Stopping)"=> DownloadStatus.Pending,
                 _ => DownloadStatus.NoStart
             };
         }
