@@ -7,6 +7,7 @@ using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
 using Wpf.Ui.Controls;
+using DownloadProgressChangedEventArgs = Nalai.Models.DownloadProgressChangedEventArgs;
 
 namespace Nalai.ViewModels.Windows;
 
@@ -119,10 +120,19 @@ public partial class
     //     RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
     //     Url = ThisViewTask.Url;
     // }
-    public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
+    public void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
         ProgressValue = e.ProgressPercentage;
         ProgressText = e.ProgressPercentage.ToString("0.00") + "%";
         Console.WriteLine(e.ProgressPercentage);
+        DownloadSpeed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed) + "/s";
+        var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
+        var receivedFileSize = ByteSizeFormatter.FormatSize(e.BytesReceived);
+        var remainingTime =
+            TimeFormatter.CalculateRemainingTime(e.BytesReceived, e.TotalBytesToReceive,
+                (long)e.BytesPerSecondSpeed);
+        RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
+        Url = ThisViewTask.Url;
+        FileSize = $"{receivedFileSize} / {totalFileSize}";
     }
 }

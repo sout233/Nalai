@@ -17,6 +17,9 @@ public class GetStatusResult
     /// </summary>
     [JsonProperty("total_size")]
     public long TotalSize { get; set; }
+    
+    [JsonProperty("speed")]
+    public long BytesPerSecondSpeed { get; set; }
 
     // /// <summary>
     // /// 文件名

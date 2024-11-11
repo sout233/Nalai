@@ -10,11 +10,11 @@ public class CoreTask
     public string SavePath { get; set; }
     public string Url { get; set; }
     public string? Id { get; set; }
-    
+
     public List<Window> BindWindows { get; set; } = [];
 
     public event EventHandler<GetStatusResult> StatusChanged;
-    public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
+    public event EventHandler<DownloadProgressChangedEventArgs> ProgressChanged;
 
     public CoreTask(string url, string savePath)
     {
@@ -28,7 +28,7 @@ public class CoreTask
         Id = result?.Id;
         StartListen();
     }
-    
+
     public async Task StopAsync()
     {
         if (Id != null)
@@ -45,8 +45,6 @@ public class CoreTask
             {
                 var result = await CoreConnector.CoreService.GetStatusAsync(Id);
 
-                StatusResult = result;
-
                 if (result?.StatusText != StatusResult?.StatusText)
                 {
                     StatusChanged?.Invoke(this, StatusResult);
@@ -58,11 +56,18 @@ public class CoreTask
                     {
                         Console.WriteLine("Invoke");
                         ProgressChanged?.Invoke(this,
-                            new ProgressChangedEventArgs((int)(result.DownloadedBytes / result.TotalSize * 100), this));
+                            new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalSize,
+                                bytesReceived: result.DownloadedBytes,
+                                progressPercentage: (float)result.DownloadedBytes / result.TotalSize * 100,
+                                bytesPerSecondSpeed: result.BytesPerSecondSpeed)
+                        );
                     }
                 }
-                
-                Console.WriteLine($"Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}");
+
+                StatusResult = result;
+
+                Console.WriteLine(
+                    $"Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}");
 
                 await Task.Delay(1000);
             }

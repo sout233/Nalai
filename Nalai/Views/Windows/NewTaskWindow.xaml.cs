@@ -8,7 +8,7 @@ public partial class NewTaskWindow : FluentWindow
     public NewTaskWindowViewModel ViewModel { get; }
 
     private const string DownloadUrl =
-        "https://mirrors.tuna.tsinghua.edu.cn/github-release/VSCodium/vscodium/1.95.1.24307/VSCodium-win32-x64-1.95.1.24307.zip";
+        "https://download.fastmirror.net/download/Paper/1.21.1/build74";
 
     public NewTaskWindow(NewTaskWindowViewModel vm, string url = "", string savePath = "")
     {
