@@ -38,6 +38,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
         }
         else
         {
+            // TODO: 该文件下载后找不到，可能是core存在问题：https://mirrors.tuna.tsinghua.edu.cn/debian/dists/Debian10.13/ChangeLog
             NalaiMsgBox.Show($"文件不存在:\n{filePath}\n是否已经移动或删除？", "错误");
         }
         

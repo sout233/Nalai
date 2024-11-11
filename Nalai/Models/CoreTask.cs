@@ -1,4 +1,5 @@
 ﻿using Nalai.CoreConnector.Models;
+using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 
 namespace Nalai.Models
@@ -74,6 +75,11 @@ namespace Nalai.Models
                             
                             Application.Current.Dispatcher.Invoke(() =>
                             {
+                                var vm = new DownloadCompleteWindowViewModel(this);
+                                var downloadCompleteWindow = new DownloadCompleteWindow(vm, this);
+                                vm.BindWindow = downloadCompleteWindow;
+                                downloadCompleteWindow.Show();
+                                
                                 foreach (var window in BindWindows)
                                 {
                                     if (window is DownloadingWindow downloadingWindow)
