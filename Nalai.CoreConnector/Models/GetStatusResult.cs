@@ -17,21 +17,20 @@ public class GetStatusResult
     /// </summary>
     [JsonProperty("total_size")]
     public long TotalSize { get; set; }
-    
-    [JsonProperty("speed")]
-    public long BytesPerSecondSpeed { get; set; }
 
-    // /// <summary>
-    // /// 文件名
-    // /// </summary>
-    // [JsonProperty("file_name")]
-    // public string FileName { get; set; }
-    //
-    // /// <summary>
-    // /// 不解释（
-    // /// </summary>
-    // [JsonProperty("url")]
-    // public string Url { get; set; }
+    [JsonProperty("speed")] public long BytesPerSecondSpeed { get; set; }
+
+    /// <summary>
+    /// 文件名
+    /// </summary>
+    [JsonProperty("file_name")]
+    public string FileName { get; set; }
+
+    /// <summary>
+    /// 不解释（
+    /// </summary>
+    [JsonProperty("url")]
+    public string Url { get; set; }
 
     /// <summary>
     /// 下载状态，详情见core源代码
@@ -50,13 +49,13 @@ public class GetStatusResult
                 "Pending" => DownloadStatus.Pending,
                 "Error" => DownloadStatus.Error,
                 "Finished" => DownloadStatus.Finished,
+                "\"DownloadFinished\"" => DownloadStatus.Finished,
                 _ => DownloadStatus.NoStart
             };
         }
     }
 
-    [JsonIgnore]
-    public DownloadStatus Status { get; set; }
+    [JsonIgnore] public DownloadStatus Status { get; set; }
 }
 
 public enum DownloadStatus

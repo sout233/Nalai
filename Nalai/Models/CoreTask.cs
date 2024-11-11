@@ -1,76 +1,110 @@
-﻿using System.ComponentModel;
-using Nalai.CoreConnector.Models;
+﻿using Nalai.CoreConnector.Models;
+using Nalai.Views.Windows;
 
-namespace Nalai.Models;
-
-public class CoreTask
+namespace Nalai.Models
 {
-    public GetStatusResult? StatusResult { get; set; }
-    public string FileName { get; set; } = "Unknown";
-    public string SavePath { get; set; }
-    public string Url { get; set; }
-    public string? Id { get; set; }
-
-    public List<Window> BindWindows { get; set; } = [];
-
-    public event EventHandler<GetStatusResult> StatusChanged;
-    public event EventHandler<DownloadProgressChangedEventArgs> ProgressChanged;
-
-    public CoreTask(string url, string savePath)
+    public class CoreTask(string url, string savePath)
     {
-        Url = url;
-        SavePath = savePath;
-    }
+        public GetStatusResult? StatusResult { get; set; }
+        public string FileName { get; set; } = "Unknown";
+        public string SavePath { get; set; } = savePath;
+        public string Url { get; set; } = url;
+        public string? Id { get; set; }
 
-    public async Task StartDownload()
-    {
-        var result = await CoreConnector.CoreService.StartAsync(Url, SavePath);
-        Id = result?.Id;
-        StartListen();
-    }
+        public List<Window> BindWindows { get; set; } = [];
 
-    public async Task StopAsync()
-    {
-        if (Id != null)
+        public event EventHandler<GetStatusResult>? StatusChanged;
+        public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
+
+        private CancellationTokenSource _cancellationTokenSource = new();
+
+        public async Task StartDownload()
         {
-            await CoreConnector.CoreService.StopAsync(Id);
+            var result = await CoreConnector.CoreService.StartAsync(Url, SavePath);
+            Id = result?.Id;
+            _cancellationTokenSource = new CancellationTokenSource();
+            StartListen(_cancellationTokenSource.Token);
         }
-    }
 
-    private void StartListen()
-    {
-        Task.Run(async () =>
+        public async Task StopAsync()
         {
-            while (StatusResult?.StatusText != "Finished")
+            if (Id != null)
             {
-                var result = await CoreConnector.CoreService.GetStatusAsync(Id);
+                await CoreConnector.CoreService.StopAsync(Id);
+            }
 
-                if (result?.StatusText != StatusResult?.StatusText)
-                {
-                    StatusChanged?.Invoke(this, StatusResult);
-                }
+            await _cancellationTokenSource.CancelAsync();
+        }
 
-                if (result?.DownloadedBytes != StatusResult?.DownloadedBytes)
+        private void StartListen(CancellationToken cancellationToken)
+        {
+            Task.Run(async () =>
+            {
+                try
                 {
-                    if (result != null)
+                    while (!cancellationToken.IsCancellationRequested && StatusResult?.StatusText != "Finished")
                     {
-                        Console.WriteLine("Invoke");
-                        ProgressChanged?.Invoke(this,
-                            new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalSize,
-                                bytesReceived: result.DownloadedBytes,
-                                progressPercentage: (float)result.DownloadedBytes / result.TotalSize * 100,
-                                bytesPerSecondSpeed: result.BytesPerSecondSpeed)
-                        );
+                        var result = await CoreConnector.CoreService.GetStatusAsync(Id);
+                        
+
+                        if (result?.StatusText != StatusResult?.StatusText)
+                        {
+                            if (StatusResult != null) StatusChanged?.Invoke(this, StatusResult);
+                        }
+
+                        if (result?.DownloadedBytes != StatusResult?.DownloadedBytes)
+                        {
+                            if (result != null)
+                            {
+                                Console.WriteLine("Invoke");
+                                ProgressChanged?.Invoke(this,
+                                    new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalSize,
+                                        bytesReceived: result.DownloadedBytes,
+                                        progressPercentage: (float)result.DownloadedBytes / result.TotalSize * 100,
+                                        bytesPerSecondSpeed: result.BytesPerSecondSpeed)
+                                );
+                            }
+                        }
+
+                        StatusResult = result;
+
+                        if (StatusResult?.Status is DownloadStatus.Finished or DownloadStatus.Error)
+                        {
+                            Console.WriteLine("Download End");
+                            
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                foreach (var window in BindWindows)
+                                {
+                                    if (window is DownloadingWindow downloadingWindow)
+                                    {
+                                        Console.WriteLine($"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
+                                        downloadingWindow.Close();
+                                    }
+                                }
+                            });
+                            
+                            await _cancellationTokenSource.CancelAsync();
+                            
+                            break;
+                        }
+
+
+                        Console.WriteLine(
+                            $"Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}");
+
+                        await Task.Delay(100, cancellationToken);
                     }
                 }
-
-                StatusResult = result;
-
-                Console.WriteLine(
-                    $"Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}");
-
-                await Task.Delay(1000);
-            }
-        });
+                catch (OperationCanceledException)
+                {
+                    Console.WriteLine("Listen canceled");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }, cancellationToken);
+        }
     }
 }

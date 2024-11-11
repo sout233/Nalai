@@ -55,8 +55,6 @@ public partial class NewTaskWindowViewModel : ObservableObject
         var fileName = await UrlHelper.GetFileName(Url);
         var task = await NalaiDownService.NewTask(Url, fileName, SavePath);
 
-        task.StatusChanged += Dashboard.OnDownloadStatusChanged;
-
         var vm = new DownloadingWindowViewModel(task);
         var window = new DownloadingWindow(vm, Url, task);
         window.Show();

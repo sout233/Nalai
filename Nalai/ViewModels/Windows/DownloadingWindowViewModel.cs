@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Net;
 using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
@@ -134,5 +135,12 @@ public partial class
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
         Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";
+    }
+
+    public void OnDownloadStatusChanged(object? sender, GetStatusResult e)
+    {
+        FileName = e.FileName;
+        ApplicationTitle = "Downloading: " + FileName;
+        Url = e.Url;
     }
 }

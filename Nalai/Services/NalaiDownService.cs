@@ -8,14 +8,14 @@ public static class NalaiDownService
 
     public static Task<CoreTask> NewTask(string url, string fileName, string path)
     {
-        var task = new CoreTask(url,path);
+        var task = new CoreTask(url, path);
         GlobalDownloadTasks.Add(task);
 
         Console.WriteLine($"Starting download: {fileName},\n from: {url},\n to: {path}");
 
         // SqlService.InsertOrUpdate(task);
 
-        task.StartDownload();
+        _ = task.StartDownload();
 
         return Task.FromResult(task);
     }
