@@ -68,6 +68,8 @@ namespace Nalai.Models
                         }
 
                         StatusResult = result;
+                        FileName = StatusResult?.FileName;
+                        Url = StatusResult?.Url;
 
                         if (StatusResult?.Status is DownloadStatus.Finished or DownloadStatus.Error)
                         {
