@@ -70,7 +70,7 @@ public partial class
     [RelayCommand]
     private void CancelDownload()
     {
-        CoreConnector.CoreService.StopAsync(ThisViewTask.Id);
+        _ = CoreService.StopAsync(ThisViewTask.Id);
         BasedWindow.Close();
     }
 

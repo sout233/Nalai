@@ -11,6 +11,7 @@ namespace Nalai.Models
         public string SavePath { get; set; } = savePath;
         public string Url { get; set; } = url;
         public string? Id { get; set; }
+        public string StatusText { get; set; } = "Pending";
 
         public List<Window> BindWindows { get; set; } = [];
 
@@ -46,7 +47,7 @@ namespace Nalai.Models
                     while (!cancellationToken.IsCancellationRequested && StatusResult?.StatusText != "Finished")
                     {
                         var result = await CoreConnector.CoreService.GetStatusAsync(Id);
-                        
+
 
                         if (result?.StatusText != StatusResult?.StatusText)
                         {
@@ -70,30 +71,32 @@ namespace Nalai.Models
                         StatusResult = result;
                         FileName = StatusResult?.FileName;
                         Url = StatusResult?.Url;
+                        StatusText = StatusResult?.StatusText;
 
                         if (StatusResult?.Status is DownloadStatus.Finished or DownloadStatus.Error)
                         {
                             Console.WriteLine("Download End");
-                            
+
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 var vm = new DownloadCompleteWindowViewModel(this);
                                 var downloadCompleteWindow = new DownloadCompleteWindow(vm, this);
                                 vm.BindWindow = downloadCompleteWindow;
                                 downloadCompleteWindow.Show();
-                                
+
                                 foreach (var window in BindWindows)
                                 {
                                     if (window is DownloadingWindow downloadingWindow)
                                     {
-                                        Console.WriteLine($"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
+                                        Console.WriteLine(
+                                            $"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
                                         downloadingWindow.Close();
                                     }
                                 }
                             });
-                            
+
                             await _cancellationTokenSource.CancelAsync();
-                            
+
                             break;
                         }
 
