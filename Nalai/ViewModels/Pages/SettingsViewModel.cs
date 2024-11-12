@@ -1,11 +1,12 @@
-﻿using Wpf.Ui.Appearance;
+﻿using System.Reflection;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Pages
 {
     public partial class SettingsViewModel : ObservableObject, INavigationAware
     {
-        private bool _isInitialized = false;
+        private bool _isInitialized;
 
         [ObservableProperty]
         private string _appVersion = String.Empty;
@@ -32,7 +33,7 @@ namespace Nalai.ViewModels.Pages
 
         private string GetAssemblyVersion()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString()
+            return Assembly.GetExecutingAssembly().GetName().Version?.ToString()
                 ?? String.Empty;
         }
 

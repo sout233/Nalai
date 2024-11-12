@@ -26,10 +26,10 @@ namespace Nalai.ViewModels.Pages
                 if (task != null) task.StatusChanged += OnDownloadStatusChanged;
             }
 
-            // SqlService.OnInsertOrUpdate += OnSqlInsertOrUpdate;
+            NalaiDownService.GlobalDownloadTasksChanged += OnGlobalDownloadTasksChanged;
         }
 
-        private void OnSqlInsertOrUpdate(object? sender, CoreTask e)
+        private void OnGlobalDownloadTasksChanged(object? sender, CoreTask e)
         {
             UpdateDownloadCollection();
         }
@@ -114,7 +114,7 @@ namespace Nalai.ViewModels.Pages
             // TODO: 实现删除任务功能
             // NalaiDownService.RemoveTask(task);
 
-            CoreConnector.CoreService.StopAsync(task.Id);
+            _ = CoreService.StopAsync(task.Id);
             UpdateDownloadCollection();
         }
 
@@ -124,7 +124,7 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not CoreTask task) return;
 
-            CoreConnector.CoreService.StopAsync(task.Id);
+            _ = CoreService.StopAsync(task.Id);
             if (task.StatusResult != null) UpdateRightClickMenu(task.StatusResult.Status);
         }
     }

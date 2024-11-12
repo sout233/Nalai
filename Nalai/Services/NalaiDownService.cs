@@ -5,6 +5,8 @@ namespace Nalai.Services;
 public static class NalaiDownService
 {
     public static List<CoreTask?> GlobalDownloadTasks { get; set; } = new();
+    
+    public static event EventHandler<CoreTask>? GlobalDownloadTasksChanged;
 
     public static Task<CoreTask> NewTask(string url, string fileName, string path)
     {
@@ -16,6 +18,8 @@ public static class NalaiDownService
         // SqlService.InsertOrUpdate(task);
 
         _ = task.StartDownload();
+        
+        GlobalDownloadTasksChanged?.Invoke(null, task);
 
         return Task.FromResult(task);
     }
