@@ -27,6 +27,12 @@ namespace Nalai.ViewModels.Pages
             }
 
             NalaiDownService.GlobalDownloadTasksChanged += OnGlobalDownloadTasksChanged;
+            CoreTask.GlobalTaskChanged += OnGlobalTaskChanged;
+        }
+
+        private void OnGlobalTaskChanged(object? sender, CoreTask e)
+        {
+            UpdateDownloadCollection();
         }
 
         private void OnGlobalDownloadTasksChanged(object? sender, CoreTask e)
@@ -102,7 +108,7 @@ namespace Nalai.ViewModels.Pages
 
             await task.StopAsync();
 
-            if (task.StatusResult != null) UpdateRightClickMenu(task.StatusResult.Status);
+            UpdateRightClickMenu(task.StatusResult.Status);
         }
 
         [RelayCommand]
@@ -125,7 +131,7 @@ namespace Nalai.ViewModels.Pages
             if (item.SelectedItem is not CoreTask task) return;
 
             _ = CoreService.StopAsync(task.Id);
-            if (task.StatusResult != null) UpdateRightClickMenu(task.StatusResult.Status);
+            UpdateRightClickMenu(task.StatusResult.Status);
         }
     }
 }

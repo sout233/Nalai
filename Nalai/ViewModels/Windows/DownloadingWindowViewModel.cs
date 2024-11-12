@@ -125,7 +125,6 @@ public partial class
     {
         ProgressValue = e.ProgressPercentage;
         ProgressText = e.ProgressPercentage.ToString("0.00") + "%";
-        Console.WriteLine(e.ProgressPercentage);
         DownloadSpeed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed) + "/s";
         var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
         var receivedFileSize = ByteSizeFormatter.FormatSize(e.BytesReceived);

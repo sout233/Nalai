@@ -1,4 +1,5 @@
 ﻿using Nalai.CoreConnector.Models;
+using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 
@@ -6,7 +7,7 @@ namespace Nalai.Models
 {
     public class CoreTask(string url, string savePath)
     {
-        public GetStatusResult? StatusResult { get; set; }
+        public GetStatusResult StatusResult { get; set; } = new();
         public string FileName { get; set; } = "Unknown";
         public string SavePath { get; set; } = savePath;
         public string Url { get; set; } = url;
@@ -20,6 +21,8 @@ namespace Nalai.Models
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
 
+        public static event EventHandler<CoreTask>? GlobalTaskChanged;
+        
         public async Task StartDownload()
         {
             var result = await CoreConnector.CoreService.StartAsync(Url, SavePath);
@@ -29,15 +32,14 @@ namespace Nalai.Models
 
         public async Task StopAsync()
         {
-            Console.WriteLine(Id);
             if (Id != null)
             {
-                Console.WriteLine("StopAsync");
                 await CoreConnector.CoreService.StopAsync(Id);
             }
 
             await _cancellationTokenSource.CancelAsync();
-            Console.WriteLine(_cancellationTokenSource.IsCancellationRequested);
+
+            Console.WriteLine("StopAsync:" + Id);
         }
 
         private void StartListen(CancellationToken cancellationToken)
@@ -52,16 +54,16 @@ namespace Nalai.Models
 
                         var result = await CoreConnector.CoreService.GetStatusAsync(Id);
 
-
-                        if (result?.StatusText != StatusResult?.StatusText || result?.FileName != FileName ||
-                            result?.Url != Url)
+                        if (result != null)
                         {
-                            if (StatusResult != null) StatusChanged?.Invoke(this, StatusResult);
-                        }
+                            if (result.StatusText != StatusResult?.StatusText || result.FileName != FileName ||
+                                result.Url != Url)
+                            {
+                                Console.WriteLine("Status changed:" + FileName);
+                                if (StatusResult != null) StatusChanged?.Invoke(this, StatusResult);
+                            }
 
-                        if (result?.DownloadedBytes != StatusResult?.DownloadedBytes)
-                        {
-                            if (result != null)
+                            if (result.DownloadedBytes != StatusResult?.DownloadedBytes)
                             {
                                 ProgressChanged?.Invoke(this,
                                     new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalSize,
@@ -70,49 +72,54 @@ namespace Nalai.Models
                                         bytesPerSecondSpeed: result.BytesPerSecondSpeed)
                                 );
                             }
+
+                            StatusResult = result;
+                            GlobalTaskChanged?.Invoke(this, this);
                         }
 
-                        StatusResult = result;
-                        FileName = StatusResult?.FileName;
-                        Url = StatusResult?.Url;
-                        StatusText = StatusResult?.StatusText;
-
-                        if (StatusResult?.Status is DownloadStatus.Finished or DownloadStatus.Error)
+                        if (StatusResult != null)
                         {
-                            Console.WriteLine("Download End");
+                            FileName = StatusResult.FileName;
+                            Url = StatusResult.Url;
+                            StatusText = StatusResult.StatusText;
 
-                            Application.Current.Dispatcher.Invoke(() =>
+                            if (StatusResult.Status is DownloadStatus.Finished or DownloadStatus.Error)
                             {
-                                var vm = new DownloadCompleteWindowViewModel(this);
-                                var downloadCompleteWindow = new DownloadCompleteWindow(vm, this);
-                                vm.BindWindow = downloadCompleteWindow;
-                                downloadCompleteWindow.Show();
+                                Console.WriteLine("Download End");
 
-                                foreach (var window in BindWindows)
+                                Application.Current.Dispatcher.Invoke(() =>
                                 {
-                                    if (window is DownloadingWindow downloadingWindow)
+                                    var vm = new DownloadCompleteWindowViewModel(this);
+                                    var downloadCompleteWindow = new DownloadCompleteWindow(vm, this);
+                                    vm.BindWindow = downloadCompleteWindow;
+                                    downloadCompleteWindow.Show();
+
+                                    foreach (var window in BindWindows)
                                     {
-                                        Console.WriteLine(
-                                            $"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
-                                        downloadingWindow.Close();
+                                        if (window is DownloadingWindow downloadingWindow)
+                                        {
+                                            Console.WriteLine(
+                                                $"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
+                                            downloadingWindow.Close();
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                            // await _cancellationTokenSource.CancelAsync();
+                                await _cancellationTokenSource.CancelAsync();
 
-                            break;
+                                break;
+                            }
+
+                            if (StatusResult.Status is DownloadStatus.Cancelled)
+                            {
+                                await _cancellationTokenSource.CancelAsync();
+
+                                throw new OperationCanceledException();
+                            }
                         }
 
-                        if (StatusResult?.Status is DownloadStatus.Cancelled)
-                        {
-                            // await _cancellationTokenSource.CancelAsync();
-
-                            throw new OperationCanceledException();
-                        }
-
-                        Console.WriteLine(
-                            $"File: {FileName}, Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}, CToken: {cancellationToken.IsCancellationRequested}");
+                        // Console.WriteLine(
+                        //     $"File: {FileName}, Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}, CToken: {cancellationToken.IsCancellationRequested}");
 
                         await Task.Delay(100, cancellationToken);
                     }

@@ -17,7 +17,6 @@ public static class CoreService
             {
                 Query = $"url={url}&save_dir={path}"
             };
-            //HttpContent content = new();
             Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
             var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
             response.EnsureSuccessStatusCode();
@@ -64,7 +63,6 @@ public static class CoreService
             {
                 Query = $"id={id}"
             };
-            //HttpContent content = new();
             Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
             var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
             response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
