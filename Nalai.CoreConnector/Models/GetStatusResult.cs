@@ -49,9 +49,10 @@ public class GetStatusResult
                 "Error" => DownloadStatus.Error,
                 "Finished" => DownloadStatus.Finished,
                 "DownloadFinished" => DownloadStatus.Finished,
-                "Pending(Initializing)"=> DownloadStatus.Pending,
-                "Pending(Starting)"=> DownloadStatus.Pending,
-                "Pending(Stopping)"=> DownloadStatus.Pending,
+                "Pending(Initializing)" => DownloadStatus.Pending,
+                "Pending(Starting)" => DownloadStatus.Pending,
+                "Pending(Stopping)" => DownloadStatus.Pending,
+                "Cancelled" => DownloadStatus.Cancelled,
                 _ => DownloadStatus.NoStart
             };
         }
@@ -67,4 +68,5 @@ public enum DownloadStatus
     Pending,
     Error,
     Finished,
+    Cancelled,
 }

@@ -18,24 +18,26 @@ namespace Nalai.Models
         public event EventHandler<GetStatusResult>? StatusChanged;
         public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
 
-        private CancellationTokenSource _cancellationTokenSource = new();
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
 
         public async Task StartDownload()
         {
             var result = await CoreConnector.CoreService.StartAsync(Url, SavePath);
             Id = result?.Id;
-            _cancellationTokenSource = new CancellationTokenSource();
             StartListen(_cancellationTokenSource.Token);
         }
 
         public async Task StopAsync()
         {
+            Console.WriteLine(Id);
             if (Id != null)
             {
+                Console.WriteLine("StopAsync");
                 await CoreConnector.CoreService.StopAsync(Id);
             }
 
             await _cancellationTokenSource.CancelAsync();
+            Console.WriteLine(_cancellationTokenSource.IsCancellationRequested);
         }
 
         private void StartListen(CancellationToken cancellationToken)
@@ -46,10 +48,13 @@ namespace Nalai.Models
                 {
                     while (!cancellationToken.IsCancellationRequested && StatusResult?.StatusText != "Finished")
                     {
+                        cancellationToken.ThrowIfCancellationRequested();
+
                         var result = await CoreConnector.CoreService.GetStatusAsync(Id);
 
 
-                        if (result?.StatusText != StatusResult?.StatusText)
+                        if (result?.StatusText != StatusResult?.StatusText || result?.FileName != FileName ||
+                            result?.Url != Url)
                         {
                             if (StatusResult != null) StatusChanged?.Invoke(this, StatusResult);
                         }
@@ -58,7 +63,6 @@ namespace Nalai.Models
                         {
                             if (result != null)
                             {
-                                Console.WriteLine("Invoke");
                                 ProgressChanged?.Invoke(this,
                                     new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalSize,
                                         bytesReceived: result.DownloadedBytes,
@@ -95,14 +99,20 @@ namespace Nalai.Models
                                 }
                             });
 
-                            await _cancellationTokenSource.CancelAsync();
+                            // await _cancellationTokenSource.CancelAsync();
 
                             break;
                         }
 
+                        if (StatusResult?.Status is DownloadStatus.Cancelled)
+                        {
+                            // await _cancellationTokenSource.CancelAsync();
+
+                            throw new OperationCanceledException();
+                        }
 
                         Console.WriteLine(
-                            $"Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}");
+                            $"File: {FileName}, Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}, CToken: {cancellationToken.IsCancellationRequested}");
 
                         await Task.Delay(100, cancellationToken);
                     }
