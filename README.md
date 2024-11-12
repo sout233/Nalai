@@ -1,5 +1,7 @@
 # Nalai
 
+### English | [简体中文](./README_zh.md)
+
 A modern and fast downloader that supports asynchronous multi-threaded chunked downloading.
 
 The frontend is written in C# and implements Fluent Design using [WPF UI](https://github.com/lepoco/wpfui).
