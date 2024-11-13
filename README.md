@@ -1,25 +1,27 @@
 # Nalai
- 
-使用C#编写的下载器，支持异步多线程分块下载。
 
-界面使用 [WPF UI](https://github.com/lepoco/wpfui) 实现 Fluent Design。
+### English | [简体中文](./README_zh.md)
 
-经测试，**Nalai**目前在Windows10以及Windows11上工作良好。
+A modern and fast downloader that supports asynchronous multi-threaded chunked downloading.
+
+The frontend is written in C# and implements Fluent Design using [WPF UI](https://github.com/lepoco/wpfui).
+
+The backend is written in Rust and currently performs well.
+
+Tested, **Nalai** works well on Windows 10 and Windows 11.
 
 > [!IMPORTANT]
-> 目前该项目正处于快速开发阶段，部分功能可能尚未实现。
+> The project is currently in a rapid development phase, and some features may not yet be implemented.
 
 ## Roadmap
 
-- [x] 新建下载任务
-- [x] 多线程下载
-- [x] 下载列队列表
-- [ ] 浏览器事件传递
-- [ ] 更好的错误处理
-- [ ] 重定向获取
-- [ ] 大文件冷缓存
-- [ ] 内存缓冲区占用优化
-- [ ] 性能优化
-
-
-
+- [x] Create new download tasks
+- [x] Multi-threaded downloading
+- [x] Download queue list
+- [ ] Browser event passing
+- [ ] Better error handling
+- [x] Redirect acquisition
+- [ ] Local cache for large files
+- [ ] Memory buffer occupancy optimization
+- [x] Performance optimization
+ 
