@@ -9,7 +9,7 @@ public static class CoreService
 {
     private static readonly HttpClient HttpClient = new();
 
-    public static async Task<PostDownloadResult?> StartAsync(string url, string path)
+    public static async Task<PostDownloadResult?> SendStartMsgAsync(string url, string path)
     {
         try
         {
@@ -55,7 +55,7 @@ public static class CoreService
         }
     }
 
-    public static async Task<PostStopResult?> StopAsync(string? id)
+    public static async Task<PostStopResult?> SendStopMsgAsync(string? id)
     {
         try
         {

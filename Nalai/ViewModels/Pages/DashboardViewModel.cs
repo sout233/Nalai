@@ -120,7 +120,7 @@ namespace Nalai.ViewModels.Pages
             // TODO: 实现删除任务功能
             // NalaiDownService.RemoveTask(task);
 
-            _ = CoreService.StopAsync(task.Id);
+            _ = task.StopAsync();
             UpdateDownloadCollection();
         }
 
@@ -130,7 +130,7 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not CoreTask task) return;
 
-            _ = CoreService.StopAsync(task.Id);
+            _ = task.StopAsync();
             UpdateRightClickMenu(task.StatusResult.Status);
         }
     }

@@ -25,7 +25,7 @@ namespace Nalai.Models
         
         public async Task StartDownload()
         {
-            var result = await CoreConnector.CoreService.StartAsync(Url, SavePath);
+            var result = await CoreConnector.CoreService.SendStartMsgAsync(Url, SavePath);
             Id = result?.Id;
             StartListen(_cancellationTokenSource.Token);
         }
@@ -34,7 +34,7 @@ namespace Nalai.Models
         {
             if (Id != null)
             {
-                await CoreConnector.CoreService.StopAsync(Id);
+                await CoreConnector.CoreService.SendStopMsgAsync(Id);
             }
 
             await _cancellationTokenSource.CancelAsync();
