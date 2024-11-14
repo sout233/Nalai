@@ -1,5 +1,5 @@
-﻿using Nalai.CoreConnector.Models;
-using Nalai.Services;
+﻿using Nalai.CoreConnector;
+using Nalai.CoreConnector.Models;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 
@@ -7,7 +7,19 @@ namespace Nalai.Models
 {
     public class CoreTask(string url, string savePath)
     {
-        public GetStatusResult StatusResult { get; set; } = new();
+        public GetStatusResult StatusResult
+        {
+            get => _statusResult;
+            private set
+            {
+                _statusResult = value;
+                StatusText = value.StatusText;
+                FileName = value.FileName;
+                Url = value.Url;
+                GlobalTaskChanged?.Invoke(this, this);
+            }
+        }
+
         public string FileName { get; set; } = "Unknown";
         public string SavePath { get; set; } = savePath;
         public string Url { get; set; } = url;
@@ -20,12 +32,13 @@ namespace Nalai.Models
         public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
+        private GetStatusResult _statusResult = new();
 
         public static event EventHandler<CoreTask>? GlobalTaskChanged;
         
-        public async Task StartDownload()
+        public async Task StartDownloadAsync()
         {
-            var result = await CoreConnector.CoreService.SendStartMsgAsync(Url, SavePath);
+            var result = await CoreService.SendStartMsgAsync(Url, SavePath);
             Id = result?.Id;
             StartListen(_cancellationTokenSource.Token);
         }
@@ -34,12 +47,15 @@ namespace Nalai.Models
         {
             if (Id != null)
             {
-                await CoreConnector.CoreService.SendStopMsgAsync(Id);
+                await CoreService.SendStopMsgAsync(Id);
             }
 
             await _cancellationTokenSource.CancelAsync();
 
             Console.WriteLine("StopAsync:" + Id);
+
+            var info = await CoreService.GetStatusAsync(Id);
+            if (info != null) StatusResult = info;
         }
 
         private void StartListen(CancellationToken cancellationToken)
@@ -52,7 +68,7 @@ namespace Nalai.Models
                     {
                         cancellationToken.ThrowIfCancellationRequested();
 
-                        var result = await CoreConnector.CoreService.GetStatusAsync(Id);
+                        var result = await CoreService.GetStatusAsync(Id);
 
                         if (result != null)
                         {

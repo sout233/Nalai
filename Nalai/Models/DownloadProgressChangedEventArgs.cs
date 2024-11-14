@@ -1,7 +1,5 @@
 ﻿namespace Nalai.Models;
 
-using System;
-
 public class DownloadProgressChangedEventArgs(long bytesReceived, long totalBytesToReceive, float progressPercentage, long bytesPerSecondSpeed)
     : EventArgs
 {

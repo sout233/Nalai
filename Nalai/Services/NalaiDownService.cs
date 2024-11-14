@@ -17,7 +17,7 @@ public static class NalaiDownService
 
         // SqlService.InsertOrUpdate(task);
 
-        _ = task.StartDownload();
+        _ = task.StartDownloadAsync();
         
         GlobalDownloadTasksChanged?.Invoke(null, task);
 
