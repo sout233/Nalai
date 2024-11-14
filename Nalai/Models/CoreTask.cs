@@ -7,7 +7,7 @@ namespace Nalai.Models
 {
     public class CoreTask(string url, string savePath)
     {
-        public GetStatusResult StatusResult
+        public NalaiCoreStatus StatusResult
         {
             get => _statusResult;
             private set
@@ -28,11 +28,11 @@ namespace Nalai.Models
 
         public List<Window> BindWindows { get; set; } = [];
 
-        public event EventHandler<GetStatusResult>? StatusChanged;
+        public event EventHandler<NalaiCoreStatus>? StatusChanged;
         public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
-        private GetStatusResult _statusResult = new();
+        private NalaiCoreStatus _statusResult = new();
 
         public static event EventHandler<CoreTask>? GlobalTaskChanged;
         

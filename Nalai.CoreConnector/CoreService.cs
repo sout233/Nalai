@@ -9,7 +9,7 @@ public static class CoreService
 {
     private static readonly HttpClient HttpClient = new();
 
-    public static async Task<PostDownloadResult?> SendStartMsgAsync(string url, string path)
+    public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string path)
     {
         try
         {
@@ -21,8 +21,8 @@ public static class CoreService
             var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
             response.EnsureSuccessStatusCode();
             var contentResult = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PostDownloadResult>(contentResult);
-            return result;
+            var result = JsonConvert.DeserializeObject<PostDownloadResponse>(contentResult);
+            return result?.Data;
         }
         catch (HttpRequestException e)
         {
@@ -32,11 +32,11 @@ public static class CoreService
         }
     }
 
-    public static async Task<GetStatusResult?> GetStatusAsync(string? id)
+    public static async Task<NalaiCoreStatus?> GetStatusAsync(string? id)
     {
         try
         {
-            var uriBuilder = new UriBuilder("http://localhost:13088/status")
+            var uriBuilder = new UriBuilder("http://localhost:13088/info")
             {
                 Query = $"id={id}"
             };
@@ -44,8 +44,14 @@ public static class CoreService
             var response = await HttpClient.GetAsync(uriBuilder.Uri);
             response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<GetStatusResult>(content);
-            return result;
+            var result = JsonConvert.DeserializeObject<GetStatusResponse>(content);
+
+            if (result is { Success: false })
+            {
+                throw new Exception(result.Data.ToString());
+            }
+            
+            return result?.Data;
         }
         catch (HttpRequestException e)
         {

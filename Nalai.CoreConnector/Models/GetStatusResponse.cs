@@ -2,7 +2,7 @@
 
 namespace Nalai.CoreConnector.Models;
 
-public class GetStatusResult
+public class NalaiCoreStatus
 {
     private string _statusText;
 
@@ -61,12 +61,4 @@ public class GetStatusResult
     [JsonIgnore] public DownloadStatus Status { get; set; }
 }
 
-public enum DownloadStatus
-{
-    NoStart,
-    Running,
-    Pending,
-    Error,
-    Finished,
-    Cancelled,
-}
+public class GetStatusResponse : NalaiResult<NalaiCoreStatus>;

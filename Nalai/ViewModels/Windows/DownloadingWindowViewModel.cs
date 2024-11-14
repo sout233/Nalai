@@ -136,7 +136,7 @@ public partial class
         FileSize = $"{receivedFileSize} / {totalFileSize}";
     }
 
-    public void OnDownloadStatusChanged(object? sender, GetStatusResult e)
+    public void OnDownloadStatusChanged(object? sender, NalaiCoreStatus e)
     {
         FileName = e.FileName;
         ApplicationTitle = "Downloading: " + FileName;

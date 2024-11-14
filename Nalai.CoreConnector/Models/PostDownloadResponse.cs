@@ -2,7 +2,9 @@
 
 namespace Nalai.CoreConnector.Models;
 
-public class PostDownloadResult
+public class NalaiCoreDownloadResult
 {
     [JsonProperty("id")] public string? Id { get; set; }
 }
+
+public class PostDownloadResponse : NalaiResult<NalaiCoreDownloadResult>;

@@ -74,7 +74,7 @@ namespace Nalai.ViewModels.Pages
             DownloadViewItems = GenerateDownloadCollection();
         }
 
-        public void OnDownloadStatusChanged(object? sender, GetStatusResult getStatusResult)
+        public void OnDownloadStatusChanged(object? sender, NalaiCoreStatus nalaiCoreStatus)
         {
             UpdateDownloadCollection();
         }
