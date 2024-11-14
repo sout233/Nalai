@@ -61,4 +61,4 @@ public class NalaiCoreStatus
     [JsonIgnore] public DownloadStatus Status { get; set; }
 }
 
-public class GetStatusResponse : NalaiResult<NalaiCoreStatus>;
+public class GetStatusResponse : NalaiResponse<NalaiCoreStatus>;

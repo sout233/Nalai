@@ -2,7 +2,7 @@
 
 namespace Nalai.CoreConnector.Models;
 
-public class NalaiResult<T>
+public class NalaiResponse<T>
 {
     [JsonProperty("success")] public bool Success { get; set; }
 

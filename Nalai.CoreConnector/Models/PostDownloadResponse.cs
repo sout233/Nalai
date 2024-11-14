@@ -7,4 +7,4 @@ public class NalaiCoreDownloadResult
     [JsonProperty("id")] public string? Id { get; set; }
 }
 
-public class PostDownloadResponse : NalaiResult<NalaiCoreDownloadResult>;
+public class PostDownloadResponse : NalaiResponse<NalaiCoreDownloadResult>;

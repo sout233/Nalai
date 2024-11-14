@@ -2,8 +2,10 @@
 
 namespace Nalai.CoreConnector.Models;
 
-public class PostStopResult
+public class NalaiStopResult
 {
     [JsonProperty("success")]
     public bool IsSuccess { get; set; }
 }
+
+public class PostStopResponse : NalaiResponse<NalaiStopResult>;

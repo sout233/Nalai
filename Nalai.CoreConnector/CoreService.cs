@@ -61,7 +61,7 @@ public static class CoreService
         }
     }
 
-    public static async Task<PostStopResult?> SendStopMsgAsync(string? id)
+    public static async Task<NalaiStopResult?> SendStopMsgAsync(string? id)
     {
         try
         {
@@ -73,8 +73,8 @@ public static class CoreService
             var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
             response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PostStopResult>(content);
-            return result;
+            var result = JsonConvert.DeserializeObject<PostStopResponse>(content);
+            return result?.Data;
         }
         catch (HttpRequestException e)
         {
