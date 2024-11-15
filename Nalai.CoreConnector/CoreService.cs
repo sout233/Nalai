@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Text.Json;
-using Nalai.CoreConnector.Models;
+﻿using Nalai.CoreConnector.Models;
 using Newtonsoft.Json;
 
 namespace Nalai.CoreConnector;
@@ -51,6 +49,27 @@ public static class CoreService
                 throw new Exception(result.Data.ToString());
             }
             
+            return result?.Data;
+        }
+        catch (HttpRequestException e)
+        {
+            // 处理异常
+            Console.WriteLine(e.Message);
+            return null;
+        }
+    }
+    
+    public static async Task<NalaiSorcRequest?> SendSorcMsgAsync(string id)
+    {
+        try
+        {
+            var uriBuilder = new UriBuilder("http://localhost:13088/sorc");
+            uriBuilder.Query = $"id={id}";
+            Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
+            var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
+            response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<PostSorcResponse>(content);
             return result?.Data;
         }
         catch (HttpRequestException e)

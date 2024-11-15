@@ -47,7 +47,7 @@ public partial class
     [RelayCommand]
     private async Task PauseOrResumeDownload()
     {
-        await ThisViewTask.StopAsync();
+        await NalaiDownService.PauseOrResumeTask(ThisViewTask);
         UpdatePausedOrResumeBtn();
     }
 

@@ -1,4 +1,5 @@
-﻿using Nalai.Models;
+﻿using Nalai.CoreConnector.Models;
+using Nalai.Models;
 
 namespace Nalai.Services;
 
@@ -22,5 +23,19 @@ public static class NalaiDownService
         GlobalDownloadTasksChanged?.Invoke(null, task);
 
         return Task.FromResult(task);
+    }
+
+    public static async Task PauseOrResumeTask(CoreTask task)
+    {
+        if (task.StatusResult.Status == DownloadStatus.Running || task.StatusResult.Status == DownloadStatus.Pending)
+        {
+            await task.StopAsync();
+        }
+        
+        else if (task.StatusResult.Status == DownloadStatus.NoStart ||
+                 task.StatusResult.Status == DownloadStatus.Cancelled)
+        {
+            await task.StartDownloadAsync();
+        }
     }
 }
