@@ -48,6 +48,7 @@ public partial class
     private async Task PauseOrResumeDownload()
     {
         var isRunning = await ThisViewTask.StartOrCancel();
+        Console.WriteLine(isRunning);
         if (isRunning)
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
@@ -60,25 +61,8 @@ public partial class
             PauseOrResumeBtnContent = "Resume";
             ApplicationTitle = "Paused: " + FileName;
         }
-
-        UpdatePausedOrResumeBtn();
     }
 
-    public void UpdatePausedOrResumeBtn()
-    {
-        if (ThisViewTask.StatusResult.Status is DownloadStatus.NoStart)
-        {
-            PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
-            PauseOrResumeBtnContent = "Resume";
-            ApplicationTitle = "Paused: " + FileName;
-        }
-        else
-        {
-            PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
-            PauseOrResumeBtnContent = "Pause";
-            ApplicationTitle = "Downloading: " + FileName;
-        }
-    }
 
     [RelayCommand]
     private async Task CancelDownload()

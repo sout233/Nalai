@@ -35,7 +35,7 @@ public static class CoreService
 
         if (result is { Success: false })
         {
-            throw new Exception(result.Data.ToString());
+            return null;
         }
             
         return result?.Data;
@@ -43,8 +43,10 @@ public static class CoreService
     
     public static async Task<NalaiSorcResult?> SendSorcMsgAsync(string id)
     {
-        var uriBuilder = new UriBuilder("http://localhost:13088/sorc");
-        uriBuilder.Query = $"id={id}";
+        var uriBuilder = new UriBuilder("http://localhost:13088/sorc")
+        {
+            Query = $"id={id}"
+        };
         Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
         var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
         response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
