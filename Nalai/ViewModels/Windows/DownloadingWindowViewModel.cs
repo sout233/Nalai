@@ -47,7 +47,7 @@ public partial class
     [RelayCommand]
     private async Task PauseOrResumeDownload()
     {
-        var isRunning = await NalaiDownService.PauseOrResumeTask(ThisViewTask);
+        var isRunning = await ThisViewTask.PauseOrResumeTask();
         if (isRunning)
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };

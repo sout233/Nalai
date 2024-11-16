@@ -150,5 +150,16 @@ namespace Nalai.Models
                 }
             }, cancellationToken);
         }
+        
+        public async Task<bool> PauseOrResumeTask()
+        {
+            if (Id != null)
+            {
+                var result=await CoreService.SendSorcMsgAsync(Id);
+                return result?.Status == "Running";
+            }
+            return false;
+        }
+
     }
 }
