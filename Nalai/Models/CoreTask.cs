@@ -35,7 +35,7 @@ namespace Nalai.Models
         private NalaiCoreStatus _statusResult = new();
 
         public static event EventHandler<CoreTask>? GlobalTaskChanged;
-        
+
         public async Task StartDownloadAsync()
         {
             var result = await CoreService.SendStartMsgAsync(Url, SavePath);
@@ -150,16 +150,12 @@ namespace Nalai.Models
                 }
             }, cancellationToken);
         }
-        
-        public async Task<bool> PauseOrResumeTask()
-        {
-            if (Id != null)
-            {
-                var result=await CoreService.SendSorcMsgAsync(Id);
-                return result?.Status == "Running";
-            }
-            return false;
-        }
 
+        public async Task<bool> StartOrCancel()
+        {
+            if (Id == null) return false;
+            var result = await CoreService.SendSorcMsgAsync(Id);
+            return result is { IsRunning: true };
+        }
     }
 }

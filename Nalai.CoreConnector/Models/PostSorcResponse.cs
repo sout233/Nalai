@@ -2,9 +2,9 @@
 
 namespace Nalai.CoreConnector.Models;
 
-public class PostSorcResponse : NalaiResponse<NalaiSorcRequest>;
+public class PostSorcResponse : NalaiResponse<NalaiSorcResult>;
 
-public class NalaiSorcRequest
+public class NalaiSorcResult
 {
-    [JsonProperty("status")] public string Status { get; set; }
+    [JsonProperty("running")] public bool IsRunning { get; set; }
 }

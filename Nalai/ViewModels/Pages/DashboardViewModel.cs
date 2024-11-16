@@ -106,7 +106,7 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not CoreTask task) return;
 
-            await NalaiDownService.PauseOrResumeTask(task);
+            await task.StartOrCancel();
 
             UpdateRightClickMenu(task.StatusResult.Status);
         }

@@ -47,7 +47,7 @@ public partial class
     [RelayCommand]
     private async Task PauseOrResumeDownload()
     {
-        var isRunning = await ThisViewTask.PauseOrResumeTask();
+        var isRunning = await ThisViewTask.StartOrCancel();
         if (isRunning)
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };

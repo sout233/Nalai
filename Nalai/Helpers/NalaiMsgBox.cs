@@ -2,7 +2,7 @@
 
 namespace Nalai.Helpers;
 
-public class NalaiMsgBox
+public static class NalaiMsgBox
 {
     public static void Show(string message,string title="Nalai")
     {
