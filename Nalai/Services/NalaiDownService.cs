@@ -1,4 +1,5 @@
-﻿using Nalai.CoreConnector.Models;
+﻿using Nalai.CoreConnector;
+using Nalai.CoreConnector.Models;
 using Nalai.Models;
 
 namespace Nalai.Services;
@@ -25,17 +26,13 @@ public static class NalaiDownService
         return Task.FromResult(task);
     }
 
-    public static async Task PauseOrResumeTask(CoreTask task)
+    public static async Task<bool> PauseOrResumeTask(CoreTask task)
     {
-        if (task.StatusResult.Status == DownloadStatus.Running || task.StatusResult.Status == DownloadStatus.Pending)
+        if (task.Id != null)
         {
-            await task.StopAsync();
+            var result=await CoreService.SendSorcMsgAsync(task.Id);
+            return result?.Status == "Running";
         }
-        
-        else if (task.StatusResult.Status == DownloadStatus.NoStart ||
-                 task.StatusResult.Status == DownloadStatus.Cancelled)
-        {
-            await task.StartDownloadAsync();
-        }
+        return false;
     }
 }

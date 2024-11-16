@@ -47,7 +47,20 @@ public partial class
     [RelayCommand]
     private async Task PauseOrResumeDownload()
     {
-        await NalaiDownService.PauseOrResumeTask(ThisViewTask);
+        var isRunning = await NalaiDownService.PauseOrResumeTask(ThisViewTask);
+        if (isRunning)
+        {
+            PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
+            PauseOrResumeBtnContent = "Pause";
+            ApplicationTitle = "Downloading: " + FileName;
+        }
+        else
+        {
+            PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
+            PauseOrResumeBtnContent = "Resume";
+            ApplicationTitle = "Paused: " + FileName;
+        }
+
         UpdatePausedOrResumeBtn();
     }
 
@@ -99,7 +112,7 @@ public partial class
         //     AddOrUpdateChunkProgressBars(id, (float)progress);
         // }));
     }
-    
+
     // TODO: 实现下载进度条显示
 
     // public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
