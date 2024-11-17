@@ -15,20 +15,34 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [ObservableProperty] private bool _isFlyoutOpen;
     [ObservableProperty] private string _savePath;
     [ObservableProperty] private bool _dialogResult;
+    [ObservableProperty] private string _lastPath="";
 
     public DashboardViewModel Dashboard { get; set; }
 
     public NewTaskWindowViewModel(string url=null, string savePath=null)
     {
-        this.DefaultPath = Helpers.GetFolderDefault.GetDownloadPath();
+        DefaultPath = GetFolderDefault.GetDownloadPath();
         //Console.WriteLine(defaultPath);
-        this.Url = url;
-        this.SavePath = savePath;
+        Url = url;
+        SavePath = savePath;
         //NalaiMsgBox.Show($"默认路径为： {DefaultPath}");
         var flyout = new Flyout();
         flyout.Placement = PlacementMode.MousePoint;
         flyout.Show();
         Console.WriteLine(flyout.IsOpen);
+    }
+
+    [RelayCommand]
+    private void PlaceToDefault()
+    {
+        LastPath = SavePath;
+        SavePath = DefaultPath;
+    }
+
+    [RelayCommand]
+    private void PlaceToDefaultUndo()
+    {
+        if (LastPath != "") SavePath=LastPath;
     }
 
     [RelayCommand]
@@ -43,7 +57,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
         
         if (result == true)
         {
-            this.SavePath = dialog.FolderName;
+            SavePath = dialog.FolderName;
         }
 
         return Task.CompletedTask;
