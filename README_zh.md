@@ -6,7 +6,7 @@
 
 前端为C#编写，使用 [WPF UI](https://github.com/lepoco/wpfui) 实现 Fluent Design
 
-后端使用Rust编写，目前性能还可以。
+后端使用Rust编写，目前性能还可以（核心在这里： [nalai_core](https://github.com/sout233/nalai_core)）。
 
 经测试，**Nalai**目前在Windows10以及Windows11上工作良好。
 
