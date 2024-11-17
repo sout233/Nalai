@@ -71,7 +71,21 @@ public class CoreTask(string url, string savePath)
         StartListen(_cancellationTokenSource.Token);
     }
 
-    public async Task StopAsync()
+    public async Task FakePauseAsync()
+    {
+        await InnerStopAsync();
+    }
+
+    public async Task CancelAsync()
+    {
+        await InnerStopAsync();
+        foreach (var window in BindWindows)
+        {
+            window.Close();
+        }
+    }
+
+    private async Task InnerStopAsync()
     {
         if (Id != null)
         {
