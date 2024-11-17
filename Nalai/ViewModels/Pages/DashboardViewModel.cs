@@ -26,7 +26,6 @@ namespace Nalai.ViewModels.Pages
                 if (task != null) task.StatusChanged += OnDownloadStatusChanged;
             }
 
-            NalaiDownService.GlobalDownloadTasksChanged += OnGlobalDownloadTasksChanged;
             CoreTask.GlobalTaskChanged += OnGlobalTaskChanged;
         }
 
@@ -34,12 +33,7 @@ namespace Nalai.ViewModels.Pages
         {
             UpdateDownloadCollection();
         }
-
-        private void OnGlobalDownloadTasksChanged(object? sender, CoreTask e)
-        {
-            UpdateDownloadCollection();
-        }
-
+        
         [RelayCommand]
         private Task OnNewTask()
         {

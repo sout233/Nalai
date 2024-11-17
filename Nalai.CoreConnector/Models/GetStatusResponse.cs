@@ -2,7 +2,7 @@
 
 namespace Nalai.CoreConnector.Models;
 
-public class NalaiCoreStatus
+public record NalaiCoreStatus
 {
     private string _statusText;
 
@@ -16,7 +16,7 @@ public class NalaiCoreStatus
     /// 总字节数
     /// </summary>
     [JsonProperty("total_size")]
-    public long TotalSize { get; set; }
+    public long TotalBytes { get; set; }
 
     [JsonProperty("speed")] public long BytesPerSecondSpeed { get; set; }
 

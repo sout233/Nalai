@@ -97,37 +97,19 @@ public partial class
         // }));
     }
 
-    // TODO: 实现下载进度条显示
 
-    // public void OnDownloadProgressChanged(object? sender, ProgressChangedEventArgs e)
-    // {
-    //     // var chunks = e.ActiveChunks;
-    //     var progress = e.ProgressPercentage;
-    //     var speed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed);
-    //     // var remaining = e.TotalBytesToReceive - e.ReceivedBytesSize;
-    //     var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
-    //     var receivedFileSize = ByteSizeFormatter.FormatSize(e.ReceivedBytesSize);
-    //     var remainingTime =
-    //         TimeFormatter.CalculateRemainingTime(e.ReceivedBytesSize, e.TotalBytesToReceive,
-    //             (long)e.BytesPerSecondSpeed);
-    //
-    //     ProgressValue = progress;
-    //     ProgressText = progress.ToString("0.00") + "%";
-    //     DownloadSpeed = speed + "/s";
-    //     FileSize = $"{receivedFileSize} / {totalFileSize}";
-    //     RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
-    //     Url = ThisViewTask.Url;
-    // }
     public void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
     {
-        ProgressValue = e.ProgressPercentage;
-        ProgressText = e.ProgressPercentage.ToString("0.00") + "%";
-        DownloadSpeed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed) + "/s";
         var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytesToReceive);
         var receivedFileSize = ByteSizeFormatter.FormatSize(e.BytesReceived);
         var remainingTime =
             TimeFormatter.CalculateRemainingTime(e.BytesReceived, e.TotalBytesToReceive,
                 (long)e.BytesPerSecondSpeed);
+        
+        ProgressValue = e.ProgressPercentage;
+        ProgressText = e.ProgressPercentage.ToString("0.00") + "%";
+        DownloadSpeed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed) + "/s";
+        
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
         Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";

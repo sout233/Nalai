@@ -12,10 +12,10 @@ Console.WriteLine(id.Id);
 //     while (true)
 //     {
 //         var status = await PreCore.GetStatusAsync(id.Id);
-//         if (status.TotalSize > 0)
+//         if (status.TotalBytes > 0)
 //         {
-//             var progress = (((float)status.DownloadedBytes / status.TotalSize) * 100).ToString("0.00")+"%";
-//             Console.WriteLine($"Downloaded:{status.DownloadedBytes} Total:{status.TotalSize} FileName:{status.FileName} Status:{status.StatusText} Progress:{progress}");
+//             var progress = (((float)status.DownloadedBytes / status.TotalBytes) * 100).ToString("0.00")+"%";
+//             Console.WriteLine($"Downloaded:{status.DownloadedBytes} Total:{status.TotalBytes} FileName:{status.FileName} Status:{status.StatusText} Progress:{progress}");
 //         }
 //         await Task.Delay(500);
 //     }

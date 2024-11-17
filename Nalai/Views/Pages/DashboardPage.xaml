@@ -49,8 +49,8 @@
                         Header="Url" />
                     <ui:GridViewColumn
                         MinWidth="100"
-                        Width="100"
-                        DisplayMemberBinding="{Binding StatusText}"
+                        Width="128"
+                        DisplayMemberBinding="{Binding RealtimeStatusText}"
                         Header="Status" />
                     <ui:GridViewColumn
                         MinWidth="100"

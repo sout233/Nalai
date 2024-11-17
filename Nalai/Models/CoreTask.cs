@@ -14,10 +14,26 @@ public class CoreTask(string url, string savePath)
         private set
         {
             _statusResult = value;
-            StatusText = value.StatusText;
             FileName = value.FileName;
             Url = value.Url;
+
+            var totalFileSize = ByteSizeFormatter.FormatSize(value.TotalBytes);
+            var receivedFileSize = ByteSizeFormatter.FormatSize(value.DownloadedBytes);
+
+            FileSizeText = $"{receivedFileSize} / {totalFileSize}";
+
+            if (value.Status == DownloadStatus.Running)
+            {
+                var progress = (float)value.DownloadedBytes / value.TotalBytes * 100;
+                RealtimeStatusText = value.StatusText + $" ({progress:0.00}%)";
+            }
+            else
+            {
+                RealtimeStatusText = value.StatusText;
+            }
+
             GlobalTaskChanged?.Invoke(this, this);
+            StatusChanged?.Invoke(this, value);
         }
     }
 
@@ -25,7 +41,8 @@ public class CoreTask(string url, string savePath)
     public string SavePath { get; set; } = savePath;
     public string Url { get; set; } = url;
     public string? Id { get; set; }
-    public string StatusText { get; set; } = "Pending";
+    public string RealtimeStatusText { get; set; } = "Pending";
+    public string FileSizeText { get; set; } = "Unknown";
 
     public List<Window> BindWindows { get; set; } = [];
 
@@ -90,22 +107,23 @@ public class CoreTask(string url, string savePath)
 
                     var result = await CoreService.GetStatusAsync(Id);
 
+                    // 用于更新Status
                     if (result != null)
                     {
                         if (result.StatusText != StatusResult?.StatusText || result.FileName != FileName ||
                             result.Url != Url)
                         {
                             Console.WriteLine("Status changed:" + FileName);
-                            if (StatusResult != null) 
+                            if (StatusResult != null)
                                 StatusChanged?.Invoke(this, StatusResult);
                         }
 
                         if (result.DownloadedBytes != StatusResult?.DownloadedBytes)
                         {
                             ProgressChanged?.Invoke(this,
-                                new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalSize,
+                                new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalBytes,
                                     bytesReceived: result.DownloadedBytes,
-                                    progressPercentage: (float)result.DownloadedBytes / result.TotalSize * 100,
+                                    progressPercentage: (float)result.DownloadedBytes / result.TotalBytes * 100,
                                     bytesPerSecondSpeed: result.BytesPerSecondSpeed)
                             );
                         }
@@ -114,12 +132,9 @@ public class CoreTask(string url, string savePath)
                         GlobalTaskChanged?.Invoke(this, this);
                     }
 
+                    // 取消与停止的验证
                     if (StatusResult != null)
                     {
-                        FileName = StatusResult.FileName;
-                        Url = StatusResult.Url;
-                        StatusText = StatusResult.StatusText;
-
                         if (StatusResult.Status is DownloadStatus.Finished or DownloadStatus.Error)
                         {
                             Console.WriteLine("Download End");
@@ -156,7 +171,7 @@ public class CoreTask(string url, string savePath)
                     }
 
                     // Console.WriteLine(
-                    //     $"File: {FileName}, Status: {StatusResult?.StatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalSize}, CToken: {cancellationToken.IsCancellationRequested}");
+                    //     $"File: {FileName}, Status: {StatusResult?.RealtimeStatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalBytes}, CToken: {cancellationToken.IsCancellationRequested}");
 
                     await Task.Delay(100, cancellationToken);
                 }
@@ -177,7 +192,7 @@ public class CoreTask(string url, string savePath)
         if (Id == null) return false;
         var result = await CoreService.SendSorcMsgAsync(Id);
 
-        if (result.IsRunning)
+        if (result is { IsRunning: true })
         {
             _cancellationTokenSource = new();
             StartListen(_cancellationTokenSource.Token);
@@ -185,8 +200,11 @@ public class CoreTask(string url, string savePath)
         else
         {
             await _cancellationTokenSource.CancelAsync();
+            StatusResult = StatusResult with { StatusText = "Cancelled" };
+            GlobalTaskChanged?.Invoke(this, this);
+            StatusChanged?.Invoke(this, StatusResult);
         }
-        
+
         return result is { IsRunning: true };
     }
 }
