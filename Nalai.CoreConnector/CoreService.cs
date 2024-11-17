@@ -7,6 +7,16 @@ public static class CoreService
 {
     private static readonly HttpClient HttpClient = new();
 
+    public static Dictionary<string, NalaiCoreInfo>? GetAllInfoDictionary()
+    {
+        var uriBuilder = new UriBuilder("http://localhost:13088/all_info");
+        var response = HttpClient.GetAsync(uriBuilder.Uri).Result;
+        response.EnsureSuccessStatusCode();
+        var content = response.Content.ReadAsStringAsync().Result;
+        var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
+        return result?.Data;
+    }
+
     public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string path)
     {
         var uriBuilder = new UriBuilder("http://localhost:13088/download")
@@ -21,7 +31,7 @@ public static class CoreService
         return result?.Data;
     }
 
-    public static async Task<NalaiCoreStatus?> GetStatusAsync(string? id)
+    public static async Task<NalaiCoreInfo?> GetStatusAsync(string? id)
     {
         var uriBuilder = new UriBuilder("http://localhost:13088/info")
         {
@@ -31,7 +41,7 @@ public static class CoreService
         var response = await HttpClient.GetAsync(uriBuilder.Uri);
         response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
         var content = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<GetStatusResponse>(content);
+        var result = JsonConvert.DeserializeObject<GetInfoResponse>(content);
 
         if (result is { Success: false })
         {

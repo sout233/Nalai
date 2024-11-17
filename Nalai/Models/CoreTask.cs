@@ -1,6 +1,7 @@
 ﻿using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
+using Nalai.Services;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 
@@ -8,14 +9,15 @@ namespace Nalai.Models;
 
 public class CoreTask(string url, string savePath)
 {
-    public NalaiCoreStatus StatusResult
+    public NalaiCoreInfo InfoResult
     {
-        get => _statusResult;
+        get => _infoResult;
         private set
         {
-            _statusResult = value;
+            _infoResult = value;
             FileName = value.FileName;
             Url = value.Url;
+            SavePath = value.SaveDirectory;
 
             var totalFileSize = ByteSizeFormatter.FormatSize(value.TotalBytes);
             var receivedFileSize = ByteSizeFormatter.FormatSize(value.DownloadedBytes);
@@ -46,11 +48,11 @@ public class CoreTask(string url, string savePath)
 
     public List<Window> BindWindows { get; set; } = [];
 
-    public event EventHandler<NalaiCoreStatus>? StatusChanged;
+    public event EventHandler<NalaiCoreInfo>? StatusChanged;
     public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
 
     private CancellationTokenSource _cancellationTokenSource = new();
-    private NalaiCoreStatus _statusResult = new();
+    private NalaiCoreInfo _infoResult = new();
 
     public static event EventHandler<CoreTask>? GlobalTaskChanged;
 
@@ -69,6 +71,32 @@ public class CoreTask(string url, string savePath)
 
         _cancellationTokenSource = new CancellationTokenSource();
         StartListen(_cancellationTokenSource.Token);
+    }
+    
+    public static void SyncAllTasksFromCore()
+    {
+        var infos = CoreService.GetAllInfoDictionary();
+        if (infos != null)
+        {
+            var tempTasks = new List<CoreTask>();
+            foreach (var info in infos)
+            {
+                var task = new CoreTask(info.Value.Url, info.Value.SaveDirectory);
+
+                task.SetInfoResult(info.Value);
+                task.Id = info.Key;
+                
+                tempTasks.Add(task);
+            }
+            
+            NalaiDownService.GlobalDownloadTasks = tempTasks!;
+            GlobalTaskChanged?.Invoke(null, null);
+        }
+    }
+
+    public void SetInfoResult(NalaiCoreInfo info)
+    {
+        InfoResult = info;
     }
 
     public async Task FakePauseAsync()
@@ -105,7 +133,7 @@ public class CoreTask(string url, string savePath)
         Console.WriteLine("StopAsync:" + Id);
 
         var info = await CoreService.GetStatusAsync(Id);
-        if (info != null) StatusResult = info;
+        if (info != null) InfoResult = info;
     }
 
     private void StartListen(CancellationToken cancellationToken)
@@ -115,7 +143,7 @@ public class CoreTask(string url, string savePath)
         {
             try
             {
-                while (!cancellationToken.IsCancellationRequested && StatusResult?.StatusText != "Finished")
+                while (!cancellationToken.IsCancellationRequested && InfoResult?.StatusText != "Finished")
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
@@ -124,15 +152,15 @@ public class CoreTask(string url, string savePath)
                     // 用于更新Status
                     if (result != null)
                     {
-                        if (result.StatusText != StatusResult?.StatusText || result.FileName != FileName ||
+                        if (result.StatusText != InfoResult?.StatusText || result.FileName != FileName ||
                             result.Url != Url)
                         {
                             Console.WriteLine("Status changed:" + FileName);
-                            if (StatusResult != null)
-                                StatusChanged?.Invoke(this, StatusResult);
+                            if (InfoResult != null)
+                                StatusChanged?.Invoke(this, InfoResult);
                         }
 
-                        if (result.DownloadedBytes != StatusResult?.DownloadedBytes)
+                        if (result.DownloadedBytes != InfoResult?.DownloadedBytes)
                         {
                             ProgressChanged?.Invoke(this,
                                 new DownloadProgressChangedEventArgs(totalBytesToReceive: result.TotalBytes,
@@ -142,14 +170,14 @@ public class CoreTask(string url, string savePath)
                             );
                         }
 
-                        StatusResult = result;
+                        InfoResult = result;
                         GlobalTaskChanged?.Invoke(this, this);
                     }
 
                     // 取消与停止的验证
-                    if (StatusResult != null)
+                    if (InfoResult != null)
                     {
-                        if (StatusResult.Status is DownloadStatus.Finished or DownloadStatus.Error)
+                        if (InfoResult.Status is DownloadStatus.Finished or DownloadStatus.Error)
                         {
                             Console.WriteLine("Download End");
 
@@ -176,7 +204,7 @@ public class CoreTask(string url, string savePath)
                             break;
                         }
 
-                        if (StatusResult.Status is DownloadStatus.Cancelled)
+                        if (InfoResult.Status is DownloadStatus.Cancelled)
                         {
                             await _cancellationTokenSource.CancelAsync();
 
@@ -185,7 +213,7 @@ public class CoreTask(string url, string savePath)
                     }
 
                     // Console.WriteLine(
-                    //     $"File: {FileName}, Status: {StatusResult?.RealtimeStatusText}, Downloaded: {StatusResult?.DownloadedBytes} / {StatusResult?.TotalBytes}, CToken: {cancellationToken.IsCancellationRequested}");
+                    //     $"File: {FileName}, Status: {InfoResult?.RealtimeStatusText}, Downloaded: {InfoResult?.DownloadedBytes} / {InfoResult?.TotalBytes}, CToken: {cancellationToken.IsCancellationRequested}");
 
                     await Task.Delay(100, cancellationToken);
                 }
@@ -214,9 +242,9 @@ public class CoreTask(string url, string savePath)
         else
         {
             await _cancellationTokenSource.CancelAsync();
-            StatusResult = StatusResult with { StatusText = "Cancelled" };
+            InfoResult = InfoResult with { StatusText = "Cancelled" };
             GlobalTaskChanged?.Invoke(this, this);
-            StatusChanged?.Invoke(this, StatusResult);
+            StatusChanged?.Invoke(this, InfoResult);
         }
 
         return result is { IsRunning: true };

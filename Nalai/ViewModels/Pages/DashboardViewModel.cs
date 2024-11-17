@@ -68,7 +68,7 @@ namespace Nalai.ViewModels.Pages
             DownloadViewItems = GenerateDownloadCollection();
         }
 
-        public void OnDownloadStatusChanged(object? sender, NalaiCoreStatus nalaiCoreStatus)
+        public void OnDownloadStatusChanged(object? sender, NalaiCoreInfo nalaiCoreInfo)
         {
             UpdateDownloadCollection();
         }
@@ -102,7 +102,7 @@ namespace Nalai.ViewModels.Pages
 
             await task.StartOrCancel();
 
-            UpdateRightClickMenu(task.StatusResult.Status);
+            UpdateRightClickMenu(task.InfoResult.Status);
         }
 
         [RelayCommand]
@@ -125,7 +125,7 @@ namespace Nalai.ViewModels.Pages
             if (item.SelectedItem is not CoreTask task) return;
 
             _ = task.CancelAsync();
-            UpdateRightClickMenu(task.StatusResult.Status);
+            UpdateRightClickMenu(task.InfoResult.Status);
         }
     }
 }

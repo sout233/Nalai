@@ -2,7 +2,7 @@
 
 namespace Nalai.CoreConnector.Models;
 
-public record NalaiCoreStatus
+public record NalaiCoreInfo
 {
     private string _statusText;
 
@@ -57,8 +57,11 @@ public record NalaiCoreStatus
             };
         }
     }
+    
+    [JsonProperty("save_dir")]
+    public string SaveDirectory { get; set; }
 
     [JsonIgnore] public DownloadStatus Status { get; set; }
 }
 
-public class GetStatusResponse : NalaiResponse<NalaiCoreStatus>;
+public class GetInfoResponse : NalaiResponse<NalaiCoreInfo>;

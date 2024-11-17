@@ -1,12 +1,13 @@
 ﻿using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
+using Nalai.Helpers;
 using Nalai.Models;
 
 namespace Nalai.Services;
 
 public static class NalaiDownService
 {
-    public static List<CoreTask?> GlobalDownloadTasks { get; set; } = new();
+    public static List<CoreTask?> GlobalDownloadTasks { get; internal set; } = [];
 
 
     public static Task<CoreTask> NewTask(string url, string fileName, string path)

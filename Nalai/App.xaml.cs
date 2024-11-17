@@ -4,6 +4,8 @@ using System.Windows.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Nalai.CoreConnector;
+using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
 using Nalai.ViewModels.Windows;
@@ -71,6 +73,7 @@ namespace Nalai
         private void OnStartup(object sender, StartupEventArgs e)
         {
             _host.Start();
+            Task.Run(CoreTask.SyncAllTasksFromCore);
         }
 
         /// <summary>
