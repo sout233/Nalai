@@ -57,7 +57,7 @@ public static class CoreService
 
     public static async Task<NalaiStopResult?> SendStopMsgAsync(string? id)
     {
-        var uriBuilder = new UriBuilder("http://localhost:13088/stop")
+        var uriBuilder = new UriBuilder("http://localhost:13088/cancel")
         {
             Query = $"id={id}"
         };
