@@ -32,7 +32,7 @@ public class CoreTask(string url, string savePath)
     public event EventHandler<NalaiCoreStatus>? StatusChanged;
     public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
 
-    private readonly CancellationTokenSource _cancellationTokenSource = new();
+    private CancellationTokenSource _cancellationTokenSource = new();
     private NalaiCoreStatus _statusResult = new();
 
     public static event EventHandler<CoreTask>? GlobalTaskChanged;
@@ -50,6 +50,7 @@ public class CoreTask(string url, string savePath)
             return;
         }
 
+        _cancellationTokenSource = new CancellationTokenSource();
         StartListen(_cancellationTokenSource.Token);
     }
 
@@ -78,6 +79,7 @@ public class CoreTask(string url, string savePath)
 
     private void StartListen(CancellationToken cancellationToken)
     {
+        Console.WriteLine("StartListen:" + Id);
         Task.Run(async () =>
         {
             try
@@ -94,7 +96,8 @@ public class CoreTask(string url, string savePath)
                             result.Url != Url)
                         {
                             Console.WriteLine("Status changed:" + FileName);
-                            if (StatusResult != null) StatusChanged?.Invoke(this, StatusResult);
+                            if (StatusResult != null) 
+                                StatusChanged?.Invoke(this, StatusResult);
                         }
 
                         if (result.DownloadedBytes != StatusResult?.DownloadedBytes)
@@ -173,6 +176,17 @@ public class CoreTask(string url, string savePath)
     {
         if (Id == null) return false;
         var result = await CoreService.SendSorcMsgAsync(Id);
+
+        if (result.IsRunning)
+        {
+            _cancellationTokenSource = new();
+            StartListen(_cancellationTokenSource.Token);
+        }
+        else
+        {
+            await _cancellationTokenSource.CancelAsync();
+        }
+        
         return result is { IsRunning: true };
     }
 }
