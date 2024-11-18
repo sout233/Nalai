@@ -73,13 +73,15 @@ namespace Nalai.ViewModels.Pages
             UpdateDownloadCollection();
         }
 
-        private void UpdateRightClickMenu(DownloadStatus status)
+        public void UpdateRightClickMenu(DownloadStatus status)
         {
             PauseOrResumeText = status switch
             {
                 DownloadStatus.Running => "暂停",
                 DownloadStatus.Pending => "暂停",
                 DownloadStatus.NoStart => "继续",
+                DownloadStatus.Cancelled => "继续",
+                DownloadStatus.Finished => "重新下载",
                 DownloadStatus.Error => "重新下载",
                 _ => PauseOrResumeText
             };
@@ -89,6 +91,8 @@ namespace Nalai.ViewModels.Pages
                 DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
                 DownloadStatus.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
                 DownloadStatus.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatus.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatus.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 _ => PauseOrResumeIcon
             };

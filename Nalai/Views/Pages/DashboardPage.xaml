@@ -30,10 +30,12 @@
             Icon="{ui:SymbolIcon Add24}" />
 
         <ui:ListView
+            x:Name="DownloadTaskListView"
             Grid.Row="1"
             d:ItemsSource="{d:SampleData ItemCount=2}"
             BorderThickness="0"
             Margin="0,10"
+            MouseRightButtonDown="DownloadTaskListView_OnMouseRightButtonDown"
             ItemsSource="{Binding ViewModel.DownloadViewItems, Mode=TwoWay}">
             <ui:ListView.View>
                 <ui:GridView>
@@ -60,7 +62,7 @@
                 </ui:GridView>
             </ui:ListView.View>
             <ListView.ContextMenu>
-                <ContextMenu>
+                <ContextMenu Opened="ContextMenu_OnOpened">
                     <MenuItem Icon="{Binding ViewModel.PauseOrResumeIcon}" Header="{Binding ViewModel.PauseOrResumeText}" Command="{Binding ViewModel.PauseOrResumeCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>                   
@@ -70,7 +72,7 @@
                     <MenuItem Icon="{ui:SymbolIcon Delete24}" Header="移出列表" Command="{Binding ViewModel.RemoveCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
-                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情" Command="{Binding DetailsAcountCmd}"
+                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情" Command="{Binding ShowDetailsCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
                 </ContextMenu>
