@@ -1,4 +1,5 @@
-﻿using Nalai.ViewModels.Windows;
+﻿using Nalai.Helpers;
+using Nalai.ViewModels.Windows;
 using Wpf.Ui.Controls;
 
 namespace Nalai.Views.Windows;
@@ -18,8 +19,7 @@ public partial class NewTaskWindow : FluentWindow
 
         ViewModel.SavePath = savePath != ""
             ? savePath
-            : System.IO.Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
-                "Downloads");
+            : GetFolderDefault.GetDownloadPath();
 
         ViewModel.Url = url != ""
             ? url

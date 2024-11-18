@@ -5,6 +5,7 @@ using Nalai.Services;
 using Nalai.ViewModels.Pages;
 using Nalai.Views.Windows;
 using Wpf.Ui.Controls;
+
 namespace Nalai.ViewModels.Windows;
 
 public partial class NewTaskWindowViewModel : ObservableObject
@@ -12,17 +13,17 @@ public partial class NewTaskWindowViewModel : ObservableObject
     public Window Window { get; set; }
 
     [ObservableProperty] private string _url;
-    [ObservableProperty] private string _defaultPath;
     [ObservableProperty] private bool _isFlyoutOpen;
     [ObservableProperty] private string _savePath;
     [ObservableProperty] private bool _dialogResult;
-    [ObservableProperty] private string _lastPath="";
+    private string _defaultSystemPath;
+    private string _lastPath = "";
 
     public DashboardViewModel Dashboard { get; set; }
 
-    public NewTaskWindowViewModel(string url=null, string savePath=null)
+    public NewTaskWindowViewModel(string url = null, string savePath = null)
     {
-        DefaultPath = GetFolderDefault.GetDownloadPath();
+        _defaultSystemPath = GetFolderDefault.GetDownloadPath();
         //Console.WriteLine(defaultPath);
         Url = url;
         SavePath = savePath;
@@ -36,14 +37,14 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [RelayCommand]
     private void PlaceToDefault()
     {
-        LastPath = SavePath;
-        SavePath = DefaultPath;
+        _lastPath = SavePath;
+        SavePath = _defaultSystemPath;
     }
 
     [RelayCommand]
     private void PlaceToDefaultUndo()
     {
-        if (LastPath != "") SavePath=LastPath;
+        if (_lastPath != "") SavePath = _lastPath;
     }
 
     [RelayCommand]
@@ -55,7 +56,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
             Title = "Nalai - 选择下载文件夹"
         };
         var result = dialog.ShowDialog();
-        
+
         if (result == true)
         {
             SavePath = dialog.FolderName;
@@ -73,12 +74,12 @@ public partial class NewTaskWindowViewModel : ObservableObject
         var vm = new DownloadingWindowViewModel(task);
         var window = new DownloadingWindow(vm, Url, task);
         window.Show();
-        
+
         task.BindWindows.Add(window);
 
         Window.Close();
     }
-    
+
 
     [RelayCommand]
     private void Cancel()
