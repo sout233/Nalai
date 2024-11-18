@@ -8,7 +8,7 @@ public static class CoreService
 {
     private static readonly HttpClient HttpClient = new();
 
-    public static void Start()
+    public static async Task StartAsync()
     {
         // 检查是否已经存在 nalai_core.exe 进程
         bool isProcessRunning = Process.GetProcessesByName("nalai_core").Length > 0;
@@ -17,10 +17,37 @@ public static class CoreService
         {
             // 如果进程不存在，则启动它
             string pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core.exe");
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = pathToExe,
+                // RedirectStandardOutput = true,
+                // RedirectStandardError = true,
+                // UseShellExecute = false,
+                // CreateNoWindow = true
+            };
+
             try
             {
-                Process.Start(pathToExe);
-                Console.WriteLine("nalai_core.exe 已启动");
+                using (Process process = new Process { StartInfo = startInfo })
+                {
+                    process.Start();
+
+                    // 异步读取标准输出
+                    string output = await process.StandardOutput.ReadToEndAsync();
+                    string error = await process.StandardError.ReadToEndAsync();
+
+                    // 等待进程退出
+                    process.WaitForExit();
+
+                    // 输出结果
+                    Console.WriteLine("Standard Output:");
+                    Console.WriteLine(output);
+
+                    Console.WriteLine("Standard Error:");
+                    Console.WriteLine(error);
+                }
+
+                Console.WriteLine("nalai_core.exe 已启动并完成运行");
             }
             catch (Exception ex)
             {
@@ -28,6 +55,7 @@ public static class CoreService
                 Console.WriteLine($"无法启动 nalai_core.exe: {ex.Message}");
             }
         }
+
         else
         {
             Console.WriteLine("nalai_core.exe 正在运行中");
