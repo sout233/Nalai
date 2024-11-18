@@ -1,4 +1,5 @@
-﻿using Nalai.CoreConnector.Models;
+﻿using System.Diagnostics;
+using Nalai.CoreConnector.Models;
 using Newtonsoft.Json;
 
 namespace Nalai.CoreConnector;
@@ -7,6 +8,32 @@ public static class CoreService
 {
     private static readonly HttpClient HttpClient = new();
 
+    public static void Start()
+    {
+        // 检查是否已经存在 nalai_core.exe 进程
+        bool isProcessRunning = Process.GetProcessesByName("nalai_core").Length > 0;
+
+        if (!isProcessRunning)
+        {
+            // 如果进程不存在，则启动它
+            string pathToExe = @"Tool\nalai_core.exe"; // 假设 nalai_core.exe 存在于 Core 文件夹下
+            try
+            {
+                Process.Start(pathToExe);
+                Console.WriteLine("nalai_core.exe 已启动");
+            }
+            catch (Exception ex)
+            {
+                // 处理可能发生的异常，比如路径错误或文件不存在
+                Console.WriteLine($"无法启动 nalai_core.exe: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("nalai_core.exe 正在运行中");
+        }
+    }
+    
     public static Dictionary<string, NalaiCoreInfo>? GetAllInfoDictionary()
     {
         var uriBuilder = new UriBuilder("http://localhost:13088/all_info");

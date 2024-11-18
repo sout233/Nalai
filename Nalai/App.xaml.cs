@@ -74,6 +74,7 @@ namespace Nalai
         {
             _host.Start();
             Task.Run(CoreTask.SyncAllTasksFromCore);
+            Task.Run(CoreService.Start);
         }
 
         /// <summary>
