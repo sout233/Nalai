@@ -7,8 +7,8 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:pages="clr-namespace:Nalai.Views.Pages"
                  Title="New Task"
-                 Width="500"
-                 Height="220"
+                 Width="550"
+                 Height="300"
                  d:DataContext="{d:DesignInstance local:NewTaskWindow,
                                      IsDesignTimeCreatable=True}"
                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -21,6 +21,7 @@
                  mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -37,22 +38,25 @@
                 <ui:TextBox PlaceholderText="Save Path" Text="{Binding ViewModel.SavePath}" />
                 <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Folder24}" Content="" Margin="4,0,0,0" Height="34" Command="{Binding ViewModel.OpenFolderCommand}"/>
             </Grid>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Margin="12">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <ui:Button Grid.Column="0" Icon="{ui:SymbolIcon Folder24}" Content="使用系统默认下载文件夹" Margin="0,0,4,0" Height="34" Command="{Binding ViewModel.PlaceToDefaultCommand}"/>
                 <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon ArrowUndo24}" Margin="0,0,4,0" Height="34" Command="{Binding ViewModel.PlaceToDefaultUndoCommand}"></ui:Button>
-                <ui:TextBlock Grid.Column="2" Text="{Binding ViewModel.DefaultPath, StringFormat='默认路径: {0}'}"></ui:TextBlock>
+                <ui:TextBlock Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding ViewModel.DefaultPath, StringFormat='默认路径: {0}'}"></ui:TextBlock>
             </Grid>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="3" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             
             <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
             <ui:Button Content="Cancel" HorizontalAlignment="Right" Command="{Binding ViewModel.CancelCommand}"/>
