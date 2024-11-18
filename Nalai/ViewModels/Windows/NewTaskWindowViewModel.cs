@@ -16,14 +16,12 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [ObservableProperty] private bool _isFlyoutOpen;
     [ObservableProperty] private string _savePath;
     [ObservableProperty] private bool _dialogResult;
-    private string _defaultSystemPath;
     private string _lastPath = "";
 
     public DashboardViewModel Dashboard { get; set; }
 
     public NewTaskWindowViewModel(string url = null, string savePath = null)
     {
-        _defaultSystemPath = GetFolderDefault.GetDownloadPath();
         //Console.WriteLine(defaultPath);
         Url = url;
         SavePath = savePath;
@@ -38,7 +36,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
     private void PlaceToDefault()
     {
         _lastPath = SavePath;
-        SavePath = _defaultSystemPath;
+        SavePath = GetFolderDefault.GetDownloadPath();
     }
 
     [RelayCommand]
