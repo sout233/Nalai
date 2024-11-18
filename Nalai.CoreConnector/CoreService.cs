@@ -16,7 +16,7 @@ public static class CoreService
         if (!isProcessRunning)
         {
             // 如果进程不存在，则启动它
-            string pathToExe = @"Tool\nalai_core.exe"; // 假设 nalai_core.exe 存在于 Core 文件夹下
+            string pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core.exe");
             try
             {
                 Process.Start(pathToExe);
@@ -33,7 +33,7 @@ public static class CoreService
             Console.WriteLine("nalai_core.exe 正在运行中");
         }
     }
-    
+
     public static Dictionary<string, NalaiCoreInfo>? GetAllInfoDictionary()
     {
         var uriBuilder = new UriBuilder("http://localhost:13088/all_info");
@@ -41,12 +41,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode();
         var content = response.Content.ReadAsStringAsync().Result;
         var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
-        
+
         if (result is { Success: false })
         {
             return null;
         }
-        
+
         return result?.Data;
     }
 
@@ -61,12 +61,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode();
         var contentResult = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<PostDownloadResponse>(contentResult);
-        
+
         if (result is { Success: false })
         {
             return null;
         }
-        
+
         return result?.Data;
     }
 
@@ -86,10 +86,10 @@ public static class CoreService
         {
             return null;
         }
-            
+
         return result?.Data;
     }
-    
+
     public static async Task<NalaiSorcResult?> SendSorcMsgAsync(string id)
     {
         var uriBuilder = new UriBuilder("http://localhost:13088/sorc")
@@ -101,12 +101,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<PostSorcResponse>(content);
-        
+
         if (result is { Success: false })
         {
             return null;
         }
-        
+
         return result?.Data;
     }
 
@@ -121,12 +121,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<PostStopResponse>(content);
-        
+
         if (result is { Success: false })
         {
             return null;
         }
-        
+
         return result?.Data;
     }
 
@@ -140,12 +140,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
-        
+
         if (result is { Success: false })
         {
             return null;
         }
-        
+
         return result?.Data;
     }
 }

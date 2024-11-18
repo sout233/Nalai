@@ -73,8 +73,8 @@ namespace Nalai
         private void OnStartup(object sender, StartupEventArgs e)
         {
             _host.Start();
-            Task.Run(CoreTask.SyncAllTasksFromCore);
             Task.Run(CoreService.Start);
+            Task.Run(CoreTask.SyncAllTasksFromCore);
         }
 
         /// <summary>
