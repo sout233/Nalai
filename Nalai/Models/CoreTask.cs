@@ -93,8 +93,9 @@ public class CoreTask(string url, string savePath)
             GlobalTaskChanged?.Invoke(null, null);
         }
     }
+    
 
-    public void SetInfoResult(NalaiCoreInfo info)
+    private void SetInfoResult(NalaiCoreInfo info)
     {
         InfoResult = info;
     }
@@ -107,6 +108,11 @@ public class CoreTask(string url, string savePath)
     public async Task CancelAsync()
     {
         await InnerStopAsync();
+        CloseAllBindWindows();
+    }
+
+    private void CloseAllBindWindows()
+    {
         foreach (var window in BindWindows)
         {
             window.Close();
@@ -134,6 +140,16 @@ public class CoreTask(string url, string savePath)
 
         var info = await CoreService.GetStatusAsync(Id);
         if (info != null) InfoResult = info;
+    }
+
+    public async void DeleteAsync()
+    {
+        var result = await CoreService.SendDeleteMsgAsync(Id);
+        if (result != null)
+        {
+            SyncAllTasksFromCore();
+        }
+        CloseAllBindWindows();
     }
 
     private void StartListen(CancellationToken cancellationToken)

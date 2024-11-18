@@ -14,6 +14,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode();
         var content = response.Content.ReadAsStringAsync().Result;
         var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
+        
+        if (result is { Success: false })
+        {
+            return null;
+        }
+        
         return result?.Data;
     }
 
@@ -28,6 +34,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode();
         var contentResult = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<PostDownloadResponse>(contentResult);
+        
+        if (result is { Success: false })
+        {
+            return null;
+        }
+        
         return result?.Data;
     }
 
@@ -62,6 +74,12 @@ public static class CoreService
         response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<PostSorcResponse>(content);
+        
+        if (result is { Success: false })
+        {
+            return null;
+        }
+        
         return result?.Data;
     }
 
@@ -76,6 +94,31 @@ public static class CoreService
         response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<PostStopResponse>(content);
+        
+        if (result is { Success: false })
+        {
+            return null;
+        }
+        
+        return result?.Data;
+    }
+
+    public static async Task<Dictionary<string, NalaiCoreInfo>?> SendDeleteMsgAsync(string? id)
+    {
+        var uriBuilder = new UriBuilder("http://localhost:13088/download")
+        {
+            Query = $"id={id}"
+        };
+        var response = await HttpClient.DeleteAsync(uriBuilder.Uri);
+        response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
+        var content = await response.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
+        
+        if (result is { Success: false })
+        {
+            return null;
+        }
+        
         return result?.Data;
     }
 }

@@ -138,7 +138,7 @@ public class DownloadTask
         //await Downloader?.DownloadFileTaskAsync(Url, Path.Combine(path.FullName, FileName))!;
         var downPath = Path.Combine(path.FullName, FileName);
         
-        // TODO: REMOVE DOWNLOADTASK
+        // _TODO: REMOVE DOWNLOADTASK
         // var id = JsonConvert.DeserializeObject<string>(await _core.StartAsync(Url,downPath)).id;
         // Console.WriteLine(id);
         // var timer = new Timer((string id)=>UpdateStatusNew(id),null, TimeSpan.Zero, TimeSpan.FromSeconds(0.2));
@@ -157,7 +157,7 @@ public class DownloadTask
     }
     
 
-    // TODO: 下载状态获取不正确
+    // _TODO: 下载状态获取不正确
     public DownloadStatus PauseOrResume()
     {
         if (Downloader is null)
@@ -293,7 +293,7 @@ public class DownloadTask
         }
         else if (e.Error is IOException)
         {
-            // TODO: 应添加重试次数限制
+            // _TODO: 应添加重试次数限制
             NalaiDownService.StopTask(this);
             PauseOrResume();
         }

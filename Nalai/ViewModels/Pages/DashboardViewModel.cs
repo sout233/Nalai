@@ -111,10 +111,8 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not ListView item) return;
             if (item.SelectedItem is not CoreTask task) return;
 
-            // TODO: 实现删除任务功能
-            // NalaiDownService.RemoveTask(task);
+            task.DeleteAsync();
 
-            _ = task.CancelAsync();
             UpdateDownloadCollection();
         }
 
