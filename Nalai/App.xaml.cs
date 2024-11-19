@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows.Threading;
 using Microsoft.Extensions.Configuration;
@@ -73,7 +74,22 @@ namespace Nalai
         private void OnStartup(object sender, StartupEventArgs e)
         {
             _host.Start();
-            Task.Run(CoreService.Start);
+
+            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(DebuggableAttribute), false);
+            if (attributes.Length > 0)
+            {
+                var debuggableAttribute = (DebuggableAttribute)attributes[0];
+                if (debuggableAttribute.IsJITTrackingEnabled)
+                {
+                    Console.WriteLine("Debug模式不启动Nalai Core");
+                }
+                else
+                {
+                    Console.WriteLine("已在Release模式下启动Nalai Core");
+                    Task.Run(CoreService.StartAsync);
+                }
+            }
+            
             Task.Run(CoreTask.SyncAllTasksFromCore);
         }
 
