@@ -20,10 +20,10 @@ public static class CoreService
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = pathToExe,
-                // RedirectStandardOutput = true,
-                // RedirectStandardError = true,
-                // UseShellExecute = false,
-                // CreateNoWindow = true
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
             };
 
             try
