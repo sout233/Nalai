@@ -36,7 +36,7 @@ public static class CoreService
                     // 异步读取标准输出
                     string output = await process.StandardOutput.ReadToEndAsync();
                     string error = await process.StandardError.ReadToEndAsync();
-                    
+
                     GlobalNalaiCoreProcess = process;
 
                     // 等待进程退出
@@ -62,6 +62,19 @@ public static class CoreService
         else
         {
             Console.WriteLine("nalai_core.exe 正在运行中");
+        }
+    }
+
+    public static void SendExitMsg()
+    {
+        try
+        {
+            var uriBuilder = new UriBuilder("http://localhost:13088/exit");
+            _ = HttpClient.GetAsync(uriBuilder.Uri).Result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"无法发送退出消息: {ex.Message}");
         }
     }
 
