@@ -98,11 +98,12 @@ namespace Nalai
         /// </summary>
         private async void OnExit(object sender, ExitEventArgs e)
         {
-            
-            
             await _host.StopAsync();
 
             _host.Dispose();
+            
+            CoreService.GlobalNalaiCoreProcess.Kill();
+            
         }
 
         /// <summary>

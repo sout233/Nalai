@@ -7,6 +7,7 @@ namespace Nalai.CoreConnector;
 public static class CoreService
 {
     private static readonly HttpClient HttpClient = new();
+    public static Process GlobalNalaiCoreProcess { get; set; }
 
     public static async Task StartAsync()
     {
@@ -35,6 +36,8 @@ public static class CoreService
                     // 异步读取标准输出
                     string output = await process.StandardOutput.ReadToEndAsync();
                     string error = await process.StandardError.ReadToEndAsync();
+                    
+                    GlobalNalaiCoreProcess = process;
 
                     // 等待进程退出
                     process.WaitForExit();
