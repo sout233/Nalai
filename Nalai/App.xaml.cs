@@ -101,11 +101,11 @@ namespace Nalai
         /// </summary>
         private async void OnExit(object sender, ExitEventArgs e)
         {
+            CoreService.SendExitMsg();
+            
             await _host.StopAsync();
 
             _host.Dispose();
-
-            CoreService.SendExitMsg();
         }
 
         /// <summary>
