@@ -40,7 +40,7 @@ public static class CoreService
                     GlobalNalaiCoreProcess = process;
 
                     // 等待进程退出
-                    process.WaitForExit();
+                    await process.WaitForExitAsync();
 
                     // 输出结果
                     Console.WriteLine("Standard Output:");
