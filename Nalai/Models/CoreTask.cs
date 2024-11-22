@@ -72,28 +72,35 @@ public class CoreTask(string url, string savePath)
         _cancellationTokenSource = new CancellationTokenSource();
         StartListen(_cancellationTokenSource.Token);
     }
-    
+
     public static void SyncAllTasksFromCore()
     {
-        var infos = CoreService.GetAllInfoDictionary();
-        if (infos != null)
+        try
         {
-            var tempTasks = new List<CoreTask>();
-            foreach (var info in infos)
+            var infos = CoreService.GetAllInfo();
+            if (infos != null)
             {
-                var task = new CoreTask(info.Value.Url, info.Value.SaveDirectory);
+                var tempTasks = new List<CoreTask>();
+                foreach (var info in infos)
+                {
+                    var task = new CoreTask(info.Value.Url, info.Value.SaveDirectory);
 
-                task.SetInfoResult(info.Value);
-                task.Id = info.Key;
-                
-                tempTasks.Add(task);
+                    task.SetInfoResult(info.Value);
+                    task.Id = info.Key;
+
+                    tempTasks.Add(task);
+                }
+
+                NalaiDownService.GlobalDownloadTasks = tempTasks!;
+                GlobalTaskChanged?.Invoke(null, null);
             }
-            
-            NalaiDownService.GlobalDownloadTasks = tempTasks!;
-            GlobalTaskChanged?.Invoke(null, null);
+        }
+        catch (Exception ex)
+        {
+            NalaiMsgBox.Show(ex.Message, "Error");
         }
     }
-    
+
 
     private void SetInfoResult(NalaiCoreInfo info)
     {
@@ -144,12 +151,21 @@ public class CoreTask(string url, string savePath)
 
     public async void DeleteAsync()
     {
-        var result = await CoreService.SendDeleteMsgAsync(Id);
-        if (result != null)
+        try
         {
-            SyncAllTasksFromCore();
+            var result = await CoreService.SendDeleteMsgAsync(Id);
+
+            if (result != null)
+            {
+                await Task.Run(SyncAllTasksFromCore);
+            }
+
+            CloseAllBindWindows();
         }
-        CloseAllBindWindows();
+        catch (Exception ex)
+        {
+            NalaiMsgBox.Show(ex.Message, "Error");
+        }
     }
 
     private void StartListen(CancellationToken cancellationToken)
