@@ -129,5 +129,15 @@ namespace Nalai.ViewModels.Pages
             _ = task.CancelAsync();
             UpdateRightClickMenu(task.InfoResult.Status);
         }
+
+        [RelayCommand]
+        private void OnShowDetails(object? parameter)
+        {
+            if (parameter is not ListView item) return;
+            if (item.SelectedItem is not CoreTask task) return;
+
+            var window = new DetailsWindow(task);
+            window.Show();
+        }
     }
 }

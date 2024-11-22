@@ -72,7 +72,7 @@
                     <MenuItem Icon="{ui:SymbolIcon Delete24}" Header="移出列表" Command="{Binding ViewModel.RemoveCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
-                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情" Command="{Binding ShowDetailsCommand}"
+                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情" Command="{Binding ViewModel.ShowDetailsCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
                 </ContextMenu>

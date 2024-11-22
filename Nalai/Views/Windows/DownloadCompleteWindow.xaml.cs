@@ -6,7 +6,7 @@ namespace Nalai.Views.Windows;
 
 public partial class DownloadCompleteWindow : FluentWindow
 {
-    public DownloadCompleteWindowViewModel ViewModel { get; set; }
+    public DownloadCompleteWindowViewModel ViewModel { get; }
     public CoreTask Task { get; set; }
     
     public DownloadCompleteWindow(DownloadCompleteWindowViewModel viewModel,CoreTask task)
