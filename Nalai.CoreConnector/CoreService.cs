@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
-using Nalai.CoreConnector.Models;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Nalai.CoreConnector.Models;
 
 namespace Nalai.CoreConnector;
 
@@ -58,7 +61,6 @@ public static class CoreService
                 Console.WriteLine($"无法启动 nalai_core.exe: {ex.Message}");
             }
         }
-
         else
         {
             Console.WriteLine("nalai_core.exe 正在运行中");
@@ -78,20 +80,16 @@ public static class CoreService
         }
     }
 
-    public static Dictionary<string, NalaiCoreInfo>? GetAllInfoDictionary()
+    public static Dictionary<string, NalaiCoreInfo>? GetAllInfo()
     {
-        var uriBuilder = new UriBuilder("http://localhost:13088/all_info");
-        var response = HttpClient.GetAsync(uriBuilder.Uri).Result;
-        response.EnsureSuccessStatusCode();
-        var content = response.Content.ReadAsStringAsync().Result;
-        var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
-
-        if (result is { Success: false })
-        {
-            return null;
-        }
-
-        return result?.Data;
+        return MakeHttpRequestWithRetry(
+            () => HttpClient.GetAsync("http://localhost:13088/all_info"),
+            async response =>
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
+                return result?.Data;
+            }).Result;
     }
 
     public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string path)
@@ -101,17 +99,15 @@ public static class CoreService
             Query = $"url={url}&save_dir={path}"
         };
         Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
-        var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
-        response.EnsureSuccessStatusCode();
-        var contentResult = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<PostDownloadResponse>(contentResult);
 
-        if (result is { Success: false })
-        {
-            return null;
-        }
-
-        return result?.Data;
+        return await MakeHttpRequestWithRetry(
+            () => HttpClient.PostAsync(uriBuilder.Uri, null),
+            async response =>
+            {
+                var contentResult = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<PostDownloadResponse>(contentResult);
+                return result?.Data;
+            });
     }
 
     public static async Task<NalaiCoreInfo?> GetStatusAsync(string? id)
@@ -120,18 +116,15 @@ public static class CoreService
         {
             Query = $"id={id}"
         };
-        //HttpContent content = new();
-        var response = await HttpClient.GetAsync(uriBuilder.Uri);
-        response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
-        var content = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<GetInfoResponse>(content);
 
-        if (result is { Success: false })
-        {
-            return null;
-        }
-
-        return result?.Data;
+        return await MakeHttpRequestWithRetry(
+            () => HttpClient.GetAsync(uriBuilder.Uri),
+            async response =>
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<GetInfoResponse>(content);
+                return result?.Data;
+            });
     }
 
     public static async Task<NalaiSorcResult?> SendSorcMsgAsync(string id)
@@ -141,17 +134,15 @@ public static class CoreService
             Query = $"id={id}"
         };
         Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
-        var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
-        response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
-        var content = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<PostSorcResponse>(content);
 
-        if (result is { Success: false })
-        {
-            return null;
-        }
-
-        return result?.Data;
+        return await MakeHttpRequestWithRetry(
+            () => HttpClient.PostAsync(uriBuilder.Uri, null),
+            async response =>
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<PostSorcResponse>(content);
+                return result?.Data;
+            });
     }
 
     public static async Task<NalaiStopResult?> SendStopMsgAsync(string? id)
@@ -161,17 +152,15 @@ public static class CoreService
             Query = $"id={id}"
         };
         Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
-        var response = await HttpClient.PostAsync(uriBuilder.Uri, null);
-        response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
-        var content = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<PostStopResponse>(content);
 
-        if (result is { Success: false })
-        {
-            return null;
-        }
-
-        return result?.Data;
+        return await MakeHttpRequestWithRetry(
+            () => HttpClient.PostAsync(uriBuilder.Uri, null),
+            async response =>
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<PostStopResponse>(content);
+                return result?.Data;
+            });
     }
 
     public static async Task<Dictionary<string, NalaiCoreInfo>?> SendDeleteMsgAsync(string? id)
@@ -180,16 +169,46 @@ public static class CoreService
         {
             Query = $"id={id}"
         };
-        var response = await HttpClient.DeleteAsync(uriBuilder.Uri);
-        response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
-        var content = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
 
-        if (result is { Success: false })
+        return await MakeHttpRequestWithRetry(
+            () => HttpClient.DeleteAsync(uriBuilder.Uri),
+            async response =>
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
+                return result?.Data;
+            });
+    }
+
+    private static async Task<T?> MakeHttpRequestWithRetry<T>(Func<Task<HttpResponseMessage>> requestAction, Func<HttpResponseMessage, Task<T>> parseResponse) where T : class?
+    {
+        const int maxRetries = 2;
+        for (int attempt = 0; attempt <= maxRetries; attempt++)
         {
-            return null;
+            try
+            {
+                HttpResponseMessage response = await requestAction();
+                response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
+
+                // 解析响应内容
+                return await parseResponse(response);
+            }
+            catch (HttpRequestException hre)
+            {
+                if (attempt == maxRetries)
+                {
+                    // 所有重试均失败，调用StartAsync启动内核
+                    await StartAsync();
+                    throw; // 重新抛出异常
+                }
+                else
+                {
+                    Console.WriteLine($"请求失败，正在尝试第{attempt + 1}次重试: {hre.Message}");
+                    await Task.Delay(1000); // 重试前等待一段时间
+                }
+            }
         }
 
-        return result?.Data;
+        return null;
     }
 }
