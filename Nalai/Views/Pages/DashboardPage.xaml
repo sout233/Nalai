@@ -22,12 +22,34 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:Button
-            Grid.Row="0"
-            Appearance="Primary"
-            Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
-            Content="New"
-            Icon="{ui:SymbolIcon Add24}" />
+<StackPanel Orientation="Horizontal">
+    <ui:Button
+        Grid.Row="0"
+        Appearance="Primary"
+        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
+        Content="New"
+        Icon="{ui:SymbolIcon Add24}" />
+    <Separator Margin="8,0"/>
+    <ui:Button
+        Appearance="Transparent"
+        BorderBrush="Transparent"
+        Margin="0,0,2,0"
+        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
+        Icon="{ui:SymbolIcon Pause24}" 
+        IsEnabled="False"/>
+    <ui:Button
+        Appearance="Transparent"
+        BorderBrush="Transparent"
+        Margin="2,0"
+        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
+        Icon="{ui:SymbolIcon Copy24}" />
+    <ui:Button
+        Appearance="Transparent"
+        BorderBrush="Transparent"
+        Margin="2,0"
+        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
+        Icon="{ui:SymbolIcon Delete24}" />
+</StackPanel>
 
         <ui:ListView
             x:Name="DownloadTaskListView"
@@ -63,16 +85,19 @@
             </ui:ListView.View>
             <ListView.ContextMenu>
                 <ContextMenu Opened="ContextMenu_OnOpened">
-                    <MenuItem Icon="{Binding ViewModel.PauseOrResumeIcon}" Header="{Binding ViewModel.PauseOrResumeText}" Command="{Binding ViewModel.PauseOrResumeCommand}"
+                    <MenuItem Icon="{Binding ViewModel.PauseOrResumeIcon}"
+                              Header="{Binding ViewModel.PauseOrResumeText}"
+                              Command="{Binding ViewModel.PauseOrResumeCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
-                    </MenuItem>                   
+                    </MenuItem>
                     <MenuItem Icon="{ui:SymbolIcon Dismiss24}" Header="取消" Command="{Binding ViewModel.CancelCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
                     <MenuItem Icon="{ui:SymbolIcon Delete24}" Header="移出列表" Command="{Binding ViewModel.RemoveCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
-                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情" Command="{Binding ViewModel.ShowDetailsCommand}"
+                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情"
+                              Command="{Binding ViewModel.ShowDetailsCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
                 </ContextMenu>
