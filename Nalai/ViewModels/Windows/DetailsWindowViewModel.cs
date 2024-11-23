@@ -19,9 +19,11 @@ public partial class DetailsWindowViewModel : ObservableObject
     [ObservableProperty] private string _speed;
     [ObservableProperty] private string _url;
 
-    public DetailsWindowViewModel(CoreTask task)
+    public DetailsWindowViewModel(CoreTask task,DetailsWindow window)
     {
         ApplicationTitle = "Details: " + task.FileName;
+        BindWindow = window;
+        
         ProgressText = task.RealtimeStatusText;
         FileName = task.FileName;
         Id = task.Id ?? string.Empty;

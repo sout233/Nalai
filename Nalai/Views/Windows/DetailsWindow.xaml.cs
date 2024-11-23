@@ -11,7 +11,7 @@ public partial class DetailsWindow : FluentWindow
     public DetailsWindow(CoreTask task)
     {
         InitializeComponent();
-        ViewModel = new DetailsWindowViewModel(task);
+        ViewModel = new DetailsWindowViewModel(task,this);
         DataContext = this;
     }
 }
