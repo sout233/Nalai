@@ -86,6 +86,8 @@ public class CoreTask(string url, string savePath)
 
         _cancellationTokenSource = new CancellationTokenSource();
         StartListen(_cancellationTokenSource.Token);
+        
+        // await Task.Run(SyncAllTasksFromCore);
     }
 
     public static void SyncAllTasksFromCore()
@@ -102,6 +104,12 @@ public class CoreTask(string url, string savePath)
 
                     task.SetInfoResult(info.Value);
                     task.Id = info.Key;
+
+                    foreach (var t in NalaiDownService.ListeningTasks.Where(t => t?.Id == task.Id))
+                    {
+                        if (t != null) tempTasks.Add(t);
+                        break;
+                    }
 
                     tempTasks.Add(task);
                 }
@@ -162,6 +170,8 @@ public class CoreTask(string url, string savePath)
 
         var info = await CoreService.GetStatusAsync(Id);
         if (info != null) InfoResult = info;
+        
+        NalaiDownService.RemoveListeningTask(this);
     }
 
     public async Task DeleteAsync()
@@ -175,6 +185,7 @@ public class CoreTask(string url, string savePath)
                 await Task.Run(SyncAllTasksFromCore);
             }
 
+            NalaiDownService.RemoveListeningTask(this);
             CloseAllBindWindows();
         }
         catch (Exception ex)
@@ -258,6 +269,8 @@ public class CoreTask(string url, string savePath)
                             throw new OperationCanceledException();
                         }
                     }
+                    
+                    NalaiDownService.InsertListeningTask(this);
 
                     // Console.WriteLine(
                     //     $"File: {FileName}, Status: {InfoResult?.RealtimeStatusText}, Downloaded: {InfoResult?.DownloadedBytes} / {InfoResult?.TotalBytes}, CToken: {cancellationToken.IsCancellationRequested}");
@@ -292,6 +305,8 @@ public class CoreTask(string url, string savePath)
             InfoResult = InfoResult with { StatusText = "Cancelled" };
             GlobalTaskChanged?.Invoke(this, this);
             StatusChanged?.Invoke(this, InfoResult);
+            
+            NalaiDownService.RemoveListeningTask(this);
         }
 
         return result is { IsRunning: true };
