@@ -17,7 +17,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     public DownloadCompleteWindowViewModel(CoreTask task)
     {
         FileName = task.FileName;
-        DownloadPath = task.SavePath;
+        DownloadPath = task.SaveDir;
         ApplicationTitle = $"Download Complete: {task.FileName}";
     }
 

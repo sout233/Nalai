@@ -22,7 +22,7 @@ namespace Nalai.ViewModels.Pages
             // NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
             UpdateDownloadCollection();
 
-            foreach (var task in NalaiDownService.GlobalDownloadTasks)
+            foreach (var (_, task) in NalaiDownService.GlobalDownloadTasks)
             {
                 if (task != null) task.StatusChanged += OnDownloadStatusChanged;
             }
@@ -58,7 +58,7 @@ namespace Nalai.ViewModels.Pages
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<CoreTask>();
-            foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示
+            foreach (var (_, task) in tasks) // TODO: 可能会导致右键菜单无法正常显示
             {
                 if (task != null)
                 {

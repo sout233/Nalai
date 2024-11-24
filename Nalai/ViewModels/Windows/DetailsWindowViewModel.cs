@@ -27,7 +27,7 @@ public partial class DetailsWindowViewModel : ObservableObject
         ProgressText = task.RealtimeStatusText;
         FileName = task.FileName;
         Id = task.Id ?? string.Empty;
-        SavePath = task.SavePath;
+        SavePath = task.SaveDir;
         FileSize = $"{task.DownloadedSizeText} / {task.TotalBytes}";
         Status = task.Status.ToString();
         DownloadedSize = task.DownloadedSizeText;
