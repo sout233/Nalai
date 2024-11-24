@@ -1,7 +1,4 @@
-﻿using Nalai.CoreConnector;
-using Nalai.CoreConnector.Models;
-using Nalai.Helpers;
-using Nalai.Models;
+﻿using Nalai.Models;
 
 namespace Nalai.Services;
 

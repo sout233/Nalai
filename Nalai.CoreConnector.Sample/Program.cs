@@ -1,5 +1,4 @@
 ﻿using Nalai.CoreConnector;
-using Nalai.CoreConnector.Models;
 
 
 const string Url2 = "https://mirrors.tuna.tsinghua.edu.cn/debian/dists/Debian10.13/ChangeLog";

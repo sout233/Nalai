@@ -24,7 +24,6 @@
 
         <StackPanel Orientation="Horizontal">
             <ui:Button
-                Grid.Row="0"
                 Appearance="Primary"
                 Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
                 Content="New"
@@ -34,20 +33,24 @@
                 Appearance="Transparent"
                 BorderBrush="Transparent"
                 Margin="0,0,2,0"
-                Icon="{ui:SymbolIcon Pause24}"
-                IsEnabled="False" />
+                Icon="{Binding ViewModel.PauseOrResumeIcon}"
+                IsEnabled="{Binding ViewModel.IsPauseOrResumeEnabled, Mode=OneWay}" 
+                Command="{Binding ViewModel.PauseOrResumeCommand}"
+                CommandParameter="{Binding ElementName=DownloadTaskListView}" />
             <ui:Button
-                x:Name="StopButton"
                 Appearance="Transparent"
                 BorderBrush="Transparent"
                 Margin="2,0"
                 Icon="{ui:SymbolIcon Stop24}"
-                Click="StopButton_OnClick" />
+                Command="{Binding ViewModel.CancelCommand}"
+                CommandParameter="{Binding ElementName=DownloadTaskListView}"/>
             <ui:Button
                 Appearance="Transparent"
                 BorderBrush="Transparent"
                 Margin="2,0"
-                Icon="{ui:SymbolIcon Delete24}" />
+                Icon="{ui:SymbolIcon Delete24}"
+                Command="{Binding ViewModel.RemoveCommand}"
+                CommandParameter="{Binding ElementName=DownloadTaskListView}" />
         </StackPanel>
 
         <ui:ListView
@@ -56,7 +59,7 @@
             d:ItemsSource="{d:SampleData ItemCount=2}"
             BorderThickness="0"
             Margin="0,10"
-            MouseRightButtonDown="DownloadTaskListView_OnMouseRightButtonDown"
+            MouseUp="DownloadTaskListView_OnMouseUp"
             ItemsSource="{Binding ViewModel.DownloadViewItems, Mode=TwoWay}">
             <ui:ListView.View>
                 <ui:GridView>
@@ -84,7 +87,7 @@
             </ui:ListView.View>
             <ListView.ContextMenu>
                 <ContextMenu Opened="ContextMenu_OnOpened">
-                    <MenuItem Icon="{Binding ViewModel.PauseOrResumeIcon}"
+                    <MenuItem Icon="{Binding ViewModel.PauseOrResumeButtonIcon}"
                               Header="{Binding ViewModel.PauseOrResumeText}"
                               Command="{Binding ViewModel.PauseOrResumeCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">

@@ -1,12 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Net;
-using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
-using Nalai.Services;
 using Wpf.Ui.Controls;
 using DownloadProgressChangedEventArgs = Nalai.Models.DownloadProgressChangedEventArgs;
 
