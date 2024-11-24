@@ -17,22 +17,33 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
         InitializeComponent();
     }
 
-    private void DownloadTaskListView_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        
-    }
-
     private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
     {
-        var item = DownloadTaskListView.SelectedItem;
-        if (item is CoreTask task)
-        {
-            ViewModel.UpdateRightClickMenu(task.InfoResult.Status);
-        }
+        UpdatePauseOrResumeElement();
     }
 
-    private void StopButton_OnClick(object sender, RoutedEventArgs e)
+    private void DownloadTaskListView_OnMouseUp(object sender, MouseButtonEventArgs e)
     {
-        DownloadTaskListView.SelectedItems.OfType<CoreTask>().ToList().ForEach(t => _ = t.CancelAsync());
+        UpdatePauseOrResumeElement();
+    }
+
+    private void UpdatePauseOrResumeElement()
+    {
+        var item = DownloadTaskListView.SelectedItem;
+
+        if (DownloadTaskListView.SelectedItems.Count > 1)
+        {
+            ViewModel.SetPauseOrResumeButtonEnabled(false);
+            return;
+        }
+
+        if (item is not CoreTask task)
+        {
+            ViewModel.SetPauseOrResumeButtonEnabled(false);
+            return;
+        }
+
+        ViewModel.UpdatePauseOrResumeElement(task.Status);
+        ViewModel.SetPauseOrResumeButtonEnabled(true);
     }
 }

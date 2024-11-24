@@ -104,7 +104,20 @@ namespace Nalai
         /// </summary>
         private async void OnExit(object sender, ExitEventArgs e)
         {
-            CoreService.SendExitMsg();
+            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(DebuggableAttribute), false);
+            if (attributes.Length > 0)
+            {
+                var debuggableAttribute = (DebuggableAttribute)attributes[0];
+                if (debuggableAttribute.IsJITTrackingEnabled)
+                {
+                    Console.WriteLine("Debug模式不关闭Nalai Core");
+                }
+                else
+                {
+                    Console.WriteLine("已在Release模式下关闭Nalai Core");
+                    CoreService.SendExitMsg();
+                }
+            }
             
             await _host.StopAsync();
 

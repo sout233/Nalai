@@ -1,7 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Nalai.CoreConnector.Models;
 
@@ -93,11 +90,12 @@ public static class CoreService
             }).Result;
     }
 
-    public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string path)
+    public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string saveDir, string fileName,
+        string id)
     {
         var uriBuilder = new UriBuilder("http://localhost:13088/download")
         {
-            Query = $"url={url}&save_dir={path}"
+            Query = $"url={url}&save_dir={saveDir}&file_name={fileName}&id={id}"
         };
         Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
 
@@ -181,7 +179,8 @@ public static class CoreService
             });
     }
 
-    private static async Task<T?> MakeHttpRequestWithRetry<T>(Func<Task<HttpResponseMessage>> requestAction, Func<HttpResponseMessage, Task<T>> parseResponse) where T : class?
+    private static async Task<T?> MakeHttpRequestWithRetry<T>(Func<Task<HttpResponseMessage>> requestAction,
+        Func<HttpResponseMessage, Task<T>> parseResponse) where T : class?
     {
         const int maxRetries = 2;
         for (int attempt = 0; attempt <= maxRetries; attempt++)

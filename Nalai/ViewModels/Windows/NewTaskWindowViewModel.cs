@@ -74,8 +74,8 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [RelayCommand]
     private async Task AddTask()
     {
-        // var fileName = await UrlHelper.GetFileName(Url);
-        var task = await NalaiDownService.NewTask(Url, "fileName", SavePath);
+        var fileName = await UrlHelper.GetFileName(Url);
+        var task = await NalaiDownService.NewTask(Url, SavePath, fileName);
 
         var vm = new DownloadingWindowViewModel(task);
         var window = new DownloadingWindow(vm, Url, task);

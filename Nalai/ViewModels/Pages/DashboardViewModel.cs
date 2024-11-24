@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Services;
@@ -13,6 +12,8 @@ namespace Nalai.ViewModels.Pages
     {
         [ObservableProperty] private string _pauseOrResumeText = "暂停";
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
+        [ObservableProperty] private bool _isPauseOrResumeEnabled;
+        [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
 
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
 
@@ -21,12 +22,17 @@ namespace Nalai.ViewModels.Pages
             // NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
             UpdateDownloadCollection();
 
-            foreach (var task in NalaiDownService.GlobalDownloadTasks)
+            foreach (var (_, task) in NalaiDownService.GlobalDownloadTasks)
             {
                 if (task != null) task.StatusChanged += OnDownloadStatusChanged;
             }
 
             CoreTask.GlobalTaskChanged += OnGlobalTaskChanged;
+        }
+
+        public void SetPauseOrResumeButtonEnabled(bool isEnabled)
+        {
+            IsPauseOrResumeEnabled = isEnabled;
         }
 
         private void OnGlobalTaskChanged(object? sender, CoreTask e)
@@ -52,7 +58,7 @@ namespace Nalai.ViewModels.Pages
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<CoreTask>();
-            foreach (var task in tasks) // TODO: 可能会导致右键菜单无法正常显示
+            foreach (var (_, task) in tasks) // TODO: 可能会导致右键菜单无法正常显示
             {
                 if (task != null)
                 {
@@ -73,7 +79,7 @@ namespace Nalai.ViewModels.Pages
             UpdateDownloadCollection();
         }
 
-        public void UpdateRightClickMenu(DownloadStatus status)
+        public void UpdatePauseOrResumeElement(DownloadStatus status)
         {
             PauseOrResumeText = status switch
             {
@@ -96,6 +102,17 @@ namespace Nalai.ViewModels.Pages
                 DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 _ => PauseOrResumeIcon
             };
+
+            PauseOrResumeButtonIcon = status switch
+            {
+                DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatus.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatus.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatus.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatus.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                _ => PauseOrResumeButtonIcon
+            };
         }
 
         [RelayCommand]
@@ -105,10 +122,10 @@ namespace Nalai.ViewModels.Pages
 
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
-                await coreTask.StartOrCancelAsync();
-                UpdateRightClickMenu(coreTask.InfoResult.Status);
+                var result = await coreTask.StartOrCancelAsync();
+                UpdatePauseOrResumeElement(result ? DownloadStatus.Running : coreTask.Status);
             }
-            
+
             UpdateDownloadCollection();
         }
 
@@ -120,7 +137,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 await coreTask.DeleteAsync();
-                UpdateRightClickMenu(coreTask.InfoResult.Status);
+                UpdatePauseOrResumeElement(coreTask.Status);
             }
 
             UpdateDownloadCollection();
@@ -134,7 +151,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 await coreTask.CancelAsync();
-                UpdateRightClickMenu(coreTask.InfoResult.Status);
+                UpdatePauseOrResumeElement(coreTask.Status);
             }
 
             UpdateDownloadCollection();

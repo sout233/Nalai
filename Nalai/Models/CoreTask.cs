@@ -7,22 +7,17 @@ using Nalai.Views.Windows;
 
 namespace Nalai.Models;
 
-public class CoreTask(string url, string savePath)
+public class CoreTask(string url, string saveDir, string fileName, string id)
 {
-    public NalaiCoreInfo InfoResult
+    private NalaiCoreInfo InfoResult
     {
         get => _infoResult;
-        private set
+        set
         {
             _infoResult = value;
             FileName = value.FileName;
             Url = value.Url;
-            SavePath = value.SaveDirectory;
-
-            var totalFileSize = ByteSizeFormatter.FormatSize(value.TotalBytes);
-            var receivedFileSize = ByteSizeFormatter.FormatSize(value.DownloadedBytes);
-
-            FileSizeText = $"{receivedFileSize} / {totalFileSize}";
+            SaveDir = value.SaveDirectory;
 
             if (value.Status == DownloadStatus.Running)
             {
@@ -39,12 +34,32 @@ public class CoreTask(string url, string savePath)
         }
     }
 
+
+    #region 属性和它的朋友们
+
     public string FileName { get; set; } = "Unknown";
-    public string SavePath { get; set; } = savePath;
+    public string SaveDir { get; set; } = saveDir;
     public string Url { get; set; } = url;
-    public string? Id { get; set; }
+    public string Id { get; set; } = id;
+
+    // Text属性是为了方便绑定到界面上
+    public DownloadStatus Status => InfoResult.Status;
     public string RealtimeStatusText { get; set; } = "Pending";
-    public string FileSizeText { get; set; } = "Unknown";
+
+
+    public long TotalBytes => InfoResult.TotalBytes;
+    public string TotalSizeText => ByteSizeFormatter.FormatSize(TotalBytes);
+
+
+    public long DownloadedBytes => InfoResult.DownloadedBytes;
+    public string DownloadedSizeText => ByteSizeFormatter.FormatSize(DownloadedBytes);
+
+    public long BytesPerSecondSpeed => InfoResult.BytesPerSecondSpeed;
+    public string SpeedText => ByteSizeFormatter.FormatSize(BytesPerSecondSpeed) + "/s";
+
+    public float Progress => (float)DownloadedBytes / TotalBytes * 100;
+
+    #endregion
 
     public List<Window> BindWindows { get; set; } = [];
 
@@ -60,7 +75,8 @@ public class CoreTask(string url, string savePath)
     {
         try
         {
-            var result = await CoreService.SendStartMsgAsync(Url, SavePath);
+            var result = await CoreService.SendStartMsgAsync(Url, SaveDir, fileName,
+                CalculateNalaiCoreId.FromFileNameAndSaveDir(fileName, saveDir));
             Id = result?.Id;
         }
         catch (Exception ex)
@@ -71,6 +87,9 @@ public class CoreTask(string url, string savePath)
 
         _cancellationTokenSource = new CancellationTokenSource();
         StartListen(_cancellationTokenSource.Token);
+        NalaiDownService.ListeningTasks.TryAdd(Id, this);
+
+        await Task.Run(SyncAllTasksFromCore);
     }
 
     public static void SyncAllTasksFromCore()
@@ -80,15 +99,22 @@ public class CoreTask(string url, string savePath)
             var infos = CoreService.GetAllInfo();
             if (infos != null)
             {
-                var tempTasks = new List<CoreTask>();
-                foreach (var info in infos)
+                var tempTasks = new Dictionary<string, CoreTask>();
+                foreach (var (id, info) in infos)
                 {
-                    var task = new CoreTask(info.Value.Url, info.Value.SaveDirectory);
+                    if (NalaiDownService.ListeningTasks.ContainsKey(id))
+                    {
+                        tempTasks.Add(id, NalaiDownService.ListeningTasks[id]!);
+                        continue;
+                    }
 
-                    task.SetInfoResult(info.Value);
-                    task.Id = info.Key;
+                    var task = new CoreTask(info.Url, info.SaveDirectory, info.FileName, id);
 
-                    tempTasks.Add(task);
+                    task.SetInfoResult(info);
+                    task.Id = id;
+
+                    tempTasks.Add(id, task);
+                    Console.WriteLine($"New Task: {id}");
                 }
 
                 NalaiDownService.GlobalDownloadTasks = tempTasks!;
@@ -128,17 +154,14 @@ public class CoreTask(string url, string savePath)
 
     private async Task InnerStopAsync()
     {
-        if (Id != null)
+        try
         {
-            try
-            {
-                await CoreService.SendStopMsgAsync(Id);
-            }
-            catch (Exception ex)
-            {
-                NalaiMsgBox.Show(ex.Message, "Error");
-                return;
-            }
+            await CoreService.SendStopMsgAsync(Id);
+        }
+        catch (Exception ex)
+        {
+            NalaiMsgBox.Show(ex.Message, "Error");
+            return;
         }
 
         await _cancellationTokenSource.CancelAsync();
@@ -147,6 +170,8 @@ public class CoreTask(string url, string savePath)
 
         var info = await CoreService.GetStatusAsync(Id);
         if (info != null) InfoResult = info;
+        
+        NalaiDownService.ListeningTasks.Remove(Id);
     }
 
     public async Task DeleteAsync()
@@ -160,6 +185,7 @@ public class CoreTask(string url, string savePath)
                 await Task.Run(SyncAllTasksFromCore);
             }
 
+            NalaiDownService.ListeningTasks.Remove(Id);
             CloseAllBindWindows();
         }
         catch (Exception ex)
@@ -171,6 +197,8 @@ public class CoreTask(string url, string savePath)
     private void StartListen(CancellationToken cancellationToken)
     {
         Console.WriteLine("StartListen:" + Id);
+        NalaiDownService.ListeningTasks.TryAdd(Id, this);
+
         Task.Run(async () =>
         {
             try
@@ -243,7 +271,7 @@ public class CoreTask(string url, string savePath)
                             throw new OperationCanceledException();
                         }
                     }
-
+                    
                     // Console.WriteLine(
                     //     $"File: {FileName}, Status: {InfoResult?.RealtimeStatusText}, Downloaded: {InfoResult?.DownloadedBytes} / {InfoResult?.TotalBytes}, CToken: {cancellationToken.IsCancellationRequested}");
 
@@ -252,10 +280,12 @@ public class CoreTask(string url, string savePath)
             }
             catch (OperationCanceledException)
             {
+                NalaiDownService.ListeningTasks.Remove(Id);
                 Console.WriteLine("Listen canceled");
             }
             catch (Exception ex)
             {
+                NalaiDownService.ListeningTasks.Remove(Id);
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }, cancellationToken);
@@ -277,6 +307,8 @@ public class CoreTask(string url, string savePath)
             InfoResult = InfoResult with { StatusText = "Cancelled" };
             GlobalTaskChanged?.Invoke(this, this);
             StatusChanged?.Invoke(this, InfoResult);
+            
+            NalaiDownService.ListeningTasks.Remove(Id);
         }
 
         return result is { IsRunning: true };

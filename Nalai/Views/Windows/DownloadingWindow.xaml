@@ -129,7 +129,7 @@
                     <StackPanel>
                         <ui:TextBlock FontTypography="Caption" Text="最大速度" />
                         <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
-                                      Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}">
+                                      Text="{Binding ViewModel.MaxSpeedText, Mode=OneWay}">
                         </ui:TextBlock>
                     </StackPanel>
                 </Border>

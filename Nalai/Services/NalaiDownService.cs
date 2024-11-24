@@ -1,21 +1,28 @@
-﻿using Nalai.CoreConnector;
-using Nalai.CoreConnector.Models;
-using Nalai.Helpers;
+﻿using Nalai.Helpers;
 using Nalai.Models;
 
 namespace Nalai.Services;
 
 public static class NalaiDownService
 {
-    public static List<CoreTask?> GlobalDownloadTasks { get; internal set; } = [];
+    public static Dictionary<string, CoreTask?> GlobalDownloadTasks { get; internal set; } = [];
+    public static Dictionary<string, CoreTask?> ListeningTasks { get; internal set; } = [];
 
-
-    public static Task<CoreTask> NewTask(string url, string fileName, string path)
+    public static Task<CoreTask> NewTask(string url, string saveDir, string fileName)
     {
-        var task = new CoreTask(url, path);
-        GlobalDownloadTasks.Add(task);
+        var id = CalculateNalaiCoreId.FromFileNameAndSaveDir(saveDir, fileName);
+        var task = new CoreTask(url, saveDir, fileName, id);
 
-        Console.WriteLine($"Starting download: {fileName},\n from: {url},\n to: {path}");
+        if (GlobalDownloadTasks.ContainsKey(id))
+        {
+            GlobalDownloadTasks[id] = task;
+        }
+        else
+        {
+            GlobalDownloadTasks.TryAdd(id, task);
+        }
+
+        Console.WriteLine($"Starting download: {fileName},\n from: {url},\n to: {saveDir}");
 
         // SqlService.InsertOrUpdate(task);
 
