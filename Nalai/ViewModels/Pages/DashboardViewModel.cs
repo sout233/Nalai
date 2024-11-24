@@ -123,7 +123,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 var result = await coreTask.StartOrCancelAsync();
-                UpdatePauseOrResumeElement(result ? DownloadStatus.Running : coreTask.InfoResult.Status);
+                UpdatePauseOrResumeElement(result ? DownloadStatus.Running : coreTask.Status);
             }
 
             UpdateDownloadCollection();
@@ -137,7 +137,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 await coreTask.DeleteAsync();
-                UpdatePauseOrResumeElement(coreTask.InfoResult.Status);
+                UpdatePauseOrResumeElement(coreTask.Status);
             }
 
             UpdateDownloadCollection();
@@ -151,7 +151,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 await coreTask.CancelAsync();
-                UpdatePauseOrResumeElement(coreTask.InfoResult.Status);
+                UpdatePauseOrResumeElement(coreTask.Status);
             }
 
             UpdateDownloadCollection();

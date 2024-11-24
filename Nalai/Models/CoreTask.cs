@@ -9,20 +9,15 @@ namespace Nalai.Models;
 
 public class CoreTask(string url, string savePath)
 {
-    public NalaiCoreInfo InfoResult
+    private NalaiCoreInfo InfoResult
     {
         get => _infoResult;
-        private set
+        set
         {
             _infoResult = value;
             FileName = value.FileName;
             Url = value.Url;
             SavePath = value.SaveDirectory;
-
-            var totalFileSize = ByteSizeFormatter.FormatSize(value.TotalBytes);
-            var receivedFileSize = ByteSizeFormatter.FormatSize(value.DownloadedBytes);
-
-            FileSizeText = $"{receivedFileSize} / {totalFileSize}";
 
             if (value.Status == DownloadStatus.Running)
             {
@@ -39,12 +34,32 @@ public class CoreTask(string url, string savePath)
         }
     }
 
+
+    #region 属性和它的朋友们
+
     public string FileName { get; set; } = "Unknown";
     public string SavePath { get; set; } = savePath;
     public string Url { get; set; } = url;
     public string? Id { get; set; }
+
+    // Text属性是为了方便绑定到界面上
+    public DownloadStatus Status => InfoResult.Status;
     public string RealtimeStatusText { get; set; } = "Pending";
-    public string FileSizeText { get; set; } = "Unknown";
+
+
+    public long TotalBytes => InfoResult.TotalBytes;
+    public string TotalSizeText => ByteSizeFormatter.FormatSize(TotalBytes);
+
+
+    public long DownloadedBytes => InfoResult.DownloadedBytes;
+    public string DownloadedSizeText => ByteSizeFormatter.FormatSize(DownloadedBytes);
+
+    public long BytesPerSecondSpeed => InfoResult.BytesPerSecondSpeed;
+    public string SpeedText => ByteSizeFormatter.FormatSize(BytesPerSecondSpeed) + "/s";
+
+    public float Progress => (float)DownloadedBytes / TotalBytes * 100;
+
+    #endregion
 
     public List<Window> BindWindows { get; set; } = [];
 

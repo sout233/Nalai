@@ -28,11 +28,11 @@ public partial class DetailsWindowViewModel : ObservableObject
         FileName = task.FileName;
         Id = task.Id ?? string.Empty;
         SavePath = task.SavePath;
-        FileSize = task.FileSizeText;
-        Status = task.InfoResult.Status.ToString();
-        DownloadedSize = ByteSizeFormatter.FormatSize(task.InfoResult.DownloadedBytes);
-        TotalSize = ByteSizeFormatter.FormatSize(task.InfoResult.TotalBytes);
-        Speed = ByteSizeFormatter.FormatSize(task.InfoResult.BytesPerSecondSpeed)+"/s";
+        FileSize = $"{task.DownloadedSizeText} / {task.TotalBytes}";
+        Status = task.Status.ToString();
+        DownloadedSize = task.DownloadedSizeText;
+        TotalSize = task.TotalSizeText;
+        Speed = task.SpeedText;
         Url = task.Url;
     }
     

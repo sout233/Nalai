@@ -81,7 +81,7 @@
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="180"
-                        DisplayMemberBinding="{Binding FileSizeText}"
+                        DisplayMemberBinding="{Binding TotalSizeText}"
                         Header="Size" />
                 </ui:GridView>
             </ui:ListView.View>
