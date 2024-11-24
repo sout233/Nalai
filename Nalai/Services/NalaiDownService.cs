@@ -6,11 +6,12 @@ namespace Nalai.Services;
 public static class NalaiDownService
 {
     public static Dictionary<string, CoreTask?> GlobalDownloadTasks { get; internal set; } = [];
+    public static Dictionary<string, CoreTask?> ListeningTasks { get; internal set; } = [];
 
     public static Task<CoreTask> NewTask(string url, string saveDir, string fileName)
     {
-        var task = new CoreTask(url, saveDir, fileName);
         var id = CalculateNalaiCoreId.FromFileNameAndSaveDir(saveDir, fileName);
+        var task = new CoreTask(url, saveDir, fileName, id);
 
         if (GlobalDownloadTasks.ContainsKey(id))
         {
