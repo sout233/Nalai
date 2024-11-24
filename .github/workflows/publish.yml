@@ -1,0 +1,54 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'  # 仅当推送带有v前缀的标签时触发
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Publish Application
+      run: dotnet publish -c Release -r win-x64 --self-contained false
+
+    - name: Zip Published Files
+      run: |
+        $version = "${{ github.ref_name }}"
+        Compress-Archive -Path bin\Release\net8.0\win-x64\publish\* -DestinationPath "Nalai_v$version_win_x64.zip" -Force
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Nalai-v${{ github.ref_name }}-win-x64
+        path: Nalai_v${{ github.ref_name }}_win_x64.zip
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: Nalai_v${{ github.ref_name }}_win_x64.zip
+        asset_name: Nalai_v${{ github.ref_name }}_win_x64.zip
+        asset_content_type: application/zip
