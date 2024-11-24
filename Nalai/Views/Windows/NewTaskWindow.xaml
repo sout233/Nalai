@@ -65,7 +65,7 @@
                 <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
                     
                     <ui:TextBlock VerticalAlignment="Center" Text="Core 状态："/>
-                    <ui:InfoBadge Severity="Success"/>
+                    <ui:InfoBadge Severity="{Binding ViewModel}"/>
                 </StackPanel>
                 
                 <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>

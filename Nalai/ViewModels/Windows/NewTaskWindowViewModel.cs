@@ -1,6 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
+using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
@@ -17,6 +18,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [ObservableProperty] private bool _isFlyoutOpen;
     [ObservableProperty] private string _savePath;
     [ObservableProperty] private bool _dialogResult;
+    [ObservableProperty] private string _runningState;
     private string _lastPath = "";
 
     public DashboardViewModel Dashboard { get; set; }
@@ -31,6 +33,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
         flyout.Placement = PlacementMode.MousePoint;
         flyout.Show();
         Console.WriteLine(flyout.IsOpen);
+        //RunningState = new HealthChecker().Status;
     }
     
 
