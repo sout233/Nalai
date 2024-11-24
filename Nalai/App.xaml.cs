@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nalai.CoreConnector;
+using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
@@ -85,6 +86,7 @@ namespace Nalai
                 if (debuggableAttribute.IsJITTrackingEnabled)
                 {
                     Console.WriteLine("Debug模式不启动Nalai Core");
+                    Task.Run(CoreService.StartAsync);
                 }
                 else
                 {
@@ -93,6 +95,7 @@ namespace Nalai
                 }
             }
 
+            
             Task.Run(CoreTask.SyncAllTasksFromCore);
         }
 

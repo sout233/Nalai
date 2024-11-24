@@ -1,5 +1,6 @@
 ﻿using System.Text.Encodings.Web;
 using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
 using Nalai.Helpers;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
@@ -30,6 +31,13 @@ public partial class NewTaskWindowViewModel : ObservableObject
         flyout.Placement = PlacementMode.MousePoint;
         flyout.Show();
         Console.WriteLine(flyout.IsOpen);
+    }
+    
+
+
+    private void GetCoreState()
+    {
+        
     }
 
     [RelayCommand]

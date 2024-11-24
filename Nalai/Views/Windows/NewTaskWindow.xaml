@@ -56,11 +56,23 @@
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            
-            <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
-            <ui:Button Content="Cancel" HorizontalAlignment="Right" Command="{Binding ViewModel.CancelCommand}"/>
-        </StackPanel>
+        <!--<Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>-->
+            <StackPanel Grid.Row="3" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
+                    
+                    <ui:TextBlock VerticalAlignment="Center" Text="Core 状态："/>
+                    <ui:InfoBadge Severity="Success"/>
+                </StackPanel>
+                
+                <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
+                <ui:Button Content="Cancel" HorizontalAlignment="Right" Command="{Binding ViewModel.CancelCommand}"/>
+            </StackPanel>
+        <!--</Grid>-->
+        
 
         <ContentPresenter
             x:Name="RootContentDialog"
