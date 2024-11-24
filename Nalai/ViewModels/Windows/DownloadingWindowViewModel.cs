@@ -15,6 +15,7 @@ public partial class
     [ObservableProperty] private double _progressValue = 0;
     [ObservableProperty] private string _progressText = "0%";
     [ObservableProperty] private string _downloadSpeed = "0 B/s";
+    [ObservableProperty] private string _maxSpeedText = "0 B/s";
     [ObservableProperty] private string _fileSize = "Unknown";
     [ObservableProperty] private string _remainingTime = "Unknown";
     [ObservableProperty] private string _url = "Unknown";
@@ -24,6 +25,8 @@ public partial class
     [ObservableProperty] private Visibility _showMoreVisibility = Visibility.Collapsed;
     [ObservableProperty] private SymbolIcon _showMoreBtnIcon = new() { Symbol = SymbolRegular.ChevronDown24 };
     [ObservableProperty] private SymbolIcon _pauseOrResumeBtnIcon = new() { Symbol = SymbolRegular.Pause24 };
+
+    private long _maxSpeed = 0;
 
     public DownloadingWindowViewModel(CoreTask thisViewTask)
     {
@@ -99,12 +102,15 @@ public partial class
         var receivedFileSize = ByteSizeFormatter.FormatSize(e.BytesReceived);
         var remainingTime =
             TimeFormatter.CalculateRemainingTime(e.BytesReceived, e.TotalBytesToReceive,
-                (long)e.BytesPerSecondSpeed);
-        
+                e.BytesPerSecondSpeed);
+
         ProgressValue = e.ProgressPercentage;
         ProgressText = e.ProgressPercentage.ToString("0.00") + "%";
         DownloadSpeed = ByteSizeFormatter.FormatSize((long)e.BytesPerSecondSpeed) + "/s";
-        
+        if (e.BytesPerSecondSpeed > _maxSpeed)
+            _maxSpeed = e.BytesPerSecondSpeed;
+        MaxSpeedText = ByteSizeFormatter.FormatSize(_maxSpeed) + "/s";
+
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
         Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";
