@@ -22,34 +22,33 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-<StackPanel Orientation="Horizontal">
-    <ui:Button
-        Grid.Row="0"
-        Appearance="Primary"
-        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
-        Content="New"
-        Icon="{ui:SymbolIcon Add24}" />
-    <Separator Margin="8,0"/>
-    <ui:Button
-        Appearance="Transparent"
-        BorderBrush="Transparent"
-        Margin="0,0,2,0"
-        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
-        Icon="{ui:SymbolIcon Pause24}" 
-        IsEnabled="False"/>
-    <ui:Button
-        Appearance="Transparent"
-        BorderBrush="Transparent"
-        Margin="2,0"
-        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
-        Icon="{ui:SymbolIcon Copy24}" />
-    <ui:Button
-        Appearance="Transparent"
-        BorderBrush="Transparent"
-        Margin="2,0"
-        Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
-        Icon="{ui:SymbolIcon Delete24}" />
-</StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <ui:Button
+                Grid.Row="0"
+                Appearance="Primary"
+                Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
+                Content="New"
+                Icon="{ui:SymbolIcon Add24}" />
+            <Separator Margin="8,0" />
+            <ui:Button
+                Appearance="Transparent"
+                BorderBrush="Transparent"
+                Margin="0,0,2,0"
+                Icon="{ui:SymbolIcon Pause24}"
+                IsEnabled="False" />
+            <ui:Button
+                x:Name="StopButton"
+                Appearance="Transparent"
+                BorderBrush="Transparent"
+                Margin="2,0"
+                Icon="{ui:SymbolIcon Stop24}"
+                Click="StopButton_OnClick" />
+            <ui:Button
+                Appearance="Transparent"
+                BorderBrush="Transparent"
+                Margin="2,0"
+                Icon="{ui:SymbolIcon Delete24}" />
+        </StackPanel>
 
         <ui:ListView
             x:Name="DownloadTaskListView"

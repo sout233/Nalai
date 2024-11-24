@@ -33,7 +33,7 @@ namespace Nalai.ViewModels.Pages
         {
             UpdateDownloadCollection();
         }
-        
+
         [RelayCommand]
         private Task OnNewTask()
         {
@@ -102,11 +102,12 @@ namespace Nalai.ViewModels.Pages
         private async Task OnPauseOrResume(object? parameter)
         {
             if (parameter is not ListView item) return;
-            if (item.SelectedItem is not CoreTask task) return;
 
-            await task.StartOrCancel();
-
-            UpdateRightClickMenu(task.InfoResult.Status);
+            item.SelectedItems.Cast<CoreTask>().ToList().ForEach(async task =>
+            {
+                await task.StartOrCancel();
+                UpdateRightClickMenu(task.InfoResult.Status);
+            });
         }
 
         [RelayCommand]

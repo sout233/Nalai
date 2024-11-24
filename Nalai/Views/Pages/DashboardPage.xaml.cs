@@ -30,4 +30,9 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
             ViewModel.UpdateRightClickMenu(task.InfoResult.Status);
         }
     }
+
+    private void StopButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        DownloadTaskListView.SelectedItems.OfType<CoreTask>().ToList().ForEach(t => _ = t.CancelAsync());
+    }
 }
