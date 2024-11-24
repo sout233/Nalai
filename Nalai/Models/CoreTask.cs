@@ -149,7 +149,7 @@ public class CoreTask(string url, string savePath)
         if (info != null) InfoResult = info;
     }
 
-    public async void DeleteAsync()
+    public async Task DeleteAsync()
     {
         try
         {
@@ -261,7 +261,7 @@ public class CoreTask(string url, string savePath)
         }, cancellationToken);
     }
 
-    public async Task<bool> StartOrCancel()
+    public async Task<bool> StartOrCancelAsync()
     {
         if (Id == null) return false;
         var result = await CoreService.SendSorcMsgAsync(Id);

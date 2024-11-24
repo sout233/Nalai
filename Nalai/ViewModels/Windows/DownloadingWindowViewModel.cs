@@ -47,7 +47,7 @@ public partial class
     [RelayCommand]
     private async Task PauseOrResumeDownload()
     {
-        var isRunning = await ThisViewTask.StartOrCancel();
+        var isRunning = await ThisViewTask.StartOrCancelAsync();
         Console.WriteLine(isRunning);
         if (isRunning)
         {

@@ -103,32 +103,41 @@ namespace Nalai.ViewModels.Pages
         {
             if (parameter is not ListView item) return;
 
-            item.SelectedItems.Cast<CoreTask>().ToList().ForEach(async task =>
+            foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
-                await task.StartOrCancel();
-                UpdateRightClickMenu(task.InfoResult.Status);
-            });
+                await coreTask.StartOrCancelAsync();
+                UpdateRightClickMenu(coreTask.InfoResult.Status);
+            }
+            
+            UpdateDownloadCollection();
         }
 
         [RelayCommand]
-        private void OnRemove(object? parameter)
+        private async Task OnRemove(object? parameter)
         {
             if (parameter is not ListView item) return;
-            if (item.SelectedItem is not CoreTask task) return;
 
-            task.DeleteAsync();
+            foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
+            {
+                await coreTask.DeleteAsync();
+                UpdateRightClickMenu(coreTask.InfoResult.Status);
+            }
 
             UpdateDownloadCollection();
         }
 
         [RelayCommand]
-        private void OnCancel(object? parameter)
+        private async Task OnCancel(object? parameter)
         {
             if (parameter is not ListView item) return;
-            if (item.SelectedItem is not CoreTask task) return;
 
-            _ = task.CancelAsync();
-            UpdateRightClickMenu(task.InfoResult.Status);
+            foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
+            {
+                await coreTask.CancelAsync();
+                UpdateRightClickMenu(coreTask.InfoResult.Status);
+            }
+
+            UpdateDownloadCollection();
         }
 
         [RelayCommand]
