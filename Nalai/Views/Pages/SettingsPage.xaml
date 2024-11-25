@@ -122,7 +122,7 @@
 
         <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
         <TextBlock Margin="0,12,0,0" Text="Made with INTERNET by sout" />
-        <TextBlock Margin="0,12,0,0" Text="建议踢出有女票的成员because本Author十分嫉妒之" />
+        <TextBlock Margin="0,12,0,0" Text="疲惫开发中..." />
 
     </StackPanel>
 </Page>

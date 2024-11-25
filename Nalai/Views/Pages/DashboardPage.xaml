@@ -58,7 +58,10 @@
                     Command="{Binding ViewModel.RemoveCommand}"
                     CommandParameter="{Binding ElementName=DownloadTaskListView}" />
             </StackPanel>
-            <ui:TextBox x:Name="SearchTextBox" Grid.Column="1" HorizontalAlignment="Right" MinWidth="200" Width="200" Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search"></ui:TextBox>
+            <ui:TextBox x:Name="SearchTextBox" Grid.Column="1" HorizontalAlignment="Right" MinWidth="200" Width="200"
+                        Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search"
+                        TextChanged="SearchTextBox_OnTextChanged">
+            </ui:TextBox>
         </Grid>
 
 
