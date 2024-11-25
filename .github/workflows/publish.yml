@@ -24,7 +24,7 @@ jobs:
     - name: Zip Published Files
       run: |
         $version = "${{ github.ref_name }}"
-        Compress-Archive -Path D:\a\Nalai\Nalai\bin\Release\net8.0\win-x64\publish\* -DestinationPath "Nalai_v$version_win_x64.zip" -Force
+        Compress-Archive -Path D:\a\Nalai\Nalai\Nalai\bin\Release\net8.0\win-x64\publish\* -DestinationPath "Nalai_v$version_win_x64.zip" -Force
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
