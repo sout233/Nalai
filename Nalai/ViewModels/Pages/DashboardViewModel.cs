@@ -16,6 +16,7 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
 
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
+        private readonly ObservableCollection<CoreTask> _originalDownloadViewItems = [];
 
         public DashboardViewModel()
         {
@@ -165,6 +166,31 @@ namespace Nalai.ViewModels.Pages
 
             var window = new DetailsWindow(task);
             window.Show();
+        }
+
+        [RelayCommand]
+        private void OnSearch(object? parameter)
+        {
+            if (parameter is not string searchText) return;
+
+            DownloadViewItems.Clear();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                UpdateDownloadCollection();
+            }
+            else
+            {
+                var items = NalaiDownService.GlobalDownloadTasks;
+                var filteredItems = items.Where((pair, index) =>
+                    pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+
+                // 将过滤后的数据添加到显示列表
+                foreach (var item in filteredItems)
+                {
+                    DownloadViewItems.Add(item.Value);
+                }
+            }
         }
     }
 }
