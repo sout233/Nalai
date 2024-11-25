@@ -62,8 +62,6 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
 
     private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
     {
-        CollectionViewSource.GetDefaultView(DownloadTaskListView.ItemsSource).Refresh();
-
-        Console.WriteLine("SearchTextBox_OnTextChanged");
+        ViewModel.UpdateSearchedItems(SearchTextBox.Text);
     }
 }

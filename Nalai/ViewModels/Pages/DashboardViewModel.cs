@@ -192,5 +192,27 @@ namespace Nalai.ViewModels.Pages
                 }
             }
         }
+
+        public void UpdateSearchedItems(string searchText)
+        {
+            DownloadViewItems.Clear();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                UpdateDownloadCollection();
+            }
+            else
+            {
+                var items = NalaiDownService.GlobalDownloadTasks;
+                var filteredItems = items.Where((pair, index) =>
+                    pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+
+                // 将过滤后的数据添加到显示列表
+                foreach (var item in filteredItems)
+                {
+                    DownloadViewItems.Add(item.Value);
+                }
+            }
+        }
     }
 }
