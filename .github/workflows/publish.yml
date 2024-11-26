@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     tags:
-      - 'v*'  # 仅当推送带有v前缀的标签时触发
+      - '*'
 
 jobs:
   build:
