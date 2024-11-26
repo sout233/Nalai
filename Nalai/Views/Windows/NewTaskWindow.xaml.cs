@@ -13,6 +13,7 @@ public partial class NewTaskWindow : FluentWindow
 
     public NewTaskWindow(NewTaskWindowViewModel vm, string url = "", string savePath = "")
     {
+        InitializeComponent();
         DataContext = this;
         ViewModel = vm;
         ViewModel.Url = url;
@@ -24,7 +25,12 @@ public partial class NewTaskWindow : FluentWindow
         ViewModel.Url = url != ""
             ? url
             : DownloadUrl;
+        this.Closing += NewTaskWindow_Closing;
 
-        InitializeComponent();
+    }
+    protected virtual void NewTaskWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        // 通知视图模型窗口即将关闭
+        ViewModel.OnWindowClosing();
     }
 }

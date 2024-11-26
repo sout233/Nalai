@@ -11,6 +11,9 @@ public class HealthChecker
         string code;
 
     }*/
+    public delegate void StatusChangedEventHandler(object sender, EventArgs e);
+
+    public event StatusChangedEventHandler StatusChanged ;
     public HealthStatus Status;
     private string _state;
 
@@ -25,12 +28,18 @@ public class HealthChecker
                 "200 OK" => HealthStatus.Running,
                 _ => HealthStatus.Unknown,
             };
+            OnStatusChanged();
+            
         }
     }
 
     private readonly System.Timers.Timer _timer = new System.Timers.Timer(1500);
     private readonly HttpClient _httpClient = new HttpClient();
 
+    protected virtual void OnStatusChanged()
+    {
+        StatusChanged?.Invoke(this,EventArgs.Empty);
+    }
     private async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs ea)
     {
         try
@@ -60,16 +69,22 @@ public class HealthChecker
             {
                 // 处理错误响应
                 Console.WriteLine($"Error: {response.StatusCode}");
+                ErrHandle();
             }
         }
         catch (Exception ex)
         {
             // 处理异常
             Console.WriteLine(ex.Message);
+            ErrHandle();
         }
         
     }
-    
+
+    public void ErrHandle()
+    {
+        Status = HealthStatus.Unknown;
+    }
     public void Start()
     {
         _timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
@@ -77,5 +92,12 @@ public class HealthChecker
         _timer.Enabled = true;
 
     }
-    
+
+    public void Stop()
+    {
+        _timer.Elapsed -= new System.Timers.ElapsedEventHandler(Timer_Elapsed);
+        _timer.Enabled = false;
+        _httpClient.Dispose();
+        Console.WriteLine("Stopped");
+    }
 }

@@ -64,7 +64,13 @@
             </ui:NavigationView.MenuItems>
             
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="{Binding ViewModel.ApplicationTitle,StringFormat='Core Status'}">
+                <ui:NavigationViewItem>
+                    <ui:NavigationViewItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:TextBlock VerticalAlignment="Center" Text="Core 状态："/>
+                            <ui:InfoBadge Severity="{Binding ViewModel.RunningState}"/>
+                        </StackPanel>
+                    </ui:NavigationViewItem.Content>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem Content="Settings" TargetPageType="{x:Type pages:SettingsPage}">
                     <ui:NavigationViewItem.Icon>

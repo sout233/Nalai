@@ -1,4 +1,5 @@
-﻿using System.Text.Encodings.Web;
+﻿using System.Diagnostics;
+using System.Text.Encodings.Web;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using Nalai.CoreConnector.Models;
@@ -20,9 +21,10 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [ObservableProperty] private bool _dialogResult;
     [ObservableProperty] private string _runningState;
     private string _lastPath = "";
+    
 
     public DashboardViewModel Dashboard { get; set; }
-
+    HealthChecker Hc = new();
     public NewTaskWindowViewModel(string url = null, string savePath = null)
     {
         //Console.WriteLine(defaultPath);
@@ -33,14 +35,46 @@ public partial class NewTaskWindowViewModel : ObservableObject
         flyout.Placement = PlacementMode.MousePoint;
         flyout.Show();
         Console.WriteLine(flyout.IsOpen);
-        //RunningState = new HealthChecker().Status;
+        
+        Hc.Start();
+        Console.WriteLine(RunningState);
+        Hc.StatusChanged += UpdateCoreState;
     }
     
 
 
-    private void GetCoreState()
+    private void UpdateCoreState(object sender,EventArgs e)
     {
-        
+        RunningState = Hc.Status switch
+        {
+            HealthStatus.Running => "Success",
+            HealthStatus.Unknown => "Critical",
+            _ => ""
+        };
+    }
+
+    [RelayCommand]
+    private void TestTaskKill()
+    {
+        string processName = "nalai_core";
+
+        // 获取所有匹配的进程
+        Process[] processes = Process.GetProcessesByName(processName);
+
+        foreach (Process proc in processes)
+        {
+            try
+            {
+                // 结束进程
+                proc.Kill();
+                Console.WriteLine($"进程 {processName} 已结束.");
+            }
+            catch (Exception ex)
+            {
+                // 如果无法结束进程，输出错误信息
+                Console.WriteLine($"无法结束进程 {processName}: {ex.Message}");
+            }
+        }
     }
 
     [RelayCommand]
@@ -86,13 +120,24 @@ public partial class NewTaskWindowViewModel : ObservableObject
 
         task.BindWindows.Add(window);
 
-        Window.Close();
+        WindowClose();
     }
 
 
     [RelayCommand]
     private void Cancel()
     {
-        Window.Close();
+        WindowClose();
+    }
+
+    private void WindowClose(bool c=true)
+    {
+        Hc.Stop();
+        if(c)Window.Close();
+    }
+
+    public void OnWindowClosing()
+    {
+        WindowClose(false);
     }
 }

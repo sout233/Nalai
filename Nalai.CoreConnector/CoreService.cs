@@ -62,7 +62,7 @@ public static class CoreService
         {
             Console.WriteLine("nalai_core.exe 正在运行中");
         }
-        new HealthChecker().Start();
+        
     }
 
     public static void SendExitMsg()

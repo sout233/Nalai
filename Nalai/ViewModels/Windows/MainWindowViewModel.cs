@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Nalai.CoreConnector.Models;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Windows
@@ -35,11 +36,29 @@ namespace Nalai.ViewModels.Windows
         //         TargetPageType = typeof(Views.Pages.SettingsPage)
         //     }
         // };
-
+        
         [ObservableProperty]
         private ObservableCollection<MenuItem> _trayMenuItems = new()
         {
             new MenuItem { Header = "Home", Tag = "tray_home" }
         };
+
+        [ObservableProperty] private String _runningState;
+        private HealthChecker Hc = new();
+        public MainWindowViewModel()
+        {
+            Hc.Start();
+            Console.WriteLine(RunningState);
+            Hc.StatusChanged += UpdateCoreState;
+        }
+        private void UpdateCoreState(object sender,EventArgs e)
+        {
+            RunningState = Hc.Status switch
+            {
+                HealthStatus.Running => "Success",
+                HealthStatus.Unknown => "Critical",
+                _ => ""
+            };
+        }
     }
 }
