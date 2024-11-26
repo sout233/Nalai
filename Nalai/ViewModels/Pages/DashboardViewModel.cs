@@ -14,7 +14,16 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
         [ObservableProperty] private bool _isPauseOrResumeEnabled;
         [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
-
+        
+        [ObservableProperty] private string _searchText;
+        partial void OnSearchTextChanging(string? value)
+        {
+            if (value != null) UpdateSearchedItems(value);
+        }
+        
+        [ObservableProperty] private string _sortTypeText="文件名";
+        [ObservableProperty] private SymbolIcon _sortTypeIcon = new() { Symbol = SymbolRegular.ArrowDown24 };
+        
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
         private readonly ObservableCollection<CoreTask> _originalDownloadViewItems = [];
 
@@ -59,7 +68,7 @@ namespace Nalai.ViewModels.Pages
         {
             var tasks = NalaiDownService.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<CoreTask>();
-            foreach (var (_, task) in tasks) // TODO: 可能会导致右键菜单无法正常显示
+            foreach (var (_, task) in tasks)
             {
                 if (task != null)
                 {
@@ -213,6 +222,76 @@ namespace Nalai.ViewModels.Pages
                     DownloadViewItems.Add(item.Value);
                 }
             }
+        }
+
+        [RelayCommand]
+        private void OnSort(object? parameter)
+        {
+            if (parameter is not string sortType) return;
+            DownloadViewItems = sortType switch
+            {
+                "FileNameAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderBy(pair => pair.Value.FileName)
+                    .Select(pair => pair.Value)),
+                "FileNameDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderByDescending(pair => pair.Value.FileName)
+                    .Select(pair => pair.Value)),
+                "FileSizeAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderBy(pair => pair.Value.TotalBytes)
+                    .Select(pair => pair.Value)),
+                "FileSizeDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderByDescending(pair => pair.Value.TotalBytes)
+                    .Select(pair => pair.Value)),
+                "StatusAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderBy(pair => pair.Value.Status)
+                    .Select(pair => pair.Value)),
+                "StatusDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderByDescending(pair => pair.Value.Status)
+                    .Select(pair => pair.Value)),
+                "SpeedAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderBy(pair => pair.Value.BytesPerSecondSpeed)
+                    .Select(pair => pair.Value)),
+                "SpeedDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderByDescending(pair => pair.Value.BytesPerSecondSpeed)
+                    .Select(pair => pair.Value)),
+                "ProgressAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderBy(pair => pair.Value.Progress)
+                    .Select(pair => pair.Value)),
+                "ProgressDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderByDescending(pair => pair.Value.Progress)
+                    .Select(pair => pair.Value)),
+                _ => DownloadViewItems
+            };
+            
+            SortTypeText = sortType switch
+            {
+                "FileNameAsc" => "文件名",
+                "FileNameDesc" => "文件名",
+                "FileSizeAsc" => "文件大小",
+                "FileSizeDesc" => "文件大小",
+                "StatusAsc" => "状态",
+                "StatusDesc" => "状态",
+                "SpeedAsc" => "速度",
+                "SpeedDesc" => "速度",
+                "ProgressAsc" => "进度",
+                "ProgressDesc" => "进度",
+                _ => SortTypeText
+            };
+
+            SortTypeIcon = sortType switch
+            {
+                "FileNameAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
+                "FileNameDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
+                "FileSizeAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
+                "FileSizeDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
+                "StatusAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
+                "StatusDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
+                "SpeedAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
+                "SpeedDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
+                "ProgressAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
+                "ProgressDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
+                _ => SortTypeIcon
+            };
         }
     }
 }

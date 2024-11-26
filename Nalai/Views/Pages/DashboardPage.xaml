@@ -58,13 +58,41 @@
                     Command="{Binding ViewModel.RemoveCommand}"
                     CommandParameter="{Binding ElementName=DownloadTaskListView}" />
             </StackPanel>
-            <ui:TextBox x:Name="SearchTextBox" Grid.Column="1" HorizontalAlignment="Right" MinWidth="200" Width="200"
-                        Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search"
-                        TextChanged="SearchTextBox_OnTextChanged">
-            </ui:TextBox>
-            <!-- <Button Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,200,0" Content="Search" Command="{Binding ViewModel.SearchCommand}" CommandParameter="{Binding ElementName=SearchTextBox,Path=Text}"></Button> -->
-        </Grid>
 
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <ui:DropDownButton Margin="2,0" Icon="{Binding ViewModel.SortTypeIcon}"
+                                   Content="{Binding ViewModel.SortTypeText}">
+                    <ui:DropDownButton.Flyout>
+                        <ContextMenu>
+                            <MenuItem Header="文件名" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="FileNameAsc" />
+                            <MenuItem Header="文件名降序" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="FileNameDesc" />
+                            <MenuItem Header="文件大小" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="FileSizeAsc" />
+                            <MenuItem Header="文件大小降序" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="FileSizeDesc" />
+                            <MenuItem Header="下载进度" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="ProgressAsc" />
+                            <MenuItem Header="下载进度降序" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="ProgressDesc" />
+                            <MenuItem Header="状态" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="StatusAsc" />
+                            <MenuItem Header="状态降序" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="StatusDesc" />
+                            <MenuItem Header="创建时间" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="CreateTimeAsc" />
+                            <MenuItem Header="创建时间降序" Command="{Binding ViewModel.SortCommand}"
+                                      CommandParameter="CreateTimeDesc" />
+                        </ContextMenu>
+                    </ui:DropDownButton.Flyout>
+                </ui:DropDownButton>
+                <ui:TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" MinWidth="200" Width="200"
+                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search"
+                            Text="{Binding ViewModel.SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                </ui:TextBox>
+            </StackPanel>
+        </Grid>
 
         <ui:ListView
             x:Name="DownloadTaskListView"

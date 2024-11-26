@@ -18,8 +18,6 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
         DataContext = this;
 
         InitializeComponent();
-        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DownloadTaskListView.ItemsSource);
-        view.Filter = UserFilter;
     }
 
     private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
@@ -50,18 +48,5 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
 
         ViewModel.UpdatePauseOrResumeElement(task.Status);
         ViewModel.SetPauseOrResumeButtonEnabled(true);
-    }
-    
-    private bool UserFilter(object item)
-    {
-        if(String.IsNullOrEmpty(SearchTextBox.Text))
-            return true;
-        else
-            return ((item as CoreTask).FileName.IndexOf(SearchTextBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-    }
-
-    private void SearchTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
-    {
-        ViewModel.UpdateSearchedItems(SearchTextBox.Text);
     }
 }
