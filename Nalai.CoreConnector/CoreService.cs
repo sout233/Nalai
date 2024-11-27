@@ -7,54 +7,37 @@ namespace Nalai.CoreConnector;
 public static class CoreService
 {
     private static readonly HttpClient HttpClient = new();
-    public static Process GlobalNalaiCoreProcess { get; set; }
 
-    public static async Task StartAsync()
+    public static Task StartAsync()
     {
         // 检查是否已经存在 nalai_core.exe 进程
-        bool isProcessRunning = Process.GetProcessesByName("nalai_core").Length > 0;
+        var isProcessRunning = Process.GetProcessesByName("nalai_core").Length > 0;
 
         if (!isProcessRunning)
         {
             // 如果进程不存在，则启动它
-            string pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core.exe");
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            var pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core.exe");
+            var startInfo = new ProcessStartInfo
             {
                 FileName = pathToExe,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
+                // RedirectStandardOutput = true,
+                // RedirectStandardError = true,
+                // UseShellExecute = false,
                 CreateNoWindow = true
             };
 
             try
             {
-                using (Process process = new Process { StartInfo = startInfo })
+                using (var process = new Process())
                 {
+                    process.StartInfo = startInfo;
                     process.Start();
-
-                    // 异步读取标准输出
-                    string output = await process.StandardOutput.ReadToEndAsync();
-                    string error = await process.StandardError.ReadToEndAsync();
-
-                    GlobalNalaiCoreProcess = process;
-
-                    // 等待进程退出
-                    await process.WaitForExitAsync();
-
-                    // 输出结果
-                    Console.WriteLine("Standard Output:");
-                    Console.WriteLine(output);
-
-                    Console.WriteLine("Standard Error:");
-                    Console.WriteLine(error);
                 }
 
                 Console.WriteLine("nalai_core.exe 已启动并完成运行");
             }
             catch (Exception ex)
             {
-                // 处理可能发生的异常，比如路径错误或文件不存在
                 Console.WriteLine($"无法启动 nalai_core.exe: {ex.Message}");
             }
         }
@@ -62,7 +45,8 @@ public static class CoreService
         {
             Console.WriteLine("nalai_core.exe 正在运行中");
         }
-        
+
+        return Task.CompletedTask;
     }
 
     public static void SendExitMsg()
@@ -182,12 +166,12 @@ public static class CoreService
     private static async Task<T?> MakeHttpRequestWithRetry<T>(Func<Task<HttpResponseMessage>> requestAction,
         Func<HttpResponseMessage, Task<T>> parseResponse) where T : class?
     {
-        const int maxRetries = 2;
-        for (int attempt = 0; attempt <= maxRetries; attempt++)
+        const int maxRetries = 3;
+        for (var attempt = 1; attempt <= maxRetries; attempt++)
         {
             try
             {
-                HttpResponseMessage response = await requestAction();
+                using var response = await requestAction();
                 response.EnsureSuccessStatusCode(); // 确保响应状态码为200-299
 
                 // 解析响应内容
@@ -197,15 +181,15 @@ public static class CoreService
             {
                 if (attempt == maxRetries)
                 {
-                    // 所有重试均失败，调用StartAsync启动内核
-                    await StartAsync();
-                    throw; // 重新抛出异常
+                    
+                    throw; // 所有重试均失败， 重新抛出异常
                 }
-                else
-                {
-                    Console.WriteLine($"请求失败，正在尝试第{attempt + 1}次重试: {hre.Message}");
-                    await Task.Delay(1000); // 重试前等待一段时间
-                }
+
+                Console.WriteLine($"请求失败，正在尝试第{attempt + 1}次重试: {hre.Message}");
+                await Task.Delay(1000); // 重试前等待一段时间
+                
+                // 调用StartAsync启动内核
+                await StartAsync();
             }
         }
 

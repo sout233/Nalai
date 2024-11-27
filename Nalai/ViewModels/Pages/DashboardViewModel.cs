@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Nalai.CoreConnector.Models;
+using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Windows;
@@ -14,16 +15,17 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
         [ObservableProperty] private bool _isPauseOrResumeEnabled;
         [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
-        
+
         [ObservableProperty] private string _searchText;
+
         partial void OnSearchTextChanging(string? value)
         {
             if (value != null) UpdateSearchedItems(value);
         }
-        
-        [ObservableProperty] private string _sortTypeText="文件名";
+
+        [ObservableProperty] private string _sortTypeText = "文件名";
         [ObservableProperty] private SymbolIcon _sortTypeIcon = new() { Symbol = SymbolRegular.ArrowDown24 };
-        
+
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
         private readonly ObservableCollection<CoreTask> _originalDownloadViewItems = [];
 
@@ -53,7 +55,7 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private Task OnNewTask()
         {
-            var newTaskWindowViewModel = new NewTaskWindowViewModel();
+            var newTaskWindowViewModel = new NewTaskWindowViewModel(string.Empty, GetFolderDefault.GetDownloadPath());
             var window = new NewTaskWindow(newTaskWindowViewModel);
             newTaskWindowViewModel.Window = window;
             newTaskWindowViewModel.Dashboard = this;
@@ -262,7 +264,7 @@ namespace Nalai.ViewModels.Pages
                     .Select(pair => pair.Value)!),
                 _ => DownloadViewItems
             };
-            
+
             SortTypeText = sortType switch
             {
                 "FileNameAsc" => "文件名",

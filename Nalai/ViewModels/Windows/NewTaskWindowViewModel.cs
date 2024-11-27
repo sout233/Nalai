@@ -21,31 +21,32 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [ObservableProperty] private bool _dialogResult;
     [ObservableProperty] private string _runningState;
     private string _lastPath = "";
-    
+
 
     public DashboardViewModel Dashboard { get; set; }
-    HealthChecker Hc = new();
-    public NewTaskWindowViewModel(string url = null, string savePath = null)
+    private readonly HealthChecker _hc = new();
+
+    public NewTaskWindowViewModel(string url, string savePath)
     {
-        //Console.WriteLine(defaultPath);
         Url = url;
         SavePath = savePath;
-        //NalaiMsgBox.Show($"默认路径为： {DefaultPath}");
-        var flyout = new Flyout();
-        flyout.Placement = PlacementMode.MousePoint;
+
+        var flyout = new Flyout
+        {
+            Placement = PlacementMode.MousePoint
+        };
         flyout.Show();
         Console.WriteLine(flyout.IsOpen);
-        
-        Hc.Start();
+
+        _hc.Start();
         Console.WriteLine(RunningState);
-        Hc.StatusChanged += UpdateCoreState;
+        _hc.StatusChanged += UpdateCoreState;
     }
-    
 
 
-    private void UpdateCoreState(object sender,EventArgs e)
+    private void UpdateCoreState(object sender, EventArgs e)
     {
-        RunningState = Hc.Status switch
+        RunningState = _hc.Status switch
         {
             HealthStatus.Running => "Success",
             HealthStatus.Unknown => "Critical",
@@ -130,10 +131,10 @@ public partial class NewTaskWindowViewModel : ObservableObject
         WindowClose();
     }
 
-    private void WindowClose(bool c=true)
+    private void WindowClose(bool c = true)
     {
-        Hc.Stop();
-        if(c)Window.Close();
+        _hc.Stop();
+        if (c) Window.Close();
     }
 
     public void OnWindowClosing()
