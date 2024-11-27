@@ -86,7 +86,6 @@ namespace Nalai
                 if (debuggableAttribute.IsJITTrackingEnabled)
                 {
                     Console.WriteLine("Debug模式不启动Nalai Core");
-                    Task.Run(CoreService.StartAsync);
                 }
                 else
                 {
