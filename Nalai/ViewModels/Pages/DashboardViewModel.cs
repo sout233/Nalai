@@ -84,7 +84,7 @@ namespace Nalai.ViewModels.Pages
             DownloadViewItems = GenerateDownloadCollection();
         }
 
-        public void OnDownloadStatusChanged(object? sender, NalaiCoreInfo nalaiCoreInfo)
+        private void OnDownloadStatusChanged(object? sender, NalaiCoreInfo nalaiCoreInfo)
         {
             UpdateDownloadCollection();
         }
@@ -192,17 +192,17 @@ namespace Nalai.ViewModels.Pages
             {
                 var items = NalaiDownService.GlobalDownloadTasks;
                 var filteredItems = items.Where((pair, index) =>
-                    pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+                    pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
                 // 将过滤后的数据添加到显示列表
                 foreach (var item in filteredItems)
                 {
-                    DownloadViewItems.Add(item.Value);
+                    if (item.Value != null) DownloadViewItems.Add(item.Value);
                 }
             }
         }
 
-        public void UpdateSearchedItems(string searchText)
+        private void UpdateSearchedItems(string searchText)
         {
             DownloadViewItems.Clear();
 
@@ -214,12 +214,12 @@ namespace Nalai.ViewModels.Pages
             {
                 var items = NalaiDownService.GlobalDownloadTasks;
                 var filteredItems = items.Where((pair, index) =>
-                    pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+                    pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
                 // 将过滤后的数据添加到显示列表
                 foreach (var item in filteredItems)
                 {
-                    DownloadViewItems.Add(item.Value);
+                    if (item.Value != null) DownloadViewItems.Add(item.Value);
                 }
             }
         }
@@ -231,35 +231,35 @@ namespace Nalai.ViewModels.Pages
             DownloadViewItems = sortType switch
             {
                 "FileNameAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderBy(pair => pair.Value.FileName)
-                    .Select(pair => pair.Value)),
+                    .OrderBy(pair => pair.Value?.FileName)
+                    .Select(pair => pair.Value)!),
                 "FileNameDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderByDescending(pair => pair.Value.FileName)
-                    .Select(pair => pair.Value)),
+                    .OrderByDescending(pair => pair.Value?.FileName)
+                    .Select(pair => pair.Value)!),
                 "FileSizeAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderBy(pair => pair.Value.TotalBytes)
-                    .Select(pair => pair.Value)),
+                    .OrderBy(pair => pair.Value?.TotalBytes)
+                    .Select(pair => pair.Value)!),
                 "FileSizeDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderByDescending(pair => pair.Value.TotalBytes)
-                    .Select(pair => pair.Value)),
+                    .OrderByDescending(pair => pair.Value?.TotalBytes)
+                    .Select(pair => pair.Value)!),
                 "StatusAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderBy(pair => pair.Value.Status)
-                    .Select(pair => pair.Value)),
+                    .OrderBy(pair => pair.Value?.Status)
+                    .Select(pair => pair.Value)!),
                 "StatusDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderByDescending(pair => pair.Value.Status)
-                    .Select(pair => pair.Value)),
+                    .OrderByDescending(pair => pair.Value?.Status)
+                    .Select(pair => pair.Value)!),
                 "SpeedAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderBy(pair => pair.Value.BytesPerSecondSpeed)
-                    .Select(pair => pair.Value)),
+                    .OrderBy(pair => pair.Value?.BytesPerSecondSpeed)
+                    .Select(pair => pair.Value)!),
                 "SpeedDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderByDescending(pair => pair.Value.BytesPerSecondSpeed)
-                    .Select(pair => pair.Value)),
+                    .OrderByDescending(pair => pair.Value?.BytesPerSecondSpeed)
+                    .Select(pair => pair.Value)!),
                 "ProgressAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderBy(pair => pair.Value.Progress)
-                    .Select(pair => pair.Value)),
+                    .OrderBy(pair => pair.Value?.Progress)
+                    .Select(pair => pair.Value)!),
                 "ProgressDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
-                    .OrderByDescending(pair => pair.Value.Progress)
-                    .Select(pair => pair.Value)),
+                    .OrderByDescending(pair => pair.Value?.Progress)
+                    .Select(pair => pair.Value)!),
                 _ => DownloadViewItems
             };
             
