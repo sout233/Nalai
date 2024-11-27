@@ -60,6 +60,9 @@ public record NalaiCoreInfo
     
     [JsonProperty("save_dir")]
     public string SaveDirectory { get; set; }
+    
+    [JsonProperty("create_time")]
+    public RustSystemTime CreatedTime { get;set; }
 
     [JsonIgnore] public DownloadStatus Status { get; set; }
 }

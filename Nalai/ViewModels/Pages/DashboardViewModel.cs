@@ -262,6 +262,12 @@ namespace Nalai.ViewModels.Pages
                 "ProgressDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
                     .OrderByDescending(pair => pair.Value?.Progress)
                     .Select(pair => pair.Value)!),
+                "CreatedTimeAsc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderBy(pair => pair.Value?.SortableCreatedTime)
+                    .Select(pair => pair.Value)!),
+                "CreatedTimeDesc" => new ObservableCollection<CoreTask>(NalaiDownService.GlobalDownloadTasks
+                    .OrderByDescending(pair => pair.Value?.SortableCreatedTime)
+                    .Select(pair => pair.Value)!),
                 _ => DownloadViewItems
             };
 

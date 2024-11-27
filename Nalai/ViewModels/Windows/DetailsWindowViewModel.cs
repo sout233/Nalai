@@ -18,6 +18,8 @@ public partial class DetailsWindowViewModel : ObservableObject
     [ObservableProperty] private string _totalSize;
     [ObservableProperty] private string _speed;
     [ObservableProperty] private string _url;
+    [ObservableProperty] private string _eta;
+    [ObservableProperty] private string _createdTime;
 
     public DetailsWindowViewModel(CoreTask task,DetailsWindow window)
     {
@@ -34,6 +36,8 @@ public partial class DetailsWindowViewModel : ObservableObject
         TotalSize = task.TotalSizeText;
         Speed = task.SpeedText;
         Url = task.Url;
+        Eta = task.EtaText;
+        CreatedTime = task.CreatedTimeText;
     }
     
     [RelayCommand]

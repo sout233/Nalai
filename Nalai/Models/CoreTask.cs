@@ -59,6 +59,13 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
     public float Progress => (float)DownloadedBytes / TotalBytes * 100;
 
+    private RustSystemTime RawCreatedTime => InfoResult.CreatedTime;
+    public string CreatedTimeText => TimeFormatter.FormatRustSystemTime(RawCreatedTime);
+    public DateTimeOffset SortableCreatedTime => TimeFormatter.ConvertRustSystemTime(RawCreatedTime);
+
+    public TimeSpan Eta => TimeFormatter.CalculateRemainingTime(DownloadedBytes, TotalBytes, BytesPerSecondSpeed);
+    public string EtaText => TimeFormatter.FormatTimeSpanReadable(Eta);
+
     #endregion
 
     public List<Window> BindWindows { get; set; } = [];

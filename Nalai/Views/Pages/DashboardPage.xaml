@@ -81,9 +81,9 @@
                             <MenuItem Header="状态降序" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="StatusDesc" />
                             <MenuItem Header="创建时间" Command="{Binding ViewModel.SortCommand}"
-                                      CommandParameter="CreateTimeAsc" />
+                                      CommandParameter="CreatedTimeAsc" />
                             <MenuItem Header="创建时间降序" Command="{Binding ViewModel.SortCommand}"
-                                      CommandParameter="CreateTimeDesc" />
+                                      CommandParameter="CreatedTimeDesc" />
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
                 </ui:DropDownButton>
