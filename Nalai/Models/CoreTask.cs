@@ -236,6 +236,9 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                                     bytesPerSecondSpeed: result.BytesPerSecondSpeed)
                             );
                         }
+                        
+                        Console.WriteLine(
+                            $"File: {FileName}, Status: {RealtimeStatusText}, Downloaded: {InfoResult?.DownloadedBytes} / {InfoResult?.TotalBytes}");
 
                         InfoResult = result;
                         GlobalTaskChanged?.Invoke(this, this);
@@ -265,15 +268,23 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                                     }
                                 }
                             });
-
+                            
+                            SyncAllTasksFromCore();
+                            
                             await _cancellationTokenSource.CancelAsync();
+
+                            GlobalTaskChanged?.Invoke(this, null);
 
                             break;
                         }
 
                         if (InfoResult.Status is DownloadStatus.Cancelled)
                         {
+                            SyncAllTasksFromCore();
+                            
                             await _cancellationTokenSource.CancelAsync();
+                            
+                            GlobalTaskChanged?.Invoke(this, null);
 
                             throw new OperationCanceledException();
                         }

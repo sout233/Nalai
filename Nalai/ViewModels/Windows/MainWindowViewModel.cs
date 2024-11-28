@@ -48,7 +48,7 @@ namespace Nalai.ViewModels.Windows
         public MainWindowViewModel()
         {
             Hc.Start();
-            Console.WriteLine(RunningState);
+            // Console.WriteLine(RunningState);
             Hc.StatusChanged += UpdateCoreState;
         }
         private void UpdateCoreState(object sender,EventArgs e)
