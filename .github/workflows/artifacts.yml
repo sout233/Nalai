@@ -1,0 +1,31 @@
+name: Publish
+
+on:
+  repository_dispatch:
+    types: [ manual-trigger ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Publish Application
+      run: dotnet publish -c Release -r win-x64 --self-contained false
+
+    - name: Zip Published Files
+      run: |
+        Compress-Archive -Path D:\a\Nalai\Nalai\Nalai\bin\Release\net8.0-windows\win-x64\publish\* -DestinationPath "D:\a\Nalai_v${{ github.ref_name }}_win_x64.zip" -Force -Verbose
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Nalai-v${{ github.ref_name }}-win-x64
+        path: 'D:\a\Nalai_v${{ github.ref_name }}_win_x64.zip'
