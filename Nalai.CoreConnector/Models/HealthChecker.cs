@@ -5,18 +5,13 @@ namespace Nalai.CoreConnector.Models;
 
 public class HealthChecker
 {
-    /*private struct StateResult
-    {
-        bool success;
-        string code;
-
-    }*/
     public delegate void StatusChangedEventHandler(object sender, EventArgs e);
 
     public event StatusChangedEventHandler StatusChanged ;
     public HealthStatus Status;
     private string _state;
-
+    private readonly System.Timers.Timer _timer = new(1500);
+    private readonly HttpClient _httpClient = new();
     public string StateText
     {
         get => _state;
@@ -33,8 +28,7 @@ public class HealthChecker
         }
     }
 
-    private readonly System.Timers.Timer _timer = new System.Timers.Timer(1500);
-    private readonly HttpClient _httpClient = new HttpClient();
+    
 
     protected virtual void OnStatusChanged()
     {
@@ -68,26 +62,26 @@ public class HealthChecker
             else
             {
                 // 处理错误响应
-                Console.WriteLine($"Error: {response.StatusCode}");
-                ErrHandle();
+                ErrHandle($"Error: {response.StatusCode}");
             }
         }
-        catch (Exception ex)
+        catch (Exception exc)
         {
             // 处理异常
-            Console.WriteLine(ex.Message);
-            ErrHandle();
+            Console.WriteLine(exc.Message);
+            ErrHandle(exc.Message);
         }
-        
+        Console.WriteLine(Status);
     }
 
-    public void ErrHandle()
+    public void ErrHandle(string e)
     {
+        Console.WriteLine($"Error: {e}");
         Status = HealthStatus.Unknown;
     }
     public void Start()
     {
-        _timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
+        _timer.Elapsed += Timer_Elapsed;
         _timer.AutoReset = true;
         _timer.Enabled = true;
 
@@ -95,7 +89,7 @@ public class HealthChecker
 
     public void Stop()
     {
-        _timer.Elapsed -= new System.Timers.ElapsedEventHandler(Timer_Elapsed);
+        _timer.Elapsed -= Timer_Elapsed;
         _timer.Enabled = false;
         _httpClient.Dispose();
         Console.WriteLine("Stopped");
