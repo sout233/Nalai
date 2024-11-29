@@ -65,6 +65,8 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
     public TimeSpan Eta => TimeFormatter.CalculateRemainingTime(DownloadedBytes, TotalBytes, BytesPerSecondSpeed);
     public string EtaText => TimeFormatter.FormatTimeSpanReadable(Eta);
+    
+    public List<ChunksItem> Chunks => InfoResult.Chunks;
 
     #endregion
 

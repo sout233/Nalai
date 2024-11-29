@@ -21,7 +21,7 @@ public partial class
     [ObservableProperty] private string _url = "Unknown";
     [ObservableProperty] private string _showMoreBtnContent = "More";
     [ObservableProperty] private string _pauseOrResumeBtnContent = "Pause";
-    [ObservableProperty] private ObservableCollection<ChunkProgressData> _chunkProgressBars = [];
+    [ObservableProperty] private ObservableCollection<ChunksItem> _chunkProgressBars = [];
     [ObservableProperty] private Visibility _showMoreVisibility = Visibility.Collapsed;
     [ObservableProperty] private SymbolIcon _showMoreBtnIcon = new() { Symbol = SymbolRegular.ChevronDown24 };
     [ObservableProperty] private SymbolIcon _pauseOrResumeBtnIcon = new() { Symbol = SymbolRegular.Pause24 };
@@ -69,17 +69,17 @@ public partial class
         BasedWindow.Close();
     }
 
-    public void AddOrUpdateChunkProgressBars(string id, float value)
+    public void AddOrUpdateChunkProgressBars(int id, float value)
     {
-        var chunk = ChunkProgressBars.FirstOrDefault(x => x.Id == id);
+        var chunk = ChunkProgressBars.FirstOrDefault(x => x.Index == id);
         if (chunk == null)
         {
-            chunk = new ChunkProgressData { Id = id, Value = value };
+            // chunk = new ChunkProgressData { Id = id, Value = value };
             ChunkProgressBars.Add(chunk);
         }
         else
         {
-            ChunkProgressBars[ChunkProgressBars.IndexOf(chunk)] = new ChunkProgressData { Id = id, Value = value };
+            // ChunkProgressBars[ChunkProgressBars.IndexOf(chunk)] = new ChunkProgressData { Id = id, Value = value };
         }
     }
 

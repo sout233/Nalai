@@ -27,7 +27,6 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private SymbolIcon _sortTypeIcon = new() { Symbol = SymbolRegular.ArrowDown24 };
 
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
-        private readonly ObservableCollection<CoreTask> _originalDownloadViewItems = [];
 
         public DashboardViewModel()
         {
