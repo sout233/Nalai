@@ -36,10 +36,10 @@ public partial class NewTaskWindowViewModel : ObservableObject
             Placement = PlacementMode.MousePoint
         };
         flyout.Show();
-        Console.WriteLine(flyout.IsOpen);
+        //Console.WriteLine(flyout.IsOpen);
 
         _hc.Start();
-        Console.WriteLine(RunningState);
+        //Console.WriteLine(RunningState);
         _hc.StatusChanged += UpdateCoreState;
     }
 
@@ -52,6 +52,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
             HealthStatus.Unknown => "Critical",
             _ => ""
         };
+        //Console.WriteLine(RunningState);
     }
 
     [RelayCommand]
