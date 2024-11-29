@@ -1,5 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Documents;
 using Nalai.CoreConnector.Models;
+using Nalai.Helpers;
+using Nalai.Models;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Windows
@@ -43,22 +46,22 @@ namespace Nalai.ViewModels.Windows
             new MenuItem { Header = "Home", Tag = "tray_home" }
         };
 
-        [ObservableProperty] private String _runningState;
-        private HealthChecker Hc = new();
+        [ObservableProperty] private string _runningState;
         public MainWindowViewModel()
         {
-            Hc.Start();
-            // Console.WriteLine(RunningState);
-            Hc.StatusChanged += UpdateCoreState;
+            RunningStateChecker.StatusChanged += UpdateCoreState;
         }
-        private void UpdateCoreState(object sender,EventArgs e)
+        private void UpdateCoreState(object sender,object e)
         {
-            RunningState = Hc.Status switch
-            {
-                HealthStatus.Running => "Success",
-                HealthStatus.Unknown => "Critical",
-                _ => ""
-            };
+            RunningState = RunningStateFormatter.Format(RunningStateChecker.Status);
+        }
+
+        [RelayCommand]
+        private void TestRunningStatus()
+        {
+            UpdateCoreState(null,null);
+            Console.WriteLine($"Status Text: {RunningStateChecker.Status}");
+            Console.WriteLine($"InfoBadge: {RunningState}");
         }
     }
 }
