@@ -65,6 +65,9 @@ public record NalaiCoreInfo
     public RustSystemTime CreatedTime { get;set; }
 
     [JsonIgnore] public DownloadStatus Status { get; set; }
+    
+    [JsonProperty("chunks")]
+    public List<ChunksItem> Chunks { get;set; }
 }
 
 public class GetInfoResponse : NalaiResponse<NalaiCoreInfo>;
