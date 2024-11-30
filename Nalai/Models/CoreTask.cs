@@ -18,6 +18,12 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             FileName = value.FileName;
             Url = value.Url;
             SaveDir = value.SaveDirectory;
+            Chunks = value.Chunks.Select(x => new ExtendedChunkItem()
+            {
+                DownloadedBytes = x.DownloadedBytes,
+                Index = x.Index,
+                Size = x.Size,
+            }).ToList();
 
             if (value.Status == DownloadStatus.Running)
             {
@@ -65,8 +71,8 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
     public TimeSpan Eta => TimeFormatter.CalculateRemainingTime(DownloadedBytes, TotalBytes, BytesPerSecondSpeed);
     public string EtaText => TimeFormatter.FormatTimeSpanReadable(Eta);
-    
-    public List<ChunksItem> Chunks => InfoResult.Chunks;
+
+    public List<ExtendedChunkItem> Chunks{ get; set; }
 
     #endregion
 

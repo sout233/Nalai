@@ -8,8 +8,8 @@ public class ChunksItem
     public int Index { get;set; }
 
     [JsonProperty("size")]
-    public int Size { get;set; }
+    public long Size { get;set; }
 
     [JsonProperty("downloaded_bytes")]
-    public int DownloadedBytes { get;set; }
+    public long DownloadedBytes { get;set; }
 }

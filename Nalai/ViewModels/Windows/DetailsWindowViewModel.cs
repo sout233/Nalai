@@ -10,7 +10,7 @@ public partial class DetailsWindowViewModel : ObservableObject
 {
     public DetailsWindow BindWindow { get; set; }
     
-    [ObservableProperty] private ObservableCollection<ChunksItem> _chunksCollection = [];
+    [ObservableProperty] private ObservableCollection<ExtendedChunkItem> _chunksCollection = [];
     [ObservableProperty] private string _applicationTitle = "Details: Unknown";
     [ObservableProperty] private string _progressText;
     [ObservableProperty] private string _fileName;
@@ -42,7 +42,7 @@ public partial class DetailsWindowViewModel : ObservableObject
         Url = task.Url;
         Eta = task.EtaText;
         CreatedTime = task.CreatedTimeText;
-        ChunksCollection = new ObservableCollection<ChunksItem>(task.Chunks);
+        ChunksCollection = new ObservableCollection<ExtendedChunkItem>(task.Chunks);
     }
     
     [RelayCommand]
