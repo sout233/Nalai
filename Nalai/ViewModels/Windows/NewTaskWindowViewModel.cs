@@ -4,6 +4,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
+using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
 using Nalai.Views.Windows;
@@ -20,11 +21,11 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [ObservableProperty] private string _savePath;
     [ObservableProperty] private bool _dialogResult;
     [ObservableProperty] private string _runningState;
+    [ObservableProperty] private bool _downloadable;
     private string _lastPath = "";
 
 
     public DashboardViewModel Dashboard { get; set; }
-    private readonly HealthChecker _hc = new();
 
     public NewTaskWindowViewModel(string url, string savePath)
     {
@@ -36,23 +37,15 @@ public partial class NewTaskWindowViewModel : ObservableObject
             Placement = PlacementMode.MousePoint
         };
         flyout.Show();
-        //Console.WriteLine(flyout.IsOpen);
-
-        _hc.Start();
-        //Console.WriteLine(RunningState);
-        _hc.StatusChanged += UpdateCoreState;
+        RunningStateChecker.StatusChanged += UpdateCoreState;
     }
 
 
-    private void UpdateCoreState(object sender, EventArgs e)
+    private void UpdateCoreState(object sender, object e)
     {
-        RunningState = _hc.Status switch
-        {
-            HealthStatus.Running => "Success",
-            HealthStatus.Unknown => "Critical",
-            _ => ""
-        };
-        //Console.WriteLine(RunningState);
+        RunningState = RunningStateFormatter.Format(RunningStateChecker.Status);
+        Downloadable = RunningStateChecker.Status == HealthStatus.Running ? true : false;
+        Console.WriteLine($"Running state: {RunningState}");
     }
 
     [RelayCommand]
@@ -124,7 +117,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
 
             task.BindWindows.Add(window);
 
-            WindowClose();
+            Window.Close();
         }
         catch (Exception ex)
         {
@@ -136,17 +129,14 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [RelayCommand]
     private void Cancel()
     {
-        WindowClose();
+        Window.Close();
     }
 
-    private void WindowClose(bool c = true)
-    {
-        _hc.Stop();
-        if (c) Window.Close();
-    }
+
 
     public void OnWindowClosing()
     {
-        WindowClose(false);
+        RunningStateChecker.StatusChanged -= UpdateCoreState;
+        //Window.Close();
     }
 }

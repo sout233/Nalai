@@ -96,6 +96,7 @@ namespace Nalai
 
             
             Task.Run(CoreTask.SyncAllTasksFromCore);
+            RunningStateChecker.Start();
         }
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace Nalai
             }
             
             await _host.StopAsync();
-
+            RunningStateChecker.Stop();
             _host.Dispose();
         }
 

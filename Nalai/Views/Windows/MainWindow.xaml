@@ -64,6 +64,13 @@
             </ui:NavigationView.MenuItems>
             
             <ui:NavigationView.FooterMenuItems>
+                <!--<ui:NavigationViewItem>
+                    <ui:NavigationViewItem.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:Button Content="Test Running Status" Command="{Binding ViewModel.TestRunningStatusCommand}"></ui:Button>
+                        </StackPanel>
+                    </ui:NavigationViewItem.Content>
+                </ui:NavigationViewItem>-->
                 <ui:NavigationViewItem>
                     <ui:NavigationViewItem.Content>
                         <StackPanel Orientation="Horizontal">

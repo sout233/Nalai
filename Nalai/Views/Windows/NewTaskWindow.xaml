@@ -64,12 +64,12 @@
             <StackPanel Grid.Row="3" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
                     
-                    <ui:TextBlock VerticalAlignment="Center" Text="Core 状态："/>
+                    <ui:TextBlock VerticalAlignment="Center" Text="Core Status："/>
                     <ui:InfoBadge Severity="{Binding ViewModel.RunningState,Mode=OneWay}"/>
-                    <ui:Button Content="Close Nalai.Core(Test)" Command="{Binding ViewModel.TestTaskKillCommand}"></ui:Button>
+                    <!--<ui:Button Content="Close Nalai.Core(Test)" Command="{Binding ViewModel.TestTaskKillCommand}"></ui:Button>-->
                 </StackPanel>
                 
-                <ui:Button Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
+                <ui:Button IsEnabled="{Binding ViewModel.Downloadable,Mode=OneWay}" Appearance="Primary" Content="Add" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
                 <ui:Button Content="Cancel" HorizontalAlignment="Right" Command="{Binding ViewModel.CancelCommand}"/>
             </StackPanel>
         <!--</Grid>-->
