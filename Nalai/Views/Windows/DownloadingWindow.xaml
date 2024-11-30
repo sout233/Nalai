@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:pages="clr-namespace:Nalai.Views.Pages"
+    xmlns:models="clr-namespace:Nalai.Models"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="700"
     Height="370"
@@ -26,9 +27,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="TopStackPanel" Grid.Row="1">
@@ -93,105 +93,146 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <Grid x:Name="DashCardPanelGrid" Grid.Row="2" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Row="0" Grid.Column="0">
-                <Border
-                    CornerRadius="8,8,8,8"
-                    Margin="2"
-                    Padding="12"
-                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1,1,1,0">
-                    <StackPanel>
-                        <ui:TextBlock FontTypography="Caption" Text="下载速度" />
-                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
-                                      Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}">
-                        </ui:TextBlock>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="1">
-                <Border
-                    CornerRadius="8,8,8,8"
-                    Margin="2"
-                    Padding="12"
-                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1,1,1,0">
-                    <StackPanel>
-                        <ui:TextBlock FontTypography="Caption" Text="最大速度" />
-                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
-                                      Text="{Binding ViewModel.MaxSpeedText, Mode=OneWay}">
-                        </ui:TextBlock>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="0">
-                <Border
-                    CornerRadius="8,8,8,8"
-                    Margin="2"
-                    Padding="12"
-                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1,1,1,0">
-                    <StackPanel>
-                        <ui:TextBlock FontTypography="Caption" Text="文件大小" />
-                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
-                                      Text="{Binding ViewModel.FileSize, Mode=OneWay}">
-                        </ui:TextBlock>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="1">
-                <Border
-                    CornerRadius="8,8,8,8"
-                    Margin="2"
-                    Padding="12"
-                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1,1,1,0">
-                    <StackPanel>
-                        <ui:TextBlock FontTypography="Caption" Text="剩余时间" />
-                        <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
-                                      Text="{Binding ViewModel.RemainingTime, Mode=OneWay}">
-                        </ui:TextBlock>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-        </Grid>
 
-        <Grid x:Name="MorePanelGrid" Grid.Row="3" Margin="12"
-              Visibility="{Binding ViewModel.ShowMoreVisibility, Mode=OneWay}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Label Target="{Binding ElementName=MyTextBox}" Content="Url" VerticalAlignment="Center"
-                       Margin="0,0,8,0" />
-                <ui:TextBox x:Name="MyTextBox" Grid.Column="1" VerticalAlignment="Center" PlaceholderText="Url"
-                            Text="{Binding ViewModel.Url, Mode=OneWay}" IsReadOnly="True" />
-                <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="{ui:SymbolIcon Copy24}" Margin="8,0,0,0"
-                           Command="{Binding ViewModel.CopyUrlCommand}" />
-            </Grid>
-            <StackPanel Grid.Row="1">
-            </StackPanel>
-        </Grid>
+        <ScrollViewer Grid.Row="2" VerticalAlignment="Stretch" CanContentScroll="True"
+                      VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
 
-        <Grid x:Name="BottomPanelGrid" Grid.Row="4" Margin="12">
+                    <Grid x:Name="DashCardPanelGrid" Grid.Row="0" Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <Border
+                                CornerRadius="8,8,8,8"
+                                Margin="2"
+                                Padding="12"
+                                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1,1,1,0">
+                                <StackPanel>
+                                    <ui:TextBlock FontTypography="Caption" Text="下载速度" />
+                                    <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                                  Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}">
+                                    </ui:TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1">
+                            <Border
+                                CornerRadius="8,8,8,8"
+                                Margin="2"
+                                Padding="12"
+                                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1,1,1,0">
+                                <StackPanel>
+                                    <ui:TextBlock FontTypography="Caption" Text="最大速度" />
+                                    <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                                  Text="{Binding ViewModel.MaxSpeedText, Mode=OneWay}">
+                                    </ui:TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0">
+                            <Border
+                                CornerRadius="8,8,8,8"
+                                Margin="2"
+                                Padding="12"
+                                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1,1,1,0">
+                                <StackPanel>
+                                    <ui:TextBlock FontTypography="Caption" Text="文件大小" />
+                                    <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                                  Text="{Binding ViewModel.FileSize, Mode=OneWay}">
+                                    </ui:TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <Border
+                                CornerRadius="8,8,8,8"
+                                Margin="2"
+                                Padding="12"
+                                Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1,1,1,0">
+                                <StackPanel>
+                                    <ui:TextBlock FontTypography="Caption" Text="剩余时间" />
+                                    <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
+                                                  Text="{Binding ViewModel.RemainingTime, Mode=OneWay}">
+                                    </ui:TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="MorePanelGrid" Grid.Row="1" Margin="12"
+                          Visibility="{Binding ViewModel.ShowMoreVisibility, Mode=OneWay}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Target="{Binding ElementName=MyTextBox}" Content="Url" VerticalAlignment="Center"
+                                   Margin="0,0,8,0" />
+                            <ui:TextBox x:Name="MyTextBox" Grid.Column="1" VerticalAlignment="Center"
+                                        PlaceholderText="Url"
+                                        Text="{Binding ViewModel.Url, Mode=OneWay}" IsReadOnly="True" />
+                            <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="{ui:SymbolIcon Copy24}"
+                                       Margin="8,0,0,0"
+                                       Command="{Binding ViewModel.CopyUrlCommand}" />
+                        </Grid>
+                        <StackPanel Grid.Row="1">
+                        </StackPanel>
+                        <ui:CardExpander Grid.Row="2"
+                                         Margin="2,10,2,2"
+                                         Padding="10"
+                                         Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                         BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                         BorderThickness="1,1,1,0"
+                                         Header="Chunks Details">
+                            <ScrollViewer
+                                MaxHeight="200">
+                                <ui:ListView ItemsSource="{Binding ViewModel.ChunksCollection}">
+                                    <ui:ListView.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type models:ExtendedChunkItem}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Margin="8,4" Text="{Binding Index, Mode=OneWay}" />
+                                                <TextBlock Margin="8,4" HorizontalAlignment="Left"
+                                                           Text="{Binding  DownloadedSizeText, Mode=OneWay}" />
+                                                <TextBlock Margin="0,4" HorizontalAlignment="Left" Text="/" />
+                                                <TextBlock Margin="8,4" HorizontalAlignment="Stretch"
+                                                           Text="{Binding SizeText, Mode=OneWay}" />
+                                                <TextBlock Margin="8,4" HorizontalAlignment="Right"
+                                                           Text="{Binding ProgressText, Mode=OneWay}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ui:ListView.ItemTemplate>
+                                </ui:ListView>
+                            </ScrollViewer>
+                        </ui:CardExpander>
+                    </Grid>
+                </Grid>
+        </ScrollViewer>
+
+        <Grid x:Name="BottomPanelGrid" Grid.Row="3" Margin="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>

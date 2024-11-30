@@ -25,6 +25,7 @@ public partial class
     [ObservableProperty] private Visibility _showMoreVisibility = Visibility.Collapsed;
     [ObservableProperty] private SymbolIcon _showMoreBtnIcon = new() { Symbol = SymbolRegular.ChevronDown24 };
     [ObservableProperty] private SymbolIcon _pauseOrResumeBtnIcon = new() { Symbol = SymbolRegular.Pause24 };
+    [ObservableProperty] private ObservableCollection<ExtendedChunkItem> _chunksCollection = [];
 
     private long _maxSpeed = 0;
 
@@ -114,6 +115,27 @@ public partial class
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
         Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";
+        Task.Run(() =>
+        {
+            ChunksCollection = GenerateChunksCollection();
+        });
+    }
+
+    private ObservableCollection<ExtendedChunkItem> GenerateChunksCollection()
+    {
+        var chunks = ThisViewTask.Chunks;
+        var chunksCollection = new ObservableCollection<ExtendedChunkItem>();
+        foreach (var chunk in chunks)
+        {
+            var chunkItem = new ExtendedChunkItem
+            {
+                Index = chunk.Index,
+                Size = chunk.Size,
+                DownloadedBytes = chunk.DownloadedBytes,
+            };
+            chunksCollection.Add(chunkItem);
+        }
+        return chunksCollection;
     }
 
     public void OnDownloadStatusChanged(object? sender, NalaiCoreInfo e)
