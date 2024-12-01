@@ -275,7 +275,10 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                                             $"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
                                         var handle = new WindowInteropHelper(downloadingWindow).Handle;
                                         if (handle != IntPtr.Zero)
-                                            downloadingWindow.Close();
+                                        {
+                                            downloadingWindow.Visibility = Visibility.Collapsed;
+                                            BindWindows.Remove(downloadingWindow);
+                                        }
                                     }
                                 }
                             });
@@ -284,7 +287,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                             
                             await _cancellationTokenSource.CancelAsync();
 
-                            GlobalTaskChanged?.Invoke(this, null);
+                            GlobalTaskChanged?.Invoke(this, this);
 
                             break;
                         }
@@ -295,7 +298,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                             
                             await _cancellationTokenSource.CancelAsync();
                             
-                            GlobalTaskChanged?.Invoke(this, null);
+                            GlobalTaskChanged?.Invoke(this, this);
 
                             throw new OperationCanceledException();
                         }
