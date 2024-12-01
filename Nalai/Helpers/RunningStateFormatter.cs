@@ -9,6 +9,7 @@ public static class RunningStateFormatter
         return s switch
         {
             HealthStatus.Running => "Success",
+            HealthStatus.Caution => "Caution",
             HealthStatus.Unknown => "Critical",
             _ => ""
         };

@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:pages="clr-namespace:Nalai.Views.Pages"
-    Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
+    xmlns:nalai="clr-namespace:Nalai"
+    Title="{I18N {x:Static nalai:LangKeys.nalai_title}}"
     Width="1100"
     Height="650"
     d:DataContext="{d:DesignInstance local:MainWindow,
@@ -36,7 +37,7 @@
             FrameMargin="0"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleVisible="True"
-            IsPaneOpen="False"
+            IsPaneOpen="{Binding ViewModel.IsPaneOpen, Mode=TwoWay}"
             OpenPaneLength="256"
             PaneDisplayMode="LeftMinimal">
             <!-- FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}" -->
@@ -46,7 +47,7 @@
             </ui:NavigationView.Header>
             
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="下载列表" TargetPageType="{x:Type pages:DashboardPage}">
+                <ui:NavigationViewItem Content="{I18N {x:Static nalai:LangKeys.downloadList}}" TargetPageType="{x:Type pages:DashboardPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="ArrowDownload24" />
                     </ui:NavigationViewItem.Icon>
@@ -71,19 +72,25 @@
                         </StackPanel>
                     </ui:NavigationViewItem.Content>
                 </ui:NavigationViewItem>-->
-                <ui:NavigationViewItem>
+                <ui:NavigationViewItem Command="{Binding ViewModel.UpdateCoreCommand}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="ArrowClockwise24"></ui:SymbolIcon>
+                    </ui:NavigationViewItem.Icon>
                     <ui:NavigationViewItem.InfoBadge>
                         
-                        <ui:InfoBadge CornerRadius="100" Severity="{Binding ViewModel.RunningState}">
-                            <ui:InfoBadge.Icon>
-                                <ui:SymbolIcon Symbol="Settings16" />
-                            </ui:InfoBadge.Icon>
-                        </ui:InfoBadge>
+                        <ui:InfoBadge
+                            Margin="0,5,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Severity="{Binding ViewModel.RunningState}"
+                            Style="{DynamicResource DotInfoBadgeStyle}"
+                            Value="" />
                     </ui:NavigationViewItem.InfoBadge>
                     <ui:NavigationViewItem.Content>
                         <StackPanel Orientation="Horizontal">
-                            <ui:TextBlock VerticalAlignment="Center" Text="Core 状态："/>
-                            <ui:InfoBadge Severity="{Binding ViewModel.RunningState}"/>
+                            <ui:TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{I18N {x:Static nalai:LangKeys.coreRunningTime}}"/>
+                            <ui:TextBlock VerticalAlignment="Center" Text="{Binding ViewModel.RunningTime}"/>
+                            <!--<ui:InfoBadge Severity="{Binding ViewModel.RunningState}"/>-->
                         </StackPanel>
                     </ui:NavigationViewItem.Content>
                 </ui:NavigationViewItem>
@@ -109,7 +116,7 @@
 
         <ui:TitleBar
             x:Name="TitleBar"
-            Title="{Binding ViewModel.ApplicationTitle}"
+            Title="{I18N {x:Static nalai:LangKeys.nalai_title}}"
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="True">
             <ui:TitleBar.Icon>

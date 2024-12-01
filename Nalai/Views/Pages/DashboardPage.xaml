@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:Nalai.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:nalai="clr-namespace:Nalai"
     Title="DashboardPage"
     d:DataContext="{d:DesignInstance local:DashboardPage,
                                      IsDesignTimeCreatable=False}"
@@ -37,7 +38,7 @@
                 <ui:Button
                     Appearance="Primary"
                     Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
-                    Content="New"
+                    Content="{I18N {x:Static nalai:LangKeys.down_new}}"
                     Icon="{ui:SymbolIcon Add24}" />
                 <Separator Margin="8,0" />
                 <ui:Button
@@ -123,32 +124,32 @@
                         MinWidth="100"
                         Width="200"
                         DisplayMemberBinding="{Binding FileName}"
-                        Header="File Name" />
+                        Header="{I18N {x:Static nalai:LangKeys.down_filename}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="200"
                         DisplayMemberBinding="{Binding Url}"
-                        Header="Url" />
+                        Header="{I18N {x:Static nalai:LangKeys.down_url}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="130"
                         DisplayMemberBinding="{Binding RealtimeStatusText}"
-                        Header="Status" />
+                        Header="{I18N {x:Static nalai:LangKeys.down_status}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="100"
                         DisplayMemberBinding="{Binding DownloadedSizeText}"
-                        Header="Downloaded" />
+                        Header="{I18N {x:Static nalai:LangKeys.down_downloaded}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="100"
                         DisplayMemberBinding="{Binding TotalSizeText}"
-                        Header="Size" />
+                        Header="{I18N {x:Static nalai:LangKeys.down_size}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="100"
                         DisplayMemberBinding="{Binding SpeedText}"
-                        Header="Speed" />
+                        Header="{I18N {x:Static nalai:LangKeys.down_speed}}" />
                 </ui:GridView>
             </ui:ListView.View>
             <ListView.ContextMenu>

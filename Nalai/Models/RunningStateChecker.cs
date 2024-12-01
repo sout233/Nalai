@@ -7,6 +7,23 @@ namespace Nalai.Models;
 public static class RunningStateChecker
 {
         private static HealthStatus _status = HealthStatus.Unknown;
+        private static long _runningTime;
+
+        public static long RunningTime
+        {
+            get => _runningTime;
+            set { _runningTime = value; OnTimeChanged(); }
+        }
+
+        public class TimeChangedEventArgs(long timestamp) : EventArgs
+        {
+            public long TimeStamp { get; } = timestamp;
+        }
+
+        public class StatusChangedEventArgs(HealthStatus status) : EventArgs
+        {
+            public HealthStatus Status { get; } = status;
+        }
 
         public static HealthStatus Status
         {
@@ -21,10 +38,15 @@ public static class RunningStateChecker
         private static void OnStatusChanged()
         {
             // 触发事件
-            StatusChanged?.Invoke(null, null);
+            StatusChanged?.Invoke(null, new StatusChangedEventArgs(Status));
         }
 
-        public static event EventHandler<object> StatusChanged;
+        private static void OnTimeChanged()
+        {
+            TimeChanged?.Invoke(null,new TimeChangedEventArgs(RunningTime));
+        }
+        public static event EventHandler<TimeChangedEventArgs> TimeChanged;
+        public static event EventHandler<StatusChangedEventArgs> StatusChanged;
         //public HealthStatus Status;
         //private string _state;
         private static readonly System.Timers.Timer _timer = new(1500);
@@ -35,9 +57,10 @@ public static class RunningStateChecker
             try
             {
                 var uriBuilder = new UriBuilder("http://localhost:13088/checkhealth");
-                
-                HttpResponseMessage response = await _httpClient.GetAsync(uriBuilder.Uri);
-                
+                var cts = new CancellationTokenSource(); // 创建一个CancellationTokenSource
+                cts.CancelAfter(500);
+                HttpResponseMessage response = await _httpClient.GetAsync(uriBuilder.Uri, cts.Token);
+
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonContent = await response.Content.ReadAsStringAsync();
@@ -49,6 +72,8 @@ public static class RunningStateChecker
                         "200 OK" => HealthStatus.Running,
                         _ => HealthStatus.Unknown,
                     };
+                    RunningTime++;
+                    //Add 1
                     Console.WriteLine($"Code: {result.code}");
                     Console.WriteLine($"Status: {Status}");
                 }
@@ -57,12 +82,19 @@ public static class RunningStateChecker
                     ErrHandle($"Error: {response.StatusCode}");
                 }
             }
+            catch (OperationCanceledException)
+            {
+                // 处理请求被取消的情况
+                Status = HealthStatus.Caution;
+                Console.WriteLine("Request timed out, status set to Caution");
+            }
             catch (Exception exc)
             {
                 // 处理异常
                 Console.WriteLine(exc.Message);
                 ErrHandle(exc.Message);
             }
+
             Console.WriteLine(Status);
         }
         public static void ErrHandle(string e)

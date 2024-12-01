@@ -3,5 +3,6 @@
 public enum HealthStatus
 {
     Unknown,
+    Caution,
     Running,
 }

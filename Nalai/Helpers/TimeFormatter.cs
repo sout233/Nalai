@@ -93,4 +93,9 @@ public static class TimeFormatter
         var dateTime = ConvertRustSystemTime(systemTime);
         return dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
     }
+    public static string ConvertSecondsToTimeCode(long totalSeconds)
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(totalSeconds);
+        return timeSpan.ToString(@"hh\:mm\:ss");
+    }
 }
