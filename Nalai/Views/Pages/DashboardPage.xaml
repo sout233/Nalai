@@ -28,6 +28,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <ui:Button
                     Appearance="Primary"
@@ -87,11 +92,20 @@
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
                 </ui:DropDownButton>
+                
+                <Separator Margin="8,0" />
+
+                <ui:Button Icon="{ui:SymbolIcon Filter24}" Appearance="{Binding ViewModel.FilterButtonAppearance}"
+                           Command="{Binding ViewModel.ToggleSearchPanelVisibleCommand}">
+                </ui:Button>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="2,4"
+                        Visibility="{Binding ViewModel.SearchPanelVisibility}">
                 <ui:TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" MinWidth="200" Width="200"
-                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search" Visibility="{Binding ViewModel.SearchPanelVisibility}"
+                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search"
                             Text="{Binding ViewModel.SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 </ui:TextBox>
-                <ToggleButton Content="Search" IsChecked="{Binding ViewModel.IsSearchEnabled}"></ToggleButton>
             </StackPanel>
         </Grid>
 

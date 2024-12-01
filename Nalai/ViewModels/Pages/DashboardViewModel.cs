@@ -18,11 +18,7 @@ namespace Nalai.ViewModels.Pages
 
         [ObservableProperty] private string _searchText;
         [ObservableProperty] private Visibility _searchPanelVisibility = Visibility.Collapsed;
-        [ObservableProperty] private bool _isSearchEnabled = true;
-        partial void OnIsSearchEnabledChanging(bool value)
-        {
-            SearchPanelVisibility = value? Visibility.Visible : Visibility.Collapsed;
-        }
+        [ObservableProperty] private ControlAppearance _filterButtonAppearance = ControlAppearance.Secondary;
 
         partial void OnSearchTextChanging(string? value)
         {
@@ -305,6 +301,13 @@ namespace Nalai.ViewModels.Pages
                 "ProgressDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
                 _ => SortTypeIcon
             };
+        }
+
+        [RelayCommand]
+        private void OnToggleSearchPanelVisible()
+        {
+            SearchPanelVisibility = SearchPanelVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+            FilterButtonAppearance = SearchPanelVisibility == Visibility.Collapsed ? ControlAppearance.Secondary : ControlAppearance.Primary;
         }
     }
 }
