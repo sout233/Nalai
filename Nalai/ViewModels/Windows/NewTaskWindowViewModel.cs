@@ -38,6 +38,8 @@ public partial class NewTaskWindowViewModel : ObservableObject
         };
         flyout.Show();
         RunningStateChecker.StatusChanged += UpdateCoreState;
+        RunningStateChecker.Check();
+        UpdateCoreState(null,null);
     }
 
 

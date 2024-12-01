@@ -70,6 +70,10 @@ public static class RunningStateChecker
             Console.WriteLine($"Error: {e}");
             Status = HealthStatus.Unknown;
         }
+        public static void Check()
+        {
+            Timer_Elapsed(null,null);
+        }
 
         public static void Start()
         {

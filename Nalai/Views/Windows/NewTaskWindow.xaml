@@ -65,7 +65,7 @@
                 <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
                     
                     <ui:TextBlock VerticalAlignment="Center" Text="Core Status："/>
-                    <ui:InfoBadge Severity="{Binding ViewModel.RunningState,Mode=OneWay}"/>
+                    <ui:InfoBadge CornerRadius="100" Severity="{Binding ViewModel.RunningState,Mode=OneWay}"/>
                     <!--<ui:Button Content="Close Nalai.Core(Test)" Command="{Binding ViewModel.TestTaskKillCommand}"></ui:Button>-->
                 </StackPanel>
                 

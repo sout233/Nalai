@@ -72,6 +72,14 @@
                     </ui:NavigationViewItem.Content>
                 </ui:NavigationViewItem>-->
                 <ui:NavigationViewItem>
+                    <ui:NavigationViewItem.InfoBadge>
+                        
+                        <ui:InfoBadge CornerRadius="100" Severity="{Binding ViewModel.RunningState}">
+                            <ui:InfoBadge.Icon>
+                                <ui:SymbolIcon Symbol="Settings16" />
+                            </ui:InfoBadge.Icon>
+                        </ui:InfoBadge>
+                    </ui:NavigationViewItem.InfoBadge>
                     <ui:NavigationViewItem.Content>
                         <StackPanel Orientation="Horizontal">
                             <ui:TextBlock VerticalAlignment="Center" Text="Core 状态："/>
