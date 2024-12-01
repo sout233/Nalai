@@ -1,4 +1,5 @@
-﻿using Nalai.CoreConnector;
+﻿using System.Windows.Interop;
+using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Services;
@@ -272,7 +273,9 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                                     {
                                         Console.WriteLine(
                                             $"Closing window: {downloadingWindow.ViewModel.ApplicationTitle}");
-                                        downloadingWindow.Close();
+                                        var handle = new WindowInteropHelper(downloadingWindow).Handle;
+                                        if (handle != IntPtr.Zero)
+                                            downloadingWindow.Close();
                                     }
                                 }
                             });
