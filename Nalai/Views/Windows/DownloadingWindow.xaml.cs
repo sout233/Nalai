@@ -47,7 +47,7 @@ public partial class DownloadingWindow : FluentWindow
                 Symbol = SymbolRegular.ChevronUp24
             };
             ViewModel.ShowMoreBtnIcon = symbolIcon;
-            Height = 370 + 200;
+            Height = 370 + 100;
         }
         else
         {
