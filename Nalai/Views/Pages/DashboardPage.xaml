@@ -88,9 +88,10 @@
                     </ui:DropDownButton.Flyout>
                 </ui:DropDownButton>
                 <ui:TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" MinWidth="200" Width="200"
-                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search"
+                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search" Visibility="{Binding ViewModel.SearchPanelVisibility}"
                             Text="{Binding ViewModel.SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 </ui:TextBox>
+                <ToggleButton Content="Search" IsChecked="{Binding ViewModel.IsSearchEnabled}"></ToggleButton>
             </StackPanel>
         </Grid>
 

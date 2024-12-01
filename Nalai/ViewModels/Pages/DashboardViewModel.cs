@@ -17,6 +17,12 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
 
         [ObservableProperty] private string _searchText;
+        [ObservableProperty] private Visibility _searchPanelVisibility = Visibility.Collapsed;
+        [ObservableProperty] private bool _isSearchEnabled = true;
+        partial void OnIsSearchEnabledChanging(bool value)
+        {
+            SearchPanelVisibility = value? Visibility.Visible : Visibility.Collapsed;
+        }
 
         partial void OnSearchTextChanging(string? value)
         {
