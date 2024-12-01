@@ -11,11 +11,11 @@ public partial class DownloadingWindow : FluentWindow
 
     public DownloadingWindow(DownloadingWindowViewModel viewModel, string url, CoreTask task)
     {
+        InitializeComponent();
+
         ViewModel = viewModel;
         DataContext = this;
         ThisWindowTask = task;
-
-        InitializeComponent();
     }
 
     private void DownloadingWindow_Loaded(object sender, RoutedEventArgs e)
