@@ -127,13 +127,7 @@ public partial class
         var chunksCollection = new ObservableCollection<ExtendedChunkItem>();
         foreach (var chunk in chunks)
         {
-            var chunkItem = new ExtendedChunkItem
-            {
-                Index = chunk.Index,
-                Size = chunk.Size,
-                DownloadedBytes = chunk.DownloadedBytes,
-            };
-            chunksCollection.Add(chunkItem);
+            chunksCollection.Add(chunk);
         }
         return chunksCollection;
     }

@@ -54,11 +54,11 @@
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.FileName, Mode=OneWay}">
                         </ui:TextBlock>
-                        <ui:Button Grid.Column="2" HorizontalAlignment="Right" Margin="4,0,0,0" Padding="6,0"
-                                   Height="24"
-                                   Icon="{ui:SymbolIcon Pen16}" Appearance="Transparent" BorderBrush="Transparent"
-                                   Command="{Binding EditDetailsCommand}">
-                        </ui:Button>
+                        <!-- <ui:Button Grid.Column="2" HorizontalAlignment="Right" Margin="4,0,0,0" Padding="6,0" -->
+                        <!--            Height="24" -->
+                        <!--            Icon="{ui:SymbolIcon Pen16}" Appearance="Transparent" BorderBrush="Transparent" -->
+                        <!--            Command="{Binding EditDetailsCommand}"> -->
+                        <!-- </ui:Button> -->
                     </Grid>
                 </Border>
                 <Border
@@ -79,11 +79,11 @@
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.SavePath, Mode=OneWay}">
                         </ui:TextBlock>
-                        <ui:Button Grid.Column="2" HorizontalAlignment="Right" Margin="4,0,0,0" Padding="6,0"
-                                   Height="24"
-                                   Icon="{ui:SymbolIcon Pen16}" Appearance="Transparent" BorderBrush="Transparent"
-                                   Command="{Binding EditDetailsCommand}">
-                        </ui:Button>
+                        <!-- <ui:Button Grid.Column="2" HorizontalAlignment="Right" Margin="4,0,0,0" Padding="6,0" -->
+                        <!--            Height="24" -->
+                        <!--            Icon="{ui:SymbolIcon Pen16}" Appearance="Transparent" BorderBrush="Transparent" -->
+                        <!--            Command="{Binding EditDetailsCommand}"> -->
+                        <!-- </ui:Button> -->
                     </Grid>
                 </Border>
                 <Border
@@ -104,11 +104,11 @@
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.Url, Mode=OneWay}">
                         </ui:TextBlock>
-                        <ui:Button Grid.Column="2" HorizontalAlignment="Right" Margin="4,0,0,0" Padding="6,0"
-                                   Height="24"
-                                   Icon="{ui:SymbolIcon Pen16}" Appearance="Transparent" BorderBrush="Transparent"
-                                   Command="{Binding EditDetailsCommand}">
-                        </ui:Button>
+                        <!-- <ui:Button Grid.Column="2" HorizontalAlignment="Right" Margin="4,0,0,0" Padding="6,0" -->
+                        <!--            Height="24" -->
+                        <!--            Icon="{ui:SymbolIcon Pen16}" Appearance="Transparent" BorderBrush="Transparent" -->
+                        <!--            Command="{Binding EditDetailsCommand}"> -->
+                        <!-- </ui:Button> -->
                     </Grid>
                 </Border>
                 <Border
