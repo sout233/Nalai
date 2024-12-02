@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="nalai.title" xml:space="preserve">
-        <value>Nalai - 拿来 (试用)</value>
+        <value>Nalai - 拿来</value>
     </data>
     <data name="downloadList" xml:space="preserve">
         <value>下载列表</value>
@@ -42,9 +42,6 @@
     <data name="down.status" xml:space="preserve">
         <value>状态</value>
     </data>
-    <data name="down.url" xml:space="preserve">
-        <value>URL</value>
-    </data>
     <data name="sort.by.creatingTime" xml:space="preserve">
         <value>创建时间</value>
     </data>
@@ -62,5 +59,8 @@
     </data>
     <data name="down.downloaded" xml:space="preserve">
         <value>已下载</value>
+    </data>
+    <data name="down.url" xml:space="preserve">
+        <value>URL</value>
     </data>
 </root>

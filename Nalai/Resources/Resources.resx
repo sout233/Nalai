@@ -25,7 +25,7 @@
         <value>Download List</value>
     </data>
     <data name="coreRunningTime" xml:space="preserve">
-        <value>Running Time of Core</value>
+        <value>Running</value>
     </data>
     <data name="down.new" xml:space="preserve">
             <value>New</value>
@@ -49,19 +49,19 @@
             <value>Speed</value>
     </data>
     <data name="sort.by.name" xml:space="preserve">
-            <value>Sort by Name</value>
+        <value>Name</value>
     </data>
     <data name="sort.by.size" xml:space="preserve">
-            <value>Sort by Size</value>
+        <value>Size</value>
     </data>
     <data name="sort.by.status" xml:space="preserve">
-            <value>Sort by Status</value>
+        <value>Status</value>
     </data>
     <data name="sort.by.creatingTime" xml:space="preserve">
-            <value>Sort by Creating Time</value>
+        <value>Creating Time</value>
     </data>
     <data name="sort.descending" xml:space="preserve">
-            <value> Descending</value>
+        <value>Descending</value>
     </data>
 
 

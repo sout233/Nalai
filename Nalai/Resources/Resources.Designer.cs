@@ -60,7 +60,7 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Running Time of Core.
+        ///   Looks up a localized string similar to Running.
         /// </summary>
         internal static string coreRunningTime {
             get {
@@ -150,7 +150,7 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort by Creating Time.
+        ///   Looks up a localized string similar to Creating Time.
         /// </summary>
         internal static string sort_by_creatingTime {
             get {
@@ -159,7 +159,7 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort by Name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string sort_by_name {
             get {
@@ -168,7 +168,7 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort by Size.
+        ///   Looks up a localized string similar to Size.
         /// </summary>
         internal static string sort_by_size {
             get {
@@ -177,7 +177,7 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort by Status.
+        ///   Looks up a localized string similar to Status.
         /// </summary>
         internal static string sort_by_status {
             get {
@@ -186,7 +186,7 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  Descending.
+        ///   Looks up a localized string similar to Descending.
         /// </summary>
         internal static string sort_descending {
             get {
