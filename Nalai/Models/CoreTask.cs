@@ -19,12 +19,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             FileName = value.FileName;
             Url = value.Url;
             SaveDir = value.SaveDirectory;
-            Chunks = value.Chunks.Select(x => new ExtendedChunkItem()
-            {
-                DownloadedBytes = x.DownloadedBytes,
-                Index = x.Index,
-                Size = x.Size,
-            }).ToList();
+            Chunks = value.Chunks.Select(chunk => new ExtendedChunkItem(chunk)).ToList();
 
             if (value.Status == DownloadStatus.Running)
             {
