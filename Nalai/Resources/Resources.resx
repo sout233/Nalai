@@ -57,9 +57,6 @@
     <data name="sort.by.status" xml:space="preserve">
             <value>Sort by Status</value>
     </data>
-    <data name="sort.by.status" xml:space="preserve">
-            <value>Sort by Status</value>
-    </data>
     <data name="sort.by.creatingTime" xml:space="preserve">
             <value>Sort by Creating Time</value>
     </data>
