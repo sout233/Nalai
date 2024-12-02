@@ -78,7 +78,6 @@
                         <ui:SymbolIcon Symbol="ArrowClockwise24"></ui:SymbolIcon>
                     </ui:NavigationViewItem.Icon>
                     <ui:NavigationViewItem.InfoBadge>
-                        
                         <ui:InfoBadge
                             Margin="0,5,5,0"
                             HorizontalAlignment="Right"

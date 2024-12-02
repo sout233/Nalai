@@ -21,6 +21,18 @@
     </Page.Resources>
 
     <StackPanel>
+        <ui:TextBlock
+            FontSize="20"
+            FontWeight="Medium"
+            Text="General" />
+        <TextBlock Margin="0,8" Text="Language" />
+        <ComboBox
+            MinWidth="200"
+            HorizontalAlignment="Left"
+            Margin="0,8"
+            ItemsSource="{Binding ViewModel.ComboBoxLanguages, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingsPage}, Mode=OneWay}"
+            SelectedIndex="{Binding ViewModel.SelectedLanguageIndex, Mode=TwoWay}">
+        </ComboBox>
         <TextBlock
             FontSize="20"
             FontWeight="Medium"

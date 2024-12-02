@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Reflection;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -14,6 +16,27 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty]
         private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
         public string ThemeColor => CurrentTheme == ApplicationTheme.Light ? "White" : "Black";
+        
+        [ObservableProperty]
+        private ObservableCollection<string> _comboBoxLanguages =
+        [
+            "English",
+            "简体中文"
+        ];
+
+        [ObservableProperty] private int _selectedLanguageIndex = 0;
+        partial void OnSelectedLanguageIndexChanged(int value)
+        {
+            Console.WriteLine(value);
+            if (value == 0)
+            {
+                I18NExtension.Culture = new CultureInfo("en");
+            }
+            else if (value == 1)
+            {
+                I18NExtension.Culture = new CultureInfo("zh");
+            }
+        }
 
         public void OnNavigatedTo()
         {
