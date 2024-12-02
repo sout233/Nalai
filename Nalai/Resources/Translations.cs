@@ -1,6 +1,7 @@
+using Antelcat.I18N.Attributes;
+
 namespace Nalai.Resources
 {
-    public partial class Translations
-    {
-    }
+    [ResourceKeysOf(typeof(Nalai.Resources.Resources))]
+    public partial class LangKeys;
 }

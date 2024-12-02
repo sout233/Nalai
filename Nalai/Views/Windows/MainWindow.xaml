@@ -8,7 +8,8 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:pages="clr-namespace:Nalai.Views.Pages"
     xmlns:nalai="clr-namespace:Nalai"
-    Title="{I18N {x:Static nalai:LangKeys.nalai_title}}"
+    xmlns:resources="clr-namespace:Nalai.Resources"
+    Title="{I18N {x:Static resources:LangKeys.nalai_title}}"
     Width="1100"
     Height="650"
     d:DataContext="{d:DesignInstance local:MainWindow,
@@ -47,7 +48,7 @@
             </ui:NavigationView.Header>
             
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="{I18N {x:Static nalai:LangKeys.downloadList}}" TargetPageType="{x:Type pages:DashboardPage}">
+                <ui:NavigationViewItem Content="{I18N {x:Static resources:LangKeys.downloadList}}" TargetPageType="{x:Type pages:DashboardPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="ArrowDownload24" />
                     </ui:NavigationViewItem.Icon>
@@ -88,7 +89,7 @@
                     </ui:NavigationViewItem.InfoBadge>
                     <ui:NavigationViewItem.Content>
                         <StackPanel Orientation="Horizontal">
-                            <ui:TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{I18N {x:Static nalai:LangKeys.coreRunningTime}}"/>
+                            <ui:TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{I18N {x:Static resources:LangKeys.coreRunningTime}}"/>
                             <ui:TextBlock VerticalAlignment="Center" Text="{Binding ViewModel.RunningTime}"/>
                             <!--<ui:InfoBadge Severity="{Binding ViewModel.RunningState}"/>-->
                         </StackPanel>
@@ -116,7 +117,7 @@
 
         <ui:TitleBar
             x:Name="TitleBar"
-            Title="{I18N {x:Static nalai:LangKeys.nalai_title}}"
+            Title="{I18N {x:Static resources:LangKeys.nalai_title}}"
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="True">
             <ui:TitleBar.Icon>

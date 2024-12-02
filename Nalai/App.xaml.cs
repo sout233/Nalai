@@ -21,8 +21,6 @@ namespace Nalai
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    [ResourceKeysOf(typeof(Resources.Resources))]
-    public partial class LangKeys { }
     public partial class App
     {
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
