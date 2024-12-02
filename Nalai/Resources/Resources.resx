@@ -22,7 +22,7 @@
         <value>Nalai</value>
     </data>
     <data name="downloadList">
-        <value>Download List</value>
+        <value>Download list</value>
     </data>
     <data name="coreRunningTime" xml:space="preserve">
         <value>Running</value>
@@ -31,7 +31,7 @@
             <value>New</value>
     </data>
     <data name="down.filename" xml:space="preserve">
-            <value>File Name</value>
+        <value>File name</value>
     </data>
     <data name="down.downloaded" xml:space="preserve">
             <value>Downloaded</value>
@@ -58,11 +58,123 @@
         <value>Status</value>
     </data>
     <data name="sort.by.creatingTime" xml:space="preserve">
-        <value>Creating Time</value>
+        <value>Creating time</value>
     </data>
     <data name="sort.descending" xml:space="preserve">
         <value>Descending</value>
     </data>
-
-
+    <data name="setting.languages" xml:space="preserve">
+        <value>Languages</value>
+    </data>
+    <data name="setting.title" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="setting.version" xml:space="preserve">
+        <value>Version</value>
+    </data>
+    <data name="setting.license" xml:space="preserve">
+        <value>License</value>
+    </data>
+    <data name="setting.language" xml:space="preserve">
+        <value>Language</value>
+    </data>
+    <data name="setting.general" xml:space="preserve">
+        <value>General</value>
+    </data>
+    <data name="setting.download" xml:space="preserve">
+        <value>Download</value>
+    </data>
+    <data name="setting.contributors" xml:space="preserve">
+        <value>Contributors</value>
+    </data>
+    <data name="setting.contributor" xml:space="preserve">
+        <value>Contributor</value>
+    </data>
+    <data name="setting.author" xml:space="preserve">
+        <value>Author</value>
+    </data>
+    <data name="setting.about.nalai" xml:space="preserve">
+        <value>About Nalai</value>
+    </data>
+    <data name="setting.theme" xml:space="preserve">
+        <value>Theme</value>
+    </data>
+    <data name="setting.theme.dark" xml:space="preserve">
+        <value>Dark</value>
+    </data>
+    <data name="setting.theme.light" xml:space="preserve">
+        <value>Light</value>
+    </data>
+    <data name="setting.personalization" xml:space="preserve">
+        <value>Personalization</value>
+    </data>
+    <data name="dp.downloading" xml:space="preserve">
+        <value>Downloading</value>
+    </data>
+    <data name="dp.speed" xml:space="preserve">
+        <value>Speed</value>
+    </data>
+    <data name="dp.maxSpeed" xml:space="preserve">
+        <value>Max speed</value>
+    </data>
+    <data name="dp.size" xml:space="preserve">
+        <value>Size</value>
+    </data>
+    <data name="dp.remainingTime" xml:space="preserve">
+        <value>Remaining time</value>
+    </data>
+    <data name="dp.chunkDetails" xml:space="preserve">
+        <value>Chunk details</value>
+    </data>
+    <data name="bt.cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="dp.paused" xml:space="preserve">
+        <value>Paused</value>
+    </data>
+    <data name="bt.pause" xml:space="preserve">
+        <value>Pause</value>
+    </data>
+    <data name="bt.resume" xml:space="preserve">
+        <value>Resume</value>
+    </data>
+    <data name="dc.downloadComplete" xml:space="preserve">
+        <value>Download complete</value>
+    </data>
+    <data name="msg.title.error" xml:space="preserve">
+        <value>Error</value>
+    </data>
+    <data name="msg.content.fileNotExist" xml:space="preserve">
+        <value>File not exist</value>
+    </data>
+    <data name="msg.content.delOrMove" xml:space="preserve">
+        <value>Have you delete or move it yet</value>
+    </data>
+    <data name="nt.title" xml:space="preserve">
+        <value>New task</value>
+    </data>
+    <data name="nt.savePath" xml:space="preserve">
+        <value>Save location</value>
+    </data>
+    <data name="nt.usingDefaultFolder" xml:space="preserve">
+        <value>Using Default Doanload Folder</value>
+    </data>
+    <data name="status.core" xml:space="preserve">
+        <value>Core status</value>
+    </data>
+    <data name="bt.add" xml:space="preserve">
+        <value>Add</value>
+    </data>
+    <data name="bt.edit" xml:space="preserve">
+        <value>Edit</value>
+    </data>
+    <data name="bt.close" xml:space="preserve">
+        <value>Close</value>
+    </data>
+    <data name="bt.open" xml:space="preserve">
+        <value>Open</value>
+    </data>
+    <data name="bt.openFolder" xml:space="preserve">
+        <value>Open folder</value>
+    </data>
 </root>

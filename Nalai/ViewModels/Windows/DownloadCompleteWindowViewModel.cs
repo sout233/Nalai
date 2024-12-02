@@ -2,6 +2,7 @@
 using System.IO;
 using Nalai.Helpers;
 using Nalai.Models;
+using Nalai.Resources;
 using Nalai.Views.Windows;
 
 namespace Nalai.ViewModels.Windows;
@@ -10,7 +11,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
 {
     public DownloadCompleteWindow? BindWindow { get; set; }
 
-    [ObservableProperty] private string _applicationTitle = "Download Complete";
+    [ObservableProperty] private string _applicationTitle = I18NExtension.Translate(LangKeys.dc_downloadComplete);
     [ObservableProperty] private string _fileName = "Unknown";
     [ObservableProperty] private string _downloadPath = "Unknown";
 
@@ -18,7 +19,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     {
         FileName = task.FileName;
         DownloadPath = task.SaveDir;
-        ApplicationTitle = $"Download Complete: {task.FileName}";
+        ApplicationTitle = $"{I18NExtension.Translate(LangKeys.dc_downloadComplete)} - {task.FileName}";
     }
 
     [RelayCommand]
@@ -39,7 +40,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
         else
         {
             // TODO: 该文件下载后找不到，可能是core存在问题：https://mirrors.tuna.tsinghua.edu.cn/debian/dists/Debian10.13/ChangeLog
-            NalaiMsgBox.Show($"文件不存在:\n{filePath}\n是否已经移动或删除？", "错误");
+            NalaiMsgBox.Show($"{I18NExtension.Translate(LangKeys.msg_content_fileNotExist)}:\n{filePath}\n{I18NExtension.Translate(LangKeys.msg_content_delOrMove)}?", I18NExtension.Translate(LangKeys.msg_title_error));
         }
         
         BindWindow?.Close();
@@ -60,7 +61,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
         }
         else
         {
-            NalaiMsgBox.Show($"文件不存在:\n{filePath}\n是否已经移动或删除？", "错误");
+            NalaiMsgBox.Show($"{I18NExtension.Translate(LangKeys.msg_content_fileNotExist)}:\n{filePath}\n{I18NExtension.Translate(LangKeys.msg_content_delOrMove)}?", I18NExtension.Translate(LangKeys.msg_title_error));
         }
         
         BindWindow?.Close();

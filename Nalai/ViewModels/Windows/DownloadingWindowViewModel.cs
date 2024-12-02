@@ -2,6 +2,7 @@
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
+using Nalai.Resources;
 using Wpf.Ui.Controls;
 using DownloadProgressChangedEventArgs = Nalai.Models.DownloadProgressChangedEventArgs;
 
@@ -51,14 +52,14 @@ public partial class
         if (isRunning)
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
-            PauseOrResumeBtnContent = "Pause";
-            ApplicationTitle = "Downloading: " + FileName;
+            PauseOrResumeBtnContent = I18NExtension.Translate(LangKeys.bt_pause);
+            ApplicationTitle = I18NExtension.Translate(LangKeys.dp_downloading)+": "+FileName;
         }
         else
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
-            PauseOrResumeBtnContent = "Resume";
-            ApplicationTitle = "Paused: " + FileName;
+            PauseOrResumeBtnContent = I18NExtension.Translate(LangKeys.bt_resume);
+            ApplicationTitle = I18NExtension.Translate(LangKeys.dp_paused)+": "+FileName;
         }
     }
 
@@ -135,7 +136,7 @@ public partial class
     public void OnDownloadStatusChanged(object? sender, NalaiCoreInfo e)
     {
         FileName = e.FileName;
-        ApplicationTitle = "Downloading: " + FileName;
+        ApplicationTitle = I18NExtension.Translate(LangKeys.dp_downloading)+": "+FileName;
         Url = e.Url;
     }
 }
