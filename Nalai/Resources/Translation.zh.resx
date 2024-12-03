@@ -1,9 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
-<root>
+﻿<root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:element name="root" msdata:IsDataSet="true">
-            
+
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -19,7 +17,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="nalai.title" xml:space="preserve">
-        <value>Nalai - 拿来</value>
+        <value>Nalai</value>
     </data>
     <data name="downloadList" xml:space="preserve">
         <value>下载列表</value>
@@ -60,9 +58,6 @@
     <data name="down.downloaded" xml:space="preserve">
         <value>已下载</value>
     </data>
-    <data name="down.url" xml:space="preserve">
-        <value>URL</value>
-    </data>
     <data name="setting.title" xml:space="preserve">
         <value>设置</value>
     </data>
@@ -97,10 +92,10 @@
         <value>主题</value>
     </data>
     <data name="setting.theme.dark" xml:space="preserve">
-        <value>暗色主题</value>
+        <value>暗色</value>
     </data>
     <data name="setting.theme.light" xml:space="preserve">
-        <value>浅色主题</value>
+        <value>浅色</value>
     </data>
     <data name="setting.personalization" xml:space="preserve">
         <value>个性化</value>
@@ -121,7 +116,7 @@
         <value>文件大小</value>
     </data>
     <data name="dp.chunkDetails" xml:space="preserve">
-        <value>分区详情</value>
+        <value>分块详情</value>
     </data>
     <data name="dp.speed" xml:space="preserve">
         <value>下载速度</value>
@@ -130,7 +125,7 @@
         <value>取消</value>
     </data>
     <data name="dp.paused" xml:space="preserve">
-        <value>暂停中</value>
+        <value>已暂停</value>
     </data>
     <data name="bt.pause" xml:space="preserve">
         <value>暂停</value>
@@ -176,5 +171,8 @@
     </data>
     <data name="bt.close" xml:space="preserve">
         <value>关闭</value>
+    </data>
+    <data name="down.url" xml:space="preserve">
+        <value>URL</value>
     </data>
 </root>

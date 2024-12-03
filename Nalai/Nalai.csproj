@@ -47,7 +47,7 @@
     <EmbeddedResource Update="Resources\L10n.resx">
       <LastGenOutput>L10n.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Resources.resx">
+    <EmbeddedResource Update="Resources\Translation.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -56,13 +56,21 @@
       <LastGenOutput>Resources.zh.Designer.cs</LastGenOutput>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Translation.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translation.en-US.Designer.cs</LastGenOutput>
+      <DependentUpon>Translation.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Translation.zh.resx">
+      <DependentUpon>Translation.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\Resources.Designer.cs">
+    <Compile Update="Resources\Translation.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Translation.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
