@@ -169,7 +169,7 @@
                                 BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1,1,1,0">
                                 <StackPanel>
-                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.dp_remainingTime}}" />
+                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.dp_eta}}" />
                                     <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
                                                   Text="{Binding ViewModel.RemainingTime, Mode=OneWay}">
                                     </ui:TextBlock>

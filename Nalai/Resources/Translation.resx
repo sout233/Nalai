@@ -120,8 +120,8 @@
     <data name="dp.size" xml:space="preserve">
         <value>Size</value>
     </data>
-    <data name="dp.remainingTime" xml:space="preserve">
-        <value>Remaining time</value>
+    <data name="dp.eta" xml:space="preserve">
+        <value>ETA</value>
     </data>
     <data name="dp.chunkDetails" xml:space="preserve">
         <value>Chunk details</value>
@@ -176,5 +176,11 @@
     </data>
     <data name="bt.openFolder" xml:space="preserve">
         <value>Open folder</value>
+    </data>
+    <data name="down.id" xml:space="preserve">
+        <value>ID</value>
+    </data>
+    <data name="down.totalSize" xml:space="preserve">
+        <value>Total size</value>
     </data>
 </root>

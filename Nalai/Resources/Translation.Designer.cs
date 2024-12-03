@@ -260,12 +260,17 @@ namespace Nalai.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Remaining time.
         /// </summary>
-        internal static string dp_remainingTime {
+        internal static string dp_eta {
             get {
-                return ResourceManager.GetString("dp.remainingTime", resourceCulture);
+                return ResourceManager.GetString("dp.eta", resourceCulture);
             }
         }
-        
+
+        internal static string down_totalSize
+        {
+            get { return ResourceManager.GetString("down.totalSize", resourceCulture); }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Size.
         /// </summary>

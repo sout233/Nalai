@@ -66,7 +66,7 @@ namespace Nalai.Views.Windows
 
         private void FluentWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            I18NExtension.Culture = new CultureInfo("en");
+            //I18NExtension.Culture = new CultureInfo("en");
         }
     }
 }
