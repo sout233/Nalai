@@ -25,7 +25,7 @@
         <ui:TextBlock
             FontSize="20"
             FontWeight="Medium"
-            Text="{I18N {x:Static resources:LangKeys.setting_title}}" />
+            Text="{I18N {x:Static resources:LangKeys.setting_general}}" />
         <TextBlock Margin="0,8" Text="{I18N {x:Static resources:LangKeys.setting_languages}}" />
         <ComboBox
             MinWidth="200"
