@@ -34,7 +34,7 @@ namespace Nalai.ViewModels.Pages
             }
             else if (value == 1)
             {
-                I18NExtension.Culture = new CultureInfo("zh");
+                I18NExtension.Culture = new CultureInfo("zh-hans");
             }
         }
 

@@ -56,12 +56,7 @@
       <LastGenOutput>Resources.zh.Designer.cs</LastGenOutput>
       <DependentUpon>Resources.resx</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Translation.en-US.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Translation.en-US.Designer.cs</LastGenOutput>
-      <DependentUpon>Translation.resx</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Translation.zh.resx">
+    <EmbeddedResource Update="Resources\Translation.zh-hans.resx">
       <DependentUpon>Translation.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
