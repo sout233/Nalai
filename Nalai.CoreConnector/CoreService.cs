@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 using Newtonsoft.Json;
 using Nalai.CoreConnector.Models;
 
@@ -20,10 +21,12 @@ public static class CoreService
             var startInfo = new ProcessStartInfo
             {
                 FileName = pathToExe,
-                // RedirectStandardOutput = true,
-                // RedirectStandardError = true,
-                // UseShellExecute = false,
-                CreateNoWindow = true
+                CreateNoWindow = true,
+                RedirectStandardOutput = true, // 重定向标准输出
+                RedirectStandardError = true, // 重定向标准错误
+                UseShellExecute = false, // 必须为false才能重定向输出
+                StandardOutputEncoding = Encoding.UTF8, // 设置输出编码
+                StandardErrorEncoding = Encoding.UTF8 // 设置错误编码
             };
 
             try
@@ -31,10 +34,30 @@ public static class CoreService
                 using (var process = new Process())
                 {
                     process.StartInfo = startInfo;
-                    process.Start();
-                }
 
-                Console.WriteLine("nalai_core.exe 已启动并完成运行");
+                    // 订阅输出和错误事件
+                    process.OutputDataReceived += (sender, e) =>
+                    {
+                        if (e.Data != null)
+                            Console.WriteLine($"[Core] {e.Data}");
+                    };
+                    process.ErrorDataReceived += (sender, e) =>
+                    {
+                        if (e.Data != null)
+                            Console.WriteLine($"[CoreErr] {e.Data}");
+                    };
+
+                    process.Start();
+
+                    // 开始异步读取输出和错误
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    // 等待进程退出（如果需要）
+                    process.WaitForExit();
+
+                    Console.WriteLine("nalai_core.exe 已启动并正在运行...");
+                }
             }
             catch (Exception ex)
             {
@@ -181,13 +204,12 @@ public static class CoreService
             {
                 if (attempt == maxRetries)
                 {
-                    
                     throw; // 所有重试均失败， 重新抛出异常
                 }
 
                 Console.WriteLine($"请求失败，正在尝试第{attempt + 1}次重试: {hre.Message}");
                 await Task.Delay(1000); // 重试前等待一段时间
-                
+
                 // 调用StartAsync启动内核
                 await StartAsync();
             }
