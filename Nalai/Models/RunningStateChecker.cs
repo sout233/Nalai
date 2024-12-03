@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics;
+using System.Net.Http;
 using Nalai.CoreConnector.Models;
 using Newtonsoft.Json;
 
@@ -52,30 +53,30 @@ public static class RunningStateChecker
         private static readonly System.Timers.Timer _timer = new(1500);
         private static readonly HttpClient _httpClient = new();
         
-        private static async void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs ea)
+        private static async void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs ea)
         {
             try
             {
                 var uriBuilder = new UriBuilder("http://localhost:13088/checkhealth");
                 var cts = new CancellationTokenSource(); // 创建一个CancellationTokenSource
                 cts.CancelAfter(500);
-                HttpResponseMessage response = await _httpClient.GetAsync(uriBuilder.Uri, cts.Token);
+                using var response = await _httpClient.GetAsync(uriBuilder.Uri, cts.Token);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string jsonContent = await response.Content.ReadAsStringAsync();
+                    var jsonContent = await response.Content.ReadAsStringAsync();
 
                     var result = JsonConvert.DeserializeObject<dynamic>(jsonContent);
 
-                    Status = result.code.ToString() switch
+                    Status = result?.code.ToString() switch
                     {
                         "200 OK" => HealthStatus.Running,
                         _ => HealthStatus.Unknown,
                     };
                     RunningTime++;
                     //Add 1
-                    Console.WriteLine($"Code: {result.code}");
-                    Console.WriteLine($"Status: {Status}");
+                    Debug.WriteLine($"Code: {result?.code}");
+                    Debug.WriteLine($"Status: {Status}");
                 }
                 else
                 {
@@ -86,7 +87,7 @@ public static class RunningStateChecker
             {
                 // 处理请求被取消的情况
                 Status = HealthStatus.Caution;
-                Console.WriteLine("Request timed out, status set to Caution");
+                Debug.WriteLine("Request timed out, status set to Caution");
             }
             catch (Exception exc)
             {
@@ -97,9 +98,10 @@ public static class RunningStateChecker
 
             Console.WriteLine(Status);
         }
-        public static void ErrHandle(string e)
+
+        private static void ErrHandle(string e)
         {
-            Console.WriteLine($"Error: {e}");
+            Debug.WriteLine($"Error: {e}");
             Status = HealthStatus.Unknown;
         }
         public static void Check()
@@ -120,6 +122,6 @@ public static class RunningStateChecker
             _timer.Elapsed -= Timer_Elapsed;
             _timer.Enabled = false;
             _httpClient.Dispose();
-            Console.WriteLine("Stopped");
+            Debug.WriteLine("Stopped");
         }
 }
