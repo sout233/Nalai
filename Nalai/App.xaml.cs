@@ -98,6 +98,8 @@ namespace Nalai
             
             Task.Run(CoreTask.SyncAllTasksFromCore);
             RunningStateChecker.Start();
+
+            Task.Run(EventApiService.Run);
         }
 
         /// <summary>
