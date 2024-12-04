@@ -16,6 +16,7 @@ public partial class NewTaskWindow : FluentWindow
         InitializeComponent();
         DataContext = this;
         ViewModel = vm;
+        ViewModel.Window = this;
         ViewModel.Url = url;
 
         ViewModel.SavePath = savePath != ""
