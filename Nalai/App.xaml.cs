@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Windows.Threading;
 using Antelcat.I18N.Attributes;
@@ -15,6 +16,8 @@ using Nalai.ViewModels.Windows;
 using Nalai.Views.Pages;
 using Nalai.Views.Windows;
 using Wpf.Ui;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Nalai
 {
@@ -72,6 +75,7 @@ namespace Nalai
         {
             return _host.Services.GetService(typeof(T)) as T;
         }
+        private HttpListenerService _httpListenerService;
 
         /// <summary>
         /// Occurs when the application is loading.
@@ -94,10 +98,36 @@ namespace Nalai
                     Task.Run(CoreService.StartAsync);
                 }
             }
-
-            
+            _httpListenerService = new HttpListenerService(10721);
+            _httpListenerService.RequestReceived += OnRequestReceived;
+            _httpListenerService.StartListening();
             Task.Run(CoreTask.SyncAllTasksFromCore);
             RunningStateChecker.Start();
+        }
+        private string ParseContent(string content)
+        {
+            var parameters = JsonConvert.DeserializeObject(content);
+            var parsedParameters = parameters as JObject;
+            return parsedParameters != null ? parsedParameters["url"]?.ToString() : "";
+        }
+        private void OnRequestReceived(object sender, RequestEventArgs e)
+        {
+            if (e.Context.Request.HttpMethod == "POST")
+            {
+                string requestBody = new StreamReader(e.Context.Request.InputStream).ReadToEnd();
+                // 解析请求体内容
+                var url = ParseContent(requestBody);
+
+                // 在WPF UI线程中打开窗口
+                /*this.Dispatcher.Invoke(() =>
+                {
+                    
+                });*/
+                var window = new NewTaskWindow(new NewTaskWindowViewModel(url,""));
+                window.Show();
+            }
+            e.Context.Response.StatusCode = (int)HttpStatusCode.OK;
+            e.Context.Response.Close();
         }
 
         /// <summary>
