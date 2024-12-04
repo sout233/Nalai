@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Reflection;
+using Nalai.Services;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -10,32 +11,22 @@ namespace Nalai.ViewModels.Pages
     {
         private bool _isInitialized;
 
-        [ObservableProperty]
-        private string _appVersion = String.Empty;
+        [ObservableProperty] private string _appVersion = String.Empty;
 
-        [ObservableProperty]
-        private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
+        [ObservableProperty] private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
         public string ThemeColor => CurrentTheme == ApplicationTheme.Light ? "White" : "Black";
-        
-        [ObservableProperty]
-        private ObservableCollection<string> _comboBoxLanguages =
+
+        [ObservableProperty] private ObservableCollection<string> _comboBoxLanguages =
         [
             "English",
             "简体中文"
         ];
 
-        [ObservableProperty] private int _selectedLanguageIndex = 0;
+        [ObservableProperty] private int _selectedLanguageIndex;
+
         partial void OnSelectedLanguageIndexChanged(int value)
         {
-            Console.WriteLine(value);
-            if (value == 0)
-            {
-                I18NExtension.Culture = new CultureInfo("en");
-            }
-            else if (value == 1)
-            {
-                I18NExtension.Culture = new CultureInfo("zh-hans");
-            }
+            I18NService.SetLanguageByIndex(value);
         }
 
         public void OnNavigatedTo()
@@ -44,12 +35,15 @@ namespace Nalai.ViewModels.Pages
                 InitializeViewModel();
         }
 
-        public void OnNavigatedFrom() { }
+        public void OnNavigatedFrom()
+        {
+        }
 
         private void InitializeViewModel()
         {
             CurrentTheme = ApplicationThemeManager.GetAppTheme();
             AppVersion = $"Nalai - {GetAssemblyVersion()}";
+            SelectedLanguageIndex = I18NService.GetLanguageIndex(I18NService.CurrentLanguage);
 
             _isInitialized = true;
         }
@@ -57,7 +51,7 @@ namespace Nalai.ViewModels.Pages
         private string GetAssemblyVersion()
         {
             return Assembly.GetExecutingAssembly().GetName().Version?.ToString()
-                ?? String.Empty;
+                   ?? String.Empty;
         }
 
         [RelayCommand]
@@ -89,7 +83,6 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private void OnOuterLink()
         {
-            
         }
     }
 }

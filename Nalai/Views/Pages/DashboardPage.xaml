@@ -65,12 +65,12 @@
                     CommandParameter="{Binding ElementName=DownloadTaskListView}" />
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <ui:DropDownButton Margin="2,0" Icon="{Binding ViewModel.SortTypeIcon}"
                                    Content="{Binding ViewModel.SortTypeText}">
                     <ui:DropDownButton.Flyout>
                         <ContextMenu>
-                            <MenuItem Header="文件名" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.sort_by_name}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="FileNameAsc" />
                             <MenuItem Header="文件名降序" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="FileNameDesc" />
