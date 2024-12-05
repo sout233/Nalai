@@ -19,17 +19,13 @@ public partial class NewTaskWindow : FluentWindow
         ViewModel.Window = this;
         ViewModel.Url = url;
 
-        ViewModel.SavePath = savePath != ""
-            ? savePath
-            : GetFolderDefault.GetDownloadPath();
-
-        ViewModel.Url = url != ""
-            ? url
-            : DownloadUrl;
+        ViewModel.SavePath = savePath;
+        ViewModel.Url = url;
+        
         this.Closing += NewTaskWindow_Closing;
 
     }
-    protected virtual void NewTaskWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    protected virtual void NewTaskWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
         // 通知视图模型窗口即将关闭
         ViewModel.OnWindowClosing();
