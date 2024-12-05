@@ -3,7 +3,6 @@ using System.Windows.Documents;
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
-using Nalai.Services;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Windows

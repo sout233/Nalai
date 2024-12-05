@@ -3,7 +3,7 @@ using System.Net.Http;
 using Nalai.CoreConnector.Models;
 using Newtonsoft.Json;
 
-namespace Nalai.Services;
+namespace Nalai.Models;
 
 public static class RunningStateChecker
 {
