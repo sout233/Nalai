@@ -28,9 +28,21 @@ public static class EventApiService
             var request = context.Request;
             var response = context.Response;
 
+            // Handle preflight OPTIONS request
+            if (request.HttpMethod == "OPTIONS")
+            {
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
+                response.Headers.Add("Access-Control-Allow-Methods", "POST, OPTIONS");
+                response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                response.StatusCode = (int)HttpStatusCode.OK;
+                response.Close();
+                continue;
+            }
+
             // Ensure the request is a POST and has content
             if (request.HttpMethod == "POST" && request.HasEntityBody)
             {
+                Console.WriteLine("Received data from browser.");
                 using var body = request.InputStream;
                 using var reader = new StreamReader(body, request.ContentEncoding);
                 var jsonContent = reader.ReadToEnd();
@@ -45,6 +57,9 @@ public static class EventApiService
                     else
                         NalaiMsgBox.Show("Invalid data received from browser.");
 
+                    // Respond to the client with CORS headers
+                    response.Headers.Add("Access-Control-Allow-Origin", "*");
+
                     // Respond to the client
                     const string responseString = "Data received successfully.";
                     var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
@@ -57,12 +72,15 @@ public static class EventApiService
                     Console.WriteLine("Failed to parse JSON: " + ex.Message);
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
                     response.StatusDescription = "Invalid JSON format.";
+                    response.Headers.Add("Access-Control-Allow-Origin", "*");
                 }
             }
             else
             {
+                Console.WriteLine("Invalid request received: {0} | {1}", request.HttpMethod, request.HasEntityBody);
                 response.StatusCode = (int)HttpStatusCode.MethodNotAllowed;
                 response.StatusDescription = "Only POST method is allowed.";
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
             }
 
             // Close the response
