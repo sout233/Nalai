@@ -212,6 +212,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
         Task.Run(async () =>
         {
+            Task.Delay(1000).Wait();
             try
             {
                 while (!cancellationToken.IsCancellationRequested && InfoResult?.StatusText != "Finished")
