@@ -31,7 +31,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
     public NewTaskWindowViewModel(string url, string savePath)
     {
         Url = url;
-        SavePath = savePath;
+        SavePath = string.IsNullOrEmpty(savePath)? GetFolderDefault.GetDownloadPath() : savePath;
         _runningState = "Checking...";
 
         var flyout = new Flyout

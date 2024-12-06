@@ -95,8 +95,7 @@ public static class EventApiService
             Console.WriteLine("Received data from browser: {0}, version: {1}, downloadUrl: {2}",
                 e.Browser.Browser, e.Browser.Version, e.DownloadUrl);
 
-            NewTaskWindowViewModel vm = new(e.DownloadUrl, string.Empty);
-            NewTaskWindow window = new(vm);
+            NewTaskWindow window = new(e.DownloadUrl);
             window.Show();
         });
     }

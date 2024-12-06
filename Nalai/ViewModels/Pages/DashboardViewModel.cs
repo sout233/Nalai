@@ -56,10 +56,13 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private Task OnNewTask()
         {
-            var newTaskWindowViewModel = new NewTaskWindowViewModel(string.Empty, GetFolderDefault.GetDownloadPath());
-            var window = new NewTaskWindow(newTaskWindowViewModel);
-            newTaskWindowViewModel.Window = window;
-            newTaskWindowViewModel.Dashboard = this;
+            var window = new NewTaskWindow
+            {
+                ViewModel =
+                {
+                    Dashboard = this
+                }
+            };
             window.Show();
 
             UpdateDownloadCollection();
