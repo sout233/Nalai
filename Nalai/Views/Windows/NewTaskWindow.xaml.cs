@@ -11,17 +11,16 @@ public partial class NewTaskWindow : FluentWindow
     private const string DownloadUrl =
         "https://download.fastmirror.net/download/Paper/1.21.1/build74";
 
-    public NewTaskWindow(NewTaskWindowViewModel vm, string url = "", string savePath = "")
+    public NewTaskWindow(string url = "", string savePath = "")
     {
         InitializeComponent();
         DataContext = this;
-        ViewModel = vm;
-        ViewModel.Window = this;
-        ViewModel.Url = url;
-
-        ViewModel.SavePath = savePath;
-        ViewModel.Url = url;
         
+        ViewModel = new NewTaskWindowViewModel(url, savePath)
+        {
+            Window = this
+        };
+
         this.Closing += NewTaskWindow_Closing;
 
     }
