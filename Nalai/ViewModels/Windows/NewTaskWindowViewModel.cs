@@ -14,7 +14,9 @@ namespace Nalai.ViewModels.Windows;
 
 public partial class NewTaskWindowViewModel : ObservableObject
 {
-    public Window Window { get; set; }
+    public Window? Window { get; set; }
+    public DashboardViewModel? Dashboard { get; set; }
+
 
     [ObservableProperty] private string _url;
     [ObservableProperty] private bool _isFlyoutOpen;
@@ -22,15 +24,15 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [ObservableProperty] private bool _dialogResult;
     [ObservableProperty] private string _runningState;
     [ObservableProperty] private bool _downloadable;
+    
     private string _lastPath = "";
 
-
-    public DashboardViewModel Dashboard { get; set; }
 
     public NewTaskWindowViewModel(string url, string savePath)
     {
         Url = url;
-        SavePath = savePath;
+        SavePath = string.IsNullOrEmpty(savePath)? GetFolderDefault.GetDownloadPath() : savePath;
+        _runningState = "Checking...";
 
         var flyout = new Flyout
         {
@@ -43,22 +45,22 @@ public partial class NewTaskWindowViewModel : ObservableObject
     }
 
 
-    private void UpdateCoreState(object sender, object e)
+    private void UpdateCoreState(object? sender, object? e)
     {
         RunningState = RunningStateFormatter.Format(RunningStateChecker.Status);
-        Downloadable = RunningStateChecker.Status == HealthStatus.Running ? true : false;
+        Downloadable = RunningStateChecker.Status == HealthStatus.Running;
         Console.WriteLine($"Running state: {RunningState}");
     }
 
     [RelayCommand]
     private void TestTaskKill()
     {
-        string processName = "nalai_core";
+        const string processName = "nalai_core";
 
         // 获取所有匹配的进程
-        Process[] processes = Process.GetProcessesByName(processName);
+        var processes = Process.GetProcessesByName(processName);
 
-        foreach (Process proc in processes)
+        foreach (var proc in processes)
         {
             try
             {
@@ -119,7 +121,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
 
             task.BindWindows.Add(window);
 
-            Window.Close();
+            Window?.Close();
         }
         catch (Exception ex)
         {
@@ -131,7 +133,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
     [RelayCommand]
     private void Cancel()
     {
-        Window.Close();
+        Window?.Close();
     }
 
 

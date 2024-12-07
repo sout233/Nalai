@@ -96,7 +96,7 @@ public static class RunningStateChecker
                 ErrHandle(exc.Message);
             }
 
-            Console.WriteLine(Status);
+            // Console.WriteLine(Status);
         }
 
         private static void ErrHandle(string e)

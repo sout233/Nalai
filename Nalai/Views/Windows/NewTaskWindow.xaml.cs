@@ -11,24 +11,20 @@ public partial class NewTaskWindow : FluentWindow
     private const string DownloadUrl =
         "https://download.fastmirror.net/download/Paper/1.21.1/build74";
 
-    public NewTaskWindow(NewTaskWindowViewModel vm, string url = "", string savePath = "")
+    public NewTaskWindow(string url = "", string savePath = "")
     {
         InitializeComponent();
         DataContext = this;
-        ViewModel = vm;
-        ViewModel.Url = url;
+        
+        ViewModel = new NewTaskWindowViewModel(url, savePath)
+        {
+            Window = this
+        };
 
-        ViewModel.SavePath = savePath != ""
-            ? savePath
-            : GetFolderDefault.GetDownloadPath();
-
-        ViewModel.Url = url != ""
-            ? url
-            : DownloadUrl;
         this.Closing += NewTaskWindow_Closing;
 
     }
-    protected virtual void NewTaskWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    protected virtual void NewTaskWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
         // 通知视图模型窗口即将关闭
         ViewModel.OnWindowClosing();
