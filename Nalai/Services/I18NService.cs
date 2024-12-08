@@ -7,13 +7,15 @@ public static class I18NService
     public enum Language
     {
         English,
-        Chinese
+        Chinese,
+        Japanese,
     }
 
     private static readonly Dictionary<Language, string> Languages = new()
     {
         { Language.English, "en" },
-        { Language.Chinese, "zh-hans" }
+        { Language.Chinese, "zh-hans" },
+        { Language.Japanese, "ja" },
     };
 
     private static Language _currentLanguage;

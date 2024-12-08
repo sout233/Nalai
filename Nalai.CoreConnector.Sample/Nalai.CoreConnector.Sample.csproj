@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Nalai.CoreConnector\Nalai.CoreConnector.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+    </ItemGroup>
+
 </Project>

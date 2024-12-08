@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Antelcat.I18N.WPF" Version="1.0.1" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="WPF-UI" Version="3.0.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
@@ -61,6 +62,11 @@
     <EmbeddedResource Update="Resources\Translation.zh-hans.resx">
       <DependentUpon>Translation.resx</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Translation.ja.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translation.jp.Designer.cs</LastGenOutput>
+      <DependentUpon>Translation.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +74,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Translation.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Translation.ja.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Translation.ja.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 

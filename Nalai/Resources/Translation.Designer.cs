@@ -351,6 +351,11 @@ namespace Nalai.Resources {
                 return ResourceManager.GetString("nt.usingDefaultFolder", resourceCulture);
             }
         }
+
+        internal static string search_placeholder
+        {
+            get { return ResourceManager.GetString("search.placeholder", resourceCulture); }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to About Nalai.

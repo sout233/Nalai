@@ -104,7 +104,7 @@
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="2,4"
                         Visibility="{Binding ViewModel.SearchPanelVisibility}">
                 <ui:TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" MinWidth="200" Width="200"
-                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="Search"
+                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="{I18N {x:Static resources:LangKeys.search_placeholder}}"
                             Text="{Binding ViewModel.SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 </ui:TextBox>
             </StackPanel>

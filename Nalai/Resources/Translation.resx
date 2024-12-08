@@ -183,4 +183,8 @@
     <data name="down.totalSize" xml:space="preserve">
         <value>Total size</value>
     </data>
+    <data name="search.placeholder" xml:space="preserve">
+        <value>Search</value>
+    </data>
+
 </root>

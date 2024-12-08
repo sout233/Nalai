@@ -19,7 +19,8 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private ObservableCollection<string> _comboBoxLanguages =
         [
             "English",
-            "简体中文"
+            "简体中文",
+            "日本語",
         ];
 
         [ObservableProperty] private int _selectedLanguageIndex;
