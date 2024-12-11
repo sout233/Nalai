@@ -73,8 +73,8 @@ namespace Nalai
         {
             return _host.Services.GetService(typeof(T)) as T;
         }
-        private MainWindow mainWindow;
-        private TaskbarIcon taskbarIcon;
+
+        private TaskbarIcon? _taskbarIcon;
 
         /// <summary>
         /// Occurs when the application is loading.
@@ -97,29 +97,45 @@ namespace Nalai
                     Task.Run(CoreService.StartAsync);
                 }
             }
-            mainWindow = MainWindow as MainWindow;
-            
+
             // 创建托盘图标
-            taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
-            
-            
+            _taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
+
+
             Task.Run(CoreTask.SyncAllTasksFromCore);
             RunningStateChecker.Start();
 
             Task.Run(EventApiService.Run);
-            
         }
+
         private void ShowWindow(object sender, RoutedEventArgs e)
         {
             // 显示或激活主窗口
-            //var window = new MainWindow();
-            mainWindow?.Show();
+            if (MainWindow == null)
+            {
+                var vm = GetService<MainWindowViewModel>();
+                var ps = GetService<IPageService>();
+                var ns = GetService<INavigationService>();
+                var window = new MainWindow(vm, ps, ns);
+                window.Show();
+            }
+            else
+            {
+                MainWindow.Show();
+                MainWindow.Activate();
+            }
         }
 
-        private async void ExitApplication(object sender, RoutedEventArgs e)
+        private void ExitApplication(object sender, RoutedEventArgs e)
         {
-            // 退出应用程序
-            //this.Shutdown();
+            Current.Shutdown();
+        }
+
+        /// <summary>
+        /// Occurs when the application is closing.
+        /// </summary>
+        private async void OnExit(object sender, ExitEventArgs e)
+        {
             var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(DebuggableAttribute), false);
             if (attributes.Length > 0)
             {
@@ -134,17 +150,10 @@ namespace Nalai
                     CoreService.SendExitMsg();
                 }
             }
-            
+
             await _host.StopAsync();
             RunningStateChecker.Stop();
             _host.Dispose();
-        }
-        /// <summary>
-        /// Occurs when the application is closing.
-        /// </summary>
-        private async void OnExit(object sender, ExitEventArgs e)
-        {
-            
         }
 
         /// <summary>
@@ -154,6 +163,5 @@ namespace Nalai
         {
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
         }
-        
     }
 }

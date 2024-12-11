@@ -12,7 +12,6 @@ using MenuItem = Wpf.Ui.Controls.MenuItem;
 
 namespace Nalai.Views.Windows
 {
-
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
@@ -45,21 +44,17 @@ namespace Nalai.Views.Windows
 
         public void ShowWindow() => Show();
 
-        public void CloseWindow() => OnClosed();
+        public void CloseWindow() => Close();
 
         #endregion INavigationWindow methods
 
         /// <summary>
         /// Raises the closed event.
         /// </summary>
-        private void OnClosed()
+        protected override void OnClosed(EventArgs e)
         {
-            Hide();
-            //base.OnClosed(e);
-
-            // Make sure that closing this window will begin the process of closing the application.
-            // Application.Current.Shutdown();
-            Console.WriteLine("Closing MainWindow");
+            Application.Current.MainWindow = null;
+            base.OnClosed(e);
         }
 
         INavigationView INavigationWindow.GetNavigation()
@@ -77,7 +72,5 @@ namespace Nalai.Views.Windows
             //I18NExtension.Culture = new CultureInfo("en");
         }
         //private NotifyIcon notifyIcon = null;
-
-    
     }
 }
