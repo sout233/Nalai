@@ -95,38 +95,38 @@ namespace Nalai.ViewModels.Pages
             UpdateDownloadCollection();
         }
 
-        public void UpdatePauseOrResumeElement(DownloadStatus status)
+        public void UpdatePauseOrResumeElement(DownloadStatusKind status)
         {
             PauseOrResumeText = status switch
             {
-                DownloadStatus.Running => "暂停",
-                DownloadStatus.Pending => "暂停",
-                DownloadStatus.NoStart => "继续",
-                DownloadStatus.Cancelled => "继续",
-                DownloadStatus.Finished => "重新下载",
-                DownloadStatus.Error => "重新下载",
+                DownloadStatusKind.Running => "暂停",
+                DownloadStatusKind.Pending => "暂停",
+                DownloadStatusKind.NoStart => "继续",
+                DownloadStatusKind.Cancelled => "继续",
+                DownloadStatusKind.Finished => "重新下载",
+                DownloadStatusKind.Error => "重新下载",
                 _ => PauseOrResumeText
             };
 
             PauseOrResumeIcon = status switch
             {
-                DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
-                DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 _ => PauseOrResumeIcon
             };
 
             PauseOrResumeButtonIcon = status switch
             {
-                DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
-                DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 _ => PauseOrResumeButtonIcon
             };
         }
@@ -139,7 +139,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 var result = await coreTask.StartOrCancelAsync();
-                UpdatePauseOrResumeElement(result ? DownloadStatus.Running : coreTask.Status);
+                UpdatePauseOrResumeElement(result ? DownloadStatusKind.Running : coreTask.Status.Kind);
             }
 
             UpdateDownloadCollection();
@@ -153,7 +153,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 await coreTask.DeleteAsync();
-                UpdatePauseOrResumeElement(coreTask.Status);
+                UpdatePauseOrResumeElement(coreTask.Status.Kind);
             }
 
             UpdateDownloadCollection();
@@ -167,7 +167,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 await coreTask.CancelAsync();
-                UpdatePauseOrResumeElement(coreTask.Status);
+                UpdatePauseOrResumeElement(coreTask.Status.Kind);
             }
 
             UpdateDownloadCollection();

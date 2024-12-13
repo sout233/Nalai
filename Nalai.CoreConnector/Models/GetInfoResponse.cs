@@ -36,27 +36,8 @@ public record NalaiCoreInfo
     /// 下载状态，详情见core源代码
     /// </summary>
     [JsonProperty("status")]
-    public string StatusText
-    {
-        get => _statusText;
-        set
-        {
-            _statusText = value;
-            Status = value switch
-            {
-                "NoStart" => DownloadStatus.NoStart,
-                "Running" => DownloadStatus.Running,
-                "Error" => DownloadStatus.Error,
-                "Finished" => DownloadStatus.Finished,
-                "DownloadFinished" => DownloadStatus.Finished,
-                "Pending(Initializing)" => DownloadStatus.Pending,
-                "Pending(Starting)" => DownloadStatus.Pending,
-                "Pending(Stopping)" => DownloadStatus.Pending,
-                "Cancelled" => DownloadStatus.Cancelled,
-                _ => DownloadStatus.NoStart
-            };
-        }
-    }
+    public DownloadStatus Status { get; set; }
+    
     
     [JsonProperty("save_dir")]
     public string SaveDirectory { get; set; }
@@ -64,8 +45,6 @@ public record NalaiCoreInfo
     [JsonProperty("create_time")]
     public RustSystemTime CreatedTime { get;set; }
 
-    [JsonIgnore] public DownloadStatus Status { get; set; }
-    
     [JsonProperty("chunks")]
     public List<ChunksItem> Chunks { get;set; }
 }

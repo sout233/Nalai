@@ -46,7 +46,7 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
             return;
         }
 
-        ViewModel.UpdatePauseOrResumeElement(task.Status);
+        ViewModel.UpdatePauseOrResumeElement(task.Status.Kind);
         ViewModel.SetPauseOrResumeButtonEnabled(true);
     }
 }

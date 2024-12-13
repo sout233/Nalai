@@ -21,14 +21,14 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             SaveDir = value.SaveDirectory;
             Chunks = value.Chunks.Select(chunk => new ExtendedChunkItem(chunk)).ToList();
 
-            if (value.Status == DownloadStatus.Running)
+            if (value.Status.Kind == DownloadStatusKind.Running)
             {
                 var progress = (float)value.DownloadedBytes / value.TotalBytes * 100;
-                RealtimeStatusText = value.StatusText + $" ({progress:0.00}%)";
+                RealtimeStatusText = value.Status.StatusKindRaw + $" ({progress:0.00}%)";
             }
             else
             {
-                RealtimeStatusText = value.StatusText;
+                RealtimeStatusText = value.Status.StatusKindRaw;
             }
 
             GlobalTaskChanged?.Invoke(this, this);
@@ -212,10 +212,10 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
         Task.Run(async () =>
         {
-            Task.Delay(1000).Wait();
+            await Task.Delay(1000, cancellationToken).WaitAsync(cancellationToken);
             try
             {
-                while (!cancellationToken.IsCancellationRequested && InfoResult?.StatusText != "Finished")
+                while (!cancellationToken.IsCancellationRequested && InfoResult?.Status.Kind != DownloadStatusKind.Finished)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
@@ -224,7 +224,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                     // 用于更新Status
                     if (result != null)
                     {
-                        if (result.StatusText != InfoResult?.StatusText || result.FileName != FileName ||
+                        if (result.Status != InfoResult?.Status || result.FileName != FileName ||
                             result.Url != Url)
                         {
                             Console.WriteLine("Status changed:" + FileName);
@@ -252,7 +252,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                     // 取消与停止的验证
                     if (InfoResult != null)
                     {
-                        if (InfoResult.Status is DownloadStatus.Finished or DownloadStatus.Error)
+                        if (InfoResult.Status.Kind is DownloadStatusKind.Finished or DownloadStatusKind.Error)
                         {
                             Console.WriteLine("Download End");
 
@@ -288,7 +288,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                             break;
                         }
 
-                        if (InfoResult.Status is DownloadStatus.Cancelled)
+                        if (InfoResult.Status.Kind is DownloadStatusKind.Cancelled)
                         {
                             SyncAllTasksFromCore();
                             
@@ -332,7 +332,8 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         else
         {
             await _cancellationTokenSource.CancelAsync();
-            InfoResult = InfoResult with { StatusText = "Cancelled" };
+            var newStatus = new DownloadStatus(DownloadStatusKind.Cancelled, "Cancelled by user");
+            InfoResult = InfoResult with { Status = newStatus };
             GlobalTaskChanged?.Invoke(this, this);
             StatusChanged?.Invoke(this, InfoResult);
             
