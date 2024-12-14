@@ -17,7 +17,7 @@ public static class CoreService
         if (!isProcessRunning)
         {
             // 如果进程不存在，则启动它
-            var pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core-v0.1.3-windows-msvc.exe");
+            var pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core.exe");
             var startInfo = new ProcessStartInfo
             {
                 FileName = pathToExe,
