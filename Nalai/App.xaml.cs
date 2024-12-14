@@ -124,6 +124,11 @@ namespace Nalai
                 MainWindow.Show();
                 MainWindow.Activate();
             }
+
+            if (MainWindow is INavigationWindow navWindow)
+            {
+                navWindow.Navigate(typeof(DashboardPage));
+            }
         }
 
         private void ExitApplication(object sender, RoutedEventArgs e)
