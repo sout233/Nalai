@@ -24,11 +24,11 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             if (value.Status.Kind == DownloadStatusKind.Running)
             {
                 var progress = (float)value.DownloadedBytes / value.TotalBytes * 100;
-                RealtimeStatusText = value.Status.StatusKindRaw + $" ({progress:0.00}%)";
+                RealtimeStatusText = value.Status.KindRaw + $" ({progress:0.00}%)";
             }
             else
             {
-                RealtimeStatusText = value.Status.StatusKindRaw;
+                RealtimeStatusText = value.Status.KindRaw;
             }
 
             GlobalTaskChanged?.Invoke(this, this);
@@ -78,7 +78,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
     public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
 
     private CancellationTokenSource _cancellationTokenSource = new();
-    private NalaiCoreInfo _infoResult = new();
+    private NalaiCoreInfo _infoResult = new(){ Status = new DownloadStatus(DownloadStatusKind.Pending, "Pending") };
 
     public static event EventHandler<CoreTask>? GlobalTaskChanged;
 
@@ -314,7 +314,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             catch (Exception ex)
             {
                 NalaiDownService.ListeningTasks.Remove(Id);
-                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"[CoreTask] Error: {ex}");
             }
         }, cancellationToken);
     }

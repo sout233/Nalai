@@ -20,18 +20,12 @@ public class DownloadStatus
         Message = message;
     }
 
-    [JsonIgnore] public DownloadStatusKind Kind { get; set; }
-
-    private string _statusKindRaw;
-
-    [JsonProperty("kind")]
-    public string StatusKindRaw
+    [JsonIgnore]
+    public DownloadStatusKind Kind
     {
-        get => _statusKindRaw;
-        set
+        get
         {
-            _statusKindRaw = value;
-            var kind = value switch
+            var kind = KindRaw switch
             {
                 "NoStart" => DownloadStatusKind.NoStart,
                 "Running" => DownloadStatusKind.Running,
@@ -44,10 +38,27 @@ public class DownloadStatus
                 "Cancelled" => DownloadStatusKind.Cancelled,
                 _ => DownloadStatusKind.NoStart
             };
-            Kind = kind;
+
+            return kind;
+        }
+        private set
+        {
+            KindRaw = value switch
+            {
+                DownloadStatusKind.NoStart => "NoStart",
+                DownloadStatusKind.Running => "Running",
+                DownloadStatusKind.Error => "Error",
+                DownloadStatusKind.Finished => "Finished",
+                DownloadStatusKind.Pending => "Pending(Initializing)",
+                DownloadStatusKind.Cancelled => "Cancelled",
+                _ => "NoStart"
+            };
         }
     }
 
+    [JsonProperty("kind")]
+    public string? KindRaw { get; set; }
 
-    [JsonProperty("msg")] public string Message { get; set; }
+
+    [JsonProperty("message")] public string Message { get; set; }
 }

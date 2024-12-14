@@ -70,7 +70,7 @@ public static class RunningStateChecker
 
                     Status = result?.code.ToString() switch
                     {
-                        "200 OK" => HealthStatus.Running,
+                        "200" => HealthStatus.Running,
                         _ => HealthStatus.Unknown,
                     };
                     RunningTime++;
