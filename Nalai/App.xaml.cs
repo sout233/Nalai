@@ -131,6 +131,28 @@ namespace Nalai
             }
         }
 
+        private void ShowSettings(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow == null)
+            {
+                var vm = GetService<MainWindowViewModel>();
+                var ps = GetService<IPageService>();
+                var ns = GetService<INavigationService>();
+                var window = new MainWindow(vm, ps, ns);
+                window.Show();
+            }
+            else
+            {
+                MainWindow.Show();
+                MainWindow.Activate();
+            }
+
+            if (MainWindow is INavigationWindow navWindow)
+            {
+                navWindow.Navigate(typeof(SettingsPage));
+            }
+        }
+
         private void ExitApplication(object sender, RoutedEventArgs e)
         {
             Current.Shutdown();
