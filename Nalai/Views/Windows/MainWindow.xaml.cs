@@ -1,15 +1,7 @@
-﻿using System.ComponentModel;
-using System.Globalization;
-using System.Drawing;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Nalai.ViewModels.Windows;
+﻿using Nalai.ViewModels.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
-using Antelcat.I18N.Attributes;
-using Nalai.Views.Pages;
-using MenuItem = Wpf.Ui.Controls.MenuItem;
 
 namespace Nalai.Views.Windows
 {

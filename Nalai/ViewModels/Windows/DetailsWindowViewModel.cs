@@ -1,6 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Nalai.CoreConnector.Models;
-using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Views.Windows;
 

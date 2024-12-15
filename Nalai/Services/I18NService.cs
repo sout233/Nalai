@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Nalai.Resources;
 
 namespace Nalai.Services;
 
@@ -38,5 +39,10 @@ public static class I18NService
     public static int GetLanguageIndex(Language currentLanguage)
     {
         return Languages.Values.ToList().IndexOf(Languages[currentLanguage]);
+    }
+
+    public static string GetTranslation(string key)
+    {
+        return I18NExtension.Translate(key) ?? string.Empty;
     }
 }

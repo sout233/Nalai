@@ -1,12 +1,9 @@
 ﻿using System.Diagnostics;
-using System.Text.Encodings.Web;
 using System.Windows.Controls.Primitives;
-using System.Windows.Threading;
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
-using Nalai.ViewModels.Pages;
 using Nalai.Views.Windows;
 using Wpf.Ui.Controls;
 

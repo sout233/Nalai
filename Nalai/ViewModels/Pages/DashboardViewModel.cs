@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Nalai.CoreConnector.Models;
-using Nalai.Helpers;
 using Nalai.Models;
+using Nalai.Resources;
 using Nalai.Services;
-using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 using Wpf.Ui.Controls;
 
@@ -11,7 +10,7 @@ namespace Nalai.ViewModels.Pages
 {
     public partial class DashboardViewModel : ObservableObject
     {
-        [ObservableProperty] private string _pauseOrResumeText = "暂停";
+        [ObservableProperty] private string _pauseOrResumeText = I18NService.GetTranslation("bt.pause");
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
         [ObservableProperty] private bool _isPauseOrResumeEnabled;
         [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
@@ -25,7 +24,7 @@ namespace Nalai.ViewModels.Pages
             if (value != null) UpdateSearchedItems(value);
         }
 
-        [ObservableProperty] private string _sortTypeText = "文件名";
+        [ObservableProperty] private string _sortTypeText = I18NService.GetTranslation("sort.by.name");
         [ObservableProperty] private SymbolIcon _sortTypeIcon = new() { Symbol = SymbolRegular.ArrowDown24 };
 
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
@@ -94,12 +93,12 @@ namespace Nalai.ViewModels.Pages
         {
             PauseOrResumeText = status switch
             {
-                DownloadStatusKind.Running => "暂停",
-                DownloadStatusKind.Pending => "暂停",
-                DownloadStatusKind.NoStart => "继续",
-                DownloadStatusKind.Cancelled => "继续",
-                DownloadStatusKind.Finished => "重新下载",
-                DownloadStatusKind.Error => "重新下载",
+                DownloadStatusKind.Running => I18NService.GetTranslation(LangKeys.Button_Pause),
+                DownloadStatusKind.Pending => I18NService.GetTranslation(LangKeys.Button_Pause),
+                DownloadStatusKind.NoStart => I18NService.GetTranslation(LangKeys.Button_Resume),
+                DownloadStatusKind.Cancelled => I18NService.GetTranslation(LangKeys.Button_Resume),
+                DownloadStatusKind.Finished => I18NService.GetTranslation(LangKeys.Button_ReDownload),
+                DownloadStatusKind.Error => I18NService.GetTranslation(LangKeys.Button_ReDownload),
                 _ => PauseOrResumeText
             };
 
@@ -194,7 +193,7 @@ namespace Nalai.ViewModels.Pages
             else
             {
                 var items = NalaiDownService.GlobalDownloadTasks;
-                var filteredItems = items.Where((pair, index) =>
+                var filteredItems = items.Where((pair, _) =>
                     pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
                 // 将过滤后的数据添加到显示列表
@@ -216,7 +215,7 @@ namespace Nalai.ViewModels.Pages
             else
             {
                 var items = NalaiDownService.GlobalDownloadTasks;
-                var filteredItems = items.Where((pair, index) =>
+                var filteredItems = items.Where((pair, _) =>
                     pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
                 // 将过滤后的数据添加到显示列表
@@ -274,18 +273,14 @@ namespace Nalai.ViewModels.Pages
 
             SortTypeText = sortType switch
             {
-                "FileNameAsc" => "文件名",
-                "FileNameDesc" => "文件名",
-                "FileSizeAsc" => "文件大小",
-                "FileSizeDesc" => "文件大小",
-                "CreatedTimeAsc" => "创建时间",
-                "CreatedTimeDesc" => "创建时间",
-                "StatusAsc" => "状态",
-                "StatusDesc" => "状态",
-                "SpeedAsc" => "速度",
-                "SpeedDesc" => "速度",
-                "ProgressAsc" => "进度",
-                "ProgressDesc" => "进度",
+                "FileNameAsc" => I18NService.GetTranslation("sort.by.name"),
+                "FileNameDesc" => I18NService.GetTranslation("sort.by.name"),
+                "FileSizeAsc" => I18NService.GetTranslation("sort.by.size"),
+                "FileSizeDesc" => I18NService.GetTranslation("sort.by.size"),
+                "CreatedTimeAsc" => I18NService.GetTranslation("sort.by.createdTime"),
+                "CreatedTimeDesc" => I18NService.GetTranslation("sort.by.createdTime"),
+                "StatusAsc" => I18NService.GetTranslation("sort.by.status"),
+                "StatusDesc" => I18NService.GetTranslation("sort.by.status"),
                 _ => SortTypeText
             };
 
@@ -299,10 +294,6 @@ namespace Nalai.ViewModels.Pages
                 "CreatedTimeDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
                 "StatusAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
                 "StatusDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
-                "SpeedAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
-                "SpeedDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
-                "ProgressAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
-                "ProgressDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
                 _ => SortTypeIcon
             };
         }

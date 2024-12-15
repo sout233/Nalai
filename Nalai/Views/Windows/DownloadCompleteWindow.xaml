@@ -30,7 +30,7 @@
 
         <StackPanel Grid.Row="1"
                     Margin="10">
-            <ui:TextBlock Text="{I18N {x:Static resources:LangKeys.dc_downloadComplete}}" TextAlignment="Left" FontTypography="Subtitle" />
+            <ui:TextBlock Text="{I18N {x:Static resources:LangKeys.DownloadCompleteWindow_DownloadComplete}}" TextAlignment="Left" FontTypography="Subtitle" />
             <ui:TextBlock FontTypography="Title" Text="{Binding ViewModel.FileName}"></ui:TextBlock>
         </StackPanel>
         
@@ -40,23 +40,23 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ui:TextBox PlaceholderText="{I18N {x:Static resources:LangKeys.down_filename}}" Icon="{ui:SymbolIcon Document24}" Height="34" Text="{Binding ViewModel.FileName}"/>
-                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Edit24}" Content="{I18N {x:Static resources:LangKeys.bt_edit}}" Margin="4,0,0,0" Height="34"/>
+                <ui:TextBox PlaceholderText="{I18N {x:Static resources:LangKeys.Download_FileName}}" Icon="{ui:SymbolIcon Document24}" Height="34" Text="{Binding ViewModel.FileName}"/>
+                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Edit24}" Content="{I18N {x:Static resources:LangKeys.Button_Edit}}" Margin="4,0,0,0" Height="34"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ui:TextBox PlaceholderText="{I18N {x:Static resources:LangKeys.nt_savePath}}" Icon="{ui:SymbolIcon Folder24}"  Height="34" Text="{Binding ViewModel.DownloadPath}"/>
-                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Edit24}" Content="{I18N {x:Static resources:LangKeys.bt_edit}}" Margin="4,0,0,0" Height="34"/>
+                <ui:TextBox PlaceholderText="{I18N {x:Static resources:LangKeys.NewTaskWindow_SavePath}}" Icon="{ui:SymbolIcon Folder24}"  Height="34" Text="{Binding ViewModel.DownloadPath}"/>
+                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Edit24}" Content="{I18N {x:Static resources:LangKeys.Button_Edit}}" Margin="4,0,0,0" Height="34"/>
             </Grid>
         </StackPanel>
         
         <StackPanel Grid.Row="3" Margin="10" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <ui:Button Content="{I18N {x:Static resources:LangKeys.bt_open}}" Appearance="Primary" Icon="{ui:SymbolIcon Open24}" Command="{Binding ViewModel.OpenFileCommand}" Margin="0,0,2,0"/>
-            <ui:Button Content="{I18N {x:Static resources:LangKeys.bt_openFolder}}" Appearance="Secondary" Icon="{ui:SymbolIcon Folder24}" Command="{Binding ViewModel.OpenFolderCommand}" Margin="2,0,2,0"/>
-            <ui:Button Content="{I18N {x:Static resources:LangKeys.bt_close}}" Icon="{ui:SymbolIcon Dismiss24}" Command="{Binding ViewModel.CloseWindowCommand}" Margin="2,0,0,0"/>            
+            <ui:Button Content="{I18N {x:Static resources:LangKeys.Button_Open}}" Appearance="Primary" Icon="{ui:SymbolIcon Open24}" Command="{Binding ViewModel.OpenFileCommand}" Margin="0,0,2,0"/>
+            <ui:Button Content="{I18N {x:Static resources:LangKeys.Button_OpenFolder}}" Appearance="Secondary" Icon="{ui:SymbolIcon Folder24}" Command="{Binding ViewModel.OpenFolderCommand}" Margin="2,0,2,0"/>
+            <ui:Button Content="{I18N {x:Static resources:LangKeys.Button_Close}}" Icon="{ui:SymbolIcon Dismiss24}" Command="{Binding ViewModel.CloseWindowCommand}" Margin="2,0,0,0"/>            
         </StackPanel>
 
         <ui:TitleBar

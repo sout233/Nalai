@@ -31,17 +31,20 @@
 
         <StackPanel Grid.Row="1" Margin="12">
             <!-- <Label Target="{Binding ElementName=UrlTextBox}">Url</Label> -->
-            <ui:TextBox x:Name="UrlTextBox" PlaceholderText="{I18N {x:Static resources:LangKeys.down_url}}" Margin="0,0,0,12" Text="{Binding ViewModel.Url}"/>
+            <ui:TextBox x:Name="UrlTextBox" PlaceholderText="{I18N {x:Static resources:LangKeys.Download_Url}}"
+                        Margin="0,0,0,12" Text="{Binding ViewModel.Url}" />
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ui:TextBox PlaceholderText="{I18N {x:Static resources:LangKeys.nt_savePath}}" Text="{Binding ViewModel.SavePath}" />
-                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Folder24}" Content="" Margin="4,0,0,0" Height="34" Command="{Binding ViewModel.OpenFolderCommand}"/>
+                <ui:TextBox PlaceholderText="{I18N {x:Static resources:LangKeys.NewTaskWindow_SavePath}}"
+                            Text="{Binding ViewModel.SavePath}" />
+                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon Folder24}" Content="" Margin="4,0,0,0" Height="34"
+                           Command="{Binding ViewModel.OpenFolderCommand}" />
             </Grid>
         </StackPanel>
-        
+
         <StackPanel Grid.Row="2" Margin="12">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -49,9 +52,15 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <ui:Button Grid.Column="0" Icon="{ui:SymbolIcon Folder24}" Content="{I18N {x:Static resources:LangKeys.nt_usingDefaultFolder}}" Margin="0,0,4,0" Height="34" Command="{Binding ViewModel.PlaceToDefaultCommand}"/>
-                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon ArrowUndo24}" Margin="0,0,4,0" Height="34" Command="{Binding ViewModel.PlaceToDefaultUndoCommand}"></ui:Button>
-                <ui:TextBlock Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding ViewModel.DefaultPath, StringFormat='默认路径: {0}'}"></ui:TextBlock>
+                <ui:Button Grid.Column="0" Icon="{ui:SymbolIcon Folder24}"
+                           Content="{I18N {x:Static resources:LangKeys.NewTaskWindow_UsingDefaultFolder}}"
+                           Margin="0,0,4,0" Height="34" Command="{Binding ViewModel.PlaceToDefaultCommand}" />
+                <ui:Button Grid.Column="1" Icon="{ui:SymbolIcon ArrowUndo24}" Margin="0,0,4,0" Height="34"
+                           Command="{Binding ViewModel.PlaceToDefaultUndoCommand}">
+                </ui:Button>
+                <ui:TextBlock Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center"
+                              Text="{Binding ViewModel.DefaultPath, StringFormat='默认路径: {0}'}">
+                </ui:TextBlock>
             </Grid>
         </StackPanel>
 
@@ -63,19 +72,23 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>-->
-            <StackPanel Grid.Row="3" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
-                    
-                    <ui:TextBlock VerticalAlignment="Center" Text="{I18N {x:Static resources:LangKeys.status_core}}"/>
-                    <ui:InfoBadge CornerRadius="100" Severity="{Binding ViewModel.RunningState,Mode=OneWay}"/>
-                    <!--<ui:Button Content="Close Nalai.Core(Test)" Command="{Binding ViewModel.TestTaskKillCommand}"></ui:Button>-->
-                </StackPanel>
-                
-                <ui:Button IsEnabled="{Binding ViewModel.Downloadable,Mode=OneWay}" Appearance="Primary" Content="{I18N {x:Static resources:LangKeys.bt_add}}" HorizontalAlignment="Right" Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}"/>
-                <ui:Button Content="{I18N {x:Static resources:LangKeys.bt_cancel}}" HorizontalAlignment="Right" Command="{Binding ViewModel.CancelCommand}"/>
+        <StackPanel Grid.Row="3" Margin="12" Orientation="Horizontal" HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
+
+                <ui:TextBlock VerticalAlignment="Center" Text="{I18N {x:Static resources:LangKeys.Status_Core}}" />
+                <ui:InfoBadge CornerRadius="100" Severity="{Binding ViewModel.RunningState,Mode=OneWay}" />
+                <!--<ui:Button Content="Close Nalai.Core(Test)" Command="{Binding ViewModel.TestTaskKillCommand}"></ui:Button>-->
             </StackPanel>
+
+            <ui:Button IsEnabled="{Binding ViewModel.Downloadable,Mode=OneWay}" Appearance="Primary"
+                       Content="{I18N {x:Static resources:LangKeys.Button_Add}}" HorizontalAlignment="Right"
+                       Margin="0,0,4,0" Command="{Binding ViewModel.AddTaskCommand}" />
+            <ui:Button Content="{I18N {x:Static resources:LangKeys.Button_Cancel}}" HorizontalAlignment="Right"
+                       Command="{Binding ViewModel.CancelCommand}" />
+        </StackPanel>
         <!--</Grid>-->
-        
+
 
         <ContentPresenter
             x:Name="RootContentDialog"
@@ -84,7 +97,7 @@
 
         <ui:TitleBar
             x:Name="TitleBar"
-            Title="{I18N {x:Static resources:LangKeys.nt_title}}"
+            Title="{I18N {x:Static resources:LangKeys.NewTaskWindow_Title}}"
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="True">
             <ui:TitleBar.Icon>

@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <root>
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:element name="root" msdata:IsDataSet="true">
-            
+
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -13,178 +14,193 @@
         <value>1.3</value>
     </resheader>
     <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
     <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
-    <data name="nalai.title">
+    <data name="Nalai.Title">
         <value>Nalai</value>
     </data>
-    <data name="downloadList">
-        <value>Download list</value>
+    <data name="MainWindow.Downloads">
+        <value>Downloads</value>
     </data>
-    <data name="coreRunningTime" xml:space="preserve">
+    <data name="MainWindow.Running" xml:space="preserve">
         <value>Running</value>
     </data>
-    <data name="down.new" xml:space="preserve">
+    <data name="Download.New" xml:space="preserve">
             <value>New</value>
     </data>
-    <data name="down.filename" xml:space="preserve">
+    <data name="Download.FileName" xml:space="preserve">
         <value>File name</value>
     </data>
-    <data name="down.downloaded" xml:space="preserve">
+    <data name="Download.Downloaded" xml:space="preserve">
             <value>Downloaded</value>
     </data>
-    <data name="down.size" xml:space="preserve">
+    <data name="Download.Size" xml:space="preserve">
         <value>Size</value>
     </data>
-    <data name="down.url" xml:space="preserve">
+    <data name="Download.Url" xml:space="preserve">
             <value>URL</value>
     </data>
-    <data name="down.status" xml:space="preserve">
+    <data name="Download.Status" xml:space="preserve">
             <value>Status</value>
     </data>
-    <data name="down.speed" xml:space="preserve">
+    <data name="Download.Speed" xml:space="preserve">
             <value>Speed</value>
     </data>
-    <data name="sort.by.name" xml:space="preserve">
+    <data name="Dashboard.SortByName" xml:space="preserve">
         <value>Name</value>
     </data>
-    <data name="sort.by.size" xml:space="preserve">
+    <data name="Dashboard.SortBySize" xml:space="preserve">
         <value>Size</value>
     </data>
-    <data name="sort.by.status" xml:space="preserve">
+    <data name="Dashboard.SortByStatus" xml:space="preserve">
         <value>Status</value>
     </data>
-    <data name="sort.by.creatingTime" xml:space="preserve">
-        <value>Creating time</value>
+    <data name="Dashboard.SortByCreatedTime" xml:space="preserve">
+        <value>Created time</value>
     </data>
-    <data name="sort.descending" xml:space="preserve">
+    <data name="Dashboard.Desc" xml:space="preserve">
         <value>Descending</value>
     </data>
-    <data name="setting.languages" xml:space="preserve">
+    <data name="Settings.Language" xml:space="preserve">
         <value>Languages</value>
     </data>
-    <data name="setting.title" xml:space="preserve">
+    <data name="Settings.Title" xml:space="preserve">
         <value>Settings</value>
     </data>
-    <data name="setting.version" xml:space="preserve">
+    <data name="Settings.Version" xml:space="preserve">
         <value>Version</value>
     </data>
-    <data name="setting.license" xml:space="preserve">
+    <data name="Settings.License" xml:space="preserve">
         <value>License</value>
     </data>
-    <data name="setting.language" xml:space="preserve">
-        <value>Language</value>
-    </data>
-    <data name="setting.general" xml:space="preserve">
+    <data name="Settings.General" xml:space="preserve">
         <value>General</value>
     </data>
-    <data name="setting.download" xml:space="preserve">
+    <data name="Settings.Download" xml:space="preserve">
         <value>Download</value>
     </data>
-    <data name="setting.contributors" xml:space="preserve">
+    <data name="Settings.Contributors" xml:space="preserve">
         <value>Contributors</value>
     </data>
-    <data name="setting.contributor" xml:space="preserve">
+    <data name="Settings.Contributor" xml:space="preserve">
         <value>Contributor</value>
     </data>
-    <data name="setting.author" xml:space="preserve">
+    <data name="Settings.Author" xml:space="preserve">
         <value>Author</value>
     </data>
-    <data name="setting.about.nalai" xml:space="preserve">
+    <data name="Settings.AboutNalai" xml:space="preserve">
         <value>About Nalai</value>
     </data>
-    <data name="setting.theme" xml:space="preserve">
+    <data name="Settings.Theme" xml:space="preserve">
         <value>Theme</value>
     </data>
-    <data name="setting.theme.dark" xml:space="preserve">
+    <data name="Settings.Theme.Dark" xml:space="preserve">
         <value>Dark</value>
     </data>
-    <data name="setting.theme.light" xml:space="preserve">
+    <data name="Settings.Theme.Light" xml:space="preserve">
         <value>Light</value>
     </data>
-    <data name="setting.personalization" xml:space="preserve">
+    <data name="Setting.Personalization" xml:space="preserve">
         <value>Personalization</value>
     </data>
-    <data name="dp.downloading" xml:space="preserve">
+    <data name="DownloadingWindow.Downloading" xml:space="preserve">
         <value>Downloading</value>
     </data>
-    <data name="dp.speed" xml:space="preserve">
+    <data name="DownloadingWindow.Speed" xml:space="preserve">
         <value>Speed</value>
     </data>
-    <data name="dp.maxSpeed" xml:space="preserve">
+    <data name="DownloadingWindow.MaxSpeed" xml:space="preserve">
         <value>Max speed</value>
     </data>
-    <data name="dp.size" xml:space="preserve">
+    <data name="DownloadingWindow.Size" xml:space="preserve">
         <value>Size</value>
     </data>
-    <data name="dp.eta" xml:space="preserve">
+    <data name="DownloadingWindow.Eta" xml:space="preserve">
         <value>ETA</value>
     </data>
-    <data name="dp.chunkDetails" xml:space="preserve">
+    <data name="DownloadingWindow.ChunkDetails" xml:space="preserve">
         <value>Chunk details</value>
     </data>
-    <data name="bt.cancel" xml:space="preserve">
+    <data name="Button.Cancel" xml:space="preserve">
         <value>Cancel</value>
     </data>
-    <data name="dp.paused" xml:space="preserve">
+    <data name="DownloadingWindow.Paused" xml:space="preserve">
         <value>Paused</value>
     </data>
-    <data name="bt.pause" xml:space="preserve">
+    <data name="Button.Pause" xml:space="preserve">
         <value>Pause</value>
     </data>
-    <data name="bt.resume" xml:space="preserve">
+    <data name="Button.Resume" xml:space="preserve">
         <value>Resume</value>
     </data>
-    <data name="dc.downloadComplete" xml:space="preserve">
+    <data name="DownloadCompleteWindow.DownloadComplete" xml:space="preserve">
         <value>Download complete</value>
     </data>
-    <data name="msg.title.error" xml:space="preserve">
+    <data name="Msg.Title.Error" xml:space="preserve">
         <value>Error</value>
     </data>
-    <data name="msg.content.fileNotExist" xml:space="preserve">
+    <data name="Msg.FileNotExist" xml:space="preserve">
         <value>File not exist</value>
     </data>
-    <data name="msg.content.delOrMove" xml:space="preserve">
+    <data name="Msg.DelOrMove" xml:space="preserve">
         <value>Have you delete or move it yet</value>
     </data>
-    <data name="nt.title" xml:space="preserve">
+    <data name="NewTaskWindow.Title" xml:space="preserve">
         <value>New task</value>
     </data>
-    <data name="nt.savePath" xml:space="preserve">
+    <data name="NewTaskWindow.SavePath" xml:space="preserve">
         <value>Save location</value>
     </data>
-    <data name="nt.usingDefaultFolder" xml:space="preserve">
+    <data name="NewTaskWindow.UsingDefaultFolder" xml:space="preserve">
         <value>Using Default Download Folder</value>
     </data>
-    <data name="status.core" xml:space="preserve">
+    <data name="Status.Core" xml:space="preserve">
         <value>Core status</value>
     </data>
-    <data name="bt.add" xml:space="preserve">
+    <data name="Button.Add" xml:space="preserve">
         <value>Add</value>
     </data>
-    <data name="bt.edit" xml:space="preserve">
+    <data name="Button.Edit" xml:space="preserve">
         <value>Edit</value>
     </data>
-    <data name="bt.close" xml:space="preserve">
+    <data name="Button.Close" xml:space="preserve">
         <value>Close</value>
     </data>
-    <data name="bt.open" xml:space="preserve">
+    <data name="Button.Open" xml:space="preserve">
         <value>Open</value>
     </data>
-    <data name="bt.openFolder" xml:space="preserve">
+    <data name="Button.OpenFolder" xml:space="preserve">
         <value>Open folder</value>
     </data>
-    <data name="down.id" xml:space="preserve">
+    <data name="Download.Id" xml:space="preserve">
         <value>ID</value>
     </data>
-    <data name="down.totalSize" xml:space="preserve">
+    <data name="Download.TotalSize" xml:space="preserve">
         <value>Total size</value>
     </data>
-    <data name="search.placeholder" xml:space="preserve">
+    <data name="Search.Placeholder" xml:space="preserve">
         <value>Search</value>
     </data>
-
+    <data name="DownloadingWindow.CreatedTime" xml:space="preserve">
+        <value>Created time</value>
+    </data>
+    <data name="Dashboard.Cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="Dashboard.Remove" xml:space="preserve">
+        <value>Remove</value>
+    </data>
+    <data name="Dashboard.Details" xml:space="preserve">
+        <value>Details</value>
+    </data>
+    <data name="Button.ReDownload" xml:space="preserve">
+        <value>ReDownload</value>
+    </data>
 </root>

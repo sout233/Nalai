@@ -2,13 +2,11 @@
 using System.IO;
 using System.Reflection;
 using System.Windows.Threading;
-using Antelcat.I18N.Attributes;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nalai.CoreConnector;
-using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
