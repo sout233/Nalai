@@ -10,7 +10,7 @@
                  xmlns:resources="clr-namespace:Nalai.Resources"
                  Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
                  Width="300"
-                 Height="500"
+                 Height="600"
                  d:DataContext="{d:DesignInstance local:DetailsWindow,
                                      IsDesignTimeCreatable=True}"
                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
