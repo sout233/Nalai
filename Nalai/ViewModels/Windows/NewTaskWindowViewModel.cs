@@ -15,8 +15,6 @@ namespace Nalai.ViewModels.Windows;
 public partial class NewTaskWindowViewModel : ObservableObject
 {
     public Window? Window { get; set; }
-    public DashboardViewModel? Dashboard { get; set; }
-
 
     [ObservableProperty] private string _url;
     [ObservableProperty] private bool _isFlyoutOpen;

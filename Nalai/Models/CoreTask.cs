@@ -108,6 +108,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         try
         {
             var infos = CoreService.GetAllInfo();
+            
             if (infos != null)
             {
                 var tempTasks = new Dictionary<string, CoreTask>();
@@ -153,6 +154,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
     {
         await InnerStopAsync();
         CloseAllBindWindows();
+        SyncAllTasksFromCore();
     }
 
     private void CloseAllBindWindows()
@@ -183,6 +185,8 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         if (info != null) InfoResult = info;
         
         NalaiDownService.ListeningTasks.Remove(Id);
+        
+        SyncAllTasksFromCore();
     }
 
     public async Task DeleteAsync()
@@ -207,8 +211,9 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
     private void StartListen(CancellationToken cancellationToken)
     {
-        Console.WriteLine("StartListen:" + Id);
         NalaiDownService.ListeningTasks.TryAdd(Id, this);
+        Task.Run(SyncAllTasksFromCore, cancellationToken);
+        Console.WriteLine("StartListen:" + Id);
 
         Task.Run(async () =>
         {

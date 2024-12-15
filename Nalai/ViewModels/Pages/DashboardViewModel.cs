@@ -56,13 +56,8 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private Task OnNewTask()
         {
-            var window = new NewTaskWindow
-            {
-                ViewModel =
-                {
-                    Dashboard = this
-                }
-            };
+            var window = new NewTaskWindow();
+
             window.Show();
 
             UpdateDownloadCollection();
@@ -281,7 +276,7 @@ namespace Nalai.ViewModels.Pages
                 "FileNameDesc" => "文件名",
                 "FileSizeAsc" => "文件大小",
                 "FileSizeDesc" => "文件大小",
-                "CreatedTimeAsc"=> "创建时间",
+                "CreatedTimeAsc" => "创建时间",
                 "CreatedTimeDesc" => "创建时间",
                 "StatusAsc" => "状态",
                 "StatusDesc" => "状态",
@@ -313,8 +308,12 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private void OnToggleSearchPanelVisible()
         {
-            SearchPanelVisibility = SearchPanelVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-            FilterButtonAppearance = SearchPanelVisibility == Visibility.Collapsed ? ControlAppearance.Secondary : ControlAppearance.Primary;
+            SearchPanelVisibility = SearchPanelVisibility == Visibility.Collapsed
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+            FilterButtonAppearance = SearchPanelVisibility == Visibility.Collapsed
+                ? ControlAppearance.Secondary
+                : ControlAppearance.Primary;
         }
     }
 }
