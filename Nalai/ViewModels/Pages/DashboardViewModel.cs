@@ -145,12 +145,14 @@ namespace Nalai.ViewModels.Pages
         {
             if (parameter is not ListView item) return;
 
-            foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
+            var tasksToDelete = item.SelectedItems.OfType<CoreTask>().ToList();
+
+            foreach (var coreTask in tasksToDelete)
             {
                 await coreTask.DeleteAsync();
                 UpdatePauseOrResumeElement(coreTask.Status.Kind);
             }
-
+            
             UpdateDownloadCollection();
         }
 
