@@ -98,11 +98,14 @@ public static class CoreService
     }
 
     public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string saveDir, string fileName,
-        string id)
+        string id,Dictionary<string, string>? headers)
     {
+        var headersJson = headers == null ? "{}" : JsonConvert.SerializeObject(headers);
+        var headersBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(headersJson));
+        
         var uriBuilder = new UriBuilder("http://localhost:13088/download")
         {
-            Query = $"url={url}&save_dir={saveDir}&file_name={fileName}&id={id}"
+            Query = $"url={url}&save_dir={saveDir}&file_name={fileName}&id={id}&headers={headersBase64}"
         };
         Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
 

@@ -12,6 +12,7 @@ namespace Nalai.ViewModels.Windows;
 public partial class NewTaskWindowViewModel : ObservableObject
 {
     public Window? Window { get; set; }
+    public Dictionary<string, string> Headers { get; set; } = new();
 
     [ObservableProperty] private string _url;
     [ObservableProperty] private bool _isFlyoutOpen;
@@ -108,7 +109,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
         try
         {
             var fileName = await UrlHelper.GetFileName(Url);
-            var task = await NalaiDownService.NewTask(Url, SavePath, fileName);
+            var task = await NalaiDownService.NewTask(Url, SavePath, fileName, Headers);
 
             var vm = new DownloadingWindowViewModel(task);
             var window = new DownloadingWindow(vm, Url, task);

@@ -8,7 +8,12 @@ using Nalai.Views.Windows;
 
 namespace Nalai.Models;
 
-public class CoreTask(string url, string saveDir, string fileName, string id)
+public class CoreTask(
+    string url,
+    string saveDir,
+    string fileName,
+    string id,
+    Dictionary<string, string>? headers = null)
 {
     private NalaiCoreInfo InfoResult
     {
@@ -43,6 +48,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
     public string SaveDir { get; set; } = saveDir;
     public string Url { get; set; } = url;
     public string Id { get; set; } = id;
+    public Dictionary<string, string> Headers { get; set; } = headers ?? new Dictionary<string, string>();
 
     // Text属性是为了方便绑定到界面上
     public DownloadStatus Status => InfoResult.Status;
@@ -78,7 +84,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
     public event EventHandler<DownloadProgressChangedEventArgs>? ProgressChanged;
 
     private CancellationTokenSource _cancellationTokenSource = new();
-    private NalaiCoreInfo _infoResult = new(){ Status = new DownloadStatus(DownloadStatusKind.Pending, "Pending") };
+    private NalaiCoreInfo _infoResult = new() { Status = new DownloadStatus(DownloadStatusKind.Pending, "Pending") };
 
     public static event EventHandler<CoreTask>? GlobalTaskChanged;
 
@@ -87,7 +93,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         try
         {
             var result = await CoreService.SendStartMsgAsync(Url, SaveDir, fileName,
-                CalculateNalaiCoreId.FromFileNameAndSaveDir(fileName, SaveDir));
+                CalculateNalaiCoreId.FromFileNameAndSaveDir(fileName, SaveDir), Headers);
             if (result?.Id != null) Id = result.Id;
         }
         catch (Exception ex)
@@ -108,7 +114,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         try
         {
             var infos = await CoreService.GetAllInfo();
-            
+
             if (infos != null)
             {
                 var tempTasks = new Dictionary<string, CoreTask>();
@@ -184,10 +190,10 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         var info = await CoreService.GetStatusAsync(Id);
         if (info != null) InfoResult = info;
         Console.WriteLine("StopAsync:" + Id + " done");
-        
+
         NalaiDownService.ListeningTasks.Remove(Id);
         Console.WriteLine("StopAsync:" + Id + " removed");
-        
+
         SyncAllTasksFromCore();
         Console.WriteLine("StopAsync:" + Id + " synced");
     }
@@ -223,7 +229,8 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             await Task.Delay(1000, cancellationToken).WaitAsync(cancellationToken);
             try
             {
-                while (!cancellationToken.IsCancellationRequested && InfoResult?.Status.Kind != DownloadStatusKind.Finished)
+                while (!cancellationToken.IsCancellationRequested &&
+                       InfoResult?.Status.Kind != DownloadStatusKind.Finished)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
@@ -249,7 +256,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                                     bytesPerSecondSpeed: result.BytesPerSecondSpeed)
                             );
                         }
-                        
+
                         Console.WriteLine(
                             $"File: {FileName}, Status: {RealtimeStatusText}, Downloaded: {InfoResult?.DownloadedBytes} / {InfoResult?.TotalBytes}");
 
@@ -286,9 +293,9 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                                     }
                                 }
                             });
-                            
+
                             SyncAllTasksFromCore();
-                            
+
                             await _cancellationTokenSource.CancelAsync();
 
                             GlobalTaskChanged?.Invoke(this, this);
@@ -299,15 +306,15 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                         if (InfoResult.Status.Kind is DownloadStatusKind.Cancelled)
                         {
                             SyncAllTasksFromCore();
-                            
+
                             await _cancellationTokenSource.CancelAsync();
-                            
+
                             GlobalTaskChanged?.Invoke(this, this);
 
                             throw new OperationCanceledException();
                         }
                     }
-                    
+
                     // Console.WriteLine(
                     //     $"File: {FileName}, Status: {InfoResult?.RealtimeStatusText}, Downloaded: {InfoResult?.DownloadedBytes} / {InfoResult?.TotalBytes}, CToken: {cancellationToken.IsCancellationRequested}");
 
@@ -343,7 +350,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             InfoResult = InfoResult with { Status = newStatus };
             GlobalTaskChanged?.Invoke(this, this);
             StatusChanged?.Invoke(this, InfoResult);
-            
+
             NalaiDownService.ListeningTasks.Remove(Id);
         }
 
