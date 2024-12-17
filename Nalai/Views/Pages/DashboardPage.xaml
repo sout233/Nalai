@@ -38,7 +38,7 @@
                 <ui:Button
                     Appearance="Primary"
                     Command="{Binding ViewModel.NewTaskCommand, Mode=OneWay}"
-                    Content="{I18N {x:Static resources:LangKeys.down_new}}"
+                    Content="{I18N {x:Static resources:LangKeys.Download_New}}"
                     Icon="{ui:SymbolIcon Add24}" />
                 <Separator Margin="8,0" />
                 <ui:Button
@@ -70,25 +70,21 @@
                                    Content="{Binding ViewModel.SortTypeText}">
                     <ui:DropDownButton.Flyout>
                         <ContextMenu>
-                            <MenuItem Header="{I18N {x:Static resources:LangKeys.sort_by_name}}" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortByName}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="FileNameAsc" />
-                            <MenuItem Header="文件名降序" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortByName}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="FileNameDesc" />
-                            <MenuItem Header="文件大小" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortBySize}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="FileSizeAsc" />
-                            <MenuItem Header="文件大小降序" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortBySize}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="FileSizeDesc" />
-                            <MenuItem Header="下载进度" Command="{Binding ViewModel.SortCommand}"
-                                      CommandParameter="ProgressAsc" />
-                            <MenuItem Header="下载进度降序" Command="{Binding ViewModel.SortCommand}"
-                                      CommandParameter="ProgressDesc" />
-                            <MenuItem Header="状态" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortByStatus}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="StatusAsc" />
-                            <MenuItem Header="状态降序" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortByStatus}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="StatusDesc" />
-                            <MenuItem Header="创建时间" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortByCreatedTime}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="CreatedTimeAsc" />
-                            <MenuItem Header="创建时间降序" Command="{Binding ViewModel.SortCommand}"
+                            <MenuItem Header="{I18N {x:Static resources:LangKeys.Dashboard_SortByCreatedTime}}" Command="{Binding ViewModel.SortCommand}"
                                       CommandParameter="CreatedTimeDesc" />
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
@@ -104,7 +100,7 @@
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="2,4"
                         Visibility="{Binding ViewModel.SearchPanelVisibility}">
                 <ui:TextBox x:Name="SearchTextBox" HorizontalAlignment="Right" MinWidth="200" Width="200"
-                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="{I18N {x:Static resources:LangKeys.search_placeholder}}"
+                            Icon="{ui:SymbolIcon Search24}" PlaceholderText="{I18N {x:Static resources:LangKeys.Search_Placeholder}}"
                             Text="{Binding ViewModel.SearchText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 </ui:TextBox>
             </StackPanel>
@@ -124,32 +120,32 @@
                         MinWidth="100"
                         Width="200"
                         DisplayMemberBinding="{Binding FileName}"
-                        Header="{I18N {x:Static resources:LangKeys.down_filename}}" />
+                        Header="{I18N {x:Static resources:LangKeys.Download_FileName}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="200"
                         DisplayMemberBinding="{Binding Url}"
-                        Header="{I18N {x:Static resources:LangKeys.down_url}}" />
+                        Header="{I18N {x:Static resources:LangKeys.Download_Url}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="130"
                         DisplayMemberBinding="{Binding RealtimeStatusText}"
-                        Header="{I18N {x:Static resources:LangKeys.down_status}}" />
+                        Header="{I18N {x:Static resources:LangKeys.Download_Status}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="100"
                         DisplayMemberBinding="{Binding DownloadedSizeText}"
-                        Header="{I18N {x:Static resources:LangKeys.down_downloaded}}" />
+                        Header="{I18N {x:Static resources:LangKeys.Download_Downloaded}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="100"
                         DisplayMemberBinding="{Binding TotalSizeText}"
-                        Header="{I18N {x:Static resources:LangKeys.down_size}}" />
+                        Header="{I18N {x:Static resources:LangKeys.Download_Size}}" />
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="100"
                         DisplayMemberBinding="{Binding SpeedText}"
-                        Header="{I18N {x:Static resources:LangKeys.down_speed}}" />
+                        Header="{I18N {x:Static resources:LangKeys.Download_Speed}}" />
                 </ui:GridView>
             </ui:ListView.View>
             <ListView.ContextMenu>
@@ -159,13 +155,13 @@
                               Command="{Binding ViewModel.PauseOrResumeCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
-                    <MenuItem Icon="{ui:SymbolIcon Dismiss24}" Header="取消" Command="{Binding ViewModel.CancelCommand}"
+                    <MenuItem Icon="{ui:SymbolIcon Dismiss24}" Header="{I18N {x:Static resources:LangKeys.Dashboard_Cancel}}" Command="{Binding ViewModel.CancelCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
-                    <MenuItem Icon="{ui:SymbolIcon Delete24}" Header="移出列表" Command="{Binding ViewModel.RemoveCommand}"
+                    <MenuItem Icon="{ui:SymbolIcon Delete24}" Header="{I18N {x:Static resources:LangKeys.Dashboard_Remove}}" Command="{Binding ViewModel.RemoveCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>
-                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="详情"
+                    <MenuItem Icon="{ui:SymbolIcon Info24}" Header="{I18N {x:Static resources:LangKeys.Dashboard_Details}}"
                               Command="{Binding ViewModel.ShowDetailsCommand}"
                               CommandParameter="{Binding PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                     </MenuItem>

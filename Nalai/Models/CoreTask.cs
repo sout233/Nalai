@@ -28,7 +28,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
             }
             else
             {
-                RealtimeStatusText = value.Status.KindRaw;
+                RealtimeStatusText = value.Status.KindRaw ?? "Unknown";
             }
 
             GlobalTaskChanged?.Invoke(this, this);
@@ -68,7 +68,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
     public TimeSpan Eta => TimeFormatter.CalculateRemainingTime(DownloadedBytes, TotalBytes, BytesPerSecondSpeed);
     public string EtaText => TimeFormatter.FormatTimeSpanReadable(Eta);
 
-    public List<ExtendedChunkItem> Chunks{ get; set; }
+    public List<ExtendedChunkItem> Chunks { get; set; } = [];
 
     #endregion
 
@@ -87,8 +87,8 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         try
         {
             var result = await CoreService.SendStartMsgAsync(Url, SaveDir, fileName,
-                CalculateNalaiCoreId.FromFileNameAndSaveDir(fileName, saveDir));
-            Id = result?.Id;
+                CalculateNalaiCoreId.FromFileNameAndSaveDir(fileName, SaveDir));
+            if (result?.Id != null) Id = result.Id;
         }
         catch (Exception ex)
         {
@@ -100,14 +100,14 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
         StartListen(_cancellationTokenSource.Token);
         NalaiDownService.ListeningTasks.TryAdd(Id, this);
 
-        await Task.Run(SyncAllTasksFromCore);
+        SyncAllTasksFromCore();
     }
 
-    public static void SyncAllTasksFromCore()
+    public static async void SyncAllTasksFromCore()
     {
         try
         {
-            var infos = CoreService.GetAllInfo();
+            var infos = await CoreService.GetAllInfo();
             
             if (infos != null)
             {
@@ -130,7 +130,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
                 }
 
                 NalaiDownService.GlobalDownloadTasks = tempTasks!;
-                GlobalTaskChanged?.Invoke(null, null);
+                GlobalTaskChanged?.Invoke(null, null!);
             }
         }
         catch (Exception ex)
@@ -183,10 +183,13 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
         var info = await CoreService.GetStatusAsync(Id);
         if (info != null) InfoResult = info;
+        Console.WriteLine("StopAsync:" + Id + " done");
         
         NalaiDownService.ListeningTasks.Remove(Id);
+        Console.WriteLine("StopAsync:" + Id + " removed");
         
         SyncAllTasksFromCore();
+        Console.WriteLine("StopAsync:" + Id + " synced");
     }
 
     public async Task DeleteAsync()
@@ -197,7 +200,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
             if (result != null)
             {
-                await Task.Run(SyncAllTasksFromCore);
+                SyncAllTasksFromCore();
             }
 
             NalaiDownService.ListeningTasks.Remove(Id);
@@ -212,7 +215,7 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
     private void StartListen(CancellationToken cancellationToken)
     {
         NalaiDownService.ListeningTasks.TryAdd(Id, this);
-        Task.Run(SyncAllTasksFromCore, cancellationToken);
+        SyncAllTasksFromCore();
         Console.WriteLine("StartListen:" + Id);
 
         Task.Run(async () =>
@@ -326,7 +329,6 @@ public class CoreTask(string url, string saveDir, string fileName, string id)
 
     public async Task<bool> StartOrCancelAsync()
     {
-        if (Id == null) return false;
         var result = await CoreService.SendSorcMsgAsync(Id);
 
         if (result is { IsRunning: true })

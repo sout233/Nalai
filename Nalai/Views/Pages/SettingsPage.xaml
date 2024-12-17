@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:resources="clr-namespace:Nalai.Resources"
-    Title="{I18N {x:Static resources:LangKeys.setting_title}}"
+    Title="{I18N {x:Static resources:LangKeys.Settings_Title}}"
     d:DataContext="{d:DesignInstance local:SettingsPage,
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
@@ -25,8 +25,8 @@
         <ui:TextBlock
             FontSize="20"
             FontWeight="Medium"
-            Text="{I18N {x:Static resources:LangKeys.setting_general}}" />
-        <TextBlock Margin="0,8" Text="{I18N {x:Static resources:LangKeys.setting_languages}}" />
+            Text="{I18N {x:Static resources:LangKeys.Settings_General}}" />
+        <TextBlock Margin="0,8" Text="{I18N {x:Static resources:LangKeys.Settings_Language}}" />
         <ComboBox
             MinWidth="200"
             HorizontalAlignment="Left"
@@ -37,20 +37,20 @@
         <TextBlock
             FontSize="20"
             FontWeight="Medium"
-            Text="{I18N {x:Static resources:LangKeys.setting_personalization}}" />
-        <TextBlock Margin="0,12,0,0" Text="{I18N {x:Static resources:LangKeys.setting_theme}}" />
+            Text="{I18N {x:Static resources:LangKeys.Setting_Personalization}}" />
+        <TextBlock Margin="0,12,0,0" Text="{I18N {x:Static resources:LangKeys.Settings_Theme}}" />
         <RadioButton
             Margin="0,12,0,0"
             Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
             CommandParameter="theme_light"
-            Content="{I18N {x:Static resources:LangKeys.setting_theme_light}}"
+            Content="{I18N {x:Static resources:LangKeys.Settings_Theme_Light}}"
             GroupName="themeSelect"
             IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}" />
         <RadioButton
             Margin="0,8,0,0"
             Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
             CommandParameter="theme_dark"
-            Content="{I18N {x:Static resources:LangKeys.setting_theme_dark}}"
+            Content="{I18N {x:Static resources:LangKeys.Settings_Theme_Dark}}"
             GroupName="themeSelect"
             IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}" />
 
@@ -58,7 +58,7 @@
             Margin="0,24,0,0"
             FontSize="20"
             FontWeight="Medium"
-            Text="{I18N {x:Static resources:LangKeys.setting_contributors}}" />
+            Text="{I18N {x:Static resources:LangKeys.Settings_Contributors}}" />
         <StackPanel Orientation="Horizontal">
             <Border
                 CornerRadius="8,8,8,8"
@@ -81,7 +81,7 @@
                         </Border>
                         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="12,0,0,0">
                             <TextBlock Text="Sout" FontSize="16" FontWeight="SemiBold" />
-                            <TextBlock Text="{I18N {x:Static resources:LangKeys.setting_contributor}}"></TextBlock>
+                            <TextBlock Text="{I18N {x:Static resources:LangKeys.Settings_Contributor}}"></TextBlock>
                         </StackPanel>
                     </Grid>
                     <Grid>
@@ -122,7 +122,7 @@
                     </Border>
                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="12,0,0,0">
                         <TextBlock Text="SOUSUKE 7" FontSize="16" FontWeight="SemiBold" />
-                        <TextBlock Text="{I18N {x:Static resources:LangKeys.setting_contributor}}" />
+                        <TextBlock Text="{I18N {x:Static resources:LangKeys.Settings_Contributor}}" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -131,7 +131,7 @@
             Margin="0,24,0,0"
             FontSize="20"
             FontWeight="Medium"
-            Text="{I18N {x:Static resources:LangKeys.setting_about_nalai}}" />
+            Text="{I18N {x:Static resources:LangKeys.Settings_AboutNalai}}" />
 
         <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
         <TextBlock Margin="0,12,0,0" Text="Made with INTERNET by sout" />

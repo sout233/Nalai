@@ -85,16 +85,16 @@ public static class CoreService
         }
     }
 
-    public static Dictionary<string, NalaiCoreInfo>? GetAllInfo()
+    public static async Task<Dictionary<string, NalaiCoreInfo>?> GetAllInfo()
     {
-        return MakeHttpRequestWithRetry(
+        return await MakeHttpRequestWithRetry(
             () => HttpClient.GetAsync("http://localhost:13088/all_info"),
             async response =>
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
                 return result?.Data;
-            }).Result;
+            });
     }
 
     public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string saveDir, string fileName,

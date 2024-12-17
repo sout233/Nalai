@@ -24,6 +24,6 @@ await Task.Delay(5000);
 
 var result = await CoreService.SendStopMsgAsync(id.Id);
 
-Console.WriteLine(result.IsSuccess);
+// Console.WriteLine(result.IsSuccess);
 
 Environment.Exit(0);

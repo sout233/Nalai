@@ -8,7 +8,7 @@ public class NalaiResponse<T>
 
     [JsonProperty("code")] public string Code { get; set; }
     
-    [JsonProperty("msg")] public string Message { get; set; }
+    [JsonProperty("msg")] public string? Message { get; set; }
 
-    [JsonProperty("data")] public T Data { get; set; }
+    [JsonProperty("data")] public T? Data { get; set; }
 }

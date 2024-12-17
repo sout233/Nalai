@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Reflection;
 using Nalai.Services;
 using Wpf.Ui.Appearance;
