@@ -17,7 +17,7 @@
 
             </ResourceDictionary.MergedDictionaries>
             <tb:TaskbarIcon x:Key="NalaiTrayIcon"
-                            IconSource="pack://application:,,,/Nalai;component/Assets/wpfui-icon-256.png"
+                            IconSource="pack://application:,,,/Nalai;component/Assets/nalai_icon_x1.png"
                             ToolTipText="{I18N {x:Static resources:LangKeys.Nalai_Title}}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>

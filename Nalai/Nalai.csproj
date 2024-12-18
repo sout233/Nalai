@@ -40,6 +40,8 @@
     <Resource Include="Assets\sout_avatar.jpg" />
     <None Remove="Assets\zj_avatar.jpg" />
     <Resource Include="Assets\zj_avatar.jpg" />
+    <None Remove="Assets\nalai_icon_x1.png" />
+    <Resource Include="Assets\nalai_icon_x1.png" />
   </ItemGroup>
 
   <ItemGroup>
