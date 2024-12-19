@@ -7,7 +7,6 @@ namespace Nalai.ViewModels.Windows;
 public partial class DetailsWindowViewModel : ObservableObject
 {
     public DetailsWindow BindWindow { get; set; }
-    
     [ObservableProperty] private ObservableCollection<ExtendedChunkItem> _chunksCollection = [];
     [ObservableProperty] private string _applicationTitle = "Details: Unknown";
     [ObservableProperty] private string _progressText;
