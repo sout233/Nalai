@@ -1,10 +1,7 @@
-﻿using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Nalai.Models;
 using Nalai.ViewModels.Pages;
 using Wpf.Ui.Controls;
-using ListViewItem = System.Windows.Controls.ListViewItem;
 
 namespace Nalai.Views.Pages;
 
@@ -46,7 +43,7 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
             return;
         }
 
-        ViewModel.UpdatePauseOrResumeElement(task.Status);
+        ViewModel.UpdatePauseOrResumeElement(task.Status.Kind);
         ViewModel.SetPauseOrResumeButtonEnabled(true);
     }
 }

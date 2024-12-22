@@ -2,12 +2,11 @@
 using System.IO;
 using System.Reflection;
 using System.Windows.Threading;
-using Antelcat.I18N.Attributes;
+using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nalai.CoreConnector;
-using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
@@ -73,6 +72,8 @@ namespace Nalai
             return _host.Services.GetService(typeof(T)) as T;
         }
 
+        private TaskbarIcon? _taskbarIcon;
+
         /// <summary>
         /// Occurs when the application is loading.
         /// </summary>
@@ -95,11 +96,64 @@ namespace Nalai
                 }
             }
 
-            
+            // 创建托盘图标
+            _taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
+
+
             Task.Run(CoreTask.SyncAllTasksFromCore);
             RunningStateChecker.Start();
 
             Task.Run(EventApiService.Run);
+        }
+
+        private void ShowWindow(object sender, RoutedEventArgs e)
+        {
+            // 显示或激活主窗口
+            if (MainWindow == null)
+            {
+                var vm = GetService<MainWindowViewModel>();
+                var ps = GetService<IPageService>();
+                var ns = GetService<INavigationService>();
+                var window = new MainWindow(vm, ps, ns);
+                window.Show();
+            }
+            else
+            {
+                MainWindow.Show();
+                MainWindow.Activate();
+            }
+
+            if (MainWindow is INavigationWindow navWindow)
+            {
+                navWindow.Navigate(typeof(DashboardPage));
+            }
+        }
+
+        private void ShowSettings(object sender, RoutedEventArgs e)
+        {
+            if (MainWindow == null)
+            {
+                var vm = GetService<MainWindowViewModel>();
+                var ps = GetService<IPageService>();
+                var ns = GetService<INavigationService>();
+                var window = new MainWindow(vm, ps, ns);
+                window.Show();
+            }
+            else
+            {
+                MainWindow.Show();
+                MainWindow.Activate();
+            }
+
+            if (MainWindow is INavigationWindow navWindow)
+            {
+                navWindow.Navigate(typeof(SettingsPage));
+            }
+        }
+
+        private void ExitApplication(object sender, RoutedEventArgs e)
+        {
+            Current.Shutdown();
         }
 
         /// <summary>
@@ -121,7 +175,7 @@ namespace Nalai
                     CoreService.SendExitMsg();
                 }
             }
-            
+
             await _host.StopAsync();
             RunningStateChecker.Stop();
             _host.Dispose();

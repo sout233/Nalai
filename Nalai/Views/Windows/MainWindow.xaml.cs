@@ -1,12 +1,10 @@
-﻿using System.Globalization;
-using Nalai.ViewModels.Windows;
+﻿using Nalai.ViewModels.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
-using Antelcat.I18N.Attributes;
+
 namespace Nalai.Views.Windows
 {
-
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
@@ -26,6 +24,7 @@ namespace Nalai.Views.Windows
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
+            //Closing += OnClosed;
         }
 
         #region INavigationWindow methods
@@ -47,11 +46,8 @@ namespace Nalai.Views.Windows
         /// </summary>
         protected override void OnClosed(EventArgs e)
         {
+            Application.Current.MainWindow = null;
             base.OnClosed(e);
-
-            // Make sure that closing this window will begin the process of closing the application.
-            // Application.Current.Shutdown();
-            Console.WriteLine("Closing MainWindow");
         }
 
         INavigationView INavigationWindow.GetNavigation()
@@ -68,5 +64,6 @@ namespace Nalai.Views.Windows
         {
             //I18NExtension.Culture = new CultureInfo("en");
         }
+        //private NotifyIcon notifyIcon = null;
     }
 }

@@ -34,7 +34,7 @@
 
         <StackPanel x:Name="TopStackPanel" Grid.Row="1">
             <StackPanel Margin="12,4">
-                <ui:TextBlock FontSize="12" VerticalAlignment="Center" FontTypography="BodyStrong" Text="{I18N {x:Static resources:LangKeys.dp_downloading}}">
+                <ui:TextBlock FontSize="12" VerticalAlignment="Center" FontTypography="BodyStrong" Text="{I18N {x:Static resources:LangKeys.DownloadingWindow_Downloading}}">
                     
                 </ui:TextBlock>
                 <ui:TextBlock FontSize="18" VerticalAlignment="Center" FontTypography="BodyStrong"
@@ -121,7 +121,7 @@
                                 BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1,1,1,0">
                                 <StackPanel>
-                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.dp_speed}}" />
+                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.Download_Speed}}" />
                                     <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
                                                   Text="{Binding ViewModel.DownloadSpeed, Mode=OneWay}">
                                     </ui:TextBlock>
@@ -137,7 +137,7 @@
                                 BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1,1,1,0">
                                 <StackPanel>
-                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.dp_maxSpeed}}" />
+                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.DownloadingWindow_MaxSpeed}}" />
                                     <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
                                                   Text="{Binding ViewModel.MaxSpeedText, Mode=OneWay}">
                                     </ui:TextBlock>
@@ -153,7 +153,7 @@
                                 BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1,1,1,0">
                                 <StackPanel>
-                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.dp_size}}" />
+                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.DownloadingWindow_Size}}" />
                                     <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
                                                   Text="{Binding ViewModel.FileSize, Mode=OneWay}">
                                     </ui:TextBlock>
@@ -169,7 +169,7 @@
                                 BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1,1,1,0">
                                 <StackPanel>
-                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.dp_eta}}" />
+                                    <ui:TextBlock FontTypography="Caption" Text="{I18N {x:Static resources:LangKeys.DownloadingWindow_Eta}}" />
                                     <ui:TextBlock FontTypography="BodyStrong" FontSize="24"
                                                   Text="{Binding ViewModel.RemainingTime, Mode=OneWay}">
                                     </ui:TextBlock>
@@ -208,7 +208,7 @@
                                          Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
                                          BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                                          BorderThickness="1,1,1,0"
-                                         Header="{I18N {x:Static resources:LangKeys.dp_chunkDetails}}">
+                                         Header="{I18N {x:Static resources:LangKeys.DownloadingWindow_ChunkDetails}}">
                             <ScrollViewer
                                 MaxHeight="200">
                                 <ui:ListView ItemsSource="{Binding ViewModel.ChunksCollection}">
@@ -248,7 +248,7 @@
                 <ui:Button HorizontalAlignment="Right" Content="{Binding ViewModel.PauseOrResumeBtnContent}"
                            Icon="{Binding ViewModel.PauseOrResumeBtnIcon}" Margin="2,0"
                            Command="{Binding ViewModel.PauseOrResumeDownloadCommand}" />
-                <ui:Button HorizontalAlignment="Right" Content="{I18N {x:Static resources:LangKeys.bt_cancel}}" Icon="{ui:SymbolIcon Dismiss24}" Margin="2,0"
+                <ui:Button HorizontalAlignment="Right" Content="{I18N {x:Static resources:LangKeys.Button_Cancel}}" Icon="{ui:SymbolIcon Dismiss24}" Margin="2,0"
                            Command="{Binding ViewModel.CancelDownloadCommand}" />
             </StackPanel>
         </Grid>
@@ -264,7 +264,7 @@
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="True">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="pack://application:,,,/Assets/wpfui-icon-256.png" />
+                <ui:ImageIcon Source="pack://application:,,,/Assets/nalai_icon_x1.png" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
     </Grid>

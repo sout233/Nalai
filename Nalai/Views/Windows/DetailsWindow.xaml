@@ -10,7 +10,7 @@
                  xmlns:resources="clr-namespace:Nalai.Resources"
                  Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
                  Width="300"
-                 Height="500"
+                 Height="600"
                  d:DataContext="{d:DesignInstance local:DetailsWindow,
                                      IsDesignTimeCreatable=True}"
                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -50,7 +50,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.down_filename}}" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.Download_FileName}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.FileName, Mode=OneWay}">
@@ -75,7 +75,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.nt_savePath}}" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.NewTaskWindow_SavePath}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.SavePath, Mode=OneWay}">
@@ -100,7 +100,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.down_url}}" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.Download_Url}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.Url, Mode=OneWay}">
@@ -145,7 +145,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.down_status}}" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.Download_Status}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.Status, Mode=OneWay}">
@@ -164,7 +164,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.down_downloaded}}" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.Download_Downloaded}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.DownloadedSize, Mode=OneWay}">
@@ -183,7 +183,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.down_totalSize}}" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.Download_TotalSize}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.TotalSize, Mode=OneWay}">
@@ -202,7 +202,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.dp_speed}}" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.Download_Speed}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.Speed, Mode=OneWay}">
@@ -221,7 +221,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.dp_eta}}"
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.DownloadingWindow_Eta}}"
                                       VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
@@ -241,7 +241,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ui:TextBlock FontWeight="Bold" Text="创建时间" VerticalAlignment="Center" />
+                        <ui:TextBlock FontWeight="Bold" Text="{I18N {x:Static resources:LangKeys.DownloadingWindow_CreatedTime}}" VerticalAlignment="Center" />
                         <ui:TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right"
                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="24,0,0,0"
                                       Text="{Binding ViewModel.CreatedTime, Mode=OneWay}">
@@ -254,7 +254,7 @@
                                  Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
                                  BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
                                  BorderThickness="1,1,1,0"
-                                 Header="{I18N {x:Static resources:LangKeys.dp_chunkDetails}}">
+                                 Header="{I18N {x:Static resources:LangKeys.DownloadingWindow_ChunkDetails}}">
                     <ScrollViewer
                         MaxHeight="200">
                         <ui:ListView ItemsSource="{Binding ViewModel.ChunksCollection}">
@@ -279,7 +279,7 @@
         </ScrollViewer>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Margin="8">
-            <ui:Button Content="{I18N {x:Static resources:LangKeys.bt_close}}" HorizontalAlignment="Stretch" Appearance="Primary"
+            <ui:Button Content="{I18N {x:Static resources:LangKeys.Button_Close}}" HorizontalAlignment="Stretch" Appearance="Primary"
                        Command="{Binding ViewModel.CloseWindowCommand}" />
         </StackPanel>
         <ui:TitleBar
@@ -288,7 +288,7 @@
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="True">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="pack://application:,,,/Assets/wpfui-icon-256.png" />
+                <ui:ImageIcon Source="pack://application:,,,/Assets/nalai_icon_x1.png" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
     </Grid>

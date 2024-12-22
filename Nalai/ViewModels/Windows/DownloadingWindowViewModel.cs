@@ -3,6 +3,7 @@ using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Resources;
+using Nalai.Services;
 using Wpf.Ui.Controls;
 using DownloadProgressChangedEventArgs = Nalai.Models.DownloadProgressChangedEventArgs;
 
@@ -52,14 +53,14 @@ public partial class
         if (isRunning)
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
-            PauseOrResumeBtnContent = I18NExtension.Translate(LangKeys.bt_pause);
-            ApplicationTitle = I18NExtension.Translate(LangKeys.dp_downloading)+": "+FileName;
+            PauseOrResumeBtnContent = I18NService.GetTranslation(LangKeys.Button_Pause);
+            ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading)+": "+FileName;
         }
         else
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
-            PauseOrResumeBtnContent = I18NExtension.Translate(LangKeys.bt_resume);
-            ApplicationTitle = I18NExtension.Translate(LangKeys.dp_paused)+": "+FileName;
+            PauseOrResumeBtnContent = I18NService.GetTranslation(LangKeys.Button_Resume);
+            ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Paused)+": "+FileName;
         }
     }
 
@@ -136,7 +137,7 @@ public partial class
     public void OnDownloadStatusChanged(object? sender, NalaiCoreInfo e)
     {
         FileName = e.FileName;
-        ApplicationTitle = I18NExtension.Translate(LangKeys.dp_downloading)+": "+FileName;
+        ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading)+": "+FileName;
         Url = e.Url;
     }
 }

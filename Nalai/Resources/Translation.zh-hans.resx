@@ -11,169 +11,184 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="status.core" xml:space="preserve">
-        <value>核心状态</value>
-    </data>
-    <data name="sort.descending" xml:space="preserve">
-        <value>降序</value>
-    </data>
-    <data name="sort.by.status" xml:space="preserve">
-        <value>状态</value>
-    </data>
-    <data name="sort.by.size" xml:space="preserve">
-        <value>大小</value>
-    </data>
-    <data name="sort.by.name" xml:space="preserve">
-        <value>文件名称</value>
-    </data>
-    <data name="sort.by.creatingTime" xml:space="preserve">
-        <value>创建时间</value>
-    </data>
-    <data name="setting.version" xml:space="preserve">
-        <value>版本</value>
-    </data>
-    <data name="setting.title" xml:space="preserve">
-        <value>设置</value>
-    </data>
-    <data name="setting.theme.light" xml:space="preserve">
-        <value>浅色</value>
-    </data>
-    <data name="setting.theme.dark" xml:space="preserve">
-        <value>暗色</value>
-    </data>
-    <data name="setting.theme" xml:space="preserve">
-        <value>主题</value>
-    </data>
-    <data name="setting.personalization" xml:space="preserve">
-        <value>个性化</value>
-    </data>
-    <data name="setting.license" xml:space="preserve">
-        <value>许可证</value>
-    </data>
-    <data name="setting.languages" xml:space="preserve">
-        <value>语言</value>
-    </data>
-    <data name="setting.language" xml:space="preserve">
-        <value>语言</value>
-    </data>
-    <data name="setting.general" xml:space="preserve">
-        <value>常规</value>
-    </data>
-    <data name="setting.download" xml:space="preserve">
-        <value>下载</value>
-    </data>
-    <data name="setting.contributors" xml:space="preserve">
-        <value>贡献者</value>
-    </data>
-    <data name="setting.author" xml:space="preserve">
-        <value>作者</value>
-    </data>
-    <data name="setting.contributor" xml:space="preserve">
-        <value>贡献者</value>
-    </data>
-    <data name="setting.about.nalai" xml:space="preserve">
-        <value>关于Nalai</value>
-    </data>
-    <data name="nt.usingDefaultFolder" xml:space="preserve">
-        <value>使用系统默认下载文件夹</value>
-    </data>
-    <data name="nt.title" xml:space="preserve">
-        <value>新建任务</value>
-    </data>
-    <data name="nt.savePath" xml:space="preserve">
-        <value>存储位置</value>
-    </data>
-    <data name="nalai.title" xml:space="preserve">
-        <value>Nalai</value>
-    </data>
-    <data name="msg.title.error" xml:space="preserve">
-        <value>错误</value>
-    </data>
-    <data name="msg.content.fileNotExist" xml:space="preserve">
-        <value>文件不存在</value>
-    </data>
-    <data name="msg.content.delOrMove" xml:space="preserve">
-        <value>是否已经移动或删除</value>
-    </data>
-    <data name="dp.speed" xml:space="preserve">
-        <value>下载速度</value>
-    </data>
-    <data name="dp.size" xml:space="preserve">
-        <value>文件大小</value>
-    </data>
-    <data name="dp.eta" xml:space="preserve">
-        <value>剩余时间</value>
-    </data>
-    <data name="dp.paused" xml:space="preserve">
-        <value>已暂停</value>
-    </data>
-    <data name="dp.maxSpeed" xml:space="preserve">
-        <value>最大速度</value>
-    </data>
-    <data name="dp.downloading" xml:space="preserve">
-        <value>下载中</value>
-    </data>
-    <data name="dp.chunkDetails" xml:space="preserve">
-        <value>分块详情</value>
-    </data>
-    <data name="downloadList" xml:space="preserve">
-        <value>下载列表</value>
-    </data>
-    <data name="down.url" xml:space="preserve">
-        <value>URL</value>
-    </data>
-    <data name="down.status" xml:space="preserve">
-        <value>状态</value>
-    </data>
-    <data name="down.speed" xml:space="preserve">
-        <value>速度</value>
-    </data>
-    <data name="down.size" xml:space="preserve">
-        <value>大小</value>
-    </data>
-    <data name="down.new" xml:space="preserve">
-        <value>新建</value>
-    </data>
-    <data name="down.downloaded" xml:space="preserve">
-        <value>已下载</value>
-    </data>
-    <data name="down.filename" xml:space="preserve">
-        <value>文件名称</value>
-    </data>
-    <data name="dc.downloadComplete" xml:space="preserve">
-        <value>下载完成</value>
-    </data>
-    <data name="coreRunningTime" xml:space="preserve">
-        <value>核心运行时间</value>
-    </data>
-    <data name="bt.pause" xml:space="preserve">
-        <value>暂停</value>
-    </data>
-    <data name="bt.resume" xml:space="preserve">
-        <value>恢复</value>
-    </data>
-    <data name="bt.open" xml:space="preserve">
-        <value>打开</value>
-    </data>
-    <data name="bt.openFolder" xml:space="preserve">
-        <value>打开文件夹</value>
-    </data>
-    <data name="bt.edit" xml:space="preserve">
-        <value>编辑</value>
-    </data>
-    <data name="bt.cancel" xml:space="preserve">
-        <value>取消</value>
-    </data>
-    <data name="bt.close" xml:space="preserve">
-        <value>关闭</value>
-    </data>
-    <data name="bt.add" xml:space="preserve">
+    <data name="Button.Add" xml:space="preserve">
         <value>添加</value>
     </data>
-    <data name="down.id" xml:space="preserve">
+    <data name="Button.Cancel" xml:space="preserve">
+        <value>取消</value>
+    </data>
+    <data name="Button.Close" xml:space="preserve">
+        <value>关闭</value>
+    </data>
+    <data name="Button.Edit" xml:space="preserve">
+        <value>编辑</value>
+    </data>
+    <data name="Button.Open" xml:space="preserve">
+        <value>打开</value>
+    </data>
+    <data name="Button.OpenFolder" xml:space="preserve">
+        <value>打开文件夹</value>
+    </data>
+    <data name="Button.Pause" xml:space="preserve">
+        <value>暂停</value>
+    </data>
+    <data name="Button.ReDownload" xml:space="preserve">
+        <value>重新下载</value>
+    </data>
+    <data name="Button.Resume" xml:space="preserve">
+        <value>恢复</value>
+    </data>
+    <data name="Dashboard.Cancel" xml:space="preserve">
+        <value>取消</value>
+    </data>
+    <data name="Dashboard.Desc" xml:space="preserve">
+        <value>降序</value>
+    </data>
+    <data name="Dashboard.Details" xml:space="preserve">
+        <value>详情</value>
+    </data>
+    <data name="Dashboard.Remove" xml:space="preserve">
+        <value>删除</value>
+    </data>
+    <data name="Dashboard.SortByCreatedTime" xml:space="preserve">
+        <value>创建时间</value>
+    </data>
+    <data name="Dashboard.SortByName" xml:space="preserve">
+        <value>名称</value>
+    </data>
+    <data name="Dashboard.SortBySize" xml:space="preserve">
+        <value>文件大小</value>
+    </data>
+    <data name="Dashboard.SortByStatus" xml:space="preserve">
+        <value>状态</value>
+    </data>
+    <data name="Download.Downloaded" xml:space="preserve">
+        <value>已下载</value>
+    </data>
+    <data name="Download.FileName" xml:space="preserve">
+        <value>文件名</value>
+    </data>
+    <data name="Download.Id" xml:space="preserve">
         <value>ID</value>
     </data>
-    <data name="down.totalSize" xml:space="preserve">
-        <value>文件总大小</value>
+    <data name="Download.New" xml:space="preserve">
+        <value>新建</value>
+    </data>
+    <data name="Download.Size" xml:space="preserve">
+        <value>大小</value>
+    </data>
+    <data name="Download.Speed" xml:space="preserve">
+        <value>速度</value>
+    </data>
+    <data name="Download.Status" xml:space="preserve">
+        <value>状态</value>
+    </data>
+    <data name="Download.TotalSize" xml:space="preserve">
+        <value>总大小</value>
+    </data>
+    <data name="Download.Url" xml:space="preserve">
+        <value>URL</value>
+    </data>
+    <data name="DownloadCompleteWindow.DownloadComplete" xml:space="preserve">
+        <value>下载完成</value>
+    </data>
+    <data name="DownloadingWindow.ChunkDetails" xml:space="preserve">
+        <value>分块详情</value>
+    </data>
+    <data name="DownloadingWindow.CreatedTime" xml:space="preserve">
+        <value>创建时间</value>
+    </data>
+    <data name="DownloadingWindow.Downloading" xml:space="preserve">
+        <value>正在下载</value>
+    </data>
+    <data name="DownloadingWindow.Eta" xml:space="preserve">
+        <value>剩余时间</value>
+    </data>
+    <data name="DownloadingWindow.MaxSpeed" xml:space="preserve">
+        <value>最大速度</value>
+    </data>
+    <data name="DownloadingWindow.Paused" xml:space="preserve">
+        <value>已暂停</value>
+    </data>
+    <data name="DownloadingWindow.Size" xml:space="preserve">
+        <value>大小</value>
+    </data>
+    <data name="DownloadingWindow.Speed" xml:space="preserve">
+        <value>速度</value>
+    </data>
+    <data name="MainWindow.Downloads" xml:space="preserve">
+        <value>下载列表</value>
+    </data>
+    <data name="MainWindow.Running" xml:space="preserve">
+        <value>运行中</value>
+    </data>
+    <data name="Msg.DelOrMove" xml:space="preserve">
+        <value>是否已经删除或移动？</value>
+    </data>
+    <data name="Msg.FileNotExist" xml:space="preserve">
+        <value>文件不存在</value>
+    </data>
+    <data name="Msg.Title.Error" xml:space="preserve">
+        <value>错误</value>
+    </data>
+    <data name="Nalai.Title" xml:space="preserve">
+        <value>Nalai</value>
+    </data>
+    <data name="NewTaskWindow.SavePath" xml:space="preserve">
+        <value>保存位置</value>
+    </data>
+    <data name="NewTaskWindow.Title" xml:space="preserve">
+        <value>新任务</value>
+    </data>
+    <data name="NewTaskWindow.UsingDefaultFolder" xml:space="preserve">
+        <value>使用系统默认下载目录</value>
+    </data>
+    <data name="Search.Placeholder" xml:space="preserve">
+        <value>搜索</value>
+    </data>
+    <data name="Setting.Personalization" xml:space="preserve">
+        <value>个性化</value>
+    </data>
+    <data name="Settings.AboutNalai" xml:space="preserve">
+        <value>关于 Nalai</value>
+    </data>
+    <data name="Settings.Author" xml:space="preserve">
+        <value>作者</value>
+    </data>
+    <data name="Settings.Contributor" xml:space="preserve">
+        <value>贡献者</value>
+    </data>
+    <data name="Settings.Contributors" xml:space="preserve">
+        <value>贡献者</value>
+    </data>
+    <data name="Settings.Download" xml:space="preserve">
+        <value>下载</value>
+    </data>
+    <data name="Settings.General" xml:space="preserve">
+        <value>通用</value>
+    </data>
+    <data name="Settings.Language" xml:space="preserve">
+        <value>语言</value>
+    </data>
+    <data name="Settings.License" xml:space="preserve">
+        <value>许可证</value>
+    </data>
+    <data name="Settings.Theme" xml:space="preserve">
+        <value>主题</value>
+    </data>
+    <data name="Settings.Theme.Dark" xml:space="preserve">
+        <value>暗色</value>
+    </data>
+    <data name="Settings.Theme.Light" xml:space="preserve">
+        <value>亮色</value>
+    </data>
+    <data name="Settings.Title" xml:space="preserve">
+        <value>设置</value>
+    </data>
+    <data name="Settings.Version" xml:space="preserve">
+        <value>版本</value>
+    </data>
+    <data name="Status.Core" xml:space="preserve">
+        <value>核心状态</value>
     </data>
 </root>

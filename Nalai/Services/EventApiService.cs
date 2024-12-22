@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Net;
 using Nalai.Helpers;
-using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 using Newtonsoft.Json;
 
@@ -92,27 +91,31 @@ public static class EventApiService
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
-            Console.WriteLine("Received data from browser: {0}, version: {1}, downloadUrl: {2}",
-                e.Browser.Browser, e.Browser.Version, e.DownloadUrl);
+            Console.WriteLine("Received data from browser: {0}, downloadUrl: {1}",
+                e.Browser.Name, e.DownloadUrl);
+            foreach (var header in e.Browser.Headers)
+            {
+                Console.WriteLine("Header: {0}: {1}", header.Key, header.Value);
+            }
 
-            NewTaskWindow window = new(e.DownloadUrl);
+            NewTaskWindow window = new(e.DownloadUrl, string.Empty, e.Browser.Headers);
             window.Show();
         });
     }
 
     public class BrowserInfo
     {
-        [JsonProperty("browser")] public string Browser { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
 
-        [JsonProperty("version")] public string Version { get; set; }
+        [JsonProperty("headers")] public Dictionary<string, string> Headers { get; set; }
     }
 
     public class DownloadData
     {
+        [JsonProperty("version")] public string Version { get; set; }
+
         [JsonProperty("browser")] public BrowserInfo Browser { get; set; }
 
-        [JsonProperty("userAgent")] public string UserAgent { get; set; }
-
-        [JsonProperty("downloadUrl")] public string DownloadUrl { get; set; }
+        [JsonProperty("url")] public string DownloadUrl { get; set; }
     }
 }

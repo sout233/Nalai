@@ -1,12 +1,9 @@
 ﻿using System.Diagnostics;
-using System.Text.Encodings.Web;
 using System.Windows.Controls.Primitives;
-using System.Windows.Threading;
 using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
-using Nalai.ViewModels.Pages;
 using Nalai.Views.Windows;
 using Wpf.Ui.Controls;
 
@@ -15,8 +12,7 @@ namespace Nalai.ViewModels.Windows;
 public partial class NewTaskWindowViewModel : ObservableObject
 {
     public Window? Window { get; set; }
-    public DashboardViewModel? Dashboard { get; set; }
-
+    public Dictionary<string, string> Headers { get; set; } = new();
 
     [ObservableProperty] private string _url;
     [ObservableProperty] private bool _isFlyoutOpen;
@@ -113,7 +109,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
         try
         {
             var fileName = await UrlHelper.GetFileName(Url);
-            var task = await NalaiDownService.NewTask(Url, SavePath, fileName);
+            var task = await NalaiDownService.NewTask(Url, SavePath, fileName, Headers);
 
             var vm = new DownloadingWindowViewModel(task);
             var window = new DownloadingWindow(vm, Url, task);

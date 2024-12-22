@@ -17,7 +17,7 @@ public static class CoreService
         if (!isProcessRunning)
         {
             // 如果进程不存在，则启动它
-            var pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core-v0.1.3-windows-msvc.exe");
+            var pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core.exe");
             var startInfo = new ProcessStartInfo
             {
                 FileName = pathToExe,
@@ -85,24 +85,27 @@ public static class CoreService
         }
     }
 
-    public static Dictionary<string, NalaiCoreInfo>? GetAllInfo()
+    public static async Task<Dictionary<string, NalaiCoreInfo>?> GetAllInfo()
     {
-        return MakeHttpRequestWithRetry(
+        return await MakeHttpRequestWithRetry(
             () => HttpClient.GetAsync("http://localhost:13088/all_info"),
             async response =>
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<GetAllInfoResponse>(content);
                 return result?.Data;
-            }).Result;
+            });
     }
 
     public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string saveDir, string fileName,
-        string id)
+        string id,Dictionary<string, string>? headers)
     {
+        var headersJson = headers == null ? "{}" : JsonConvert.SerializeObject(headers);
+        var headersBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(headersJson));
+        
         var uriBuilder = new UriBuilder("http://localhost:13088/download")
         {
-            Query = $"url={url}&save_dir={saveDir}&file_name={fileName}&id={id}"
+            Query = $"url={url}&save_dir={saveDir}&file_name={fileName}&id={id}&headers={headersBase64}"
         };
         Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
 

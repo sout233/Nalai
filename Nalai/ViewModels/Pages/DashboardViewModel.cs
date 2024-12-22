@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Nalai.CoreConnector.Models;
-using Nalai.Helpers;
 using Nalai.Models;
+using Nalai.Resources;
 using Nalai.Services;
-using Nalai.ViewModels.Windows;
 using Nalai.Views.Windows;
 using Wpf.Ui.Controls;
 
@@ -11,7 +10,7 @@ namespace Nalai.ViewModels.Pages
 {
     public partial class DashboardViewModel : ObservableObject
     {
-        [ObservableProperty] private string _pauseOrResumeText = "暂停";
+        [ObservableProperty] private string _pauseOrResumeText = I18NService.GetTranslation("bt.pause");
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
         [ObservableProperty] private bool _isPauseOrResumeEnabled;
         [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
@@ -25,7 +24,7 @@ namespace Nalai.ViewModels.Pages
             if (value != null) UpdateSearchedItems(value);
         }
 
-        [ObservableProperty] private string _sortTypeText = "文件名";
+        [ObservableProperty] private string _sortTypeText = I18NService.GetTranslation("sort.by.name");
         [ObservableProperty] private SymbolIcon _sortTypeIcon = new() { Symbol = SymbolRegular.ArrowDown24 };
 
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
@@ -56,13 +55,8 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private Task OnNewTask()
         {
-            var window = new NewTaskWindow
-            {
-                ViewModel =
-                {
-                    Dashboard = this
-                }
-            };
+            var window = new NewTaskWindow();
+
             window.Show();
 
             UpdateDownloadCollection();
@@ -95,38 +89,38 @@ namespace Nalai.ViewModels.Pages
             UpdateDownloadCollection();
         }
 
-        public void UpdatePauseOrResumeElement(DownloadStatus status)
+        public void UpdatePauseOrResumeElement(DownloadStatusKind status)
         {
             PauseOrResumeText = status switch
             {
-                DownloadStatus.Running => "暂停",
-                DownloadStatus.Pending => "暂停",
-                DownloadStatus.NoStart => "继续",
-                DownloadStatus.Cancelled => "继续",
-                DownloadStatus.Finished => "重新下载",
-                DownloadStatus.Error => "重新下载",
+                DownloadStatusKind.Running => I18NService.GetTranslation(LangKeys.Button_Pause),
+                DownloadStatusKind.Pending => I18NService.GetTranslation(LangKeys.Button_Pause),
+                DownloadStatusKind.NoStart => I18NService.GetTranslation(LangKeys.Button_Resume),
+                DownloadStatusKind.Cancelled => I18NService.GetTranslation(LangKeys.Button_Resume),
+                DownloadStatusKind.Finished => I18NService.GetTranslation(LangKeys.Button_ReDownload),
+                DownloadStatusKind.Error => I18NService.GetTranslation(LangKeys.Button_ReDownload),
                 _ => PauseOrResumeText
             };
 
             PauseOrResumeIcon = status switch
             {
-                DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
-                DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 _ => PauseOrResumeIcon
             };
 
             PauseOrResumeButtonIcon = status switch
             {
-                DownloadStatus.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
-                DownloadStatus.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
-                DownloadStatus.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
-                DownloadStatus.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Running => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.Pending => new SymbolIcon { Symbol = SymbolRegular.Pause24 },
+                DownloadStatusKind.NoStart => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Cancelled => new SymbolIcon { Symbol = SymbolRegular.Play24 },
+                DownloadStatusKind.Finished => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
+                DownloadStatusKind.Error => new SymbolIcon { Symbol = SymbolRegular.ArrowDownload24 },
                 _ => PauseOrResumeButtonIcon
             };
         }
@@ -139,7 +133,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 var result = await coreTask.StartOrCancelAsync();
-                UpdatePauseOrResumeElement(result ? DownloadStatus.Running : coreTask.Status);
+                UpdatePauseOrResumeElement(result ? DownloadStatusKind.Running : coreTask.Status.Kind);
             }
 
             UpdateDownloadCollection();
@@ -150,12 +144,14 @@ namespace Nalai.ViewModels.Pages
         {
             if (parameter is not ListView item) return;
 
-            foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
+            var tasksToDelete = item.SelectedItems.OfType<CoreTask>().ToList();
+
+            foreach (var coreTask in tasksToDelete)
             {
                 await coreTask.DeleteAsync();
-                UpdatePauseOrResumeElement(coreTask.Status);
+                UpdatePauseOrResumeElement(coreTask.Status.Kind);
             }
-
+            
             UpdateDownloadCollection();
         }
 
@@ -167,7 +163,7 @@ namespace Nalai.ViewModels.Pages
             foreach (var coreTask in item.SelectedItems.OfType<CoreTask>())
             {
                 await coreTask.CancelAsync();
-                UpdatePauseOrResumeElement(coreTask.Status);
+                UpdatePauseOrResumeElement(coreTask.Status.Kind);
             }
 
             UpdateDownloadCollection();
@@ -197,7 +193,7 @@ namespace Nalai.ViewModels.Pages
             else
             {
                 var items = NalaiDownService.GlobalDownloadTasks;
-                var filteredItems = items.Where((pair, index) =>
+                var filteredItems = items.Where((pair, _) =>
                     pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
                 // 将过滤后的数据添加到显示列表
@@ -219,7 +215,7 @@ namespace Nalai.ViewModels.Pages
             else
             {
                 var items = NalaiDownService.GlobalDownloadTasks;
-                var filteredItems = items.Where((pair, index) =>
+                var filteredItems = items.Where((pair, _) =>
                     pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
                 // 将过滤后的数据添加到显示列表
@@ -277,18 +273,14 @@ namespace Nalai.ViewModels.Pages
 
             SortTypeText = sortType switch
             {
-                "FileNameAsc" => "文件名",
-                "FileNameDesc" => "文件名",
-                "FileSizeAsc" => "文件大小",
-                "FileSizeDesc" => "文件大小",
-                "CreatedTimeAsc"=> "创建时间",
-                "CreatedTimeDesc" => "创建时间",
-                "StatusAsc" => "状态",
-                "StatusDesc" => "状态",
-                "SpeedAsc" => "速度",
-                "SpeedDesc" => "速度",
-                "ProgressAsc" => "进度",
-                "ProgressDesc" => "进度",
+                "FileNameAsc" => I18NService.GetTranslation("sort.by.name"),
+                "FileNameDesc" => I18NService.GetTranslation("sort.by.name"),
+                "FileSizeAsc" => I18NService.GetTranslation("sort.by.size"),
+                "FileSizeDesc" => I18NService.GetTranslation("sort.by.size"),
+                "CreatedTimeAsc" => I18NService.GetTranslation("sort.by.createdTime"),
+                "CreatedTimeDesc" => I18NService.GetTranslation("sort.by.createdTime"),
+                "StatusAsc" => I18NService.GetTranslation("sort.by.status"),
+                "StatusDesc" => I18NService.GetTranslation("sort.by.status"),
                 _ => SortTypeText
             };
 
@@ -302,10 +294,6 @@ namespace Nalai.ViewModels.Pages
                 "CreatedTimeDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
                 "StatusAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
                 "StatusDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
-                "SpeedAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
-                "SpeedDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
-                "ProgressAsc" => new SymbolIcon { Symbol = SymbolRegular.ArrowDown24 },
-                "ProgressDesc" => new SymbolIcon { Symbol = SymbolRegular.ArrowUp24 },
                 _ => SortTypeIcon
             };
         }
@@ -313,8 +301,12 @@ namespace Nalai.ViewModels.Pages
         [RelayCommand]
         private void OnToggleSearchPanelVisible()
         {
-            SearchPanelVisibility = SearchPanelVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-            FilterButtonAppearance = SearchPanelVisibility == Visibility.Collapsed ? ControlAppearance.Secondary : ControlAppearance.Primary;
+            SearchPanelVisibility = SearchPanelVisibility == Visibility.Collapsed
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+            FilterButtonAppearance = SearchPanelVisibility == Visibility.Collapsed
+                ? ControlAppearance.Secondary
+                : ControlAppearance.Primary;
         }
     }
 }

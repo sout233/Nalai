@@ -60,15 +60,6 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        internal static string bt_add {
-            get {
-                return ResourceManager.GetString("bt.add", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string bt_cancel {
@@ -105,7 +96,7 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open folder.
+        ///   Looks up a localized string similar to Open Folder.
         /// </summary>
         internal static string bt_openFolder {
             get {
@@ -132,16 +123,178 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Running.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
-        internal static string coreRunningTime {
+        internal static string btn_add {
             get {
-                return ResourceManager.GetString("coreRunningTime", resourceCulture);
+                return ResourceManager.GetString("btn.add", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download complete.
+        ///   Looks up a localized string similar to ReDownload.
+        /// </summary>
+        internal static string btn_re_download {
+            get {
+                return ResourceManager.GetString("btn.re-download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Button_Add {
+            get {
+                return ResourceManager.GetString("Button.Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Button_Cancel {
+            get {
+                return ResourceManager.GetString("Button.Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string Button_Close {
+            get {
+                return ResourceManager.GetString("Button.Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Button_Edit {
+            get {
+                return ResourceManager.GetString("Button.Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        internal static string Button_Open {
+            get {
+                return ResourceManager.GetString("Button.Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open folder.
+        /// </summary>
+        internal static string Button_OpenFolder {
+            get {
+                return ResourceManager.GetString("Button.OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause.
+        /// </summary>
+        internal static string Button_Pause {
+            get {
+                return ResourceManager.GetString("Button.Pause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ReDownload.
+        /// </summary>
+        internal static string Button_ReDownload {
+            get {
+                return ResourceManager.GetString("Button.ReDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resume.
+        /// </summary>
+        internal static string Button_Resume {
+            get {
+                return ResourceManager.GetString("Button.Resume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Dashboard_Cancel {
+            get {
+                return ResourceManager.GetString("Dashboard.Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Descending.
+        /// </summary>
+        internal static string Dashboard_Desc {
+            get {
+                return ResourceManager.GetString("Dashboard.Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        internal static string Dashboard_Details {
+            get {
+                return ResourceManager.GetString("Dashboard.Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string Dashboard_Remove {
+            get {
+                return ResourceManager.GetString("Dashboard.Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created time.
+        /// </summary>
+        internal static string Dashboard_SortByCreatedTime {
+            get {
+                return ResourceManager.GetString("Dashboard.SortByCreatedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string Dashboard_SortByName {
+            get {
+                return ResourceManager.GetString("Dashboard.SortByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string Dashboard_SortBySize {
+            get {
+                return ResourceManager.GetString("Dashboard.SortBySize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string Dashboard_SortByStatus {
+            get {
+                return ResourceManager.GetString("Dashboard.SortByStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Complete.
         /// </summary>
         internal static string dc_downloadComplete {
             get {
@@ -159,11 +312,20 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File name.
+        ///   Looks up a localized string similar to FIle Name.
         /// </summary>
         internal static string down_filename {
             get {
                 return ResourceManager.GetString("down.filename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        internal static string down_id {
+            get {
+                return ResourceManager.GetString("down.id", resourceCulture);
             }
         }
         
@@ -204,7 +366,16 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to URL.
+        ///   Looks up a localized string similar to Total Size.
+        /// </summary>
+        internal static string down_totalSize {
+            get {
+                return ResourceManager.GetString("down.totalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url.
         /// </summary>
         internal static string down_url {
             get {
@@ -213,331 +384,470 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download list.
+        ///   Looks up a localized string similar to Downloaded.
         /// </summary>
-        internal static string downloadList {
+        internal static string Download_Downloaded {
             get {
-                return ResourceManager.GetString("downloadList", resourceCulture);
+                return ResourceManager.GetString("Download.Downloaded", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chunk details.
+        ///   Looks up a localized string similar to File name.
         /// </summary>
-        internal static string dp_chunkDetails {
+        internal static string Download_FileName {
             get {
-                return ResourceManager.GetString("dp.chunkDetails", resourceCulture);
+                return ResourceManager.GetString("Download.FileName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Downloading.
+        ///   Looks up a localized string similar to ID.
         /// </summary>
-        internal static string dp_downloading {
+        internal static string Download_Id {
             get {
-                return ResourceManager.GetString("dp.downloading", resourceCulture);
+                return ResourceManager.GetString("Download.Id", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max speed.
+        ///   Looks up a localized string similar to New.
         /// </summary>
-        internal static string dp_maxSpeed {
+        internal static string Download_New {
             get {
-                return ResourceManager.GetString("dp.maxSpeed", resourceCulture);
+                return ResourceManager.GetString("Download.New", resourceCulture);
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Paused.
-        /// </summary>
-        internal static string dp_paused {
-            get {
-                return ResourceManager.GetString("dp.paused", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remaining time.
-        /// </summary>
-        internal static string dp_eta {
-            get {
-                return ResourceManager.GetString("dp.eta", resourceCulture);
-            }
-        }
-
-        internal static string down_totalSize
-        {
-            get { return ResourceManager.GetString("down.totalSize", resourceCulture); }
-        }
-
         /// <summary>
         ///   Looks up a localized string similar to Size.
         /// </summary>
-        internal static string dp_size {
+        internal static string Download_Size {
             get {
-                return ResourceManager.GetString("dp.size", resourceCulture);
+                return ResourceManager.GetString("Download.Size", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Speed.
         /// </summary>
-        internal static string dp_speed {
+        internal static string Download_Speed {
             get {
-                return ResourceManager.GetString("dp.speed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Have you delete or move it yet.
-        /// </summary>
-        internal static string msg_content_delOrMove {
-            get {
-                return ResourceManager.GetString("msg.content.delOrMove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to File not exist.
-        /// </summary>
-        internal static string msg_content_fileNotExist {
-            get {
-                return ResourceManager.GetString("msg.content.fileNotExist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error.
-        /// </summary>
-        internal static string msg_title_error {
-            get {
-                return ResourceManager.GetString("msg.title.error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nalai.
-        /// </summary>
-        internal static string nalai_title {
-            get {
-                return ResourceManager.GetString("nalai.title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save location.
-        /// </summary>
-        internal static string nt_savePath {
-            get {
-                return ResourceManager.GetString("nt.savePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New task.
-        /// </summary>
-        internal static string nt_title {
-            get {
-                return ResourceManager.GetString("nt.title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Using Default Download Folder.
-        /// </summary>
-        internal static string nt_usingDefaultFolder {
-            get {
-                return ResourceManager.GetString("nt.usingDefaultFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to About Nalai.
-        /// </summary>
-        internal static string setting_about_nalai {
-            get {
-                return ResourceManager.GetString("setting.about.nalai", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Author.
-        /// </summary>
-        internal static string setting_author {
-            get {
-                return ResourceManager.GetString("setting.author", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Contributor.
-        /// </summary>
-        internal static string setting_contributor {
-            get {
-                return ResourceManager.GetString("setting.contributor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Contributors.
-        /// </summary>
-        internal static string setting_contributors {
-            get {
-                return ResourceManager.GetString("setting.contributors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Download.
-        /// </summary>
-        internal static string setting_download {
-            get {
-                return ResourceManager.GetString("setting.download", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to General.
-        /// </summary>
-        internal static string setting_general {
-            get {
-                return ResourceManager.GetString("setting.general", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Language.
-        /// </summary>
-        internal static string setting_language {
-            get {
-                return ResourceManager.GetString("setting.language", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Languages.
-        /// </summary>
-        internal static string setting_languages {
-            get {
-                return ResourceManager.GetString("setting.languages", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to License.
-        /// </summary>
-        internal static string setting_license {
-            get {
-                return ResourceManager.GetString("setting.license", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Personalization.
-        /// </summary>
-        internal static string setting_personalization {
-            get {
-                return ResourceManager.GetString("setting.personalization", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Theme.
-        /// </summary>
-        internal static string setting_theme {
-            get {
-                return ResourceManager.GetString("setting.theme", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dark.
-        /// </summary>
-        internal static string setting_theme_dark {
-            get {
-                return ResourceManager.GetString("setting.theme.dark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Light.
-        /// </summary>
-        internal static string setting_theme_light {
-            get {
-                return ResourceManager.GetString("setting.theme.light", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Settings.
-        /// </summary>
-        internal static string setting_title {
-            get {
-                return ResourceManager.GetString("setting.title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Version.
-        /// </summary>
-        internal static string setting_version {
-            get {
-                return ResourceManager.GetString("setting.version", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Creating time.
-        /// </summary>
-        internal static string sort_by_creatingTime {
-            get {
-                return ResourceManager.GetString("sort.by.creatingTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        internal static string sort_by_name {
-            get {
-                return ResourceManager.GetString("sort.by.name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Size.
-        /// </summary>
-        internal static string sort_by_size {
-            get {
-                return ResourceManager.GetString("sort.by.size", resourceCulture);
+                return ResourceManager.GetString("Download.Speed", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
-        internal static string sort_by_status {
+        internal static string Download_Status {
             get {
-                return ResourceManager.GetString("sort.by.status", resourceCulture);
+                return ResourceManager.GetString("Download.Status", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Descending.
+        ///   Looks up a localized string similar to Total size.
         /// </summary>
-        internal static string sort_descending {
+        internal static string Download_TotalSize {
             get {
-                return ResourceManager.GetString("sort.descending", resourceCulture);
+                return ResourceManager.GetString("Download.TotalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL.
+        /// </summary>
+        internal static string Download_Url {
+            get {
+                return ResourceManager.GetString("Download.Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download complete.
+        /// </summary>
+        internal static string DownloadCompleteWindow_DownloadComplete {
+            get {
+                return ResourceManager.GetString("DownloadCompleteWindow.DownloadComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chunk details.
+        /// </summary>
+        internal static string DownloadingWindow_ChunkDetails {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.ChunkDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created time.
+        /// </summary>
+        internal static string DownloadingWindow_CreatedTime {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.CreatedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading.
+        /// </summary>
+        internal static string DownloadingWindow_Downloading {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.Downloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ETA.
+        /// </summary>
+        internal static string DownloadingWindow_Eta {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.Eta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max speed.
+        /// </summary>
+        internal static string DownloadingWindow_MaxSpeed {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.MaxSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paused.
+        /// </summary>
+        internal static string DownloadingWindow_Paused {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.Paused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string DownloadingWindow_Size {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speed.
+        /// </summary>
+        internal static string DownloadingWindow_Speed {
+            get {
+                return ResourceManager.GetString("DownloadingWindow.Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string dp_cancel {
+            get {
+                return ResourceManager.GetString("dp.cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        internal static string dp_details {
+            get {
+                return ResourceManager.GetString("dp.details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string dp_remove {
+            get {
+                return ResourceManager.GetString("dp.remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chunk Details.
+        /// </summary>
+        internal static string dw_chunkDetails {
+            get {
+                return ResourceManager.GetString("dw.chunkDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created Time.
+        /// </summary>
+        internal static string dw_createdTime {
+            get {
+                return ResourceManager.GetString("dw.createdTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading.
+        /// </summary>
+        internal static string dw_downloading {
+            get {
+                return ResourceManager.GetString("dw.downloading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ETA.
+        /// </summary>
+        internal static string dw_eta {
+            get {
+                return ResourceManager.GetString("dw.eta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Speed.
+        /// </summary>
+        internal static string dw_maxSpeed {
+            get {
+                return ResourceManager.GetString("dw.maxSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paused.
+        /// </summary>
+        internal static string dw_paused {
+            get {
+                return ResourceManager.GetString("dw.paused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloads.
+        /// </summary>
+        internal static string MainWindow_Downloads {
+            get {
+                return ResourceManager.GetString("MainWindow.Downloads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Running.
+        /// </summary>
+        internal static string MainWindow_Running {
+            get {
+                return ResourceManager.GetString("MainWindow.Running", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Have you delete or move it yet.
+        /// </summary>
+        internal static string Msg_DelOrMove {
+            get {
+                return ResourceManager.GetString("Msg.DelOrMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File not exist.
+        /// </summary>
+        internal static string Msg_FileNotExist {
+            get {
+                return ResourceManager.GetString("Msg.FileNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Msg_Title_Error {
+            get {
+                return ResourceManager.GetString("Msg.Title.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nalai.
+        /// </summary>
+        internal static string Nalai_Title {
+            get {
+                return ResourceManager.GetString("Nalai.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save location.
+        /// </summary>
+        internal static string NewTaskWindow_SavePath {
+            get {
+                return ResourceManager.GetString("NewTaskWindow.SavePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New task.
+        /// </summary>
+        internal static string NewTaskWindow_Title {
+            get {
+                return ResourceManager.GetString("NewTaskWindow.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using Default Download Folder.
+        /// </summary>
+        internal static string NewTaskWindow_UsingDefaultFolder {
+            get {
+                return ResourceManager.GetString("NewTaskWindow.UsingDefaultFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string Search_Placeholder {
+            get {
+                return ResourceManager.GetString("Search.Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personalization.
+        /// </summary>
+        internal static string Setting_Personalization {
+            get {
+                return ResourceManager.GetString("Setting.Personalization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About Nalai.
+        /// </summary>
+        internal static string Settings_AboutNalai {
+            get {
+                return ResourceManager.GetString("Settings.AboutNalai", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        internal static string Settings_Author {
+            get {
+                return ResourceManager.GetString("Settings.Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contributor.
+        /// </summary>
+        internal static string Settings_Contributor {
+            get {
+                return ResourceManager.GetString("Settings.Contributor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contributors.
+        /// </summary>
+        internal static string Settings_Contributors {
+            get {
+                return ResourceManager.GetString("Settings.Contributors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        internal static string Settings_Download {
+            get {
+                return ResourceManager.GetString("Settings.Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string Settings_General {
+            get {
+                return ResourceManager.GetString("Settings.General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Languages.
+        /// </summary>
+        internal static string Settings_Language {
+            get {
+                return ResourceManager.GetString("Settings.Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License.
+        /// </summary>
+        internal static string Settings_License {
+            get {
+                return ResourceManager.GetString("Settings.License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        internal static string Settings_Theme {
+            get {
+                return ResourceManager.GetString("Settings.Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark.
+        /// </summary>
+        internal static string Settings_Theme_Dark {
+            get {
+                return ResourceManager.GetString("Settings.Theme.Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light.
+        /// </summary>
+        internal static string Settings_Theme_Light {
+            get {
+                return ResourceManager.GetString("Settings.Theme.Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Settings_Title {
+            get {
+                return ResourceManager.GetString("Settings.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        internal static string Settings_Version {
+            get {
+                return ResourceManager.GetString("Settings.Version", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Core status.
         /// </summary>
-        internal static string status_core {
+        internal static string Status_Core {
             get {
-                return ResourceManager.GetString("status.core", resourceCulture);
+                return ResourceManager.GetString("Status.Core", resourceCulture);
             }
         }
     }
