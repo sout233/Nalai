@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nalai.CoreConnector;
+using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
@@ -107,11 +108,17 @@ namespace Nalai
 
             // 创建托盘图标
             _taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
+            
+            // 将NativeMessagingConfig注册到注册表
+            RegManager.RegisterNativeMessagingConfig();
 
-
+            // 启动核心
             Task.Run(CoreTask.SyncAllTasksFromCore);
+            
+            // 启动状态检查器
             RunningStateChecker.Start();
 
+            // 启动本地服务器（用于浏览器扩展）
             Task.Run(EventApiService.Run);
         }
 

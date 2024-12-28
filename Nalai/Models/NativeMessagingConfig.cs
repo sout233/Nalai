@@ -2,7 +2,7 @@
 
 namespace Nalai.Models;
 
-public record NativeMessagingConfig(
+public class NativeMessagingConfig(
     string Name,
     string Description,
     string Path,
