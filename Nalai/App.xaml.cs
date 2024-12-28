@@ -60,6 +60,8 @@ namespace Nalai
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
             }).Build();
+        
+        private static readonly Mutex _mutex = new(false, "Nalai_App_Mutex");
 
         /// <summary>
         /// Gets registered service.
@@ -79,6 +81,13 @@ namespace Nalai
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            if (!_mutex.WaitOne(0, false))
+            {
+                MessageBox.Show("Nalai已经在运行中！");
+                Current.Shutdown();
+                return;
+            }
+            
             _host.Start();
 
             var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(DebuggableAttribute), false);
