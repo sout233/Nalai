@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using Nalai.Helpers;
+using Nalai.Models;
 using Nalai.Views.Windows;
 using Newtonsoft.Json;
 
@@ -119,21 +120,5 @@ public static class EventApiService
             NewTaskWindow window = new(e.DownloadUrl, string.Empty, e.Browser.Headers);
             window.Show();
         });
-    }
-
-    public class BrowserInfo
-    {
-        [JsonProperty("name")] public string Name { get; set; }
-
-        [JsonProperty("headers")] public Dictionary<string, string> Headers { get; set; }
-    }
-
-    public class DownloadData
-    {
-        [JsonProperty("version")] public string Version { get; set; }
-
-        [JsonProperty("browser")] public BrowserInfo Browser { get; set; }
-
-        [JsonProperty("url")] public string DownloadUrl { get; set; }
     }
 }
