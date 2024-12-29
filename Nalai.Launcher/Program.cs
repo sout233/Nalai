@@ -75,7 +75,7 @@ internal static class Program
             null, // No module name (use command line)
             exePath, // Command line
             IntPtr.Zero, // Process handle not inheritable
-            argsPtr, // Thread handle not inheritable
+            IntPtr.Zero, // Thread handle not inheritable
             false, // Set handle inheritance to FALSE
             CREATE_BREAKAWAY_FROM_JOB, // Creation flags
             IntPtr.Zero, // Use parent's environment block
