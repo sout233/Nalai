@@ -26,7 +26,7 @@ public static class EventApiService
             var context = listener.GetContext();
             var request = context.Request;
             var response = context.Response;
-
+            
             // Handle preflight OPTIONS request
             if (request.HttpMethod == "OPTIONS")
             {
@@ -37,6 +37,24 @@ public static class EventApiService
                 response.Close();
                 continue;
             }
+            
+            // Handle root path GET request
+            if (request is { HttpMethod: "GET", Url.AbsolutePath: "/" })
+            {
+                response.StatusCode = (int)HttpStatusCode.OK;
+                response.StatusDescription = "OK";
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
+
+                // Respond to the client
+                const string responseString = "Root endpoint reached.";
+                var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+                response.ContentLength64 = buffer.Length;
+                using var output = response.OutputStream;
+                output.Write(buffer, 0, buffer.Length);
+                response.Close();
+                continue;
+            }
+
 
             // Ensure the request is a POST and has content
             if (request.HttpMethod == "POST" && request.HasEntityBody)
