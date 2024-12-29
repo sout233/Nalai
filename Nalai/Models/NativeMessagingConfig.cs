@@ -2,25 +2,37 @@
 
 namespace Nalai.Models;
 
-public class NativeMessagingConfig(
-    string Name,
-    string Description,
-    string Path,
-    string Type,
-    List<string> AllowedOrigins)
+public abstract class NativeMessagingConfig(
+    string name,
+    string description,
+    string path,
+    string type)
 {
-    [JsonProperty("name")]
-    public string Name { get; set; } = Name;
+    [JsonProperty("name")] public string Name { get; set; } = name;
 
-    [JsonProperty("description")]
-    public string Description { get; set; } = Description;
+    [JsonProperty("description")] public string Description { get; set; } = description;
 
-    [JsonProperty("path")]
-    public string Path { get; set; } = Path;
+    [JsonProperty("path")] public string Path { get; set; } = path;
 
-    [JsonProperty("type")]
-    public string Type { get; set; } = Type;
+    [JsonProperty("type")] public string Type { get; set; } = type;
+}
 
-    [JsonProperty("allowed_origins")]
-    public List<string> AllowedOrigins { get; set; } = AllowedOrigins;
+public class ChromeNativeMessagingConfig(
+    string name,
+    string description,
+    string path,
+    string type,
+    List<string> allowedOrigins) : NativeMessagingConfig(name, description, path, type)
+{
+    [JsonProperty("allowed_origins")] public List<string> AllowedOrigins { get; set; } = allowedOrigins;
+}
+
+public class FirefoxNativeMessagingConfig(
+    string name,
+    string description,
+    string path,
+    string type,
+    List<string> allowedExtensions) : NativeMessagingConfig(name, description, path, type)
+{
+    [JsonProperty("allowed_extensions")] public List<string> AllowedExtensions { get; set; } = allowedExtensions;
 }
