@@ -110,7 +110,8 @@ namespace Nalai
             _taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
             
             // 将NativeMessagingConfig注册到注册表
-            RegManager.RegisterNativeMessagingConfig();
+            RegManager.RegisterFirefoxNativeMessagingConfig();
+            RegManager.RegisterChromeNativeMessagingConfig();
 
             // 启动核心
             Task.Run(CoreTask.SyncAllTasksFromCore);
