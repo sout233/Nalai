@@ -106,7 +106,7 @@ public static class EventApiService
         }
     }
 
-    private static void OnDownloadDataReceived(object? sender, DownloadData e)
+    public static void OnDownloadDataReceived(object? sender, DownloadData e)
     {
         Application.Current.Dispatcher.Invoke(() =>
         {

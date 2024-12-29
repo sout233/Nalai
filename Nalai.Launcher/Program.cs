@@ -1,25 +1,13 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
-// ReSharper disable InconsistentNaming
-// ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo
+// ReSharper disable InconsistentNaming
 
 namespace Nalai.Launcher;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow
+internal static class Program
 {
-    public MainWindow()
-    {
-        InitializeComponent();
-    }
-
-    // Define the CREATE_BREAKAWAY_FROM_JOB flag
+        // Define the CREATE_BREAKAWAY_FROM_JOB flag
     private const uint CREATE_BREAKAWAY_FROM_JOB = 0x01000000;
 
     // Import the CreateProcess function from kernel32.dll
@@ -74,9 +62,10 @@ public partial class MainWindow
         // Prepare the startup info
         var si = new STARTUPINFO();
         si.cb = Marshal.SizeOf(si);
+        var argsString = string.Join(" ", args);
+        var argsPtr = Marshal.StringToHGlobalUni(argsString);
 
         // Set up the process information
-        var pi = new PROCESS_INFORMATION();
 
         // Construct the path to the executable
         var exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Nalai.exe");
@@ -86,13 +75,13 @@ public partial class MainWindow
             null, // No module name (use command line)
             exePath, // Command line
             IntPtr.Zero, // Process handle not inheritable
-            IntPtr.Zero, // Thread handle not inheritable
+            argsPtr, // Thread handle not inheritable
             false, // Set handle inheritance to FALSE
             CREATE_BREAKAWAY_FROM_JOB, // Creation flags
             IntPtr.Zero, // Use parent's environment block
             null, // Use parent's starting directory 
             ref si, // Pointer to STARTUPINFO structure
-            out pi // Pointer to PROCESS_INFORMATION structure
+            out var pi // Pointer to PROCESS_INFORMATION structure
         );
 
         if (!success)
@@ -108,12 +97,36 @@ public partial class MainWindow
 
     [DllImport("kernel32.dll", SetLastError = true)]
     private static extern bool CloseHandle(IntPtr hObject);
-
-    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+    
+    private static void Main(string[] _)
     {
-        LaunchNalai([]);
+        using var reader = new BinaryReader(Console.OpenStandardInput());
+        
+        // 读取消息长度前缀
+        var lengthPrefix = reader.ReadBytes(4);
+        if (lengthPrefix.Length < 4)
+        {
+            // 如果没有读到完整的长度前缀，说明没有收到消息
+            LaunchNalai(Array.Empty<string>());
+            return;
+        }
 
-        // 退出应用程序
-        Application.Current.Shutdown();
+        // 将长度前缀转换为整数
+        var length = BitConverter.ToInt32(lengthPrefix, 0);
+
+        // 读取消息体
+        var messageBytes = reader.ReadBytes(length);
+        if (messageBytes.Length != length)
+        {
+            // 如果没有读到预期长度的消息体，可能出现了错误
+            LaunchNalai(Array.Empty<string>());
+            return;
+        }
+
+        // 将消息体转换为字符串
+        var json = Encoding.UTF8.GetString(messageBytes);
+
+        // 根据接收到的 JSON 数据调用 LaunchNalai
+        LaunchNalai(string.IsNullOrEmpty(json) ? Array.Empty<string>() : ["--download", json]);
     }
 }
