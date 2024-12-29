@@ -15,7 +15,7 @@ public static class RegManager
         try
         {
             var config = new ChromeNativeMessagingConfig("org.eu.sout.nalai", "A native messaging host for Nalai",
-                Path.Combine(Environment.CurrentDirectory, "Nalai.exe"), "stdio", [ChromeExtensionId]);
+                Path.Combine(Environment.CurrentDirectory, "Nalai.Launcher.exe"), "stdio", [ChromeExtensionId]);
             var configFilePath = Path.Combine(Environment.CurrentDirectory, "Configs", "org.eu.sout.nalai_chrome.json");
 
             if (!File.Exists(configFilePath))
@@ -43,7 +43,7 @@ public static class RegManager
         try
         {
             var config = new FirefoxNativeMessagingConfig("nalai_ext_firefox", "A native messaging host for Nalai",
-                Path.Combine(Environment.CurrentDirectory, "Nalai.exe"), "stdio", [FirefoxExtensionId]);
+                Path.Combine(Environment.CurrentDirectory, "Nalai.Launcher.exe"), "stdio", [FirefoxExtensionId]);
             var configFilePath =
                 Path.Combine(Environment.CurrentDirectory, "Configs", "nalai_ext_firefox.json");
 

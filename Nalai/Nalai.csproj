@@ -46,6 +46,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nalai.CoreConnector\Nalai.CoreConnector.csproj" />
+    <ProjectReference Include="..\Nalai.Launcher\Nalai.Launcher.csproj" />
   </ItemGroup>
 
   <ItemGroup>
