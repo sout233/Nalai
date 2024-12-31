@@ -264,7 +264,7 @@
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="True">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="pack://application:,,,/Assets/nalai_icon_x1.png" />
+                <ui:ImageIcon Source="pack://application:,,,/Assets/nalai_icon_2x.png" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
     </Grid>
