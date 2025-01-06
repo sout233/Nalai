@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>nalai_icon_x1.ico</ApplicationIcon>
+    <ApplicationIcon>nalai_icon_2x.ico</ApplicationIcon>
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -41,11 +41,13 @@
     <None Remove="Assets\zj_avatar.jpg" />
     <Resource Include="Assets\zj_avatar.jpg" />
     <None Remove="Assets\nalai_icon_x1.png" />
-    <Resource Include="Assets\nalai_icon_x1.png" />
+    <None Remove="Assets\nalai_icon_2x.png" />
+    <Resource Include="Assets\nalai_icon_2x.png" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Nalai.CoreConnector\Nalai.CoreConnector.csproj" />
+    <ProjectReference Include="..\Nalai.Launcher\Nalai.Launcher.csproj" />
   </ItemGroup>
 
   <ItemGroup>

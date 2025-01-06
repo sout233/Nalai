@@ -7,12 +7,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nalai.CoreConnector;
+using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
 using Nalai.ViewModels.Pages;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Pages;
 using Nalai.Views.Windows;
+using Newtonsoft.Json;
 using Wpf.Ui;
 
 namespace Nalai
@@ -61,6 +63,8 @@ namespace Nalai
                 services.AddSingleton<SettingsViewModel>();
             }).Build();
 
+        private static readonly Mutex _mutex = new(false, "Nalai_App_Mutex");
+
         /// <summary>
         /// Gets registered service.
         /// </summary>
@@ -79,7 +83,24 @@ namespace Nalai
         /// </summary>
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            if (!_mutex.WaitOne(0, false))
+            {
+                Current.Shutdown();
+                return;
+            }
+
             _host.Start();
+
+            if (e.Args.Length > 0)
+            {
+                if (e.Args.Contains("--download"))
+                {
+                    var jsonData = e.Args[1];
+                    var data = JsonConvert.DeserializeObject<DownloadData>(jsonData);
+                    if (data != null) EventApiService.OnDownloadDataReceived(null, data);
+                    else NalaiMsgBox.Show("从浏览器传来的下载数据格式好像有点问题（？）\n请尝试升级Nalai以及浏览器扩展到最新版本", "Error");
+                }
+            }
 
             var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(DebuggableAttribute), false);
             if (attributes.Length > 0)
@@ -99,10 +120,17 @@ namespace Nalai
             // 创建托盘图标
             _taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
 
+            // 将NativeMessagingConfig注册到注册表
+            RegManager.RegisterFirefoxNativeMessagingConfig();
+            RegManager.RegisterChromeNativeMessagingConfig();
 
+            // 启动核心
             Task.Run(CoreTask.SyncAllTasksFromCore);
+
+            // 启动状态检查器
             RunningStateChecker.Start();
 
+            // 启动本地服务器（用于浏览器扩展）
             Task.Run(EventApiService.Run);
         }
 

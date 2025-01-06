@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using Nalai.Helpers;
+using Nalai.Models;
 using Nalai.Views.Windows;
 using Newtonsoft.Json;
 
@@ -26,7 +27,7 @@ public static class EventApiService
             var context = listener.GetContext();
             var request = context.Request;
             var response = context.Response;
-
+            
             // Handle preflight OPTIONS request
             if (request.HttpMethod == "OPTIONS")
             {
@@ -37,6 +38,24 @@ public static class EventApiService
                 response.Close();
                 continue;
             }
+            
+            // Handle root path GET request
+            if (request is { HttpMethod: "GET", Url.AbsolutePath: "/" })
+            {
+                response.StatusCode = (int)HttpStatusCode.OK;
+                response.StatusDescription = "OK";
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
+
+                // Respond to the client
+                const string responseString = "Root endpoint reached.";
+                var buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+                response.ContentLength64 = buffer.Length;
+                using var output = response.OutputStream;
+                output.Write(buffer, 0, buffer.Length);
+                response.Close();
+                continue;
+            }
+
 
             // Ensure the request is a POST and has content
             if (request.HttpMethod == "POST" && request.HasEntityBody)
@@ -87,7 +106,7 @@ public static class EventApiService
         }
     }
 
-    private static void OnDownloadDataReceived(object? sender, DownloadData e)
+    public static void OnDownloadDataReceived(object? sender, DownloadData e)
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
@@ -101,21 +120,5 @@ public static class EventApiService
             NewTaskWindow window = new(e.DownloadUrl, string.Empty, e.Browser.Headers);
             window.Show();
         });
-    }
-
-    public class BrowserInfo
-    {
-        [JsonProperty("name")] public string Name { get; set; }
-
-        [JsonProperty("headers")] public Dictionary<string, string> Headers { get; set; }
-    }
-
-    public class DownloadData
-    {
-        [JsonProperty("version")] public string Version { get; set; }
-
-        [JsonProperty("browser")] public BrowserInfo Browser { get; set; }
-
-        [JsonProperty("url")] public string DownloadUrl { get; set; }
     }
 }
