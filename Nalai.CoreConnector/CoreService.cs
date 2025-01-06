@@ -2,6 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 using Nalai.CoreConnector.Models;
+using Nalai.Launcher;
 
 namespace Nalai.CoreConnector;
 
@@ -18,46 +19,10 @@ public static class CoreService
         {
             // 如果进程不存在，则启动它
             var pathToExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Tools", "nalai_core.exe");
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = pathToExe,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true, // 重定向标准输出
-                RedirectStandardError = true, // 重定向标准错误
-                UseShellExecute = false, // 必须为false才能重定向输出
-                StandardOutputEncoding = Encoding.UTF8, // 设置输出编码
-                StandardErrorEncoding = Encoding.UTF8 // 设置错误编码
-            };
 
             try
             {
-                using (var process = new Process())
-                {
-                    process.StartInfo = startInfo;
-
-                    // 订阅输出和错误事件
-                    process.OutputDataReceived += (sender, e) =>
-                    {
-                        if (e.Data != null)
-                            Console.WriteLine($"[Core] {e.Data}");
-                    };
-                    process.ErrorDataReceived += (sender, e) =>
-                    {
-                        if (e.Data != null)
-                            Console.WriteLine($"[CoreErr] {e.Data}");
-                    };
-
-                    process.Start();
-
-                    // 开始异步读取输出和错误
-                    process.BeginOutputReadLine();
-                    process.BeginErrorReadLine();
-
-                    // 等待进程退出（如果需要）
-                    process.WaitForExit();
-
-                    Console.WriteLine("nalai_core.exe 已启动并正在运行...");
-                }
+                JobLauncher.LaunchExe(pathToExe, [], false);
             }
             catch (Exception ex)
             {
@@ -98,11 +63,11 @@ public static class CoreService
     }
 
     public static async Task<NalaiCoreDownloadResult?> SendStartMsgAsync(string url, string saveDir, string fileName,
-        string id,Dictionary<string, string>? headers)
+        string id, Dictionary<string, string>? headers)
     {
         var headersJson = headers == null ? "{}" : JsonConvert.SerializeObject(headers);
         var headersBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(headersJson));
-        
+
         var uriBuilder = new UriBuilder("http://localhost:13088/download")
         {
             Query = $"url={url}&save_dir={saveDir}&file_name={fileName}&id={id}&headers={headersBase64}"
