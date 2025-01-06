@@ -13,6 +13,7 @@ using Nalai.Services;
 using Nalai.ViewModels.Pages;
 using Nalai.ViewModels.Windows;
 using Nalai.Views.Pages;
+using Nalai.Views.Pages.Settings;
 using Nalai.Views.Windows;
 using Newtonsoft.Json;
 using Wpf.Ui;
@@ -61,6 +62,7 @@ namespace Nalai
                 services.AddSingleton<DataViewModel>();
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<SettingGeneralPage>();
             }).Build();
 
         private static readonly Mutex _mutex = new(false, "Nalai_App_Mutex");

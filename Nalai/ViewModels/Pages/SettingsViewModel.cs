@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Nalai.Services;
+using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Pages
 {
-    public partial class SettingsViewModel : ObservableObject, INavigationAware
+    public partial class SettingsViewModel(INavigationService navigationService) : ObservableObject, INavigationAware
     {
         private bool _isInitialized;
 
@@ -37,6 +38,18 @@ namespace Nalai.ViewModels.Pages
 
         public void OnNavigatedFrom()
         {
+        }
+        
+        [RelayCommand]
+        private void NavigateForward(Type type)
+        {
+            _ = navigationService.NavigateWithHierarchy(type);
+        }
+
+        [RelayCommand]
+        private void NavigateBack()
+        {
+            _ = navigationService.GoBack();
         }
 
         private void InitializeViewModel()
