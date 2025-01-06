@@ -4,7 +4,7 @@ namespace Nalai.Launcher;
 
 public static class JobLauncher
 {
-     // Define the CREATE_BREAKAWAY_FROM_JOB flag
+    // Define the CREATE_BREAKAWAY_FROM_JOB flag
     private const uint CREATE_BREAKAWAY_FROM_JOB = 0x01000000;
 
     // Import the CreateProcess function from kernel32.dll
@@ -54,11 +54,16 @@ public static class JobLauncher
         public Int32 dwThreadId;
     }
 
-    public static void LaunchExe(string exePath, string[] args)
+    public static void LaunchExe(string exePath, string[] args, bool showWindow = true)
     {
         // Prepare the startup info
         var si = new STARTUPINFO();
         si.cb = Marshal.SizeOf(si);
+        // Control window visibility by setting wShowWindow
+        si.wShowWindow = showWindow ? (short)5 : (short)0; // SW_SHOW (5) or SW_HIDE (0)
+        // Set the STARTF_USESHOWWINDOW flag to indicate that wShowWindow is used
+        si.dwFlags |= 0x00000001; // STARTF_USESHOWWINDOW
+        
         var argsString = string.Join(" ", args);
         var argsPtr = Marshal.StringToHGlobalUni(argsString);
 
