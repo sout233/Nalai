@@ -25,7 +25,7 @@
         <ui:CardAction
             Margin="0,0,0,0"
             Padding="0"
-            VerticalAlignment="Stretch"
+            Height="70"
             Command="{Binding ViewModel.NavigateForwardCommand}"
             CommandParameter="{x:Type settings:SettingGeneralPage}"
             IsChevronVisible="False">
@@ -35,13 +35,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Viewbox Height="24" Width="24" Margin="12,0,0,0">
+                <Viewbox Height="24" Width="24" Margin="24,0,0,0">
                     <ui:SymbolIcon Symbol="Settings24"/>
                 </Viewbox>
                 
                 <StackPanel
                     Grid.Column="1"
-                    Margin="24"
+                    Margin="24,0"
                     VerticalAlignment="Center">
                     <ui:TextBlock
                         Margin="0"
@@ -59,7 +59,7 @@
         <ui:CardAction
             Margin="0,6,0,0"
             Padding="0"
-            VerticalAlignment="Stretch"
+            Height="70"
             Command="{Binding ViewModel.NavigateForwardCommand}"
             CommandParameter="{x:Type settings:SettingGeneralPage}"
             IsChevronVisible="False">
@@ -69,13 +69,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Viewbox Height="24" Width="24" Margin="12,0,0,0">
+                <Viewbox Height="24" Width="24" Margin="24,0,0,0">
                     <ui:SymbolIcon Symbol="Color24"/>
                 </Viewbox>
                 
                 <StackPanel
                     Grid.Column="1"
-                    Margin="24"
+                    Margin="24,0"
                     VerticalAlignment="Center">
                     <ui:TextBlock
                         Margin="0"
@@ -93,7 +93,7 @@
         <ui:CardAction
             Margin="0,6,0,0"
             Padding="0"
-            VerticalAlignment="Stretch"
+            Height="70"
             Command="{Binding ViewModel.NavigateForwardCommand}"
             CommandParameter="{x:Type settings:SettingGeneralPage}"
             IsChevronVisible="False">
@@ -103,13 +103,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Viewbox Height="24" Width="24" Margin="12,0,0,0">
+                <Viewbox Height="24" Width="24" Margin="24,0,0,0">
                     <ui:SymbolIcon Symbol="ArrowDownload24"/>
                 </Viewbox>
                 
                 <StackPanel
                     Grid.Column="1"
-                    Margin="24"
+                    Margin="24,0"
                     VerticalAlignment="Center">
                     <ui:TextBlock
                         Margin="0"
