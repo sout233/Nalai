@@ -61,7 +61,7 @@
             Padding="0"
             Height="70"
             Command="{Binding ViewModel.NavigateForwardCommand}"
-            CommandParameter="{x:Type settings:SettingGeneralPage}"
+            CommandParameter="{x:Type settings:SettingAppearancePage}"
             IsChevronVisible="False">
             <Grid>
                 <Grid.ColumnDefinitions>

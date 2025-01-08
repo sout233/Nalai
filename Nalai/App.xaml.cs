@@ -63,6 +63,7 @@ namespace Nalai
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
                 services.AddSingleton<SettingGeneralPage>();
+                services.AddSingleton<SettingAppearancePage>();
             }).Build();
 
         private static readonly Mutex _mutex = new(false, "Nalai_App_Mutex");
