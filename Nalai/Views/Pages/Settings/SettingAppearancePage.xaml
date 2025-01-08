@@ -34,11 +34,11 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <ui:TextBlock FontTypography="BodyStrong" Text="Mode" />
                     <ui:TextBlock Text="Change the appearance mode of Nalai" />
-                </StackPanel>
+                </StackPanel >
 
                 <ComboBox Grid.Column="2" MinWidth="200" Margin="20,0"
-                          ItemsSource="{Binding ViewModel.ComboBoxLanguages, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingAppearancePage}, Mode=OneWay}"
-                          SelectedIndex="{Binding ViewModel.SelectedLanguageIndex, Mode=TwoWay}">
+                          ItemsSource="{Binding ViewModel.ComboBoxThemes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingAppearancePage}, Mode=OneWay}"
+                          SelectedItem="{Binding ViewModel.CurrentTheme, Mode=TwoWay}">
                 </ComboBox>
             </Grid>
         </ui:Card>
