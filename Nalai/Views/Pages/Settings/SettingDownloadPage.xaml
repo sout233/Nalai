@@ -1,0 +1,43 @@
+﻿<Page x:Class="Nalai.Views.Pages.Settings.SettingDownloadPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Nalai.Views.Pages.Settings"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:helpers="clr-namespace:Nalai.Helpers"
+      xmlns:resources="clr-namespace:Nalai.Resources"
+      xmlns:pages="clr-namespace:Nalai.Views.Pages"
+      ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+      ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      d:DataContext="{d:DesignInstance pages:SettingsPage,
+                                     IsDesignTimeCreatable=False}"
+      mc:Ignorable="d"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      ui:NavigationView.HeaderContent="Download">
+    <StackPanel>
+        <ui:Card Margin="0,6,0,0"
+                 Padding="0">
+            <Grid Height="70">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Height="24" Width="24" Margin="20,0">
+                    <ui:SymbolIcon Symbol="Window24" />
+                </Viewbox>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <ui:TextBlock FontTypography="BodyStrong" Text="Show Completed Window" />
+                    <ui:TextBlock Text="当任务结束时，显示下载完成窗口，此项不影响下载完成后的通知以及下载错误的提示" />
+                </StackPanel >
+
+                <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0"></ui:ToggleSwitch>
+            </Grid>
+        </ui:Card>
+    </StackPanel>
+</Page>

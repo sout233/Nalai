@@ -1,19 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Nalai.Services;
+using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace Nalai.ViewModels.Pages
 {
-    public partial class SettingsViewModel : ObservableObject, INavigationAware
+    public partial class SettingsViewModel(INavigationService navigationService) : ObservableObject, INavigationAware
     {
         private bool _isInitialized;
 
         [ObservableProperty] private string _appVersion = String.Empty;
 
-        [ObservableProperty] private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
-        public string ThemeColor => CurrentTheme == ApplicationTheme.Light ? "White" : "Black";
+        #region Languages
 
         [ObservableProperty] private ObservableCollection<string> _comboBoxLanguages =
         [
@@ -29,6 +29,27 @@ namespace Nalai.ViewModels.Pages
             I18NService.SetLanguageByIndex(value);
         }
 
+        #endregion
+
+        #region Themes
+
+        [ObservableProperty] private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
+
+        [ObservableProperty] private ObservableCollection<ApplicationTheme> _comboBoxThemes =
+        [
+            ApplicationTheme.Light,
+            ApplicationTheme.Dark
+        ];
+
+        partial void OnCurrentThemeChanged(ApplicationTheme value)
+        {
+            ApplicationThemeManager.Apply(value);
+        }
+
+        #endregion
+
+        #region Navigation
+
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
@@ -38,6 +59,20 @@ namespace Nalai.ViewModels.Pages
         public void OnNavigatedFrom()
         {
         }
+
+        [RelayCommand]
+        private void NavigateForward(Type type)
+        {
+            _ = navigationService.NavigateWithHierarchy(type);
+        }
+
+        [RelayCommand]
+        private void NavigateBack()
+        {
+            _ = navigationService.GoBack();
+        }
+
+        #endregion
 
         private void InitializeViewModel()
         {
@@ -51,7 +86,7 @@ namespace Nalai.ViewModels.Pages
         private string GetAssemblyVersion()
         {
             return Assembly.GetExecutingAssembly().GetName().Version?.ToString()
-                   ?? String.Empty;
+                   ?? string.Empty;
         }
 
         [RelayCommand]
