@@ -95,7 +95,7 @@
             Padding="0"
             Height="70"
             Command="{Binding ViewModel.NavigateForwardCommand}"
-            CommandParameter="{x:Type settings:SettingGeneralPage}"
+            CommandParameter="{x:Type settings:SettingDownloadPage}"
             IsChevronVisible="False">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -120,6 +120,40 @@
                         Appearance="Secondary"
                         Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                         Text="保存目录，线程数，代理设置等"
+                        TextWrapping="WrapWithOverflow" />
+                </StackPanel>
+            </Grid>
+        </ui:CardAction>
+        <ui:CardAction
+            Margin="0,6,0,0"
+            Padding="0"
+            Height="70"
+            Command="{Binding ViewModel.NavigateForwardCommand}"
+            CommandParameter="{x:Type settings:SettingAboutPage}"
+            IsChevronVisible="False">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Height="24" Width="24" Margin="24,0,0,0">
+                    <ui:SymbolIcon Symbol="Info24"/>
+                </Viewbox>
+                
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="24,0"
+                    VerticalAlignment="Center">
+                    <ui:TextBlock
+                        Margin="0"
+                        FontTypography="BodyStrong"
+                        Text="About"
+                        TextWrapping="WrapWithOverflow" />
+                    <ui:TextBlock
+                        Appearance="Secondary"
+                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                        Text="啥都没有"
                         TextWrapping="WrapWithOverflow" />
                 </StackPanel>
             </Grid>
