@@ -16,7 +16,8 @@
       d:DesignHeight="450"
       d:DesignWidth="800"
       mc:Ignorable="d"
-      Title="SettingAppearancePage">
+      Title="SettingAppearancePage"
+      ui:NavigationView.HeaderContent="Appearance">
     <StackPanel>
         <ui:Card Margin="0,6,0,0"
                  Padding="0">

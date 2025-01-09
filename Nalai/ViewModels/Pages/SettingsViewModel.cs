@@ -86,7 +86,7 @@ namespace Nalai.ViewModels.Pages
         private string GetAssemblyVersion()
         {
             return Assembly.GetExecutingAssembly().GetName().Version?.ToString()
-                   ?? String.Empty;
+                   ?? string.Empty;
         }
 
         [RelayCommand]

@@ -16,7 +16,8 @@
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
-      Title="SettingGeneralPage">
+      Title="SettingGeneralPage"
+      ui:NavigationView.HeaderContent="General">
 
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
