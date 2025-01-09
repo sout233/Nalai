@@ -22,11 +22,11 @@ namespace Nalai.ViewModels.Pages
             "日本語",
         ];
 
-        [ObservableProperty] private int _selectedLanguageIndex;
+        [ObservableProperty] private string _selectedLanguageName = string.Empty;
 
-        partial void OnSelectedLanguageIndexChanged(int value)
+        partial void OnSelectedLanguageNameChanged(string value)
         {
-            I18NService.SetLanguageByIndex(value);
+            I18NService.SetLanguage(value);
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace Nalai.ViewModels.Pages
         {
             CurrentTheme = ApplicationThemeManager.GetAppTheme();
             AppVersion = $"Nalai - {GetAssemblyVersion()}";
-            SelectedLanguageIndex = I18NService.GetLanguageIndex(I18NService.CurrentLanguage);
+            SelectedLanguage = I18NService.CurrentLanguage;
 
             _isInitialized = true;
         }

@@ -137,6 +137,9 @@ namespace Nalai
 
             // 启动本地服务器（用于浏览器扩展）
             Task.Run(EventApiService.Run);
+            
+            // 本地化
+            I18NService.SetLanguageBySystemCulture();
         }
 
         private void ShowWindow(object sender, RoutedEventArgs e)
