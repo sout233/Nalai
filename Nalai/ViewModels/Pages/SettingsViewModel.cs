@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
+using Nalai.Helpers;
 using Nalai.Services;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
@@ -15,18 +16,13 @@ namespace Nalai.ViewModels.Pages
 
         #region Languages
 
-        [ObservableProperty] private ObservableCollection<string> _comboBoxLanguages =
-        [
-            "English",
-            "简体中文",
-            "日本語",
-        ];
+        [ObservableProperty] private ObservableCollection<string> _comboBoxLanguages = [];
 
-        [ObservableProperty] private int _selectedLanguageIndex;
+        [ObservableProperty] private string _selectedLanguageName = "English";
 
-        partial void OnSelectedLanguageIndexChanged(int value)
+        partial void OnSelectedLanguageNameChanged(string value)
         {
-            I18NService.SetLanguageByIndex(value);
+            I18NHelper.SetLanguageByNativeName(value);
         }
 
         #endregion
@@ -78,7 +74,8 @@ namespace Nalai.ViewModels.Pages
         {
             CurrentTheme = ApplicationThemeManager.GetAppTheme();
             AppVersion = $"Nalai - {GetAssemblyVersion()}";
-            SelectedLanguageIndex = I18NService.GetLanguageIndex(I18NService.CurrentLanguage);
+            SelectedLanguageName = I18NHelper.CurrentLanguage.NativeName;
+            ComboBoxLanguages= new ObservableCollection<string>(I18NHelper.AvailableLanguages.Select(x => x.NativeName));
 
             _isInitialized = true;
         }

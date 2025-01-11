@@ -53,13 +53,13 @@ public partial class
         if (isRunning)
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
-            PauseOrResumeBtnContent = I18NService.GetTranslation(LangKeys.Button_Pause);
+            PauseOrResumeBtnContent = I18NHelper.GetTranslation(LangKeys.Button_Pause);
             ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading)+": "+FileName;
         }
         else
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
-            PauseOrResumeBtnContent = I18NService.GetTranslation(LangKeys.Button_Resume);
+            PauseOrResumeBtnContent = I18NHelper.GetTranslation(LangKeys.Button_Resume);
             ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Paused)+": "+FileName;
         }
     }
