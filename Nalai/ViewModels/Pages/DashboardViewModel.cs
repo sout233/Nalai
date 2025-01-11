@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Nalai.CoreConnector.Models;
+using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Resources;
 using Nalai.Services;
@@ -10,7 +11,7 @@ namespace Nalai.ViewModels.Pages
 {
     public partial class DashboardViewModel : ObservableObject
     {
-        [ObservableProperty] private string _pauseOrResumeText = I18NService.GetTranslation("bt.pause");
+        [ObservableProperty] private string _pauseOrResumeText = I18NHelper.GetTranslation("bt.pause");
         [ObservableProperty] private SymbolIcon _pauseOrResumeIcon = new() { Symbol = SymbolRegular.Pause24 };
         [ObservableProperty] private bool _isPauseOrResumeEnabled;
         [ObservableProperty] private SymbolIcon _pauseOrResumeButtonIcon = new() { Symbol = SymbolRegular.Pause24 };
@@ -24,7 +25,7 @@ namespace Nalai.ViewModels.Pages
             if (value != null) UpdateSearchedItems(value);
         }
 
-        [ObservableProperty] private string _sortTypeText = I18NService.GetTranslation("sort.by.name");
+        [ObservableProperty] private string _sortTypeText = I18NHelper.GetTranslation("sort.by.name");
         [ObservableProperty] private SymbolIcon _sortTypeIcon = new() { Symbol = SymbolRegular.ArrowDown24 };
 
         [ObservableProperty] private ObservableCollection<CoreTask> _downloadViewItems;
@@ -93,12 +94,12 @@ namespace Nalai.ViewModels.Pages
         {
             PauseOrResumeText = status switch
             {
-                DownloadStatusKind.Running => I18NService.GetTranslation(LangKeys.Button_Pause),
-                DownloadStatusKind.Pending => I18NService.GetTranslation(LangKeys.Button_Pause),
-                DownloadStatusKind.NoStart => I18NService.GetTranslation(LangKeys.Button_Resume),
-                DownloadStatusKind.Cancelled => I18NService.GetTranslation(LangKeys.Button_Resume),
-                DownloadStatusKind.Finished => I18NService.GetTranslation(LangKeys.Button_ReDownload),
-                DownloadStatusKind.Error => I18NService.GetTranslation(LangKeys.Button_ReDownload),
+                DownloadStatusKind.Running => I18NHelper.GetTranslation(LangKeys.Button_Pause),
+                DownloadStatusKind.Pending => I18NHelper.GetTranslation(LangKeys.Button_Pause),
+                DownloadStatusKind.NoStart => I18NHelper.GetTranslation(LangKeys.Button_Resume),
+                DownloadStatusKind.Cancelled => I18NHelper.GetTranslation(LangKeys.Button_Resume),
+                DownloadStatusKind.Finished => I18NHelper.GetTranslation(LangKeys.Button_ReDownload),
+                DownloadStatusKind.Error => I18NHelper.GetTranslation(LangKeys.Button_ReDownload),
                 _ => PauseOrResumeText
             };
 
@@ -273,14 +274,14 @@ namespace Nalai.ViewModels.Pages
 
             SortTypeText = sortType switch
             {
-                "FileNameAsc" => I18NService.GetTranslation("sort.by.name"),
-                "FileNameDesc" => I18NService.GetTranslation("sort.by.name"),
-                "FileSizeAsc" => I18NService.GetTranslation("sort.by.size"),
-                "FileSizeDesc" => I18NService.GetTranslation("sort.by.size"),
-                "CreatedTimeAsc" => I18NService.GetTranslation("sort.by.createdTime"),
-                "CreatedTimeDesc" => I18NService.GetTranslation("sort.by.createdTime"),
-                "StatusAsc" => I18NService.GetTranslation("sort.by.status"),
-                "StatusDesc" => I18NService.GetTranslation("sort.by.status"),
+                "FileNameAsc" => I18NHelper.GetTranslation("sort.by.name"),
+                "FileNameDesc" => I18NHelper.GetTranslation("sort.by.name"),
+                "FileSizeAsc" => I18NHelper.GetTranslation("sort.by.size"),
+                "FileSizeDesc" => I18NHelper.GetTranslation("sort.by.size"),
+                "CreatedTimeAsc" => I18NHelper.GetTranslation("sort.by.createdTime"),
+                "CreatedTimeDesc" => I18NHelper.GetTranslation("sort.by.createdTime"),
+                "StatusAsc" => I18NHelper.GetTranslation("sort.by.status"),
+                "StatusDesc" => I18NHelper.GetTranslation("sort.by.status"),
                 _ => SortTypeText
             };
 

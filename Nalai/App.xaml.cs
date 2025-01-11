@@ -139,7 +139,7 @@ namespace Nalai
             Task.Run(EventApiService.Run);
             
             // 本地化
-            I18NService.SetLanguageBySystemCulture();
+            I18NHelper.SetLanguageBySystemCulture();
         }
 
         private void ShowWindow(object sender, RoutedEventArgs e)

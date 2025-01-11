@@ -1,9 +1,8 @@
 ﻿using System.Globalization;
-using Nalai.Resources;
 
-namespace Nalai.Services;
+namespace Nalai.Helpers;
 
-public static class I18NService
+public static class I18NHelper
 {
     public static readonly List<Language> AvailableLanguages =
     [

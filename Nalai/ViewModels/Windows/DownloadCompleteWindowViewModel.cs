@@ -12,7 +12,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
 {
     public DownloadCompleteWindow? BindWindow { get; set; }
 
-    [ObservableProperty] private string _applicationTitle = I18NService.GetTranslation(LangKeys.DownloadCompleteWindow_DownloadComplete);
+    [ObservableProperty] private string _applicationTitle = I18NHelper.GetTranslation(LangKeys.DownloadCompleteWindow_DownloadComplete);
     [ObservableProperty] private string _fileName = "Unknown";
     [ObservableProperty] private string _downloadPath = "Unknown";
 
@@ -20,7 +20,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     {
         FileName = task.FileName;
         DownloadPath = task.SaveDir;
-        ApplicationTitle = $"{I18NService.GetTranslation(LangKeys.DownloadCompleteWindow_DownloadComplete)} - {task.FileName}";
+        ApplicationTitle = $"{I18NHelper.GetTranslation(LangKeys.DownloadCompleteWindow_DownloadComplete)} - {task.FileName}";
     }
 
     [RelayCommand]
@@ -41,7 +41,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
         else
         {
             // TODO: 该文件下载后找不到，可能是core存在问题：https://mirrors.tuna.tsinghua.edu.cn/debian/dists/Debian10.13/ChangeLog
-            NalaiMsgBox.Show($"{I18NService.GetTranslation(LangKeys.Msg_FileNotExist)}:\n{filePath}\n{I18NService.GetTranslation(LangKeys.Msg_DelOrMove)}?", I18NService.GetTranslation(LangKeys.Msg_Title_Error));
+            NalaiMsgBox.Show($"{I18NHelper.GetTranslation(LangKeys.Msg_FileNotExist)}:\n{filePath}\n{I18NHelper.GetTranslation(LangKeys.Msg_DelOrMove)}?", I18NHelper.GetTranslation(LangKeys.Msg_Title_Error));
         }
         
         BindWindow?.Close();
@@ -62,7 +62,7 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
         }
         else
         {
-            NalaiMsgBox.Show($"{I18NService.GetTranslation(LangKeys.Msg_FileNotExist)}:\n{filePath}\n{I18NService.GetTranslation(LangKeys.Msg_DelOrMove)}?", I18NService.GetTranslation(LangKeys.Msg_Title_Error));
+            NalaiMsgBox.Show($"{I18NHelper.GetTranslation(LangKeys.Msg_FileNotExist)}:\n{filePath}\n{I18NHelper.GetTranslation(LangKeys.Msg_DelOrMove)}?", I18NHelper.GetTranslation(LangKeys.Msg_Title_Error));
         }
         
         BindWindow?.Close();
