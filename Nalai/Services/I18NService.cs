@@ -5,14 +5,14 @@ namespace Nalai.Services;
 
 public static class I18NService
 {
-    private static readonly List<Language> Languages =
+    public static readonly List<Language> AvailableLanguages =
     [
         new() { EnglishName = "English", NativeName = "English", Code = "en" },
         new() { EnglishName = "Chinese", NativeName = "简体中文", Code = "zh-hans" },
         new() { EnglishName = "Japanese", NativeName = "日本語", Code = "ja" }
     ];
 
-    private static Language _currentLanguage;
+    private static Language _currentLanguage = AvailableLanguages[0];
 
     public static Language CurrentLanguage
     {
@@ -33,15 +33,24 @@ public static class I18NService
     {
         var cultureInfo = CultureInfo.CurrentUICulture;
         Console.WriteLine(cultureInfo.Name);
-        
-        CurrentLanguage = Languages.Find(l => l.Code == cultureInfo.Name.Split('-')[0]) ?? Languages[0];
-        
-        Console.WriteLine(CurrentLanguage);
+
+        CurrentLanguage = AvailableLanguages.Find(l => l.Code == cultureInfo.Name.Split('-')[0]) ??
+                          AvailableLanguages[0];
     }
 
-    public static void SetLanguage(Language language)
+    public static void SetLanguageByCode(string code)
     {
-        CurrentLanguage = language;
+        CurrentLanguage = AvailableLanguages.Find(l => l.Code == code) ?? AvailableLanguages[0];
+    }
+
+    public static void SetLanguage(Language value)
+    {
+        CurrentLanguage = value;
+    }
+
+    public static void SetLanguageByNativeName(string value)
+    {
+        CurrentLanguage = AvailableLanguages.Find(l => l.NativeName == value) ?? AvailableLanguages[0];
     }
 }
 

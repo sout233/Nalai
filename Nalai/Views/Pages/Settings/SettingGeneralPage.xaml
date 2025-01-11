@@ -44,7 +44,7 @@
 
                 <ComboBox Grid.Column="2" MinWidth="200" Margin="20,0"
                           ItemsSource="{Binding ViewModel.ComboBoxLanguages, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingGeneralPage}, Mode=OneWay}"
-                          SelectedItem="{Binding ViewModel.SelectedLanguage, Mode=TwoWay}">
+                          SelectedItem="{Binding ViewModel.SelectedLanguageName, Mode=TwoWay}">
                 </ComboBox>
             </Grid>
         </ui:Card>

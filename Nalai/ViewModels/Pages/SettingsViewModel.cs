@@ -15,18 +15,13 @@ namespace Nalai.ViewModels.Pages
 
         #region Languages
 
-        [ObservableProperty] private ObservableCollection<string> _comboBoxLanguages =
-        [
-            "English",
-            "简体中文",
-            "日本語",
-        ];
+        [ObservableProperty] private ObservableCollection<string> _comboBoxLanguages = [];
 
-        [ObservableProperty] private string _selectedLanguageName = string.Empty;
+        [ObservableProperty] private string _selectedLanguageName = "English";
 
         partial void OnSelectedLanguageNameChanged(string value)
         {
-            I18NService.SetLanguage(value);
+            I18NService.SetLanguageByNativeName(value);
         }
 
         #endregion
@@ -78,7 +73,8 @@ namespace Nalai.ViewModels.Pages
         {
             CurrentTheme = ApplicationThemeManager.GetAppTheme();
             AppVersion = $"Nalai - {GetAssemblyVersion()}";
-            SelectedLanguage = I18NService.CurrentLanguage;
+            SelectedLanguageName = I18NService.CurrentLanguage.NativeName;
+            ComboBoxLanguages= new ObservableCollection<string>(I18NService.AvailableLanguages.Select(x => x.NativeName));
 
             _isInitialized = true;
         }
