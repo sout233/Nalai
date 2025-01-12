@@ -26,11 +26,6 @@ namespace Nalai.Views.Windows
 
             navigationService.SetNavigationControl(RootNavigation);
             //Closing += OnClosed;
-
-            if (!ConfigHelper.GlobalConfig.General.IsStartMinimized)
-            {
-                WindowState = WindowState.Normal;
-            }
         }
 
         #region INavigationWindow methods

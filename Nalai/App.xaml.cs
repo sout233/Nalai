@@ -151,27 +151,15 @@ namespace Nalai
             {
                 HideMainWindow(null, null);
             }
-        }
-
-        private void ShowWindow(object sender, RoutedEventArgs e)
-        {
-            // 显示或激活主窗口
-            if (MainWindow == null)
-            {
-                var vm = GetService<MainWindowViewModel>();
-                var ps = GetService<IPageService>();
-                var ns = GetService<INavigationService>();
-                var window = new MainWindow(vm, ps, ns)
-                {
-                    WindowState = WindowState.Normal
-                };
-                window.Show();
-            }
             else
             {
-                MainWindow.Show();
-                MainWindow.Activate();
+                ShowDashboard(null, null);
             }
+        }
+
+        private void ShowDashboard(object? sender, RoutedEventArgs? e)
+        {
+            ShowMainWindow(null, null);
 
             if (MainWindow is INavigationWindow navWindow)
             {
@@ -179,34 +167,55 @@ namespace Nalai
             }
         }
 
-        private void HideMainWindow(object? sender, RoutedEventArgs? e)
+        private void ShowSettings(object sender, RoutedEventArgs e)
         {
-            MainWindow?.Hide();
+            ShowMainWindow(null, null);
+
+            if (MainWindow is INavigationWindow navWindow)
+            {
+                navWindow.Navigate(typeof(SettingsPage));
+            }
         }
 
-        private void ShowSettings(object sender, RoutedEventArgs e)
+        private void ShowMainWindow(object? sender, RoutedEventArgs? e)
         {
             if (MainWindow == null)
             {
                 var vm = GetService<MainWindowViewModel>();
                 var ps = GetService<IPageService>();
                 var ns = GetService<INavigationService>();
-                var window = new MainWindow(vm, ps, ns)
-                {
-                    WindowState = WindowState.Normal
-                };
+                var window = new MainWindow(vm, ps, ns);
                 window.Show();
+                window.Activate();
+                window.WindowState = WindowState.Normal;
+                MainWindow = window;
             }
             else
             {
                 MainWindow.Show();
                 MainWindow.Activate();
+                MainWindow.WindowState = WindowState.Normal;
             }
+            
+            // PutMainWindowToCenter();
+        }
 
-            if (MainWindow is INavigationWindow navWindow)
-            {
-                navWindow.Navigate(typeof(SettingsPage));
-            }
+        private void HideMainWindow(object? sender, RoutedEventArgs? e)
+        {
+            MainWindow?.Hide();
+        }
+
+        private void PutMainWindowToCenter()
+        {
+            if (MainWindow == null) return;
+            if (System.Windows.Forms.Screen.PrimaryScreen == null) return;
+            
+            var location = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Location;
+            var size = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Size;
+            var left = location.X + (size.Width - MainWindow.Width) / 2;
+            var top = location.Y + (size.Height - MainWindow.Height) / 2;
+            MainWindow.Left = left;
+            MainWindow.Top = top;
         }
 
         private void ExitApplication(object sender, RoutedEventArgs e)

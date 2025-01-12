@@ -15,7 +15,8 @@ public class ObservableSaveConfig : ObservableObject
         base.OnPropertyChanged(e);
         Console.WriteLine(@"Setting Property changed: " + e.PropertyName);
         
-        ConfigHelper.SaveConfig();
+        if(!ConfigHelper.isLoading)
+            ConfigHelper.SaveConfig();
         ConfigHelper.ApplyConfig();
     }
 }

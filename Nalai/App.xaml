@@ -21,7 +21,7 @@
                             ToolTipText="{I18N {x:Static resources:LangKeys.Nalai_Title}}">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Show Window" Click="ShowWindow" />
+                        <MenuItem Header="Show Window" Click="ShowDashboard" />
                         <MenuItem Header="Settings" Click="ShowSettings"></MenuItem>
                         <Separator />
                         <MenuItem Header="Exit" Click="ExitApplication" />

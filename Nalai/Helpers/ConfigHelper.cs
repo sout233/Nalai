@@ -10,6 +10,7 @@ namespace Nalai.Helpers
     public static class ConfigHelper
     {
         public static SettingsConfig GlobalConfig { get; private set; } = new();
+        public static bool isLoading { get; private set; }= false;
 
         private static readonly string ConfigPath =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
@@ -17,6 +18,8 @@ namespace Nalai.Helpers
 
         public static void LoadConfig()
         {
+            isLoading = true;
+            
             try
             {
                 // 确保目录存在
@@ -48,6 +51,8 @@ namespace Nalai.Helpers
                 Console.Error.WriteLine($"Error loading configuration: {ex.Message}");
                 NalaiMsgBox.Show($"Error loading configuration: {ex.Message}");
             }
+            
+            isLoading = false;
         }
 
         public static void SaveConfig()
