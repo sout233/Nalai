@@ -194,4 +194,7 @@
     <data name="Settings.StartWithWindows" xml:space="preserve">
         <value>开机自启</value>
     </data>
+    <data name="Settings.StartMinimized" xml:space="preserve">
+        <value>静默启动</value>
+    </data>
 </root>

@@ -23,6 +23,7 @@
     WindowBackdropType="Mica"
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
+    WindowState="Minimized"
     mc:Ignorable="d" Loaded="FluentWindow_Loaded">
     <Grid>
         <Grid.RowDefinitions>

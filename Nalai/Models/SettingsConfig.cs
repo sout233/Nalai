@@ -42,7 +42,7 @@ public partial class SettingGeneral : ObservableSaveConfig
     private bool _isStartWithWindows = true;
 
     [ObservableProperty]
-    private bool _isUseSilentMode = true;
+    private bool _isStartMinimized = true;
 }
 
 public partial class SettingAppearance : ObservableSaveConfig
