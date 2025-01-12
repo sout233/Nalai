@@ -39,7 +39,7 @@
 
                 <ComboBox Grid.Column="2" MinWidth="200" Margin="20,0"
                           ItemsSource="{Binding ViewModel.ComboBoxThemes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingAppearancePage}, Mode=OneWay}"
-                          SelectedItem="{Binding ViewModel.CurrentTheme, Mode=TwoWay}">
+                          SelectedItem="{Binding Source={x:Static helpers:ConfigHelper.GlobalConfig}, Path=Appearance.Theme, Mode=TwoWay}">
                 </ComboBox>
             </Grid>
         </ui:Card>

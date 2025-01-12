@@ -81,8 +81,6 @@ namespace Nalai
             return _host.Services.GetService(typeof(T)) as T;
         }
 
-        private TaskbarIcon? _taskbarIcon;
-
         /// <summary>
         /// Occurs when the application is loading.
         /// </summary>
@@ -122,9 +120,6 @@ namespace Nalai
                 }
             }
 
-            // 创建托盘图标
-            _taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
-
             // 将NativeMessagingConfig注册到注册表
             RegManager.RegisterFirefoxNativeMessagingConfig();
             RegManager.RegisterChromeNativeMessagingConfig();
@@ -140,6 +135,10 @@ namespace Nalai
             
             // 本地化
             I18NHelper.SetLanguageBySystemCulture();
+            
+            // 加载设置の配置并应用
+            ConfigHelper.LoadConfig();
+            ConfigHelper.ApplyConfig();
         }
 
         private void ShowWindow(object sender, RoutedEventArgs e)

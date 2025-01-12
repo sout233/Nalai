@@ -19,10 +19,6 @@
       Title="SettingGeneralPage"
       ui:NavigationView.HeaderContent="General">
 
-    <Page.Resources>
-        <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-    </Page.Resources>
-
     <StackPanel VerticalAlignment="Top">
         <ui:Card Margin="0,6,0,0"
                  Padding="0">
@@ -68,7 +64,9 @@
                     <ui:TextBlock Text="Start Nalai with Windows" />
                 </StackPanel>
 
-                <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0" IsChecked="{Binding ViewModel.IsStartWithWindows, Mode=TwoWay}"></ui:ToggleSwitch>
+                <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0"
+                                 IsChecked="{Binding Source={x:Static helpers:ConfigHelper.GlobalConfig}, Path=General.IsStartWithWindows, Mode=TwoWay}">
+                </ui:ToggleSwitch>
             </Grid>
         </ui:Card>
     </StackPanel>
