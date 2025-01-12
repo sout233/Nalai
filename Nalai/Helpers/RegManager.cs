@@ -65,4 +65,34 @@ public static class RegManager
             NalaiMsgBox.Show(e.ToString(), "Error");
         }
     }
+    
+    public static void RegStartWithWindows()
+    {
+        try
+        {
+            var regLoc =
+                Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true) ??
+                Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+            regLoc.SetValue("Nalai", Path.Combine(Environment.CurrentDirectory, "Nalai.Launcher.exe"));
+        }
+        catch (Exception e)
+        {
+            NalaiMsgBox.Show(e.ToString(), "Error");
+        }
+    }
+    
+    public static void UnRegStartWithWindows()
+    {
+        try
+        {
+            var regLoc =
+                Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true) ??
+                Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+            regLoc.DeleteValue("Nalai", false);
+        }
+        catch (Exception e)
+        {
+            NalaiMsgBox.Show(e.ToString(), "Error");
+        }
+    }
 }

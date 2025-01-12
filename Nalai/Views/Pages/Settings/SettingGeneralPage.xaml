@@ -38,14 +38,37 @@
                 </Viewbox>
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <ui:TextBlock FontTypography="BodyStrong" Text="{I18N {x:Static resources:LangKeys.Settings_Language}}" />
-                    <ui:TextBlock Text="Set the language of the application" />
-                </StackPanel >
+                    <ui:TextBlock FontTypography="BodyStrong"
+                                  Text="{I18N {x:Static resources:LangKeys.Settings_Language}}" />
+                    <ui:TextBlock Text="Set the language of the Nalai" />
+                </StackPanel>
 
                 <ComboBox Grid.Column="2" MinWidth="200" Margin="20,0"
                           ItemsSource="{Binding ViewModel.ComboBoxLanguages, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SettingGeneralPage}, Mode=OneWay}"
                           SelectedItem="{Binding ViewModel.SelectedLanguageName, Mode=TwoWay}">
                 </ComboBox>
+            </Grid>
+        </ui:Card>
+        <ui:Card Margin="0,6,0,0"
+                 Padding="0">
+            <Grid Height="70">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Height="24" Width="24" Margin="20,0">
+                    <ui:SymbolIcon Symbol="LauncherSettings24" />
+                </Viewbox>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <ui:TextBlock FontTypography="BodyStrong"
+                                  Text="{I18N {x:Static resources:LangKeys.Settings_StartWithWindows}}" />
+                    <ui:TextBlock Text="Start Nalai with Windows" />
+                </StackPanel>
+
+                <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0" IsChecked="{Binding ViewModel.IsStartWithWindows, Mode=TwoWay}"></ui:ToggleSwitch>
             </Grid>
         </ui:Card>
     </StackPanel>

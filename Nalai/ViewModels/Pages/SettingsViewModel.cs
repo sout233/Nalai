@@ -34,7 +34,8 @@ namespace Nalai.ViewModels.Pages
         [ObservableProperty] private ObservableCollection<ApplicationTheme> _comboBoxThemes =
         [
             ApplicationTheme.Light,
-            ApplicationTheme.Dark
+            ApplicationTheme.Dark,
+            ApplicationTheme.HighContrast
         ];
 
         partial void OnCurrentThemeChanged(ApplicationTheme value)
@@ -70,12 +71,27 @@ namespace Nalai.ViewModels.Pages
 
         #endregion
 
+        #region StartWithWindows
+
+        [ObservableProperty] private bool _isStartWithWindows;
+
+        partial void OnIsStartWithWindowsChanged(bool value)
+        {
+            if (value)
+                RegManager.RegStartWithWindows();
+            else
+                RegManager.UnRegStartWithWindows();
+        }
+        
+
+        #endregion
+
         private void InitializeViewModel()
         {
             CurrentTheme = ApplicationThemeManager.GetAppTheme();
             AppVersion = $"Nalai - {GetAssemblyVersion()}";
             SelectedLanguageName = I18NHelper.CurrentLanguage.NativeName;
-            ComboBoxLanguages= new ObservableCollection<string>(I18NHelper.AvailableLanguages.Select(x => x.NativeName));
+            ComboBoxLanguages = new ObservableCollection<string>(I18NHelper.AvailableLanguages.Select(x => x.NativeName));
 
             _isInitialized = true;
         }

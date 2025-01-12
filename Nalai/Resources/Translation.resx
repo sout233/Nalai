@@ -203,4 +203,7 @@
     <data name="Button.ReDownload" xml:space="preserve">
         <value>ReDownload</value>
     </data>
+    <data name="Settings.StartWithWindows" xml:space="preserve">
+        <value>Start with Windows</value>
+    </data>
 </root>
