@@ -70,6 +70,9 @@ namespace Nalai
 
         private static readonly Mutex LaunchMutex = new(false, "Nalai_App_Mutex");
 
+        // ReSharper disable once NotAccessedField.Local
+        private TaskbarIcon _taskbarIcon = null!;
+
         /// <summary>
         /// Gets registered service.
         /// </summary>
@@ -120,6 +123,10 @@ namespace Nalai
                 }
             }
 
+            // 创建托盘图标
+            // ReSharper disable once AssignNullToNotNullAttribute
+            _taskbarIcon = (TaskbarIcon)FindResource("NalaiTrayIcon");
+
             // 将NativeMessagingConfig注册到注册表
             RegManager.RegisterFirefoxNativeMessagingConfig();
             RegManager.RegisterChromeNativeMessagingConfig();
@@ -132,13 +139,18 @@ namespace Nalai
 
             // 启动本地服务器（用于浏览器扩展）
             Task.Run(EventApiService.Run);
-            
+
             // 本地化
             I18NHelper.SetLanguageBySystemCulture();
-            
+
             // 加载设置の配置并应用
             ConfigHelper.LoadConfig();
             ConfigHelper.ApplyConfig();
+
+            if (ConfigHelper.GlobalConfig.General.IsStartMinimized)
+            {
+                HideMainWindow(null, null);
+            }
         }
 
         private void ShowWindow(object sender, RoutedEventArgs e)
@@ -149,7 +161,10 @@ namespace Nalai
                 var vm = GetService<MainWindowViewModel>();
                 var ps = GetService<IPageService>();
                 var ns = GetService<INavigationService>();
-                var window = new MainWindow(vm, ps, ns);
+                var window = new MainWindow(vm, ps, ns)
+                {
+                    WindowState = WindowState.Normal
+                };
                 window.Show();
             }
             else
@@ -164,6 +179,11 @@ namespace Nalai
             }
         }
 
+        private void HideMainWindow(object? sender, RoutedEventArgs? e)
+        {
+            MainWindow?.Hide();
+        }
+
         private void ShowSettings(object sender, RoutedEventArgs e)
         {
             if (MainWindow == null)
@@ -171,7 +191,10 @@ namespace Nalai
                 var vm = GetService<MainWindowViewModel>();
                 var ps = GetService<IPageService>();
                 var ns = GetService<INavigationService>();
-                var window = new MainWindow(vm, ps, ns);
+                var window = new MainWindow(vm, ps, ns)
+                {
+                    WindowState = WindowState.Normal
+                };
                 window.Show();
             }
             else

@@ -206,4 +206,7 @@
     <data name="Settings.StartWithWindows" xml:space="preserve">
         <value>Start with Windows</value>
     </data>
+    <data name="Settings.StartMinimized" xml:space="preserve">
+        <value>Start Minimized</value>
+    </data>
 </root>

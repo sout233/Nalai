@@ -20,6 +20,7 @@
       ui:NavigationView.HeaderContent="General">
 
     <StackPanel VerticalAlignment="Top">
+        <!-- Language -->
         <ui:Card Margin="0,6,0,0"
                  Padding="0">
             <Grid Height="70">
@@ -45,6 +46,7 @@
                 </ComboBox>
             </Grid>
         </ui:Card>
+        <!-- 开机自启 -->
         <ui:Card Margin="0,6,0,0"
                  Padding="0">
             <Grid Height="70">
@@ -66,6 +68,31 @@
 
                 <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0"
                                  IsChecked="{Binding Source={x:Static helpers:ConfigHelper.GlobalConfig}, Path=General.IsStartWithWindows, Mode=TwoWay}">
+                </ui:ToggleSwitch>
+            </Grid>
+        </ui:Card>
+        <!-- Start Minimized -->
+        <ui:Card Margin="0,6,0,0"
+                 Padding="0">
+            <Grid Height="70">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Height="24" Width="24" Margin="20,0">
+                    <ui:SymbolIcon Symbol="Sleep24" />
+                </Viewbox>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <ui:TextBlock FontTypography="BodyStrong"
+                                  Text="{I18N {x:Static resources:LangKeys.Settings_StartMinimized}}" />
+                    <ui:TextBlock Text="Start Nalai but don't show the main window" />
+                </StackPanel>
+
+                <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0"
+                                 IsChecked="{Binding Source={x:Static helpers:ConfigHelper.GlobalConfig}, Path=General.IsStartMinimized, Mode=TwoWay}">
                 </ui:ToggleSwitch>
             </Grid>
         </ui:Card>

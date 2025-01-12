@@ -29,6 +29,5 @@
                 </tb:TaskbarIcon.ContextMenu>
             </tb:TaskbarIcon>
         </ResourceDictionary>
-
     </Application.Resources>
 </Application>

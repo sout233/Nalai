@@ -546,6 +546,15 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start Minimized.
+        /// </summary>
+        internal static string Settings_StartMinimized {
+            get {
+                return ResourceManager.GetString("Settings.StartMinimized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start with Windows.
         /// </summary>
         internal static string Settings_StartWithWindows {

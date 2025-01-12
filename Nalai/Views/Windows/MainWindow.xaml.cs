@@ -1,4 +1,5 @@
-﻿using Nalai.ViewModels.Windows;
+﻿using Nalai.Helpers;
+using Nalai.ViewModels.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -25,6 +26,11 @@ namespace Nalai.Views.Windows
 
             navigationService.SetNavigationControl(RootNavigation);
             //Closing += OnClosed;
+
+            if (!ConfigHelper.GlobalConfig.General.IsStartMinimized)
+            {
+                WindowState = WindowState.Normal;
+            }
         }
 
         #region INavigationWindow methods
