@@ -60,87 +60,6 @@ namespace Nalai.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        internal static string bt_cancel {
-            get {
-                return ResourceManager.GetString("bt.cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close.
-        /// </summary>
-        internal static string bt_close {
-            get {
-                return ResourceManager.GetString("bt.close", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit.
-        /// </summary>
-        internal static string bt_edit {
-            get {
-                return ResourceManager.GetString("bt.edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Open.
-        /// </summary>
-        internal static string bt_open {
-            get {
-                return ResourceManager.GetString("bt.open", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Open Folder.
-        /// </summary>
-        internal static string bt_openFolder {
-            get {
-                return ResourceManager.GetString("bt.openFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pause.
-        /// </summary>
-        internal static string bt_pause {
-            get {
-                return ResourceManager.GetString("bt.pause", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resume.
-        /// </summary>
-        internal static string bt_resume {
-            get {
-                return ResourceManager.GetString("bt.resume", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add.
-        /// </summary>
-        internal static string btn_add {
-            get {
-                return ResourceManager.GetString("btn.add", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ReDownload.
-        /// </summary>
-        internal static string btn_re_download {
-            get {
-                return ResourceManager.GetString("btn.re-download", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string Button_Add {
@@ -290,96 +209,6 @@ namespace Nalai.Resources {
         internal static string Dashboard_SortByStatus {
             get {
                 return ResourceManager.GetString("Dashboard.SortByStatus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Download Complete.
-        /// </summary>
-        internal static string dc_downloadComplete {
-            get {
-                return ResourceManager.GetString("dc.downloadComplete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Downloaded.
-        /// </summary>
-        internal static string down_downloaded {
-            get {
-                return ResourceManager.GetString("down.downloaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FIle Name.
-        /// </summary>
-        internal static string down_filename {
-            get {
-                return ResourceManager.GetString("down.filename", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ID.
-        /// </summary>
-        internal static string down_id {
-            get {
-                return ResourceManager.GetString("down.id", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New.
-        /// </summary>
-        internal static string down_new {
-            get {
-                return ResourceManager.GetString("down.new", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Size.
-        /// </summary>
-        internal static string down_size {
-            get {
-                return ResourceManager.GetString("down.size", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Speed.
-        /// </summary>
-        internal static string down_speed {
-            get {
-                return ResourceManager.GetString("down.speed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Status.
-        /// </summary>
-        internal static string down_status {
-            get {
-                return ResourceManager.GetString("down.status", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Total Size.
-        /// </summary>
-        internal static string down_totalSize {
-            get {
-                return ResourceManager.GetString("down.totalSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Url.
-        /// </summary>
-        internal static string down_url {
-            get {
-                return ResourceManager.GetString("down.url", resourceCulture);
             }
         }
         
@@ -542,87 +371,6 @@ namespace Nalai.Resources {
         internal static string DownloadingWindow_Speed {
             get {
                 return ResourceManager.GetString("DownloadingWindow.Speed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        internal static string dp_cancel {
-            get {
-                return ResourceManager.GetString("dp.cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Details.
-        /// </summary>
-        internal static string dp_details {
-            get {
-                return ResourceManager.GetString("dp.details", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove.
-        /// </summary>
-        internal static string dp_remove {
-            get {
-                return ResourceManager.GetString("dp.remove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Chunk Details.
-        /// </summary>
-        internal static string dw_chunkDetails {
-            get {
-                return ResourceManager.GetString("dw.chunkDetails", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Created Time.
-        /// </summary>
-        internal static string dw_createdTime {
-            get {
-                return ResourceManager.GetString("dw.createdTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Downloading.
-        /// </summary>
-        internal static string dw_downloading {
-            get {
-                return ResourceManager.GetString("dw.downloading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ETA.
-        /// </summary>
-        internal static string dw_eta {
-            get {
-                return ResourceManager.GetString("dw.eta", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Max Speed.
-        /// </summary>
-        internal static string dw_maxSpeed {
-            get {
-                return ResourceManager.GetString("dw.maxSpeed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Paused.
-        /// </summary>
-        internal static string dw_paused {
-            get {
-                return ResourceManager.GetString("dw.paused", resourceCulture);
             }
         }
         
@@ -794,6 +542,15 @@ namespace Nalai.Resources {
         internal static string Settings_License {
             get {
                 return ResourceManager.GetString("Settings.License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start with Windows.
+        /// </summary>
+        internal static string Settings_StartWithWindows {
+            get {
+                return ResourceManager.GetString("Settings.StartWithWindows", resourceCulture);
             }
         }
         

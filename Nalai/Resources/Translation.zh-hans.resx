@@ -191,4 +191,7 @@
     <data name="Status.Core" xml:space="preserve">
         <value>核心状态</value>
     </data>
+    <data name="Settings.StartWithWindows" xml:space="preserve">
+        <value>开机自启</value>
+    </data>
 </root>
