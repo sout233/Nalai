@@ -122,6 +122,14 @@ namespace Nalai
                     Task.Run(CoreService.StartAsync);
                 }
             }
+            
+            // 获取当前执行的exe文件的完整路径
+            var exePath = Assembly.GetExecutingAssembly().Location;
+            // 获取exe文件所在的目录
+            var exeDirectory = Path.GetDirectoryName(exePath)!;
+            
+            // 设置当前工作目录为exe所在的目录
+            Directory.SetCurrentDirectory(exeDirectory);
 
             // 创建托盘图标
             // ReSharper disable once AssignNullToNotNullAttribute
