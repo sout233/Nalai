@@ -34,9 +34,11 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <ui:TextBlock FontTypography="BodyStrong" Text="Show Completed Window" />
                     <ui:TextBlock Text="当任务结束时，显示下载完成窗口，此项不影响下载完成后的通知以及下载错误的提示" />
-                </StackPanel >
+                </StackPanel>
 
-                <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0"></ui:ToggleSwitch>
+                <ui:ToggleSwitch Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,20,0"
+                                 IsChecked="{Binding Source={x:Static helpers:ConfigHelper.GlobalConfig},Path=Download.IsShowCompletedWindow, Mode=TwoWay}">
+                </ui:ToggleSwitch>
             </Grid>
         </ui:Card>
     </StackPanel>

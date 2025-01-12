@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using Nalai.Helpers;
+using Nalai.Models;
 using Nalai.Services;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
@@ -12,7 +13,7 @@ namespace Nalai.ViewModels.Pages
     {
         private bool _isInitialized;
 
-        [ObservableProperty] private string _appVersion = String.Empty;
+        [ObservableProperty] private string _appVersion = string.Empty;
 
         #region Languages
 
@@ -22,14 +23,12 @@ namespace Nalai.ViewModels.Pages
 
         partial void OnSelectedLanguageNameChanged(string value)
         {
-            I18NHelper.SetLanguageByNativeName(value);
+            ConfigHelper.GlobalConfig.General.Language = I18NHelper.GetCodeByNativeName(value);
         }
 
         #endregion
 
         #region Themes
-
-        [ObservableProperty] private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
 
         [ObservableProperty] private ObservableCollection<ApplicationTheme> _comboBoxThemes =
         [
@@ -37,12 +36,7 @@ namespace Nalai.ViewModels.Pages
             ApplicationTheme.Dark,
             ApplicationTheme.HighContrast
         ];
-
-        partial void OnCurrentThemeChanged(ApplicationTheme value)
-        {
-            ApplicationThemeManager.Apply(value);
-        }
-
+        
         #endregion
 
         #region Navigation
@@ -88,7 +82,7 @@ namespace Nalai.ViewModels.Pages
 
         private void InitializeViewModel()
         {
-            CurrentTheme = ApplicationThemeManager.GetAppTheme();
+            // CurrentTheme = ApplicationThemeManager.GetAppTheme();
             AppVersion = $"Nalai - {GetAssemblyVersion()}";
             SelectedLanguageName = I18NHelper.CurrentLanguage.NativeName;
             ComboBoxLanguages = new ObservableCollection<string>(I18NHelper.AvailableLanguages.Select(x => x.NativeName));
@@ -100,32 +94,6 @@ namespace Nalai.ViewModels.Pages
         {
             return Assembly.GetExecutingAssembly().GetName().Version?.ToString()
                    ?? string.Empty;
-        }
-
-        [RelayCommand]
-        private void OnChangeTheme(string parameter)
-        {
-            switch (parameter)
-            {
-                case "theme_light":
-                    if (CurrentTheme == ApplicationTheme.Light)
-                        break;
-
-                    ApplicationThemeManager.Apply(ApplicationTheme.Light);
-                    CurrentTheme = ApplicationTheme.Light;
-
-                    break;
-
-                default:
-                    if (CurrentTheme == ApplicationTheme.Dark)
-                        break;
-
-                    ApplicationThemeManager.Apply(ApplicationTheme.Dark);
-                    CurrentTheme = ApplicationTheme.Dark;
-
-                    break;
-            }
-            //Console.WriteLine(ThemeColor);
         }
 
         [RelayCommand]

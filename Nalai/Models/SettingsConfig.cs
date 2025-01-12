@@ -1,27 +1,58 @@
-﻿using Wpf.Ui.Appearance;
+﻿using System;
+using System.ComponentModel;
+using System.Reflection;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Nalai.Helpers;
+using Wpf.Ui.Appearance;
 
 namespace Nalai.Models;
 
-public class SettingsConfig
+// 基类用于处理属性更改并自动保存配置
+public class ObservableSaveConfig : ObservableObject
 {
-    public SettingGeneral General { get; set; }
-    public SettingAppearance Appearance { get; set; }
-    public SettingDownload Download { get; set; }
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        Console.WriteLine(@"Setting Property changed: " + e.PropertyName);
+        
+        ConfigHelper.SaveConfig();
+        ConfigHelper.ApplyConfig();
+    }
 }
 
-public class SettingGeneral
+// 所有的配置类
+public partial class SettingsConfig : ObservableSaveConfig
 {
-    public string Language { get; set; }
-    public bool isStartWithWindows { get; set; }
-    public bool isUseSlientMode { get; set; }
+    [ObservableProperty]
+    private SettingGeneral _general = new();
+
+    [ObservableProperty]
+    private SettingAppearance _appearance = new();
+
+    [ObservableProperty]
+    private SettingDownload _download = new();
 }
 
-public class SettingAppearance
+public partial class SettingGeneral : ObservableSaveConfig
 {
-    public ApplicationTheme Theme { get; set; }
+    [ObservableProperty]
+    private string _language = "en-US";
+
+    [ObservableProperty]
+    private bool _isStartWithWindows = true;
+
+    [ObservableProperty]
+    private bool _isUseSilentMode = true;
 }
 
-public class SettingDownload
+public partial class SettingAppearance : ObservableSaveConfig
 {
-    public bool isShowCompletedWindow { get; set; }
+    [ObservableProperty]
+    private ApplicationTheme _theme = ApplicationTheme.Dark;
+}
+
+public partial class SettingDownload : ObservableSaveConfig
+{
+    [ObservableProperty]
+    private bool _isShowCompletedWindow = true;
 }

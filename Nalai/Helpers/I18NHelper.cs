@@ -51,6 +51,11 @@ public static class I18NHelper
     {
         CurrentLanguage = AvailableLanguages.Find(l => l.NativeName == value) ?? AvailableLanguages[0];
     }
+
+    public static string GetCodeByNativeName(string value)
+    {
+        return AvailableLanguages.Find(l => l.NativeName == value)?.Code ?? string.Empty;
+    }
 }
 
 public class Language
