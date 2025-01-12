@@ -12,15 +12,15 @@ public static class RegManager
 
     public static string GetTrueAppDir()
     {
-        var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-        var trueAppDir = Path.GetDirectoryName(appPath)!;
+        var dllPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        var trueAppDir = Path.GetDirectoryName(dllPath)!;
         return trueAppDir;
     }
 
     public static string GetTrueAppFullPath()
     {
-        var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-        return appPath;
+        var dllPath = GetTrueAppDir();
+        return Path.Combine(dllPath, "Nalai.exe");
     }
 
     public static void RegisterChromeNativeMessagingConfig()
@@ -78,7 +78,7 @@ public static class RegManager
             NalaiMsgBox.Show(e.ToString(), "Error");
         }
     }
-    
+
     public static void RegStartWithWindows()
     {
         try
@@ -87,7 +87,7 @@ public static class RegManager
             var regLoc =
                 Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true) ??
                 Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
-        
+
             // 设置注册表值，确保路径正确指向你的exe文件
             regLoc.SetValue("Nalai", $"\"{appPath}\"");
         }
@@ -96,7 +96,7 @@ public static class RegManager
             NalaiMsgBox.Show(e.ToString(), "Error");
         }
     }
-    
+
     public static void UnRegStartWithWindows()
     {
         try
