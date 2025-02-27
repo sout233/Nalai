@@ -38,6 +38,11 @@ public class CoreTask(
 
             GlobalTaskChanged?.Invoke(this, this);
             StatusChanged?.Invoke(this, value);
+            ProgressChanged?.Invoke(this,
+                new DownloadProgressChangedEventArgs(totalBytesToReceive: value.TotalBytes,
+                    bytesReceived: value.DownloadedBytes,
+                    progressPercentage: (float)value.DownloadedBytes / value.TotalBytes * 100,
+                    bytesPerSecondSpeed: value.BytesPerSecondSpeed));
         }
     }
 
@@ -103,8 +108,8 @@ public class CoreTask(
         }
 
         _cancellationTokenSource = new CancellationTokenSource();
-        StartListen(_cancellationTokenSource.Token);
-        NalaiDownService.ListeningTasks.TryAdd(Id, this);
+        // StartListen(_cancellationTokenSource.Token);
+        // NalaiDownService.ListeningTasks.TryAdd(Id, this);
 
         SyncAllTasksFromCore();
     }
@@ -341,7 +346,7 @@ public class CoreTask(
         if (result is { IsRunning: true })
         {
             _cancellationTokenSource = new();
-            StartListen(_cancellationTokenSource.Token);
+            // StartListen(_cancellationTokenSource.Token);
         }
         else
         {
@@ -355,5 +360,17 @@ public class CoreTask(
         }
 
         return result is { IsRunning: true };
+    }
+
+    public static void ExternalUpdateInfoById(string id, NalaiCoreInfo info)
+    {
+        if (NalaiDownService.GlobalDownloadTasks.ContainsKey(id))
+        {
+            NalaiDownService.GlobalDownloadTasks[id]!.SetInfoResult(info);
+        }
+        else
+        {
+            Console.WriteLine("ExternalUpdateInfoById: Task not found");
+        }
     }
 }

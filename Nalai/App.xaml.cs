@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nalai.CoreConnector;
+using Nalai.CoreConnector.Models;
+using Nalai.CoreConnector.Services;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Services;
@@ -122,12 +124,12 @@ namespace Nalai
                     Task.Run(CoreService.StartAsync);
                 }
             }
-            
+
             // 获取当前执行的exe文件的完整路径
             var exePath = Assembly.GetExecutingAssembly().Location;
             // 获取exe文件所在的目录
             var exeDirectory = Path.GetDirectoryName(exePath)!;
-            
+
             // 设置当前工作目录为exe所在的目录
             Directory.SetCurrentDirectory(exeDirectory);
 
@@ -148,6 +150,10 @@ namespace Nalai
             // 启动本地服务器（用于浏览器扩展）
             Task.Run(EventApiService.Run);
 
+            // 启动WebSocket服务
+            Task.Run(WebSocketService.Start);
+            WebSocketService.OnMessageReceived += OnWebSocketMessageReceived;
+
             // 本地化
             I18NHelper.SetLanguageBySystemCulture();
 
@@ -162,6 +168,26 @@ namespace Nalai
             else
             {
                 ShowDashboard(null, null);
+            }
+        }
+
+        private void OnWebSocketMessageReceived(object? sender, WsEvent<object> e)
+        {
+            switch (e.EventType)
+            {
+                case "DownloadProgress":
+                {
+                    // TODO: 优化此处的双重序列化垃圾代码
+                    var str = JsonConvert.SerializeObject(e.Data);
+                    var data = JsonConvert.DeserializeObject<NalaiCoreInfo>(str);
+                    if (data != null) CoreTask.ExternalUpdateInfoById(data.Id, data);
+                    break;
+                }
+                case "DownloadComplete":
+                    break;
+                case "Raw":
+                    Console.WriteLine(e.Data);
+                    break;
             }
         }
 
@@ -204,7 +230,7 @@ namespace Nalai
                 MainWindow.Activate();
                 MainWindow.WindowState = WindowState.Normal;
             }
-            
+
             // PutMainWindowToCenter();
         }
 
@@ -217,7 +243,7 @@ namespace Nalai
         {
             if (MainWindow == null) return;
             if (System.Windows.Forms.Screen.PrimaryScreen == null) return;
-            
+
             var location = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Location;
             var size = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Size;
             var left = location.X + (size.Width - MainWindow.Width) / 2;
@@ -251,8 +277,10 @@ namespace Nalai
                 }
             }
 
-            await _host.StopAsync();
             RunningStateChecker.Stop();
+            await WebSocketService.Close();
+
+            await _host.StopAsync();
             _host.Dispose();
         }
 

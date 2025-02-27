@@ -54,13 +54,13 @@ public partial class
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.Pause24 };
             PauseOrResumeBtnContent = I18NHelper.GetTranslation(LangKeys.Button_Pause);
-            ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading)+": "+FileName;
+            ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading) + ": " + FileName;
         }
         else
         {
             PauseOrResumeBtnIcon = new SymbolIcon { Symbol = SymbolRegular.CaretRight24 };
             PauseOrResumeBtnContent = I18NHelper.GetTranslation(LangKeys.Button_Resume);
-            ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Paused)+": "+FileName;
+            ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Paused) + ": " + FileName;
         }
     }
 
@@ -117,10 +117,7 @@ public partial class
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
         Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";
-        Task.Run(() =>
-        {
-            ChunksCollection = GenerateChunksCollection();
-        });
+        Task.Run(() => { ChunksCollection = GenerateChunksCollection(); });
     }
 
     private ObservableCollection<ExtendedChunkItem> GenerateChunksCollection()
@@ -131,13 +128,39 @@ public partial class
         {
             chunksCollection.Add(chunk);
         }
+
         return chunksCollection;
     }
 
     public void OnDownloadStatusChanged(object? sender, NalaiCoreInfo e)
     {
+        Console.WriteLine("OnDownloadStatusChanged");
         FileName = e.FileName;
-        ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading)+": "+FileName;
+        ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading) + ": " + FileName;
         Url = e.Url;
+    }
+
+    public void OnGlobalTaskChanged(object? sender, CoreTask? e)
+    {
+        if (e == null)
+            return;
+        
+        var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytes);
+        var receivedFileSize = ByteSizeFormatter.FormatSize(e.DownloadedBytes);
+        var remainingTime =
+            TimeFormatter.CalculateRemainingTime(e.DownloadedBytes, e.TotalBytes,
+                e.BytesPerSecondSpeed);
+
+        ProgressValue = e.Progress;
+        ProgressText = e.Progress.ToString("0.00") + "%";
+        DownloadSpeed = ByteSizeFormatter.FormatSize(e.BytesPerSecondSpeed) + "/s";
+        if (e.BytesPerSecondSpeed > _maxSpeed)
+            _maxSpeed = e.BytesPerSecondSpeed;
+        MaxSpeedText = ByteSizeFormatter.FormatSize(_maxSpeed) + "/s";
+
+        RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
+        Url = ThisViewTask.Url;
+        FileSize = $"{receivedFileSize} / {totalFileSize}";
+        Task.Run(() => { ChunksCollection = GenerateChunksCollection(); });
     }
 }

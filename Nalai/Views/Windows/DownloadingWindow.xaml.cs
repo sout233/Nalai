@@ -30,6 +30,7 @@ public partial class DownloadingWindow : FluentWindow
 
         task.ProgressChanged += ViewModel.OnDownloadProgressChanged;
         task.StatusChanged += ViewModel.OnDownloadStatusChanged;
+        CoreTask.GlobalTaskChanged += ViewModel.OnGlobalTaskChanged;
         // 下面这个暂且不用
         // task.Downloader.ChunkDownloadProgressChanged += ViewModel.OnChunkDownloadProgressChanged;
     }
