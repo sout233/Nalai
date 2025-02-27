@@ -139,20 +139,19 @@ public partial class
         ApplicationTitle = I18NExtension.Translate(LangKeys.DownloadingWindow_Downloading) + ": " + FileName;
         Url = e.Url;
     }
+    
 
-    public void OnGlobalTaskChanged(object? sender, CoreTask? e)
+    public void OnGlobalTaskChanged(object? sender, NalaiCoreInfo e)
     {
-        if (e == null)
-            return;
-        
         var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytes);
         var receivedFileSize = ByteSizeFormatter.FormatSize(e.DownloadedBytes);
         var remainingTime =
             TimeFormatter.CalculateRemainingTime(e.DownloadedBytes, e.TotalBytes,
                 e.BytesPerSecondSpeed);
 
-        ProgressValue = e.Progress;
-        ProgressText = e.Progress.ToString("0.00") + "%";
+        // TODO: 改为model中的progress
+        ProgressValue = (float)e.DownloadedBytes / e.TotalBytes * 100;
+        ProgressText = ProgressValue.ToString("0.00") + "%";
         DownloadSpeed = ByteSizeFormatter.FormatSize(e.BytesPerSecondSpeed) + "/s";
         if (e.BytesPerSecondSpeed > _maxSpeed)
             _maxSpeed = e.BytesPerSecondSpeed;

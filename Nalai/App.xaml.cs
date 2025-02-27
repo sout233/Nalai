@@ -152,7 +152,9 @@ namespace Nalai
 
             // 启动WebSocket服务
             Task.Run(WebSocketService.Start);
-            WebSocketService.OnMessageReceived += OnWebSocketMessageReceived;
+
+            // 创建绑定
+            ConnectorHelper.Start();
 
             // 本地化
             I18NHelper.SetLanguageBySystemCulture();
@@ -168,26 +170,6 @@ namespace Nalai
             else
             {
                 ShowDashboard(null, null);
-            }
-        }
-
-        private void OnWebSocketMessageReceived(object? sender, WsEvent<object> e)
-        {
-            switch (e.EventType)
-            {
-                case "DownloadProgress":
-                {
-                    // TODO: 优化此处的双重序列化垃圾代码
-                    var str = JsonConvert.SerializeObject(e.Data);
-                    var data = JsonConvert.DeserializeObject<NalaiCoreInfo>(str);
-                    if (data != null) CoreTask.ExternalUpdateInfoById(data.Id, data);
-                    break;
-                }
-                case "DownloadComplete":
-                    break;
-                case "Raw":
-                    Console.WriteLine(e.Data);
-                    break;
             }
         }
 

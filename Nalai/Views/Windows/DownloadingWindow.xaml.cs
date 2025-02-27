@@ -1,4 +1,5 @@
-﻿using Nalai.Models;
+﻿using Nalai.Helpers;
+using Nalai.Models;
 using Nalai.ViewModels.Windows;
 using Wpf.Ui.Controls;
 
@@ -30,7 +31,7 @@ public partial class DownloadingWindow : FluentWindow
 
         task.ProgressChanged += ViewModel.OnDownloadProgressChanged;
         task.StatusChanged += ViewModel.OnDownloadStatusChanged;
-        CoreTask.GlobalTaskChanged += ViewModel.OnGlobalTaskChanged;
+        ConnectorHelper.GlobalTaskUpdated += ViewModel.OnGlobalTaskChanged;
         // 下面这个暂且不用
         // task.Downloader.ChunkDownloadProgressChanged += ViewModel.OnChunkDownloadProgressChanged;
     }
