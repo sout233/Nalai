@@ -47,6 +47,9 @@ public record NalaiCoreInfo
 
     [JsonProperty("chunks")]
     public List<ChunksItem> Chunks { get;set; }
+    
+    [JsonProperty("id")]
+    public string Id { get; set; }
 }
 
 public class GetInfoResponse : NalaiResponse<NalaiCoreInfo>;

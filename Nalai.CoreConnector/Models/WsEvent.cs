@@ -1,6 +1,11 @@
-﻿namespace Nalai.CoreConnector.Models;
+﻿using Newtonsoft.Json;
 
-public class WSEvent
+namespace Nalai.CoreConnector.Models;
+
+public class WsEvent<T>
 {
+    [JsonProperty("event_type")]
+    public required string EventType { get; set; }
     
+    [JsonProperty("data")] public T? Data { get; set; }
 }
