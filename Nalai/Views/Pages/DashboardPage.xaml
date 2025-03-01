@@ -129,7 +129,7 @@
                     <ui:GridViewColumn
                         MinWidth="100"
                         Width="130"
-                        DisplayMemberBinding="{Binding RealtimeStatusText}"
+                        DisplayMemberBinding="{Binding StatusText}"
                         Header="{I18N {x:Static resources:LangKeys.Download_Status}}" />
                     <ui:GridViewColumn
                         MinWidth="100"

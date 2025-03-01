@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using Nalai.CoreConnector.Models;
 using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.Resources;
@@ -16,10 +17,10 @@ public partial class DownloadCompleteWindowViewModel : ObservableObject
     [ObservableProperty] private string _fileName = "Unknown";
     [ObservableProperty] private string _downloadPath = "Unknown";
 
-    public DownloadCompleteWindowViewModel(CoreTask task)
+    public DownloadCompleteWindowViewModel(NalaiCoreInfo task)
     {
         FileName = task.FileName;
-        DownloadPath = task.SaveDir;
+        DownloadPath = task.SaveDirectory;
         ApplicationTitle = $"{I18NHelper.GetTranslation(LangKeys.DownloadCompleteWindow_DownloadComplete)} - {task.FileName}";
     }
 

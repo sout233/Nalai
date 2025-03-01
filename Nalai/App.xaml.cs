@@ -142,8 +142,9 @@ namespace Nalai
             RegManager.RegisterChromeNativeMessagingConfig();
 
             // 启动核心
-            Task.Run(CoreTask.SyncAllTasksFromCore);
-
+            // Task.Run(CoreTask.SyncAllTasksFromCore);
+            Task.Run(ConnectorHelper.SyncAllTasksFromCore);
+            
             // 启动状态检查器
             RunningStateChecker.Start();
 

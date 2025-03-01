@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Nalai.CoreConnector.Models;
 using Nalai.Models;
 using Nalai.Views.Windows;
 
@@ -22,17 +23,17 @@ public partial class DetailsWindowViewModel : ObservableObject
     [ObservableProperty] private string _eta;
     [ObservableProperty] private string _createdTime;
 
-    public DetailsWindowViewModel(CoreTask task,DetailsWindow window)
+    public DetailsWindowViewModel(NalaiCoreInfoExtended task,DetailsWindow window)
     {
         ApplicationTitle = "Details: " + task.FileName;
         BindWindow = window;
         
-        ProgressText = task.RealtimeStatusText;
+        ProgressText = task.ProgressText;
         FileName = task.FileName;
         Id = task.Id ?? string.Empty;
-        SavePath = task.SaveDir;
+        SavePath = task.SaveDirectory;
         FileSize = $"{task.DownloadedSizeText} / {task.TotalBytes}";
-        Status = task.Status.ToString();
+        Status = task.Status.ToString() ?? string.Empty;
         DownloadedSize = task.DownloadedSizeText;
         TotalSize = task.TotalSizeText;
         Speed = task.SpeedText;

@@ -8,7 +8,7 @@ public partial class DetailsWindow : FluentWindow
 {
     public DetailsWindowViewModel ViewModel { get; }
     
-    public DetailsWindow(CoreTask task)
+    public DetailsWindow(NalaiCoreInfoExtended task)
     {
         InitializeComponent();
         ViewModel = new DetailsWindowViewModel(task,this);

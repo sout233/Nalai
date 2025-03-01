@@ -37,7 +37,7 @@ public partial class DashboardPage : INavigableView<DashboardViewModel>
             return;
         }
 
-        if (item is not CoreTask task)
+        if (item is not NalaiCoreInfoExtended task)
         {
             ViewModel.SetPauseOrResumeButtonEnabled(false);
             return;

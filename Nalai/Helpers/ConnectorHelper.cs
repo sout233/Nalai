@@ -1,6 +1,7 @@
 ﻿using Nalai.CoreConnector;
 using Nalai.CoreConnector.Models;
 using Nalai.CoreConnector.Services;
+using Nalai.Models;
 using Nalai.Services;
 using Newtonsoft.Json;
 
@@ -36,35 +37,69 @@ public static class ConnectorHelper
         }
     }
 
-    public static async void StartTaskById(string taskId)
+    public static async Task StartTaskById(string taskId)
     {
         var task = NalaiDownService.GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
         if (task == null)
             throw new ArgumentException("Task not found");
 
-        await CoreService.SendStartMsgAsync(task.Url, task.SaveDir, task.FileName, taskId, task.Headers);
+        await CoreService.SendStartMsgAsync(task.Url, task.SaveDirectory, task.FileName, taskId, task.Headers);
     }
 
-    public static async void StopTaskById(string taskId)
+    public static async Task StopTaskById(string taskId)
     {
         var task = NalaiDownService.GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
         if (task == null)
             throw new ArgumentException("Task not found");
 
-        await CoreService.SendStopMsgAsync(taskId);
+        var result = await CoreService.SendStopMsgAsync(taskId);
     }
 
-    public static async void PauseOrResumeTaskById(string taskId)
+    public static async Task<bool> PauseOrResumeTaskById(string taskId)
     {
-        await CoreService.SendSorcMsgAsync(taskId);
+        var result = await CoreService.SendSorcMsgAsync(taskId);
+
+        return result is { IsRunning: true };
     }
 
-    public static async void DeleteTaskById(string taskId)
+
+    public static async Task DeleteTaskById(string taskId)
     {
         var task = NalaiDownService.GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
         if (task == null)
             throw new ArgumentException("Task not found");
 
         await CoreService.SendDeleteMsgAsync(taskId);
+    }
+
+    public static async Task SyncAllTasksFromCore()
+    {
+        var tasks = await CoreService.GetAllInfo();
+        if (tasks != null)
+        {
+            var newDict = new Dictionary<string, NalaiCoreInfoExtended>();
+            foreach (var (id, info) in tasks)
+            {
+                newDict.Add(id, new NalaiCoreInfoExtended(info));
+            }
+
+            NalaiDownService.GlobalDownloadTasks = newDict;
+        }
+    }
+
+    public static async Task<NalaiCoreInfoExtended> CreateNewTask(string url, string saveDir, string fileName,
+        Dictionary<string, string>? headers = null)
+    {
+        var id = CalculateNalaiCoreId.FromFileNameAndSaveDir(fileName, saveDir);
+
+        _ = await CoreService.SendStartMsgAsync(url, saveDir, fileName, id, headers);
+
+        var info = await CoreService.GetStatusAsync(id);
+
+        if (info == null) throw new ArgumentException("Cannot get task info from core when creat new task");
+        
+        var task = new NalaiCoreInfoExtended(info);
+        return task;
+
     }
 }

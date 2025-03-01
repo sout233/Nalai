@@ -50,6 +50,9 @@ public record NalaiCoreInfo
     
     [JsonProperty("id")]
     public string Id { get; set; }
+    
+    [JsonProperty("headers")]
+    public Dictionary<string, string> Headers { get; set; }
 }
 
 public class GetInfoResponse : NalaiResponse<NalaiCoreInfo>;

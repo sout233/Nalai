@@ -1,4 +1,5 @@
-﻿using Nalai.Helpers;
+﻿using Nalai.CoreConnector.Models;
+using Nalai.Helpers;
 using Nalai.Models;
 using Nalai.ViewModels.Windows;
 using Wpf.Ui.Controls;
@@ -8,9 +9,9 @@ namespace Nalai.Views.Windows;
 public partial class DownloadingWindow : FluentWindow
 {
     public DownloadingWindowViewModel ViewModel { get; }
-    private CoreTask ThisWindowTask { get; set; }
+    private NalaiCoreInfoExtended ThisWindowTask { get; set; }
 
-    public DownloadingWindow(DownloadingWindowViewModel viewModel, string url, CoreTask task)
+    public DownloadingWindow(DownloadingWindowViewModel viewModel, string url, NalaiCoreInfoExtended task)
     {
         InitializeComponent();
 
@@ -29,8 +30,8 @@ public partial class DownloadingWindow : FluentWindow
         ViewModel.ThisViewTask = task;
         ViewModel.BasedWindow = this;
 
-        task.ProgressChanged += ViewModel.OnDownloadProgressChanged;
-        task.StatusChanged += ViewModel.OnDownloadStatusChanged;
+        // task.ProgressChanged += ViewModel.OnDownloadProgressChanged;
+        // task.StatusChanged += ViewModel.OnDownloadStatusChanged;
         ConnectorHelper.GlobalTaskUpdated += ViewModel.OnGlobalTaskChanged;
         // 下面这个暂且不用
         // task.Downloader.ChunkDownloadProgressChanged += ViewModel.OnChunkDownloadProgressChanged;

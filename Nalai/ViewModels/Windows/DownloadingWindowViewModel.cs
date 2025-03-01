@@ -31,12 +31,13 @@ public partial class
 
     private long _maxSpeed = 0;
 
-    public DownloadingWindowViewModel(CoreTask thisViewTask)
+    public DownloadingWindowViewModel(NalaiCoreInfoExtended thisViewTask)
     {
         ThisViewTask = thisViewTask;
     }
-
-    public CoreTask ThisViewTask { get; set; }
+    
+    
+    public NalaiCoreInfoExtended ThisViewTask { get; set; }
     public Window BasedWindow { get; set; }
 
     [RelayCommand]
@@ -48,7 +49,8 @@ public partial class
     [RelayCommand]
     private async Task PauseOrResumeDownload()
     {
-        var isRunning = await ThisViewTask.StartOrCancelAsync();
+        // var isRunning = await ThisViewTask.StartOrCancelAsync();
+        var isRunning = await ConnectorHelper.PauseOrResumeTaskById(ThisViewTask.Id);
         Console.WriteLine(isRunning);
         if (isRunning)
         {
@@ -68,7 +70,8 @@ public partial class
     [RelayCommand]
     private async Task CancelDownload()
     {
-        await ThisViewTask.CancelAsync();
+        // await ThisViewTask.CancelAsync();
+        await ConnectorHelper.StopTaskById(ThisViewTask.Id);
         BasedWindow.Close();
     }
 
@@ -115,18 +118,17 @@ public partial class
         MaxSpeedText = ByteSizeFormatter.FormatSize(_maxSpeed) + "/s";
 
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
-        Url = ThisViewTask.Url;
+        // Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";
-        Task.Run(() => { ChunksCollection = GenerateChunksCollection(); });
+        // Task.Run(() => { ChunksCollection = GenerateChunksCollection(); });
     }
 
-    private ObservableCollection<ExtendedChunkItem> GenerateChunksCollection()
+    private ObservableCollection<ExtendedChunkItem> GenerateChunksCollection(List<ChunksItem> chunks)
     {
-        var chunks = ThisViewTask.Chunks;
         var chunksCollection = new ObservableCollection<ExtendedChunkItem>();
         foreach (var chunk in chunks)
         {
-            chunksCollection.Add(chunk);
+            chunksCollection.Add(new ExtendedChunkItem(chunk));
         }
 
         return chunksCollection;
@@ -160,6 +162,6 @@ public partial class
         RemainingTime = $"{remainingTime.Hours}h {remainingTime.Minutes}m {remainingTime.Seconds}s";
         Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";
-        Task.Run(() => { ChunksCollection = GenerateChunksCollection(); });
+        Task.Run(() => { ChunksCollection = GenerateChunksCollection(e.Chunks); });
     }
 }

@@ -109,10 +109,11 @@ public partial class NewTaskWindowViewModel : ObservableObject
         try
         {
             var fileName = await UrlHelper.GetFileName(Url);
-            var task = await NalaiDownService.NewTask(Url, SavePath, fileName, Headers);
-
+            // var task = await NalaiDownService.NewTask(Url, SavePath, fileName, Headers);
+            var task = await ConnectorHelper.CreateNewTask(Url, SavePath, fileName, Headers);
+            
             var vm = new DownloadingWindowViewModel(task);
-            var window = new DownloadingWindow(vm, Url, task);
+            var window = new DownloadingWindow(vm, Url,task);
             window.Show();
 
             task.BindWindows.Add(window);
