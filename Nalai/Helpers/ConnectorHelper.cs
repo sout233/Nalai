@@ -9,8 +9,11 @@ namespace Nalai.Helpers;
 
 public static class ConnectorHelper
 {
+    public static Dictionary<string, NalaiCoreInfoExtended> GlobalDownloadTasks { get; internal set; } = [];
     public static event EventHandler<NalaiCoreInfo>? GlobalTaskProgressUpdated;
     public static event EventHandler<NalaiCoreInfo>? GlobalTaskStatusUpdated;
+    public static event EventHandler? GlobalTaskListUpdated;
+
 
     public static void Start()
     {
@@ -30,8 +33,8 @@ public static class ConnectorHelper
                 if (data != null)
                 {
                     GlobalTaskProgressUpdated?.Invoke(null, data);
-                    var keyValuePairs = NalaiDownService.GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
-                    NalaiDownService.GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
+                    var keyValuePairs = GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
+                    GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
                 }
 
                 break;
@@ -44,8 +47,8 @@ public static class ConnectorHelper
                 if (data != null)
                 {
                     GlobalTaskStatusUpdated?.Invoke(null, data);
-                    var keyValuePairs = NalaiDownService.GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
-                    NalaiDownService.GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
+                    var keyValuePairs = GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
+                    GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
                 }
                 break;
             }
@@ -57,7 +60,7 @@ public static class ConnectorHelper
 
     public static async Task StartTaskById(string taskId)
     {
-        var task = NalaiDownService.GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
+        var task = GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
         if (task == null)
             throw new ArgumentException("Task not found");
 
@@ -67,7 +70,7 @@ public static class ConnectorHelper
 
     public static async Task StopTaskById(string taskId)
     {
-        var task = NalaiDownService.GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
+        var task = GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
         if (task == null)
             throw new ArgumentException("Task not found");
 
@@ -78,22 +81,19 @@ public static class ConnectorHelper
     {
         var result = await CoreService.SendSorcMsgAsync(taskId);
 
-        var task = await CoreService.GetStatusAsync(taskId);
-
-        if (task != null) GlobalTaskStatusUpdated?.Invoke(null, task);
-
         return result is { IsRunning: true };
     }
 
 
     public static async Task DeleteTaskById(string taskId)
     {
-        var task = NalaiDownService.GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
+        var task = GlobalDownloadTasks.First(t => t.Value?.Id == taskId).Value;
         if (task == null)
             throw new ArgumentException("Task not found");
 
         await CoreService.SendDeleteMsgAsync(taskId);
-        GlobalTaskStatusUpdated?.Invoke(null, task);
+        
+        GlobalTaskListUpdated?.Invoke(null,null!);
     }
 
     public static async Task SyncAllTasksFromCore()
@@ -107,7 +107,8 @@ public static class ConnectorHelper
                 newDict.Add(id, new NalaiCoreInfoExtended(info));
             }
 
-            NalaiDownService.GlobalDownloadTasks = newDict;
+            GlobalDownloadTasks = newDict;
+            GlobalTaskListUpdated?.Invoke(null,null!);
         }
     }
 

@@ -8,7 +8,6 @@ namespace Nalai.Services;
 
 public static class NalaiDownService
 {
-    public static Dictionary<string, NalaiCoreInfoExtended> GlobalDownloadTasks { get; internal set; } = [];
     // public static Dictionary<string, CoreTask?> ListeningTasks { get; internal set; } = [];
 
     // public static Task<CoreTask> NewTask(string url, string saveDir, string fileName,

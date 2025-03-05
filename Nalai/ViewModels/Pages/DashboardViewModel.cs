@@ -32,15 +32,21 @@ namespace Nalai.ViewModels.Pages
 
         public DashboardViewModel()
         {
-            // NalaiDownService.GlobalDownloadTasks = SqlService.ReadAll();
+            // ConnectorHelper.GlobalDownloadTasks = SqlService.ReadAll();
             UpdateDownloadCollection();
 
-            // foreach (var (_, task) in NalaiDownService.GlobalDownloadTasks)
+            // foreach (var (_, task) in ConnectorHelper.GlobalDownloadTasks)
             // {
             //     if (task != null) task.StatusChanged += OnDownloadStatusChanged;
             // }
 
             ConnectorHelper.GlobalTaskProgressUpdated += OnGlobalTaskProgressChanged;
+            ConnectorHelper.GlobalTaskListUpdated += OnGlobalTaskListUpdated;
+        }
+
+        private void OnGlobalTaskListUpdated(object? sender, EventArgs e)
+        {
+            UpdateDownloadCollection();
         }
 
         public void SetPauseOrResumeButtonEnabled(bool isEnabled)
@@ -67,7 +73,7 @@ namespace Nalai.ViewModels.Pages
 
         private ObservableCollection<NalaiCoreInfoExtended> GenerateDownloadCollection()
         {
-            var tasks = NalaiDownService.GlobalDownloadTasks;
+            var tasks = ConnectorHelper.GlobalDownloadTasks;
             var taskCollection = new ObservableCollection<NalaiCoreInfoExtended>();
             foreach (var (_, task) in tasks)
             {
@@ -193,7 +199,7 @@ namespace Nalai.ViewModels.Pages
             }
             else
             {
-                var items = NalaiDownService.GlobalDownloadTasks;
+                var items = ConnectorHelper.GlobalDownloadTasks;
                 var filteredItems = items.Where((pair, _) =>
                     pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
@@ -215,7 +221,7 @@ namespace Nalai.ViewModels.Pages
             }
             else
             {
-                var items = NalaiDownService.GlobalDownloadTasks;
+                var items = ConnectorHelper.GlobalDownloadTasks;
                 var filteredItems = items.Where((pair, _) =>
                     pair.Value != null && pair.Value.FileName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
@@ -233,40 +239,40 @@ namespace Nalai.ViewModels.Pages
             if (parameter is not string sortType) return;
             DownloadViewItems = sortType switch
             {
-                "FileNameAsc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "FileNameAsc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderBy(pair => pair.Value?.FileName)
                     .Select(pair => pair.Value)!),
-                "FileNameDesc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "FileNameDesc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderByDescending(pair => pair.Value?.FileName)
                     .Select(pair => pair.Value)!),
-                "FileSizeAsc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "FileSizeAsc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderBy(pair => pair.Value?.TotalBytes)
                     .Select(pair => pair.Value)!),
-                "FileSizeDesc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "FileSizeDesc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderByDescending(pair => pair.Value?.TotalBytes)
                     .Select(pair => pair.Value)!),
-                "StatusAsc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "StatusAsc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderBy(pair => pair.Value?.Status)
                     .Select(pair => pair.Value)!),
-                "StatusDesc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "StatusDesc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderByDescending(pair => pair.Value?.Status)
                     .Select(pair => pair.Value)!),
-                "SpeedAsc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "SpeedAsc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderBy(pair => pair.Value?.BytesPerSecondSpeed)
                     .Select(pair => pair.Value)!),
-                "SpeedDesc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "SpeedDesc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderByDescending(pair => pair.Value?.BytesPerSecondSpeed)
                     .Select(pair => pair.Value)!),
-                "ProgressAsc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "ProgressAsc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderBy(pair => pair.Value?.Progress)
                     .Select(pair => pair.Value)!),
-                "ProgressDesc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "ProgressDesc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderByDescending(pair => pair.Value?.Progress)
                     .Select(pair => pair.Value)!),
-                "CreatedTimeAsc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "CreatedTimeAsc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderBy(pair => pair.Value?.SortableCreatedTime)
                     .Select(pair => pair.Value)!),
-                "CreatedTimeDesc" => new ObservableCollection<NalaiCoreInfoExtended>(NalaiDownService.GlobalDownloadTasks
+                "CreatedTimeDesc" => new ObservableCollection<NalaiCoreInfoExtended>(ConnectorHelper.GlobalDownloadTasks
                     .OrderByDescending(pair => pair.Value?.SortableCreatedTime)
                     .Select(pair => pair.Value)!),
                 _ => DownloadViewItems
