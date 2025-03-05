@@ -47,7 +47,7 @@ public static class RegManager
         }
         catch (Exception e)
         {
-            NalaiMsgBox.Show(e.ToString(), "Error");
+            NalaiMsgBox.Show(e.ToString(), "RegMgr Error");
         }
     }
 
@@ -75,7 +75,7 @@ public static class RegManager
         }
         catch (Exception e)
         {
-            NalaiMsgBox.Show(e.ToString(), "Error");
+            NalaiMsgBox.Show(e.ToString(), "RegMgr Error");
         }
     }
 
@@ -93,7 +93,7 @@ public static class RegManager
         }
         catch (Exception e)
         {
-            NalaiMsgBox.Show(e.ToString(), "Error");
+            NalaiMsgBox.Show(e.ToString(), "RegMgr Error");
         }
     }
 
@@ -108,7 +108,7 @@ public static class RegManager
         }
         catch (Exception e)
         {
-            NalaiMsgBox.Show(e.ToString(), "Error");
+            NalaiMsgBox.Show(e.ToString(), "RegMgr Error");
         }
     }
 }

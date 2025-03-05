@@ -46,7 +46,7 @@ public record NalaiCoreInfo
     public RustSystemTime CreatedTime { get;set; }
 
     [JsonProperty("chunks")]
-    public List<ChunksItem> Chunks { get;set; }
+    public List<ChunksItem>? Chunks { get;set; }
     
     [JsonProperty("id")]
     public string Id { get; set; }

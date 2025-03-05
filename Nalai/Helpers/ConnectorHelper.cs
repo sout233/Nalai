@@ -9,7 +9,8 @@ namespace Nalai.Helpers;
 
 public static class ConnectorHelper
 {
-    public static event EventHandler<NalaiCoreInfo> GlobalTaskUpdated;
+    public static event EventHandler<NalaiCoreInfo>? GlobalTaskProgressUpdated;
+    public static event EventHandler<NalaiCoreInfo>? GlobalTaskStatusUpdated;
 
     public static void Start()
     {
@@ -20,17 +21,34 @@ public static class ConnectorHelper
     {
         switch (e.EventType)
         {
-            case "DownloadProgress":
+            case "DownloadProgressChanged":
             {
                 // TODO: 优化此处的双重序列化垃圾代码
                 var str = JsonConvert.SerializeObject(e.Data);
                 var data = JsonConvert.DeserializeObject<NalaiCoreInfo>(str);
                 // if (data != null) CoreTask.ExternalUpdateInfoById(data.Id, data);
-                if (data != null) GlobalTaskUpdated.Invoke(null, data);
+                if (data != null)
+                {
+                    GlobalTaskProgressUpdated?.Invoke(null, data);
+                    var keyValuePairs = NalaiDownService.GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
+                    NalaiDownService.GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
+                }
+
                 break;
             }
-            case "DownloadComplete":
+            case "DownloadStatusChanged":
+            {
+                var str = JsonConvert.SerializeObject(e.Data);
+                var data = JsonConvert.DeserializeObject<NalaiCoreInfo>(str);
+                // if (data != null) CoreTask.ExternalUpdateInfoById(data.Id, data);
+                if (data != null)
+                {
+                    GlobalTaskStatusUpdated?.Invoke(null, data);
+                    var keyValuePairs = NalaiDownService.GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
+                    NalaiDownService.GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
+                }
                 break;
+            }
             case "Raw":
                 Console.WriteLine(e.Data);
                 break;
@@ -44,6 +62,7 @@ public static class ConnectorHelper
             throw new ArgumentException("Task not found");
 
         await CoreService.SendStartMsgAsync(task.Url, task.SaveDirectory, task.FileName, taskId, task.Headers);
+        
     }
 
     public static async Task StopTaskById(string taskId)
@@ -59,6 +78,10 @@ public static class ConnectorHelper
     {
         var result = await CoreService.SendSorcMsgAsync(taskId);
 
+        var task = await CoreService.GetStatusAsync(taskId);
+
+        if (task != null) GlobalTaskStatusUpdated?.Invoke(null, task);
+
         return result is { IsRunning: true };
     }
 
@@ -70,6 +93,7 @@ public static class ConnectorHelper
             throw new ArgumentException("Task not found");
 
         await CoreService.SendDeleteMsgAsync(taskId);
+        GlobalTaskStatusUpdated?.Invoke(null, task);
     }
 
     public static async Task SyncAllTasksFromCore()
@@ -94,12 +118,19 @@ public static class ConnectorHelper
 
         _ = await CoreService.SendStartMsgAsync(url, saveDir, fileName, id, headers);
 
-        var info = await CoreService.GetStatusAsync(id);
+        // var info = await CoreService.GetStatusAsync(id);
+        var info = new NalaiCoreInfo()
+        {
+            Id = id,
+            Url = url,
+            SaveDirectory = saveDir,
+            FileName = fileName,
+            Headers = headers ?? [],
+        };
 
         if (info == null) throw new ArgumentException("Cannot get task info from core when creat new task");
-        
+
         var task = new NalaiCoreInfoExtended(info);
         return task;
-
     }
 }

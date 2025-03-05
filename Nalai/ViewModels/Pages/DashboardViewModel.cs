@@ -40,7 +40,7 @@ namespace Nalai.ViewModels.Pages
             //     if (task != null) task.StatusChanged += OnDownloadStatusChanged;
             // }
 
-            ConnectorHelper.GlobalTaskUpdated += OnGlobalTaskChanged;
+            ConnectorHelper.GlobalTaskProgressUpdated += OnGlobalTaskProgressChanged;
         }
 
         public void SetPauseOrResumeButtonEnabled(bool isEnabled)
@@ -48,7 +48,7 @@ namespace Nalai.ViewModels.Pages
             IsPauseOrResumeEnabled = isEnabled;
         }
 
-        private void OnGlobalTaskChanged(object? sender, NalaiCoreInfo nalaiCoreInfo)
+        private void OnGlobalTaskProgressChanged(object? sender, NalaiCoreInfo nalaiCoreInfo)
         {
             UpdateDownloadCollection();
         }
@@ -71,12 +71,9 @@ namespace Nalai.ViewModels.Pages
             var taskCollection = new ObservableCollection<NalaiCoreInfoExtended>();
             foreach (var (_, task) in tasks)
             {
-                if (task != null)
-                {
-                    taskCollection.Add(task);
-                }
+                taskCollection.Add(task);
             }
-
+            
             return taskCollection;
         }
 

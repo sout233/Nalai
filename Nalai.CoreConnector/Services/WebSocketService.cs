@@ -59,8 +59,8 @@ public static class WebSocketService
                 }
                 catch (Exception ex)  // Catch other JSON deserialization exceptions
                 {
-                    Console.WriteLine($"JSON Deserialization Error: {ex.Message}");
-                    Console.WriteLine($"Received Data: {receivedData.ToString()}"); // Log the received data for debugging
+                    Console.WriteLine($"JSON Deserialization Error: {ex}");
+                    Console.WriteLine($"Received Data: {receivedData}"); // Log the received data for debugging
                     receivedData.Clear(); // Clear to prevent endless errors
                 }
 

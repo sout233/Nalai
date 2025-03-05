@@ -15,7 +15,8 @@ public record NalaiCoreInfoExtended : NalaiCoreInfo
         Status = coreInfo.Status;
         SaveDirectory = coreInfo.SaveDirectory;
         CreatedTime = coreInfo.CreatedTime;
-        Chunks = coreInfo.Chunks.Select(c => new ExtendedChunkItem(c)).ToList();
+        if (coreInfo.Chunks is not null)
+            Chunks = coreInfo.Chunks.Select(c => new ExtendedChunkItem(c)).ToList();
         Id = coreInfo.Id;
         Headers = coreInfo.Headers;
     }

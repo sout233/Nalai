@@ -144,7 +144,7 @@ namespace Nalai
             // 启动核心
             // Task.Run(CoreTask.SyncAllTasksFromCore);
             Task.Run(ConnectorHelper.SyncAllTasksFromCore);
-            
+
             // 启动状态检查器
             RunningStateChecker.Start();
 
@@ -171,6 +171,33 @@ namespace Nalai
             else
             {
                 ShowDashboard(null, null);
+            }
+
+            ConnectorHelper.GlobalTaskStatusUpdated += ConnectorHelper_GlobalTaskStatusUpdated;
+        }
+
+        private void ConnectorHelper_GlobalTaskStatusUpdated(object? sender, NalaiCoreInfo e)
+        {
+            switch (e.Status.Kind)
+            {
+                case DownloadStatusKind.Finished:
+                {
+                    Current.Dispatcher.Invoke(() =>
+                    {
+                        try
+                        {
+                            var vm = new DownloadCompleteWindowViewModel(e);
+                            var window = new DownloadCompleteWindow(vm, new NalaiCoreInfoExtended(e));
+                            window.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"UI线程创建 DownloadCompleteWindow 发生错误: {ex}");
+                        }
+                    });
+
+                    break;
+                }
             }
         }
 

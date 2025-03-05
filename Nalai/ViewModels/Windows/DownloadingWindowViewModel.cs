@@ -143,7 +143,7 @@ public partial class
     }
     
 
-    public void OnGlobalTaskChanged(object? sender, NalaiCoreInfo e)
+    public void OnGlobalTaskProgressChanged(object? sender, NalaiCoreInfo e)
     {
         var totalFileSize = ByteSizeFormatter.FormatSize(e.TotalBytes);
         var receivedFileSize = ByteSizeFormatter.FormatSize(e.DownloadedBytes);
@@ -163,5 +163,36 @@ public partial class
         Url = ThisViewTask.Url;
         FileSize = $"{receivedFileSize} / {totalFileSize}";
         Task.Run(() => { ChunksCollection = GenerateChunksCollection(e.Chunks); });
+    }
+
+    public void OnGlobalTaskStatusChanged(object? sender, NalaiCoreInfo e)
+    {
+        switch (e.Status.Kind)
+        {
+            case DownloadStatusKind.Finished:
+                CloseBasedWindow();
+                break;
+            case DownloadStatusKind.Error:
+                CloseBasedWindow();
+                break;
+            case DownloadStatusKind.NoStart:
+                break;
+            case DownloadStatusKind.Running:
+                break;
+            case DownloadStatusKind.Pending:
+                break;
+            case DownloadStatusKind.Cancelled:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void CloseBasedWindow()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            BasedWindow.Close();
+        });
     }
 }

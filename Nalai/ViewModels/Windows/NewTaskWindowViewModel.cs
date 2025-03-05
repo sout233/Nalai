@@ -122,7 +122,7 @@ public partial class NewTaskWindowViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            NalaiMsgBox.Show(ex.Message, "Error");
+            NalaiMsgBox.Show(ex.ToString(), "NewTaskWindowViewModel - AddTask - Error");
         }
     }
 
