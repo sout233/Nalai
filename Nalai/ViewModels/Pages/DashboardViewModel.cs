@@ -157,7 +157,8 @@ namespace Nalai.ViewModels.Pages
                 // await coreTask.DeleteAsync();
                 UpdatePauseOrResumeElement(coreTask.Status.Kind);
             }
-            
+
+            await ConnectorHelper.SyncAllTasksFromCore();
             UpdateDownloadCollection();
         }
 

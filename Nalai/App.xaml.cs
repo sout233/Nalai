@@ -176,7 +176,7 @@ namespace Nalai
             ConnectorHelper.GlobalTaskStatusUpdated += ConnectorHelper_GlobalTaskStatusUpdated;
         }
 
-        private void ConnectorHelper_GlobalTaskStatusUpdated(object? sender, NalaiCoreInfo e)
+        private void ConnectorHelper_GlobalTaskStatusUpdated(object? sender, NalaiCoreInfoExtended e)
         {
             switch (e.Status.Kind)
             {
@@ -186,8 +186,9 @@ namespace Nalai
                     {
                         try
                         {
+                            Console.WriteLine($"UI线程收到下载完成消息: {e.FileName}");
                             var vm = new DownloadCompleteWindowViewModel(e);
-                            var window = new DownloadCompleteWindow(vm, new NalaiCoreInfoExtended(e));
+                            var window = new DownloadCompleteWindow(vm, e);
                             window.Show();
                         }
                         catch (Exception ex)
@@ -196,6 +197,17 @@ namespace Nalai
                         }
                     });
 
+                    break;
+                }
+                case DownloadStatusKind.Error:
+                {
+                    Current.Dispatcher.Invoke(() =>
+                        {
+                            var vm = new DownloadErrorWindowViewModel(e);
+                            var window = new DownloadErrorWindow(vm);
+                            window.Show();
+                        }
+                    );
                     break;
                 }
             }

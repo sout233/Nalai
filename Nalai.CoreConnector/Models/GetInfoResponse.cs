@@ -48,8 +48,8 @@ public record NalaiCoreInfo
     [JsonProperty("chunks")]
     public List<ChunksItem>? Chunks { get;set; }
     
-    [JsonProperty("id")]
-    public string Id { get; set; }
+    // [JsonProperty("id")]
+    // public string Id { get; set; }
     
     [JsonProperty("headers")]
     public Dictionary<string, string> Headers { get; set; }

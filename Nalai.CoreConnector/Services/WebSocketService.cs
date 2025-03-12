@@ -48,6 +48,7 @@ public static class WebSocketService
                     var data = JsonConvert.DeserializeObject<WsEvent<object>>(receivedData.ToString());
                     if (data != null)
                     {
+                        Console.WriteLine($"Received message: {receivedData}");
                         OnMessageReceived?.Invoke(null, data);
                         receivedData.Clear(); // Clear for the next message
                     }

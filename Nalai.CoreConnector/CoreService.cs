@@ -143,6 +143,8 @@ public static class CoreService
         {
             Query = $"id={id}"
         };
+        
+        Console.WriteLine($"uriBuilder.Uri:  {uriBuilder.Uri}");
 
         return await MakeHttpRequestWithRetry(
             () => HttpClient.DeleteAsync(uriBuilder.Uri),

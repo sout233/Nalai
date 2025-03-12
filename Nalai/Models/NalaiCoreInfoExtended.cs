@@ -5,7 +5,7 @@ namespace Nalai.Models;
 
 public record NalaiCoreInfoExtended : NalaiCoreInfo
 {
-    public NalaiCoreInfoExtended(NalaiCoreInfo coreInfo)
+    public NalaiCoreInfoExtended(string id, NalaiCoreInfo coreInfo)
     {
         DownloadedBytes = coreInfo.DownloadedBytes;
         TotalBytes = coreInfo.TotalBytes;
@@ -17,10 +17,11 @@ public record NalaiCoreInfoExtended : NalaiCoreInfo
         CreatedTime = coreInfo.CreatedTime;
         if (coreInfo.Chunks is not null)
             Chunks = coreInfo.Chunks.Select(c => new ExtendedChunkItem(c)).ToList();
-        Id = coreInfo.Id;
+        // Id = coreInfo.Id;
+        Id = id;
         Headers = coreInfo.Headers;
     }
-    
+
     public Dictionary<string, string> Headers { get; set; }
     public List<ExtendedChunkItem> Chunks { get; set; } = [];
     public string TotalSizeText => ByteSizeFormatter.FormatSize(TotalBytes);
@@ -35,4 +36,5 @@ public record NalaiCoreInfoExtended : NalaiCoreInfo
     public string EtaText => TimeFormatter.FormatTimeSpanReadable(Eta);
     public List<Window> BindWindows { get; set; } = [];
     public string StatusText => Status.Kind.ToString() ?? "Unknown";
+    public string Id { get; set; }
 }

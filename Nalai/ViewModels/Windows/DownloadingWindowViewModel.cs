@@ -192,7 +192,7 @@ public partial class
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
-            BasedWindow.Close();
+            BasedWindow.Hide();
         });
     }
 }

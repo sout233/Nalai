@@ -10,8 +10,8 @@ namespace Nalai.Helpers;
 public static class ConnectorHelper
 {
     public static Dictionary<string, NalaiCoreInfoExtended> GlobalDownloadTasks { get; internal set; } = [];
-    public static event EventHandler<NalaiCoreInfo>? GlobalTaskProgressUpdated;
-    public static event EventHandler<NalaiCoreInfo>? GlobalTaskStatusUpdated;
+    public static event EventHandler<NalaiCoreInfoExtended>? GlobalTaskProgressUpdated;
+    public static event EventHandler<NalaiCoreInfoExtended>? GlobalTaskStatusUpdated;
     public static event EventHandler? GlobalTaskListUpdated;
 
 
@@ -27,14 +27,16 @@ public static class ConnectorHelper
             case "DownloadProgressChanged":
             {
                 // TODO: 优化此处的双重序列化垃圾代码
+                Console.WriteLine(e.Data);
                 var str = JsonConvert.SerializeObject(e.Data);
                 var data = JsonConvert.DeserializeObject<NalaiCoreInfo>(str);
                 // if (data != null) CoreTask.ExternalUpdateInfoById(data.Id, data);
                 if (data != null)
                 {
-                    GlobalTaskProgressUpdated?.Invoke(null, data);
-                    var keyValuePairs = GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
-                    GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
+                    var dataExtended = new NalaiCoreInfoExtended(e.Id ?? throw new InvalidOperationException(), data);
+                    GlobalTaskProgressUpdated?.Invoke(null, dataExtended);
+                    var keyValuePairs = GlobalDownloadTasks.First(t => t.Key == e.Id);
+                    GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(keyValuePairs.Key, data);
                 }
 
                 break;
@@ -46,10 +48,12 @@ public static class ConnectorHelper
                 // if (data != null) CoreTask.ExternalUpdateInfoById(data.Id, data);
                 if (data != null)
                 {
-                    GlobalTaskStatusUpdated?.Invoke(null, data);
-                    var keyValuePairs = GlobalDownloadTasks.First(t => t.Value.Id == data.Id);
-                    GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(data);
+                    var dataExtended = new NalaiCoreInfoExtended(e.Id ?? throw new InvalidOperationException(), data);
+                    GlobalTaskStatusUpdated?.Invoke(null, dataExtended);
+                    var keyValuePairs = GlobalDownloadTasks.First(t => t.Key == e.Id);
+                    GlobalDownloadTasks[keyValuePairs.Key] = new NalaiCoreInfoExtended(keyValuePairs.Key, data);
                 }
+
                 break;
             }
             case "Raw":
@@ -65,7 +69,6 @@ public static class ConnectorHelper
             throw new ArgumentException("Task not found");
 
         await CoreService.SendStartMsgAsync(task.Url, task.SaveDirectory, task.FileName, taskId, task.Headers);
-        
     }
 
     public static async Task StopTaskById(string taskId)
@@ -92,8 +95,8 @@ public static class ConnectorHelper
             throw new ArgumentException("Task not found");
 
         await CoreService.SendDeleteMsgAsync(taskId);
-        
-        GlobalTaskListUpdated?.Invoke(null,null!);
+
+        GlobalTaskListUpdated?.Invoke(null, null!);
     }
 
     public static async Task SyncAllTasksFromCore()
@@ -104,11 +107,11 @@ public static class ConnectorHelper
             var newDict = new Dictionary<string, NalaiCoreInfoExtended>();
             foreach (var (id, info) in tasks)
             {
-                newDict.Add(id, new NalaiCoreInfoExtended(info));
+                newDict.Add(id, new NalaiCoreInfoExtended(id, info));
             }
 
             GlobalDownloadTasks = newDict;
-            GlobalTaskListUpdated?.Invoke(null,null!);
+            GlobalTaskListUpdated?.Invoke(null, null!);
         }
     }
 
@@ -122,7 +125,7 @@ public static class ConnectorHelper
         // var info = await CoreService.GetStatusAsync(id);
         var info = new NalaiCoreInfo()
         {
-            Id = id,
+            // Id = id,
             Url = url,
             SaveDirectory = saveDir,
             FileName = fileName,
@@ -131,7 +134,7 @@ public static class ConnectorHelper
 
         if (info == null) throw new ArgumentException("Cannot get task info from core when creat new task");
 
-        var task = new NalaiCoreInfoExtended(info);
+        var task = new NalaiCoreInfoExtended(id, info);
         return task;
     }
 }
